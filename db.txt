@@ -1,0 +1,1 @@
+a:1:{i:0;O:8:"stdClass":6:{s:2:"id";s:12:"130312641724";s:7:"tkelime";s:32:"merhaba, selam, alo, nedir  bu ?";s:7:"ekelime";s:5:"hello";s:4:"date";i:1303126417;s:5:"udate";i:1303126417;s:4:"rate";i:0;}}

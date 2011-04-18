@@ -1,0 +1,30 @@
+KELİMECİ
+
+yabancı bir dil öğrenirken kelime öğrenilmesinde kullanılabilecek bir 
+araçtır. her öğrenilen kelime bu sözlüğe kaydedilir. daha sonra bu sözlükler
+üzerinden yapılan testler ile kelimeler kolayca öğrenilir.
+
+küçük kız kardeşim için yapmıştım, çok işine yarıyor. 
+erkek kardeşlerin de işine yarar.
+
+
+KISIMLAR
+index.php Kelime ekleme ve listeleme sayfası
+test.php Test sayfası
+
+TEST SAYFASI
+Testlerde her kelime iki günde bir sorulur. Soruldukça bilinme sayacı 
+arttırılır. 10 kez yani 20 gün boyunca hep bilinirse, artık öğrenilmiş
+sayılır ve bir daha sorulmaz. Eklenen kelimeler bir gün sonra testte 
+gözükmeye başlar. 
+
+İngilizce-Türkçe anlamlar sözlüğe eklenince bir kereliğine 
+http://seslisozluk.com'dan çekilir.
+
+
+KURULUM
+Bir dizini kopyalamanız yeterli. db.txt dosyasına yazma izni vermelisin. 
+
+Mustafa Atik
+18 Nisan 2011
+http://cookingthecode.com/
