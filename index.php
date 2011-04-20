@@ -1,7 +1,5 @@
 <?php
-
 header('content-type:text/html;charset=utf-8');
-
 $kelimeler=file_get_contents('db.txt');
 $kelimeler=unserialize($kelimeler);
 $kelimeler=array_reverse($kelimeler); // en son eklenen ilk gözüksün
@@ -9,25 +7,30 @@ $iC=0;
 ?>
 
 <form action="?" method="post" onsubmit="return submitWForm();">
+<label>Etiket :<input type="text" id="tags" name="tags" /></label>
 <label>Kelime :<input type="text" id="w" name="w" /></label>
 <input type="submit" value="Ekle" />
 </form>
+
+<style type="text/css">
+	span.tags{padding-left:8px;font-style:italic;color:#ccc;}
+	tr:hover span.tags{color:#333;}
+</style>
+
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="createXHR.js"></script>
 <script type="text/javascript" src="extfunctions.js"></script>
 <script type="text/javascript">
 
 function submitWForm(w){
-	insertW(getById('w').value);
+	var tags=getById('tags').value;
+	var w=getById('w').value;
+	
 	getById('w').value='';
 	getById('w').focus();
-	return false;
-}
-
-function insertW(w){
 	
 	var x=new simpleAjax()
-	x.send('ajax.php','w='+w,
+	x.send('ajax.php','w='+encodeURI(w)+'&tags='+encodeURI(tags),
 		{'onSuccess':function(rsp){
 			rsp=rsp.split('|');
 			if(rsp[0]==0) return false;
@@ -48,6 +51,7 @@ function insertW(w){
 			$('#ws tr:first-child').before(html);
 		}}
 	);
+	return false;
 }
 </script>
 <style type="text/css">
@@ -65,7 +69,8 @@ foreach($kelimeler as $i){
 		'EKŞ'=>'http://www.eksisozluk.com/show.asp?t='.$i->ekelime
 	);
 	
-	echo '<tr><th>'.$iC.'</th><td>'.$i->ekelime.'</td><td>';
+	echo '<tr><th>'.$iC.'</th><td>'.$i->ekelime.' 	
+		<span class="tags">'.$i->tags.'</span></td><td>';
 	
 	foreach($linkler as $n=>$h)
 		echo ' <a target="_blank" href="'.$h.'">'.$n.'</a> - ';

@@ -1,11 +1,11 @@
 <?php
 
-function insertW($w){
+function insertW($w,$tags){
 	
 	$content=file_get_contents('http://www.seslisozluk.com/?word='
 		.urlencode($w));
 	$means=getWords($content,$w,'eng');
-		
+	
 	$w=str_replace(array("\r","\n","\t"),'',$w);
 	$means=str_replace(array("\r","\n","\t"," "),'',$means);
 	$means=explode('|',$means,6);
@@ -20,12 +20,20 @@ function insertW($w){
 	$i->id=time().rand(1,100);
 	$i->tkelime=trim($mean);
 	$i->ekelime=trim($w);
+	$i->tags=stripslashes($tags);
 	$i->date=time();
 	$i->udate=time();
 	$i->rate=0;
 		
 	$kelimeler=file_get_contents('db.txt');
 	$kelimeler=unserialize($kelimeler);
+	foreach($kelimeler as $ki=>$k){
+		if(!isset($k->tags)){
+			$k->tags='';
+			$kelimeler[$ki]=$k;
+		}
+	}
+	
 	$kelimeler[]=$i;
 	$kelimeler=serialize($kelimeler);
 	
@@ -34,8 +42,8 @@ function insertW($w){
 }
 
 $r=$_REQUEST;
-if(isset($r['w']) && mb_strlen(trim($r['w']))>1){
-	$ekelime=insertW($r['w']);
+if(isset($r['w'],$r['tags']) && mb_strlen(trim($r['w']))>1){
+	$ekelime=insertW($r['w'],$r['tags']);
 	if($ekelime!==false) echo '1|'.$ekelime; else echo 0;
 }
 
