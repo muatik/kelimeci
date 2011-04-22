@@ -13,17 +13,21 @@ for($i=0;$i<count($words)-1;$i++)
 			$words[$j]=$tmp;
 		}
 
+echo '<style type="text/css">
+.correction{color:#B6B88D;display:none}
+.word:hover .correction{display:inline}
+</style>';
 
 foreach ($words as $i=>$word){
 	$smean=urldecode(str_replace('%C2','',urlencode($word->tkelime)));
-	if ((time()-$word->udate>3600*23) && $word->rate<=10)
+	if ((time()-$word->udate>3600*12) && $word->rate<=15)
 	echo '
-	<div>
+	<div class="word">
 		<input type="hidden" name="id" value="'.$word->id.'"/>
 		<input type="text" name="word" 
 		value="">-><span class="mean">'
 		.$smean.'</span>
-		<span>('.$word->rate.')</span<hr>
+		<span>('.$word->rate.')</span>
 	</div>';
 	
 }	
@@ -52,7 +56,17 @@ $('input[name="word"]').blur(function (){
 			{'onSuccess':function(rsp){
 				rsp=rsp.split('|');
 				if(rsp[0]==0){
-					$(t).val($(t).val()+' | '+rsp[1]);
+					
+					$(t).val(word+' | '+rsp[1])
+					
+					if(rsp.length>2){ // kelime anlamı geldiyse
+					
+						$(t.parentNode).append(
+							'<span class="correction">'+
+							word+' = '+rsp[2]+'</span>'
+						)
+					}
+					
 					$(t).css('color','#b63202');
 				}
 				if(rsp[0]==1)

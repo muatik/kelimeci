@@ -7,7 +7,7 @@ function insertW($w,$tags){
 	$means=getWords($content,$w,'eng');
 	
 	$w=str_replace(array("\r","\n","\t"),'',$w);
-	$means=str_replace(array("\r","\n","\t","�"),'',$means);
+	$means=str_replace(array("\r","\n","\t"," "),'',$means);
 	$means=explode('|',$means,6);
 	
 	$mean='';
@@ -15,6 +15,15 @@ function insertW($w,$tags){
 		$mean.=$means[$i].', ';
 	$mean=mb_substr($mean,2,-2);
 	if($mean=='') return false;
+	
+	// bozuk karakterler siliniyor.
+	$m2='';
+	for($i=0;$i<strlen($mean);$i++){
+		if(ord($mean[$i])==32 || ord($mean[$i])==194) 
+			$m2.=' ';
+		else
+			$m2.=$mean[$i];
+	}
 	
 	$i=new stdClass;
 	$i->id=time().rand(1,100);
@@ -27,16 +36,8 @@ function insertW($w,$tags){
 		
 	$kelimeler=file_get_contents('db.txt');
 	$kelimeler=unserialize($kelimeler);
-	foreach($kelimeler as $ki=>$k){
-		if(!isset($k->tags)){
-			$k->tags='';
-			$kelimeler[$ki]=$k;
-		}
-	}
-	
 	$kelimeler[]=$i;
 	$kelimeler=serialize($kelimeler);
-	
 	file_put_contents('db.txt',$kelimeler);
 	return $i->tkelime;
 }
@@ -64,17 +65,37 @@ if (isset($r['word'],$r['id'])){
 				$words[$i]->udate=time();
 				$words[$i]->rate++;
 				echo 1;
+				break;
 			}
 			else{
-				$words[$i]->rate--;
+				
 				echo '0|'.$words[$i]->ekelime;
+				$words[$i]->rate--;
+				
+				/**
+				 * tamam, girilen kelime sorulan ile eşleşmiyor
+				 * peki girilen hangi kelime ile eşleşiyor? işte bunu
+				 * buluyoruz.
+				 * */
+				foreach($words as $i=>$w){
+					if(
+						strpos($w->ekelime,$word)!==false &&
+						(mb_strlen($w->ekelime)-mb_strlen($word)<3)
+					){
+						echo '|'.$w->tkelime;
+						break;
+					}
+				}
+				
+				
+				break;
 			}
 		}
 	}
 	file_put_contents('db.txt',serialize($words));
 }
 
-// $content i�erik
+// $content içerik
 // $word aranacak kelime
 // $lang kelimenin dili
 function getWords($content,$word,$lang){
@@ -112,7 +133,7 @@ function getWords($content,$word,$lang){
 									
 								if ($node->getAttribute('class')=='m'){
 																		
-									$cChildNodes = $node->childNodes; // t�r i�in
+									$cChildNodes = $node->childNodes; // tür için
 									$value='';
 									foreach($cChildNodes as $nodeC)	{
 										if ($nodeC->nodeName=='#text' && empty($value))

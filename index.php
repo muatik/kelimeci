@@ -15,6 +15,8 @@ $iC=0;
 <style type="text/css">
 	span.tags{padding-left:8px;font-style:italic;color:#ccc;}
 	tr:hover span.tags{color:#333;}
+	span.meaning{display:none}
+	tr:hover span.meaning{display:inline}
 </style>
 
 <script type="text/javascript" src="jquery.js"></script>
@@ -47,7 +49,7 @@ function submitWForm(w){
 			for(var i=0;i<links.length;i++){
 				html+=' <a target="_blank" href="'+links[i][1]+'">'+links[i][0]+'</a> - ';
 			}
-			html+='<span class="meaning">'+rsp[1]+'</span></td></tr>';
+			html+='<span class="meaning" style="display:block">'+rsp[1]+'</span></td></tr>';
 			$('#ws tr:first-child').before(html);
 		}}
 	);
@@ -70,11 +72,12 @@ foreach($kelimeler as $i){
 	);
 	
 	echo '<tr><th>'.$iC.'</th><td>'.$i->ekelime.' 	
-		<span class="tags">'.$i->tags.'</span></td><td>';
+		<span class="tags">'.$i->tags.' '.$i->rate.'</span></td><td>';
 	
 	foreach($linkler as $n=>$h)
 		echo ' <a target="_blank" href="'.$h.'">'.$n.'</a> - ';
 	
+	echo '<span class="meaning">'.$i->tkelime.'</span>';
 	echo '</td></tr>';
 }
 echo '</table>
