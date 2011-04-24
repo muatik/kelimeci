@@ -20,7 +20,18 @@ echo '<style type="text/css">
 
 foreach ($words as $i=>$word){
 	$smean=urldecode(str_replace('%C2','',urlencode($word->tkelime)));
-	if ((time()-$word->udate>3600*12) && $word->rate<=15)
+	if (!((time()-$word->udate>3600*12) && $word->rate<=15))
+		continue;
+	
+	/**
+	 * kelime anlamları birden fazla kısımlan oluşabilir. her seferinde
+	 * bu kısımların sırası değiştirilerek kişinin ilk kısma bakarak
+	 * cevap vermesi önlenir böylece diğer kısımlar da akılda kalır.
+	 * */
+	$smean=explode(',',$smean);
+	shuffle(&$smean);
+	$smean=implode('--',$smean);
+	
 	echo '
 	<div class="word">
 		<input type="hidden" name="id" value="'.$word->id.'"/>
@@ -29,6 +40,7 @@ foreach ($words as $i=>$word){
 		.$smean.'</span>
 		<span>('.$word->rate.')</span>
 	</div>';
+
 	
 }	
 
