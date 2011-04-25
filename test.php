@@ -20,7 +20,17 @@ echo '<style type="text/css">
 
 foreach ($words as $i=>$word){
 	$smean=urldecode(str_replace('%C2','',urlencode($word->tkelime)));
-	if ((time()-$word->udate>3600*12) && $word->rate<=15)
+	if (
+		((time()-$word->udate>3600*5) && $word->rate<=0)
+		||
+		((time()-$word->udate>3600*20) && $word->rate<=5)
+		||
+		((time()-$word->udate>3600*35) && $word->rate<=10)
+		||
+		((time()-$word->udate>3600*60) && $word->rate<=20)
+		||
+		((time()-$word->udate>3600*24*30) && $word->rate>30)
+	)
 	echo '
 	<div class="word">
 		<input type="hidden" name="id" value="'.$word->id.'"/>

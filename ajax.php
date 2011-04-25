@@ -63,7 +63,13 @@ if (isset($r['word'],$r['id'])){
 				(mb_strlen($w->ekelime)-mb_strlen($word)<3)
 			){
 				$words[$i]->udate=time();
-				$words[$i]->rate++;
+				
+				// -2'den daha küçük değerleri daha hızlı yükselt
+				if($words[$i]->rate<-2)
+					$words[$i]->rate+=2;
+				else
+					$words[$i]->rate++;
+				
 				echo 1;
 				break;
 			}
