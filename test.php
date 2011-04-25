@@ -31,6 +31,16 @@ foreach ($words as $i=>$word){
 		||
 		((time()-$word->udate>3600*24*30) && $word->rate>30)
 	)
+
+	/**
+	 * kelime anlamları birden fazla kısımlan oluşabilir. her seferinde
+	 * bu kısımların sırası değiştirilerek kişinin ilk kısma bakarak
+	 * cevap vermesi önlenir böylece diğer kısımlar da akılda kalır.
+	 * */
+	$smean=explode(',',$smean);
+	shuffle(&$smean);
+	$smean=implode('--',$smean);
+	
 	echo '
 	<div class="word">
 		<input type="hidden" name="id" value="'.$word->id.'"/>
@@ -39,6 +49,7 @@ foreach ($words as $i=>$word){
 		.$smean.'</span>
 		<span>('.$word->rate.')</span>
 	</div>';
+
 	
 }	
 
