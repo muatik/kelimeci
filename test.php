@@ -30,7 +30,7 @@ foreach ($words as $i=>$word){
 		((time()-$word->udate>3600*60) && $word->rate<=20)
 		||
 		((time()-$word->udate>3600*24*30) && $word->rate>30)
-	)
+	){
 
 	/**
 	 * kelime anlamları birden fazla kısımlan oluşabilir. her seferinde
@@ -39,7 +39,7 @@ foreach ($words as $i=>$word){
 	 * */
 	$smean=explode(',',$smean);
 	shuffle(&$smean);
-	$smean=implode('--',$smean);
+	$smean=implode(',',$smean);
 	
 	echo '
 	<div class="word">
@@ -50,7 +50,7 @@ foreach ($words as $i=>$word){
 		<span>('.$word->rate.')</span>
 	</div>';
 
-	
+	}
 }	
 
 $r=$_REQUEST;
