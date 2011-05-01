@@ -1,4 +1,141 @@
 <?php
+class kelimeci
+{
+	
+	public function __construct(){
+		$this->db=new db();
+		$this->r=$_REQUEST;
+		$this->userId=1;
+		$this->langMode='tr2eng';
+		$this->langFrom='tr';
+		$this->langTo='eng';
+	}
+	
+	public function addWord($word){
+		
+		$o= new stdClass;
+		$o->user=$this->userId;
+		$o->wordLang=$this->langFrom;
+		$o->word=$word;
+		$o->meaing=$this->getMeaning($word);
+		$o->meaingLang=$this->langTo;
+		if($o->meaing===false) return false;
+		
+		$sql='insert into vocabulary
+		(userId,word,wordLang,meaing,meaingLang,tags)
+		values
+		(
+			\''.$db->escape($o->userId).'\',
+			\''.$db->escape($o->word).'\',
+			\''.$db->escape($o->wordLang).'\',
+			\''.$db->escape($o->meaing).'\',
+			\''.$db->escape($o->meaingLang).'\',
+			\''.$db->escape($o->tags).'\'
+		)';
+		
+		if($db->query($sql))
+			return $o->meaing;
+		
+		return false;
+	}
+	
+	/**
+	 * belirtilen kelimenin langTo dilindeki karşılığını verir.
+	 * */
+	public function getMeaining($word){
+		
+		$meaing=file_get_contents(
+			'http://www.seslisozluk.com/?word='.urlencode($word)
+		);
+		$means=getWords($content,$w,'eng');
+		$w=str_replace(array("\r","\n","\t"),'',$w);
+		$means=str_replace(array("\r","\n","\t"," "),'',$means);
+		$means=explode('|',$means,6);
+		
+		$mean='';
+		for($i=0;$i<count($means) && $i<5;$i++)
+			$mean.=$means[$i].', ';
+		$mean=mb_substr($mean,2,-2);
+		if($mean=='') return false;
+		
+		// bozuk karakterler siliniyor.
+		$m2='';
+		for($i=0;$i<strlen($mean);$i++){
+			if(ord($mean[$i])==32 || ord($mean[$i])==194) 
+				$m2.=' ';
+			else
+				$m2.=$mean[$i];
+		}
+		$mean=$m2;
+		return $mean;
+	}
+	
+	/**
+	 * belirtilen id ile eşleşen kelimenin, word ile belirtilen
+	 * kelime olup olmadığına bakar. kişiye bir kelimenin anlamı verilir.
+	 * Kişi anlama karşılık gelen kelimeyi girer. Bu metod doğru olup 
+	 * olmadığını kontrol eder.
+	 * */
+	public function correctWord($id,$word){
+		$sql='select * from vocabulary
+		where 
+		userId='.$this->userId.' and
+		id=\''.$this->db->escape($id).'\' and
+		word=\''.$this->db->escape($word).'\'
+		limit 1';
+		$w=$this->db->fetchFirst($sql);
+		
+		/** 
+		 * eşleşme yoksa, yani yanlış kelime yanlış ise:
+		 * */
+		if($w===false){
+			$correct=false;
+			// kelime seviyesi azaltılacak
+			$w->rate--;
+		}
+		else{
+			$correct=true;
+			// kelime seviyesi arttırılacak
+			
+			// -2'den daha küçük değerleri daha hızlı yükselt
+			if($w->rate<-2)
+				$w->rate+=2;
+			else
+				$w->rate++;
+		}
+		
+		// seviye değişikliği kaydediliyor.
+		$sql='update vocabulary set rate=\''.$w->rate.'\' 
+		where id=\''.$w->id.'\' limit 1';
+		$this->db->query($sql);
+		
+		if(!$correct){
+			
+			$s='0|'.$word;
+			$o=$this->get($word);
+			if($o!=false)
+				$s.='|'.$o->meaing;
+			
+			return $s;
+		}
+		else{
+			$word=$w;
+			return true;
+		}
+		
+		
+	}
+	
+	/**
+	 * belirtilen kelime kaydını verir.
+	 * */
+	public function get($word){
+		$sql='select * from vocabulary 
+		where word=\''.$this->db->escape($word).'\'
+		limit 1';
+		return $this->db->fetchFirst($sql);
+	}
+}
 
 function insertW($w,$tags){
 	
