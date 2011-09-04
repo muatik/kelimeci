@@ -4,13 +4,14 @@ TODO
 + tamamlanmış
 
 VERİTABANI
+- Mustafa: Kullanıcıyla alakalı tablolar oluşturuldu
 - Veritabanı tasarımını sonlandırıldıktan sonra Mysql'de oluşturulacak.
 - Bağımsız geliştirme süreçleri için gerekirse dummy data oluşturulacak.
 ARAYÜZ TASARIMLARI
 - İstatistik sayfası tasarlanacak.
-- Genel menü gibi sayfaların ortak kısımları tasarlanacak
-- Test arayüzlerinin tasarımı tamamlanacak.
-- Kelime ekleme ve görüntüleme arayüzleri tasarlanacak
++ Mustafa: Genel menü gibi sayfaların ortak kısımları tasarlanacak 
++ Mustafa: Test arayüzlerinin tasarımı tamamlanacak.
++ Mustafa: Kelime ekleme ve görüntüleme arayüzleri tasarlanacak
 Mimari
 - Sınıf tasarımları tamamlanacak.
 KODLAMA
