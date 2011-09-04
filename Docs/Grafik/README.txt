@@ -1,0 +1,1 @@
+psd belgelerinin içinde açýklamalar bulunmaktadýr.

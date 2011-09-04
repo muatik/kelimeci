@@ -1,0 +1,308 @@
+<style>
+
+body{font:11px arial}
+#types{margin-bottom:8px;}
+#types div{display:inline;font:11px arial}
+#order,#seviye,#search{display:inline;margin-right:10px;}
+#order option{font:11px arial}
+
+#quotes{
+	font:13px verdana;
+}
+#quotes li{
+	margin:2px 0;
+}
+
+#cumtam{
+	font:13px verdana;
+}
+
+#cumtam li{ 
+margin:26px 0;
+}
+#cumtam p{ 
+ margin:2px 0;
+}
+#cumtam input{
+ width:90px;
+ text-align:center;
+}
+#cumtam .c{
+	font:11px verdana;
+	color:#555;
+}
+
+</style>
+<form>
+<div id="types">
+	<b>Tür:</b>
+	<div><input type="checkbox" /> Fiil</div>
+	<div><input type="checkbox" /> Ýsim</div>
+	<div><input type="checkbox" /> Zarf</div>
+	<div><input type="checkbox" /> Sýfat</div>
+	<div><input type="checkbox" /> Edat</div>
+	<div><input type="checkbox" /> Diðer</div>
+</div>
+<div id="seviye">
+	<b>Seviye:</b>
+	<------->
+</div>
+<div id="search">
+	<b>Süz:</b>
+	<input type="text" style="width:110px" />
+</div>
+<div id="order">
+	<select>
+	 <option>Az. Seviye</option>
+	</select>
+</div>
+
+<div id="search">
+	<b>Etiket:</b>
+	<input type="text" style="width:70px" />
+</div>
+<div id="search">
+	<b>Kelime:</b>
+	<input type="text" style="width:100px" />
+</div>
+
+
+<button>Ekle</button>
+</form>
+
+
+<ul id="quotes">
+ <li>Alýntý buraya gelecek</li>
+ <li>Toplam üç tane alýntý gösterilecek.</li>
+ <li>"Daha" linkine her basýþta bu listeye on tane daha alýntý eklenecek.</li>
+</ul>
+
+<hr />
+<h2>Cümle Tamamlama</h2>
+<ol id="cumtam">
+<li>
+ <p class="q">This is not <input type="text" disabled="disabled" style="color:green;border:none" value="concern" /> of us.</p>
+ <p class="c"><span>ip uçu: </span><i>car</i>, <i>certanly</i>, <i>go</i>, <i>concern</i>, <i>listen</i></p>
+</li>
+<li>
+ <p class="q">Where are <input type="text" disabled="disabled" style="color:red;border:none;text-decoration:line-through" value="some" /> going?</p>
+ <p class="c"><span>ip uçu: </span><i>she</i>, <i>you</i>, <i>home</i>, <i>place</i>, <i>some</i></p>
+ <p class="a">Doðrusu: <a href="aa">you</a></p>
+</li>
+<li>
+ <p class="q">Mehmet <input type="text" /> been in Italy.</p>
+ <p class="c"><span>ip uçu: </span><i>she</i>, <i>has</i>, <i>have</i>, <i>come</i>, <i>do</i></p>
+</li>
+</ol>
+
+<style>
+#esanlam{font:13px verdana;}
+#esanlam li{margin:25px 0}
+#esanlam b{margin-right:3px;}
+#esanlam span{display:inline-block;margin:0 0 14px 4px ;padding:2px;border:1px solid white;cursor:pointer;}
+#esanlam .absent{font-style:italic;color:green;text-decoration:underline}
+#esanlam .selected{background-color:#e5c532;color:#111;border-color:#a88f18}
+#esanlam .true{background-color:#69c24e;color:#111;border-color:#319413}
+#esanlam .wrong{background-color:#e53232;color:#111;border-color:#840d0d;text-decoration:line-through}
+</style>
+<hr />
+<h2>Eþ Anlamlý Seçme Testi</h2>
+<ol id="esanlam">
+ <li>
+ <p class="q"><b>execellent</b>= <span class="true">outstanding</span>, 
+ <span>car</span>, <span class="wrong">big</span>,  <span>elegant</span>,
+ <span>calm</span>, <span>enthusiast</span>, <span class="absent">perfect</span>,
+ <span>dark</span>, <span>inevitably</span>, <span>smile</span>, <span>suddenly</span>
+ </p>
+</li>
+<li>
+ <p class="q"><b>perfect</b>=<span>execellent</span>, <span class="selected">outstanding</span>, <span>elegant</span>,
+ <span>car</span>, <span class="selected">big</span>, <span>suddenly</span>, <span>calm</span>, <span>enthusiast</span>, 
+ <span>dark</span>, <span>smile</span>, <span>inevitably</span><button>Tamam</button>
+ </p>
+</li>
+</ol>
+
+
+<style>
+#ingilizcesi{font:13px verdana;}
+#ingilizcesi li{margin:22px 0}
+#ingilizcesi p{margin:4px 0}
+#ingilizcesi .disabled{color:#999}
+#ingilizcesi .true{color:#067504}
+#ingilizcesi .false{color:#cd0606;text-decoration:line-through;}
+#ingilizcesi .types{margin-right:3px;font: 13px arial}
+</style>
+<hr />
+<h2>Ýngilizcesini yazma testi</h2>
+<ol id="ingilizcesi">
+ <li>
+  <p class="q"><input type="text" /> <span class="types">[v, n]</span> azimle çalýþmak, çabalamak, yorulmadan çalýþmak, azimli</p>
+ </li>
+ <li>
+  <p class="q"><input type="text" class="disabled" disabled="disabled" value="doðru" /> <span class="types">[n, av]</span> azimle çalýþmak, çabalamak, yorulmadan çalýþmak, azimli</p>
+ </li>
+  <li>
+  <p class="q"><input type="text" class="true" disabled="disabled" value="doðru" /> <span class="types">[v, aj]</span> azimle çalýþmak, çabalamak, yorulmadan çalýþmak, azimli</p>
+ </li>
+  <li>
+  <p class="q"><input type="text" class="false" disabled="disabled" value="adsadasd" /> <span class="types">[n, ppo]</span> azimle çalýþmak, çabalamak, yorulmadan çalýþmak, azimli</p>
+  <p>Doðrusu: <a href="asd">doðru kelime</a></p>
+ </li>
+ </li>
+  <li>
+  <p class="q"><input type="text" class="false verification" disabled="disabled" value="car" /> <span class="types">[n, v, av]</span>azimle çalýþmak, çabalamak, yorulmadan çalýþmak, azimli</p>
+  <p><b>Doðrusu:</b> <a href="asd">doðru kelime</a></p>
+  <p class="verification"><b>car=</b> araba, taþýt, otomobil, motorlu araç, motorize, vasýta</p>
+ </li>
+</ol>
+
+
+<style>
+#turkcesini{font:13px verdana;}
+#turkcesini li{margin:22px 0}
+#turkcesini p{margin:4px 0}
+#turkcesini .disabled{color:#999}
+#turkcesini .true{color:#067504}
+#turkcesini .false{color:#cd0606;text-decoration:line-through;}
+#turkcesini .types{margin-right:3px;font: 13px arial}
+</style>
+<hr />
+<h2>Türkçesini yazma testi</h2>
+<ol id="turkcesini">
+ <li>
+  <p class="q"><input type="text" /> <span class="types">[v, n]</span> ingilizce taným buraya gelelecek</p>
+ </li>
+ <li>
+  <p class="q"><input type="text" class="disabled" disabled="disabled" value="doðru" /> <span class="types">[n, av]</span> ingilizce taným buraya gelelecek</p>
+ </li>
+  <li>
+  <p class="q"><input type="text" class="true" disabled="disabled" value="doðru" /> <span class="types">[v, aj]</span> ingilizce taným buraya gelelecek</p>
+ </li>
+  <li>
+  <p class="q"><input type="text" class="false" disabled="disabled" value="adsadasd" /> <span class="types">[n, ppo]</span> ingilizce taným buraya gelelecek</p>
+  <p>Doðrusu: <a href="asd">doðru kelime</a></p>
+ </li>
+ </li>
+  <li>
+  <p class="q"><input type="text" class="false verification" disabled="disabled" value="araba" /> <span class="types">[n, v, av]</span>ingilizce taným buraya gelelecek</p>
+  <p><b>Doðrusu:</b> <a href="asd">doðru kelime</a></p>
+  <p class="verification"><b>araba=</b> car</p>
+ </li>
+</ol>
+
+
+<style>
+#tursec{font:13px verdana;}
+#tursec li{margin:22px 0}
+#tursec p{margin:4px 0}
+#tursec p.q{font-weight:bold}
+#tursec .types{margin:0 0 7px 0;list-style-type:none;padding:0}
+#tursec .types li{margin:0;border:1px solid #fff;padding:2px 3px;color:#333;width:80px;cursor:pointer}
+/*#tursec .v{color:#df0803}
+#tursec .n{color:#3aa111}
+#tursec .aj{color:#17a4ed}
+#tursec .av{color:#ed3f17}
+#tursec .pp{color:#d111b8}*/
+#tursec .selected{border:1px solid #c9a412!important;background-color:#fadd69;}
+#tursec .absent{color:#e81409!important}
+#tursec .true{color:#396e04!important}
+#tursec .false{color:#e81409!important;text-decoration:line-through}
+#tursec ul li:hover{border:1px solid #d1d1d1!important;background-color:#c2c2c2;}
+
+</style>
+<hr />
+<h2>Kelimenin Türlerini Seçme</h2>
+<ol id="tursec">
+
+ <li class="q">
+  <p class="q">hold</p>
+  <ul class="types">
+   <li class="v selected true">Verb</li>
+   <li class="n">Noun</li>
+   <li class="aj absent">Adjective</li>
+   <li class="av selected false">Adverb</li>
+   <li class="pp">Preposition</li>
+  </ul>
+ </li>
+ 
+ <li class="q">
+  <p class="q">hold</p>
+  <ul class="types">
+   <li class="v selected ">Verb</li>
+   <li class="n">Noun</li>
+   <li  class="aj v">Adjective</li>
+   <li class="av selected ">Adverb</li>
+   <li class="pp">Preposition</li>
+  </ul>
+  <button>Tamam</button>
+ </li>
+ 
+</ol>
+
+<style>
+#varyasyon{font:13px verdana;}
+#varyasyon li{margin:22px 0}
+#varyasyon p{margin:4px 0}
+#varyasyon p.q{font-weight:bold}
+#varyasyon .types{margin:0 0 7px 0;list-style-type:none;padding:0}
+#varyasyon .types li{margin:0;border:1px solid #fff;padding:2px 3px;color:#333;}
+#varyasyon .types span{float:left;padding-top:4px;width:80px;text-align:right;margin-right:4px;}
+#varyasyon input{border:1px solid #a0a0a0;padding:3px;}
+#varyasyon button{margin-left:90px;}
+
+</style>
+<hr />
+<h2>Kelimenin Varyasyonlarýný Yazma</h2>
+<ol id="varyasyon">
+
+ <li class="q">
+  <p class="q">catastrophe</p>
+  <ul class="types">
+   <li class=""><span>Noun:</span><input type="text" value="catastrophe" disabled="disabled" /> +</li>
+   <li class=""><span>Adjective:</span><input type="text" value="catastrophic" disabled="disabled" /> +</li>
+   <li class=""><span>Adverb:</span><input type="text" value="catastropicaly" disabled="disabled" /> - catastropically</li>
+  </ul>
+ </li>
+ 
+ <li class="q">
+  <p class="q">initial</p>
+  <ul class="types">
+   <li class=""><span>Adverb:</span><input type="text" /></li>
+  </ul>
+  <button>Tamam</button>
+ </li>
+ 
+</ol>
+
+
+<style>
+#duyulan{font:13px verdana;}
+#duyulan li{margin:22px 0}
+#duyulan .v{margin-left:10px}
+
+#duyulan input{border:1px solid #a0a0a0;padding:3px;}
+#varyasyon button{margin-left:90px;}
+
+</style>
+<hr />
+<h2>Duyulan kelimeyi yazma</h2>
+<ol id="duyulan">
+
+ <li class="q">
+  <img src="listen.png" alt="dinle" />
+  <input type="text" value="care" disabled="disabled" 	/> -
+  <span class="v">Doðrusu: <b>car</b></span>
+ </li>
+ 
+ <li class="q">
+  <img src="listen.png" alt="dinle" />
+  <input type="text" value="cry" disabled="disabled"  /> +
+ </li>
+ 
+ <li class="q">
+  <img src="listen.png" alt="dinle" />
+  <input type="text" />
+ </li>
+ 
+</ol>
