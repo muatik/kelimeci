@@ -5,7 +5,7 @@
  * 
  * @copyright copyleft
  * @author Mustafa Atik <muatik@gmail.com>
- * @data 07 Sep 2011 01:01
+ * @date 07 Sep 2011 01:01
  */
 class tests
 {

@@ -1,13 +1,10 @@
 <?php
-
 /**
  * vocabulary class contains operations that perform for only one user
  * 
- * @package 
- * @version $id$
- * @copyright 1997-2005 The PHP Group
- * @author Tobias Schlitt <toby@php.net> 
- * @license PHP Version 3.0 {@link http://www.php.net/license/3_0.txt}
+ * @copyright copyleft
+ * @author Mustafa Atik <muatik@gmail.com>
+ * @date 07 Sep 2011 01:42
  */
 class vocabulary
 {
@@ -68,7 +65,6 @@ class vocabulary
 	public function suggestTags($keyword){
 	}
 	
-	
 	/**
 	 * suggests words which contain the keyword
 	 * 
@@ -78,9 +74,5 @@ class vocabulary
 	 */
 	public function suggestWords($keyword){
 	}
-	
-	
-	
 }
-
 ?>
