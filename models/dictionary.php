@@ -56,8 +56,8 @@ class dictionary
 	}
 	
 	/**
-	 * gives classes(verb, noun, adjective, adverb, preposition, other) 
-	 * of an word
+	 * returns classes(verb, noun, adjective, adverb, preposition, other) 
+	 * of a word
 	 * 
 	 * @param int $wordId 
 	 * @static
@@ -67,7 +67,61 @@ class dictionary
 	public static function getClassesOfWord($wordId){
 	}
 	
+	/**
+	 * returns language of a word
+	 * 
+	 * @param int $wordId 
+	 * @static
+	 * @access public
+	 * @return string
+	 */
+	public static function getLangOfWord($wordId){
+	}
 	
+	/**
+	 * returns meainings of word 
+	 * 
+	 * @param int $wordId 
+	 * @static
+	 * @access public
+	 * @return array
+	 */
+	public static function getMeaningsOfWord($wordId){
+	}
+
+	/**
+	 * returns quotes of a word
+	 * 
+	 * @param int $wordId 
+	 * @static
+	 * @access public
+	 * @return array
+	 */
+	public static function getQuotesOfWord($wordId){
+	}
+
+	/**
+	 * returns synonyms of a word 
+	 * 
+	 * @param int $wordId 
+	 * @static
+	 * @access public
+	 * @return array
+	 */
+	public static function getSynonymsOfWord($wordId){
+	}
+
+	/**
+	 * returns antonyms of a word 
+	 * 
+	 * @param int $wordId 
+	 * @static
+	 * @access public
+	 * @return array
+	 */
+	public static function getAntonymsOfWord($wordId){
+	}
+
 	/**
 	 * return the word object which is corresponded to wordId  
 	 * 
