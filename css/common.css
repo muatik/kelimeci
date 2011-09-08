@@ -1,0 +1,67 @@
+html{
+	font:normal 12px sans-serif,arial;
+	color:#383838;
+}
+h1, h2, h3, h4{
+	font-weight:bold;
+	margin:10px 0 10px 0;
+	color:black;
+}
+
+h1{font-size:19px;}
+h2{font-size:17px;}
+h3{font-size:16px;}
+h4{font-size:15px;}
+
+input[type=text], input[type=select]{
+	width:150px;
+	border:1px solid #DDE1E8;
+	border-top-color:#CBCCD0;
+}
+
+label{
+	font-weight:bold;
+}
+
+a,a:link,a:visited,a:hover,a:active{
+	font-family:sans-serif;
+	color:#3372D9;
+	text-decoration:none;
+	outline:none;
+}
+
+/* For Test Pages */
+.testPageHeader{
+	border-bottom:1px solid gray;
+	padding:10px;
+}
+.testPageHeader h1{
+	color:#D73A0F;
+}
+.testPageHeader p{
+	font-size:14px;
+	color:#696969;
+}
+.testPageHeader p span{
+	margin-left:7px;
+}
+.testPageHeader p span.correctAnswers{
+	color:green;
+}
+.testPageHeader p span.incorrectAnswers{
+	color:red;
+}
+.testPageOl{
+	margin:20px 0 0 30px;
+}
+.testPageOl li{
+	margin-bottom:20px;
+}
+.testPageOl li *{
+	margin-left:15px;
+	vertical-align:middle;
+}
+/* For e.g each word */
+.testPageOl .resultForEachItem{
+	display:none;
+}

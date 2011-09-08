@@ -1,0 +1,25 @@
+/*
+# Reset defaults ################### 
+*/
+
+/* Reset margins and paddings */
+html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, 
+blockquote, pre, form, fieldset, table, th, td{ 
+	margin:0;
+	padding:0; 
+} 
+
+/* Reset list-style-type of lists */
+ul{
+	list-style-type:none;
+}
+
+/* Remove outline from links */
+a:hover, a:active{
+	outline:none;
+}
+
+/* Mozilla scrollbar fix */
+html{
+	overflow:-moz-scrollbars-vertical;
+}
