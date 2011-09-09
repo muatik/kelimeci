@@ -24,44 +24,21 @@ label{
 }
 
 a,a:link,a:visited,a:hover,a:active{
+	border:none;
 	font-family:sans-serif;
 	color:#3372D9;
 	text-decoration:none;
 	outline:none;
 }
-
-/* For Test Pages */
-.testPageHeader{
-	border-bottom:1px solid gray;
-	padding:10px;
-}
-.testPageHeader h1{
-	color:#D73A0F;
-}
-.testPageHeader p{
-	font-size:14px;
-	color:#696969;
-}
-.testPageHeader p span{
-	margin-left:7px;
-}
-.testPageHeader p span.correctAnswers{
-	color:green;
-}
-.testPageHeader p span.incorrectAnswers{
-	color:red;
-}
-.testPageOl{
-	margin:20px 0 0 30px;
-}
-.testPageOl li{
-	margin-bottom:20px;
-}
-.testPageOl li *{
-	margin-left:15px;
+img{
 	vertical-align:middle;
+	border:none;
 }
-/* For e.g each word */
-.testPageOl .resultForEachItem{
-	display:none;
+p{
+	margin:5px 0 5px 0;
+}
+
+span.seperator{
+	font-family:tahoma;
+	font-size:15px;
 }

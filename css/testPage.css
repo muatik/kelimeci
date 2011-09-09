@@ -1,0 +1,47 @@
+/* STYLE FOR ALL TEST PAGES */
+.testPageHeader{
+	border-bottom:1px solid gray;
+	padding:10px;
+}
+.testPageHeader h1{
+	color:#D73A0F;
+}
+.testPageHeader p{
+	font-size:14px;
+	color:#696969;
+}
+.testPageHeader p span{
+	margin-left:7px;
+}
+.testPageHeader p span.correctAnswers{
+	color:green;
+}
+.testPageHeader p span.incorrectAnswers{
+	color:red;
+}
+.testPageOl{
+	margin:20px 0 0 30px;
+}
+.testPageOl li{
+	margin-bottom:20px;
+}
+.testPageOl li *{
+	margin-left:8px;
+	vertical-align:middle;
+}
+/* For e.g each word */
+.testPageOl .resultForEachItem{
+	display:none;
+}
+.testPageOl input[type=text]{
+	text-align:center;
+}
+.testPageOl p.hint, .testPageOl span.hint{
+	color:gray;
+}
+.testPageOl ul{
+	margin:10px 0 0 20px;
+}
+.testPageOl ul li{
+	margin:10px 0 5px 10;
+}

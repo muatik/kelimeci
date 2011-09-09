@@ -1,15 +1,23 @@
 <meta charset="utf-8" />
 <link rel="stylesheet" type="text/css" href="../css/reset.css" />
 <link rel="stylesheet" type="text/css" href="../css/common.css" />
+<link rel="stylesheet" type="text/css" href="../css/testPage.css" />
 <style type="text/css">
 .voiceTest{
 	padding:10px;
 	width:600px;
 }
+.voiceTest ol li .result{
+	/*display:none;*/
+}
+/* Speaker image */
+.voiceTest ol li *:first-child{
+	cursor:pointer;
+}
 </style>
 
 <div class="voiceTest">
-	<div class="testPageHeader"><!-- border-bottom:1 px solid gray; -->
+	<div class="testPageHeader">
 		<h1>Seslendirilen Kelimeyi Yazma Testi</h1>
 		<p>
 			Toplam soru:<span class="totalQuestions">21</span>,
@@ -24,19 +32,25 @@
 	</div>
 	<ol class="testPageOl">
 		<li>
-			<img src="" />
+			<img src="../images/speaker.png" />
 			<input type="text" />
-			<span class="resultForEachItem"></span>
+			<span class="result">
+				<img src="../images/correct.png" />
+			</span>
 		</li>
 		<li>
-			<img src="" />
+			<img src="../images/speaker.png" />
 			<input type="text" />
-			<span class="resultForEachItem"></span>
+			<span class="result">
+				<img src="../images/correct.png" />
+			</span>
 		</li>
 		<li>
-			<img src="" />
+			<img src="../images/speaker.png" />
 			<input type="text" />
-			<span class="resultForEachItem"></span>
+			<span class="result">
+				<img src="../images/correct.png" />
+			</span>
 		</li>
 	</ol>
 </div>

@@ -3,31 +3,25 @@
 <link rel="stylesheet" type="text/css" href="../css/common.css" />
 <link rel="stylesheet" type="text/css" href="../css/testPage.css" />
 <style type="text/css">
-.sentenceCompletionTest{
+.englishWritingTest{
 	padding:10px;
 	width:600px;
 }
-.sentenceCompletionTest input{
-	margin:0 8px 0 8px;
-}
-.sentenceCompletionTest input.correct{
+.englishWritingTest input.correct{
 	color:green;
 }
-.sentenceCompletionTest input.incorrect{
+.englishWritingTest input.incorrect{
 	color:red;
 	text-decoration:line-through;
 }
-.sentenceCompletionTest a{
+.englishWritingTest a{
 	text-decoration:underline;
-}
-.sentenceCompletionTest .testPageOl p span:first-child{
-	margin-left:0px;
 }
 </style>
 
-<div class="sentenceCompletionTest">
+<div class="englishWritingTest">
 	<div class="testPageHeader">
-		<h1>Cümle Tamamlama Testi</h1>
+		<h1>İngilizcesini Yazma Testi</h1>
 		<p>
 			Toplam soru:<span class="totalQuestions">21</span>,
 			Tahmini süre:<span class="estimatedTime">10 dakika</span>,
@@ -41,13 +35,28 @@
 	</div>
 	<ol class="testPageOl">
 		<li>
-			<p>This is not<input type="text" class="correct" value="go" />of us.</p>
-			<p class="hint"><span>ip ucu:</span><em>car, bike, go</em></p>
+			<p>
+				<input type="text" class="incorrect" value="schedule" />
+				<span class="categories">[v, n]</span>
+				<span class="meanings">
+					perfect, elegant, outstanding
+				</span>
+			</p>
+			<p class="incorrect">
+				<strong>Doğrusu:</strong><a href="#">doğru kelime</a>
+				<span class="seperator">|</span>
+				<strong>Yanlış:</strong>
+				<span class="meaningOfIncorrect">program</span>
+			</p>
 		</li>
 		<li>
-			<p>Where are<input type="text" class="incorrect" value="I" />going?</p>
-			<p class="hint"><span>ip ucu:</span><em>I, you, he</em></p>
-			<p>Doğrusu:<a href="#">you</a></p>
+			<p>
+				<input type="text" class="correct" value="excellent" />
+				<span class="categories">[v, n]</span>
+				<span class="meanings">
+					perfect, elegant, outstanding
+				</span>
+			</p>
 		</li>
 	</ol>
 </div>
