@@ -162,7 +162,7 @@ COMMENT = 'kelimenin türlerini tutar' ;
 -- Table `wordClasses`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `wordClasses` (
-  `wId` BIGINT UNSIGNED NOT NULL ,
+  `wId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `clsId` TINYINT(1) UNSIGNED NOT NULL ,
   INDEX `fk_wordClasses_1` (`clsId` ASC) ,
   INDEX `fk_wordClasses_2` (`wId` ASC) ,
@@ -186,7 +186,7 @@ COMMENT = 'kelime ile kelimenin türünün bağlarını tutar' ;
 -- Table `synonyms`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `synonyms` (
-  `wId` BIGINT UNSIGNED NOT NULL ,
+  `wId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `synId` BIGINT UNSIGNED NOT NULL COMMENT 'Eş anlamlı kelimenin id\'si' ,
   INDEX `fk_synonyms_1` (`wId` ASC) ,
   INDEX `fk_synonyms_2` (`synId` ASC) ,
@@ -210,7 +210,7 @@ COMMENT = 'kelimenin eş anlamlarını tutar' ;
 -- Table `nearbyWords`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `nearbyWords` (
-  `wId` BIGINT UNSIGNED NOT NULL ,
+  `wId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `nearbyId` BIGINT UNSIGNED NOT NULL COMMENT 'Yakın anlamlı kelimenin id\'si' ,
   INDEX `fk_nearbyWords_1` (`wId` ASC) ,
   INDEX `fk_nearbyWords_2` (`nearbyId` ASC) ,
@@ -255,7 +255,7 @@ COMMENT = 'etimoloji,okunuşu,dil v.b. bilgiler tutulur' ;
 -- Table `wordContents`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `wordContents` (
-  `id` BIGINT UNSIGNED NOT NULL ,
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `wId` BIGINT UNSIGNED NOT NULL ,
   `url` TEXT NULL ,
   `content` LONGTEXT NULL ,
@@ -307,7 +307,7 @@ COMMENT = 'kelimenin anlamlarını ve cümlelerini tutar' ;
 -- Table `quotes`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `quotes` (
-  `id` BIGINT UNSIGNED NOT NULL ,
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `wId` BIGINT UNSIGNED NOT NULL ,
   `quote` TEXT NULL ,
   PRIMARY KEY (`id`) ,
