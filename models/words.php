@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * the class words represents a word with it's all details
+ * 
+ * @date 08 Sep 2011 08:18
+ * @copyright copyleft
+ * @author Mustafa Atik <muatik@gmail.com>
+ */
 class words
 {
 	/**
