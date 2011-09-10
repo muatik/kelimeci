@@ -20,7 +20,7 @@
 .sentenceCompletionTest a{
 	text-decoration:underline;
 }
-.sentenceCompletionTest .testPageOl p span:first-child{
+.sentenceCompletionTest .testPageOl li p span:first-child{
 	margin-left:0px;
 }
 </style>
@@ -42,11 +42,11 @@
 	<ol class="testPageOl">
 		<li>
 			<p>This is not<input type="text" class="correct" value="go" />of us.</p>
-			<p class="hint"><span>ip ucu:</span><em>car, bike, go</em></p>
+			<p class="hint"><span>ipucu:</span><i>car, bike, go</i></p>
 		</li>
 		<li>
 			<p>Where are<input type="text" class="incorrect" value="I" />going?</p>
-			<p class="hint"><span>ip ucu:</span><em>I, you, he</em></p>
+			<p class="hint"><span>ipucu:</span><i>I, you, he</i></p>
 			<p>Doğrusu:<a href="#">you</a></p>
 		</li>
 	</ol>

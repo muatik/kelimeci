@@ -34,7 +34,7 @@
 	display:none;
 }
 .testPageOl input[type=text]{
-	text-align:center;
+
 }
 .testPageOl p.hint, .testPageOl span.hint{
 	color:gray;
@@ -43,5 +43,5 @@
 	margin:10px 0 0 20px;
 }
 .testPageOl ul li{
-	margin:10px 0 5px 10;
+	margin:5px 0 5px 0;
 }

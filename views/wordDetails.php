@@ -4,17 +4,16 @@
 <style type="text/css">
 .wordDetails{
 	padding:10px;
-	color:#383838;
 }
-.wordDetails .divWithSpeHeader{
-	margin:10px 0 10px 0;
-}
-.wordDetails h4, .wordDetails .divWithSpeHeader span:first-child{
-	font-family:tahoma;
+.wordDetails h4{
 	font-size:12px;
 	color:#B9978F;/*#C7A59E;*/
 	text-transform:uppercase;
 	font-weight:normal;
+	margin:5px 0 5px 0;
+}
+.wordDetails h4.inline{
+	display:inline-block;
 }
 .wordDetails a{
 	text-decoration:underline;
@@ -30,9 +29,20 @@
 .wordDetails div, .wordDetails ul{
 	margin-bottom:10px;
 }
-.wordDetails span.seperator{
+.wordDetails ul.gray{
+	list-style-type:none;
+	color:#7F7F7F;
+}
+.wordDetails ul.gray span{
+	margin-left:5px;
+}
+.wordDetails .gray{
+	color:#7F7F7F;
+}
+.wordDetails .seperator{
 	margin:0 3px 0 3px;
-	color:#3372D9;
+	border-right:1px solid #3372D9;
+	padding-right:7px;
 }
 /* THIS DIV TAG WILL REPLACE TO IMG TAG */
 .wordDetails .img{
@@ -42,6 +52,9 @@
 	text-align:center;
 	vertical-align:middle;
 }
+.wordDetails div.delAndTestLinks{
+	margin-top:30px;
+}
 </style>
 
 <div class="wordDetails">
@@ -50,8 +63,8 @@
 		<p>Anlamı</p>
 		<p>Devamı</p>
 	</div>
-	<div class="divWithSpeHeader">
-		<span>KATEGORİ:</span>
+	<div>
+		<h4 class="inline">KATEGORİ:</h4>
 		<span>noun, adjective</span>
 	</div>
 	<div>
@@ -62,28 +75,27 @@
 			<li>Alıntı - 3</li>
 		</ul>
 		<div class="addMore">
-			<a href="#" alt="">ekle</a>
-			<span class="seperator">|</span>
+			<a href="#" alt="" class="seperator">ekle</a>
 			<a href="#" alt="">daha...</a>
 		</div>
 	</div>
 	<div>
 		<h4>VARYASYONLAR</h4>
-		<ul style="list-style-type:none;">
-			<li><em>noun:</em> kelimenin isim hali</li>
-			<li><em>verb:</em> kelimenin fiil hali</li>
+		<ul class="gray">
+			<li><i>noun:</i><span>kelimenin isim hali</span></li>
+			<li><i>verb:</i><span>kelimenin fiil hali</span></li>
 		</ul>
 	</div>
-	<div class="divWithSpeHeader">
-		<span>EŞ:</span>
+	<div>
+		<h4 class="inline">EŞ:</h4>
 		<span>
 			<a href="#" alt="">ilk eş</a>,
 			<a href="#" alt="">ikinci eş</a>,		
 			<a href="#" alt="">üçüncü eş</a>,		
 		</span>
 	</div>
-	<div class="divWithSpeHeader">
-		<span>ZIT:</span>
+	<div>
+		<h4 class="inline">ZIT:</h4>
 		<span>
 			<a href="#" alt="">ilk eş</a>,
 			<a href="#" alt="">ikinci eş</a>,		
@@ -92,17 +104,16 @@
 	</div>
 	<div>
 		<h4>DURUM</h4>
-		<div>
-			<em>seviye:</em>
+		<div class="gray">
+			<i>seviye:</i>
 			<span>|-----------[]-----------|</span>
 		</div>
 		<div class="img">
 			<!-- THIS DIV TAG WILL REPLACE TO IMG TAG -->
 		</div>
 	</div>
-	<div>
-		<a href="#" alt="">Bu kelimeyi sil</a>
-		<span class="seperator">|</span>
+	<div class="delAndTestLinks">
+		<a href="#" alt="" class="seperator">Bu kelimeyi sil</a>
 		<a href="#" alt="">Kelime testi yap</a>
 	</div>
 </div>
