@@ -23,10 +23,18 @@ class vocabulary
 	 * @var int
 	 * @access public
 	 */
-	public $userId;
+	private $userId;
 	
 	
-	
+
+	public function __construct($userId){
+		if(!is_numeric($userId))
+			die('You cannot create a vocabulary' 
+			.' instance without a user');
+
+		$this->userId=$userId;
+	}
+
 	/**
 	 * returns the words array which is in the user's vocabulary
 	 * 
@@ -34,10 +42,33 @@ class vocabulary
 	 * @param int $length 
 	 * @param array $classes 
 	 * @access public
-	 * @return void
+	 * @return array
 	 */
 	public function getWords($start=0, $length=100, $classes=array()){
+
+		$classes=dictionary::getClasses($classes);
+
+		$sql='select v.* from vocabulary as v, wordClasses as wc
+			where
+			v.userId='.$this->userId.'
+
+			'.(count($classes)>0?
+				implode('\',\'',$classes)
+				:null
+				).'
+
+			limit '.$start.','.$length;
 		
+		$rs=$this->db->fetch($sql);
+		if($rs==false)
+			return false;
+		
+		// converting array to word objects
+		$ws=array();
+		foreach($rs as $i)
+			$ws[]=new words($i->wId);
+		
+		return $ws;
 		
 	}
 	

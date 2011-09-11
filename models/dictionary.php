@@ -257,7 +257,25 @@ class dictionary
 	public static function getWord($wordId){
 		return new words($wordId);
 	}
+	
+	/**
+	 * returns the word classes objects which are corresponded to the names
+	 * 
+	 * @param array $names array of class names which are
+	 * @static
+	 * @access public
+	 * @return array the array of the word classes
+	 */
+	public static function getClasses($names){
+		
+		$names=$this->db->escape($names);
 
+		$sql='select * from wordClasses
+			where
+			name in (\''.$names.'\')';
+		
+		return $this->db->fetch($sql);
+	}
 }
 
 ?>
