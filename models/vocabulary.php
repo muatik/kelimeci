@@ -42,7 +42,7 @@ class vocabulary
 	 * @param int $length 
 	 * @param array $classes 
 	 * @access public
-	 * @return array
+	 * @return array the array of the words instances
 	 */
 	public function getWords($start=0, $length=100, $classes=array()){
 
@@ -76,13 +76,33 @@ class vocabulary
 	/**
 	 * adds a word into the user's vocabulary
 	 * 
-	 * @param words $word  words object
+	 * @param words $word  id of word, word itself or words object
 	 * @param string $tags tag of the word
 	 * @access public
 	 * @return bool
 	 */
 	public function addWord($word, $tags=null){
 		
+		if(!is_object($word))
+			$word=dictionary::getWord($word);
+		
+		if($word==false)
+			return false;
+		
+		$sql='insert into vocabulary (userId,wordId,level,tags)
+			values(
+				\''.$this->userId.'\',
+				\''.$word->id.'\',
+				\''.$this->level.'\',
+				\''.$this->db->escape($tags).'\'
+			)';
+		
+		$this->db->query($sql);
+
+		if($this->db->affectedRows>0)
+			return true;
+
+		return false;
 	}
 	
 	

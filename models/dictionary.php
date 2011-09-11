@@ -247,15 +247,19 @@ class dictionary
 	}
 
 	/**
-	 * return the word object which is corresponded to wordId  
+	 * return the word object which is corresponded to word
 	 * 
-	 * @param int $wordId 
+	 * @param int $word id of word or word itself 
 	 * @static
 	 * @access public
 	 * @return words the object word
 	 */
-	public static function getWord($wordId){
-		return new words($wordId);
+	public static function getWord($word){
+		$w=new words($word);
+		if(is_numeric($w->id))
+			return $w;
+		
+		return false;
 	}
 	
 	/**
