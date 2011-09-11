@@ -152,14 +152,13 @@ class words
 	private function __get($var){
 
 		// is getting the array vars of the word, at first fill them
-		if(isset(self::$methods[$var])){
+		if(isset(self::$var2methods[$var])){
 			if($this->$var==null){
-				$method=self::$methods[$var];
+				$method=self::$var2methods[$var];
 				$this->$var=dictionary::$method($this->id);
 			}
 			return $this->$var;
 		}
-
 
 		if($var=='lang')
 			return $this->lang;
