@@ -9,13 +9,23 @@
  */
 class words
 {
+
+	/**
+	 * methods list for the __get()  method
+	 * 
+	 * @static
+	 * @var mixed
+	 * @access public
+	 */
+	static private $var2method;
+
 	/**
 	 * id of the word
 	 * 
 	 * @var string
 	 * @access public
 	 */
-	public $id;
+	private $id;
 	
 	/**
 	 * word
@@ -23,7 +33,7 @@ class words
 	 * @var string
 	 * @access public
 	 */
-	public $word;
+	private $word;
 
 	/**
 	 * language of the word
@@ -73,8 +83,23 @@ class words
 	 */
 	private $antonyms;
 
-
 	
+
+	/**
+	 * static __construct initializes static properties
+	 * 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function __construct(){
+		self::$methods=array(
+			'quotes','getQuotesOfWord',
+			'meanings','getMeaningsOfWord'
+			'synonyms','getSynonymsOfWord',
+			'antonyms','getAntonymsOfWord',
+		);
+	}
 
 	/**
 	 * __construct starts to represent a word if the word argument is passed
@@ -84,17 +109,36 @@ class words
 	 * @return void
 	 */
 	public function __construct($word=null){
-		
+		$this->bind($word);
 	}
 	
 	/**
 	 * binds to a word
 	 * 
-	 * @param mixed $word if or string
+	 * @param mixed $word id or string
 	 * @access public
 	 * @return bool
 	 */
 	public function bind($word){
+		
+		$word=$this->db->escape($word);
+
+		$sql='select from words
+			where '.
+			(is_numeric($word)?'id':'word')
+			.'=\''.$word.'\'
+			limit 1';
+
+		$r=$this->db->fetchFirst($sql);
+
+		if($r!==false){
+			$this->id=$r->id;
+			$this->lang=dictionary::getLangOfWord($r->id);
+			$this->word=$r->word;
+			return true;
+		}
+
+		return false;
 	}
 
 
@@ -107,6 +151,24 @@ class words
 	 */
 	private function __get($var){
 
+		// is getting the array vars of the word, at first fill them
+		if(isset(self::$methods[$var])){
+			if($this->$var==null){
+				$method=self::$methods[$var];
+				$this->$var=dictionary::$method($this->id);
+			}
+			return $this->$var;
+		}
+
+
+		if($var=='lang')
+			return $this->lang;
+
+		if($var=='word')
+			return $this->word;
+
+		if($var=='id')
+			return $this->id;
 	}
 }
 
