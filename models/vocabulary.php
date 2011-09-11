@@ -110,20 +110,35 @@ class vocabulary
 	 * suggests tags which contain the keyword
 	 * 
 	 * @param string $keyword 
+	 * @param int $length default 15
 	 * @access public
 	 * @return array tags array
 	 */
-	public function suggestTags($keyword){
+	public function suggestTags($keyword,$length=15){
+		$sql='select * from vocabulary
+			where
+			tags like \'%'.$this->db->escape($keyword.'%\'
+			limit '.$length;
+
+		return $this->db->fetch($sql);
 	}
 	
 	/**
 	 * suggests words which contain the keyword
 	 * 
 	 * @param string $keyword
+	 * @param int $length default 15
 	 * @access public
 	 * @return array words array
 	 */
-	public function suggestWords($keyword){
+	public function suggestWords($keyword,$length=15){
+		$sql='select v.*,w.word from vocabulary as v,words as w
+			where
+			w.word like \'%'.$this->db->escape($keyword.'%\' and
+			w.id=v.wordId
+			limit '.$length;
+		
+		return $this->db->fetch($sql);
 	}
 }
 ?>
