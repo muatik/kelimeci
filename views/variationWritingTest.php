@@ -14,10 +14,10 @@
 	font-weight:normal;
 	text-align:right;
 	display:inline-block;
-	width:215px;
+	width:225px;
 }
 .variationWritingTest input[type=submit]{
-	margin-top:-5px;
+	margin-left:100px;
 }
 </style>
 

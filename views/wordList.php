@@ -1,3 +1,4 @@
+<DOCTYPE html>
 <meta charset="utf-8" />
 <link rel="stylesheet" type="text/css" href="../css/reset.css" />
 <link rel="stylesheet" type="text/css" href="../css/common.css" />
@@ -20,8 +21,9 @@
 }
 .wordList .words li .categories span{
 	font-family:tahoma,arial,sans-serif;
+	font-size:11px;
 	display:inline-block;
-	padding:2px;
+	padding:1px;
 	width:13px;
 	margin-right:0px;
 	background:#C3C3C3;
@@ -61,7 +63,7 @@
 	-khtml-border-radius:5px;
 	-webkit-border-radius:5px;
 	
-	border:1px solid gray;
+	border:1px solid #B3B3B3;
 	background:#FFF7C9;
 	padding:1px;
 }
