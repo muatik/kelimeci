@@ -90,6 +90,26 @@ class dictionary
 		return false;
 	}
 
+
+	/**
+	 * checks if the specified word is exists
+	 * 
+	 * @param string $word 
+	 * @static
+	 * @access public
+	 * @return bool
+	 */
+	public static function isWordExists($word){
+		$sql='select id from dictionary 
+			where 
+			word=\''.$this->db->escape($word).'\'
+			limit 1';
+
+		$this->db->query($sql);
+		return ( $this->db->numRows>0 ? true : false );
+	}
+
+
 	/**
 	 * Gives -ing, -s/-es, -ed forms of a word
 	 * 
@@ -245,11 +265,11 @@ class dictionary
 	public static function getAntonymsOfWord($wordId){
 		return $this->getWordItemsByTable($wordId,'antonyms');
 	}
-
+	
 	/**
 	 * return the word object which is corresponded to word
 	 * 
-	 * @param int $word id of word or word itself 
+	 * @param string $word id of word or word itself 
 	 * @static
 	 * @access public
 	 * @return words the object word
@@ -258,12 +278,12 @@ class dictionary
 		$w=new words($word);
 		if(is_numeric($w->id))
 			return $w;
-		
+
 		return false;
 	}
 	
 	/**
-	 * returns the word classes objects which are corresponded to the names
+	 * returns the word class objects which are corresponded to the names
 	 * 
 	 * @param array $names array of class names which are
 	 * @static
@@ -273,7 +293,7 @@ class dictionary
 	public static function getClasses($names){
 		
 		$names=$this->db->escape($names);
-
+		
 		$sql='select * from wordClasses
 			where
 			name in (\''.$names.'\')';
