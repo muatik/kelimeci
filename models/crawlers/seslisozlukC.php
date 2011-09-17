@@ -1,9 +1,10 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 require_once("dictionaryCrawler.php");
-class seslisozluk extends dictionaryCrawler{
+class seslisozlukC extends dictionaryCrawler{
 	
 	public function __construct(){
+		
 		$this->crwlUrl='http://www.seslisozluk.com/?word=';
 	}
 	
@@ -23,23 +24,28 @@ class seslisozluk extends dictionaryCrawler{
 			return false;
 	}
 	
-	public function parse(){
-	
-		
+	public function parse(){	
+
 		$trWords=$this->getWords('tr');
 		$enWords=$this->getWords('en');
 		
 		$o=new stdClass;
+		
 		$o->word=$this->word;
+		
 		$o->lang='en';
+		
 		$o->content=$this->content;
+		
 		$o->pronunciation='';
-		$o->synonyms=new stdClass;
-		$o->synonyms->verbs=array();
-		$o->synonyms->nouns=array();
-		$o->synonyms->others=array();
+		
+		$o->synonyms=array();
+		$o->antonyms=array();
+		
 		$o->nearbyWords=array();
+		
 		$o->etymology=$this->getEtymology();
+		
 		$o->partOfSpeech=array($trWords,$enWords);
 	
 		return $o;				
@@ -141,6 +147,6 @@ class seslisozluk extends dictionaryCrawler{
 	}
 
 }
-$s=new seslisozluk();
+$s=new seslisozlukC();
 print_r($s->get("have"));
 ?>

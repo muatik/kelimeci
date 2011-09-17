@@ -1,9 +1,10 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 require_once("dictionaryCrawler.php");
-class urban extends dictionaryCrawler{
+class urbanC extends dictionaryCrawler{
 	
 	public function __construct(){
+		
 		$this->crwlUrl='http://www.urbandictionary.com/define.php?term=';
 	}
 	
@@ -22,17 +23,24 @@ class urban extends dictionaryCrawler{
 	public function parse(){
 		
 		$pos=$this->getWordsDetail();
+		
 		$o=new stdClass;
+		
 		$o->word=$this->word;
+		
 		$o->lang='en';
+		
 		$o->content=$this->content;
+		
 		$o->pronunciation='';
-		$o->synonyms=new stdClass;
-		$o->synonyms->verbs=array();
-		$o->synonyms->nouns=array();
-		$o->synonyms->others=array();
+		
+		$o->synonyms=array();		
+		$o->antonyms=array();
+		
 		$o->nearbyWords=array();
+		
 		$o->etymology='';
+		
 		$o->partOfSpeech=array($pos);
 				
 		return $o ;
@@ -158,6 +166,6 @@ class urban extends dictionaryCrawler{
 		return $string; 
 	}
 }
-$u=new urban();
+$u=new urbanC();
 print_r($u->get("car"));
 ?>

@@ -1,9 +1,10 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
+header('Content-Type: text/html; charset=ISO-8859-9');
 require_once("dictionaryCrawler.php");
-class google extends dictionaryCrawler{
+class googleC extends dictionaryCrawler{
 	
 	public function __construct(){
+		
 		$this->crwlUrl='';
 		
 		/**
@@ -14,40 +15,34 @@ class google extends dictionaryCrawler{
 		/**
 		 * türkçe kelimeleri sorgulama adresi
 		 * */
-		$this->trUrl='http://translate.google.com/translate_a/t?client=t&hl=en&sl=tr&tl=en&text=';
+		$this->trUrl='http://translate.google.com/translate_a/t?client=t&hl=tr&sl=tr&tl=en&text=';
 	}
 	
 	public function fetch($word){
 
 		$this->word=$word;
-		
+
 		// ingilizce kelime için içerik alınıyor.
-		$contentTR=file_get_contents($this->enUrl.$word);
-		
+		$contentTR=file_get_contents($this->enUrl.urlencode($word));
+
 		// türkçe kelime için içerik alınıyor.
 		$contentEN=file_get_contents($this->trUrl.urlencode($word));
-		echo $this->trUrl.urlencode($word);
+
 		$contentTR=mb_convert_encoding($contentTR,'UTF-8','ISO-8859-9');
 		$contentEN=mb_convert_encoding($contentEN,'UTF-8','ISO-8859-9');
-		
+
 		// kelime ingilizce mi ? değil mi ? kontrol ediliyor. İçerik geri döndürülüyor
 		if ($contentTR!=false && $this->getWordLang($contentTR)=='en'){
-			
+
 			$this->content=$contentTR;						
 			return $this->content;
 		
 		// kelime türkçe mi ? değil mi ? kontrol ediliyor. İçerik geri döndürülüyor	
 		}elseif ($contentEN!=false && $this->getWordLang($contentEN)=='tr'){
+		echo $contentEN;
 			
-			$this->content=file_get_contents($this->trUrl.$word);
-			if ($this->content!=false){
-
-					$this->content=$contentEN;					
-					return $this->content;
-
-			}else
-				return false;
-				
+			$this->content=$contentEN;					
+			return $this->content;				
 		}else
 			return false;
 	}
@@ -55,16 +50,20 @@ class google extends dictionaryCrawler{
 	public function parse(){		
 		
 		$o=new stdClass;
+		
 		$o->word=$this->word;
 		$o->lang=$this->getWordLang($this->content);
-		$o->content=$this->content;
+		$o->content=$this->content;		
+		
 		$o->pronunciation='';
-		$o->synonyms=new stdClass;
-		$o->synonyms->verbs=array();
-		$o->synonyms->nouns=array();
-		$o->synonyms->others=array();
+		
+		$o->synonyms=array();
+		$o->antonyms=array();
+		
 		$o->nearbyWords=array();
+		
 		$o->etymology='';
+		
 		$o->partOfSpeech=array($this->getWords());
 	
 		return $o;
@@ -96,7 +95,7 @@ class google extends dictionaryCrawler{
 	}
 	
 	public function getWords(){	
-		
+		$lang='';	
 		// kelime türkçe mi ?
 		if (strpos($this->content,',"tr"')){
 			
@@ -120,6 +119,6 @@ class google extends dictionaryCrawler{
 	
 }
 
-$g=new google();
-print_r($g->get("fast"));
+$g=new googleC();
+print_r($g->get("kar"));
 ?>

@@ -1,24 +1,26 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
-class crawler
-{
-	public $content;
-	public $prefix='http://dictionary.reference.com/browse/';
-	public $domDoc; 
-	public $domXPath;
-	public $word;
+header('Content-Type: text/html; charset=ISO-8859-9');
+require_once("dictionaryCrawler.php");
+class dictionaryC extends dictionaryCrawler{
 	
-
 	public function __construct(){
-		$this->domDoc=new DOMDocument();		
-	}		
+		
+		$this->crwlUrl='http://dictionary.reference.com/browse/';		
+		
+		/**
+		 * Eş anlamlı kelimelerin çekildiği adres.
+		 * */
+		$this->synUrl='http://thesaurus.com/browse/';
+		
+		$this->domDoc=new DOMDocument();
+	}
 	
-	public function pageRead($word){
+	public function fetch($word){
 
-		set_time_limit(0);
- 		$this->url=$this->prefix.$word;
+		$this->word=$word;
+		 		
 			$this->word=$word;
-			$this->content = file_get_contents($this->url);
+			$this->content = file_get_contents($this->crwlUrl.urlencode($word));
 			if ($this->content!=false){
 				
 				$badChars=array('“','”','–');
@@ -29,22 +31,37 @@ class crawler
 
 				@$this->domDoc->loadHTML($this->content);
 				@$this->domXPath = new DOMXPath($this->domDoc);
-				$this->parseContent();
-			}
-	}
-	
-	
-	public function parseContent(){
-
-		//print_r($this->getMeans());
+			}else return false;
 		
-		//$this->getEtymology();
-
-		//print_r($this->getSynonyms());
-
-		echo $this->getStructure();
-
 	}
+	
+	public function parse(){		
+
+		$o=new stdClass;
+
+		$o->word=$this->word;
+
+		$o->lang='en';
+
+		$o->content='$this->content';
+
+		$o->pronunciation=$this->getPronunciation();
+
+		$synAnt=$this->getSynAnt();
+		$synonyms=$synAnt[0];
+		$antonyms=$synAnt[1];	
+		$o->synonyms=$synonyms;
+		$o->antonyms=$antonyms;
+
+		$o->nearbyWords=array();
+
+		$o->etymology=$this->getEtymology();
+
+		$o->partOfSpeech=array($this->getMeans());
+
+		return $o;
+	}
+	
 	/**
 	 * etymology bilgisini verir
 	 * 
@@ -55,15 +72,17 @@ class crawler
 		preg_match_all('/(div class="body")(.*)(<\/div)/im',$m[0],$k);
 		return str_replace('div class="body">','',strip_tags($k[0][0]));
 	}
+	
 	/**
-	 * eşanlamlı kelimeleri verir.
+	 * eşanlamlı ve zıt anlamlı kelimeleri verir.
 	 * 
 	 * @return array
 	 * */
-	public function getSynonyms(){
+	public function getSynAnt(){
 		
 		$synonyms=array();
-		$content=file_get_contents("http://thesaurus.com/browse/".$this->word);		
+		$antonyms=array();
+		$content=file_get_contents($this->synUrl.$this->word);		
 
 		if ($content!=false){
 			$domDoc=new DOMDocument();
@@ -77,7 +96,8 @@ class crawler
 				$tbody=$table->childNodes;
 				$continue=false;
 				$trCount=0;
-				$o=new stdClass;
+				$oSyn=new stdClass;
+				$oAnt=new stdClass;
 				foreach($tbody as $tr){
 					$trCount++;			
 					$td=$tr->childNodes;						
@@ -97,57 +117,67 @@ class crawler
 						 * pos,synonyms,antonyms
 						 * */
 						if ($continue) {
-							if ($tdCount==3 && $trCount==2)
-								$o->pos=trim($node->nodeValue);
-							if ($tdCount==3 && $trCount==3)
-								$o->pos.='('.trim($node->nodeValue).')';
+							
+							if ($tdCount==3 && $trCount==2){
+								$oSyn->pos=trim($node->nodeValue);
+								$oAnt->pos=trim($node->nodeValue);
+							}
+							
+							if ($tdCount==3 && $trCount==3){
+								$oSyn->definition=trim($node->nodeValue);
+								$oAnt->definition=trim($node->nodeValue);
+							}
+							
 							if ($tdCount==3 && $trCount==4)
-								$o->synonyms=explode(",",$node->nodeValue);
+								$oSyn->synonyms=explode(",",$node->nodeValue);
+							
 							if ($tdCount==3 && $trCount==5)
-								$o->antonyms=explode(",",$node->nodeValue);
+								$oAnt->antonyms=explode(",",$node->nodeValue);
 						}
 					}
 				}
 				
-				if ($continue)
-					$synonyms[]=$o;
-			}
-		}
-		return $synonyms;
-	}
-	
-	public function getStructure(){
-
-		$structure='';
-		$pron=$this->domXPath->query("//*[@class='pron']");
-		
-		$elements=$this->domXPath->query("//*[@class='header']");
-				
-		foreach($elements as $nodes){
-
-			$divX=$nodes->childNodes;
-			foreach($divX as $divC){
-
-				if ($divC->nodeName!='#text'){
-
-					if ($divC->getAttribute('class')!='pronset'){
-
-						$structure.=preg_replace('/[âÂ]/i',''
-						,$divC->nodeValue).' ';
-					}
+				if ($continue){
+					foreach($oSyn->synonyms as $k=>$i)
+						$oSyn->synonyms[$k]=trim($i);
+					foreach($oAnt->antonyms as $k=>$i)
+						$oAnt->antonyms[$k]=trim($i);	
+					$synonyms[]=$oSyn;
+					$antonyms[]=$oAnt;
+					
 				}
 			}
-		}
-		return $pron->item(0)->nodeValue.'|'.$structure;
+		}		
+		
+		return array($synonyms,$antonyms);
 	}
 	
 	/**
-	 * ilgili kelimeyle ilgili anlamları ve türlerini verir.
+	 * kelimenin okunuşunu metin olarak verir
+	 * 
+	 * @return string
+	 * */
+	public function getPronunciation(){
+
+		$structure='';
+		$pron=$this->domXPath->query("//*[@class='pron']");		
+	
+		return $pron->item(0)->nodeValue;
+	}
+	
+	/**
+	 * ilgili kelimeyle anlamları ve türlerini verir.
 	 * 
 	 * @return array
 	 * */
 	public function getMeans(){
-		return	array_merge($this->getMeansList(),$this->getMeansBody());
+		$o=new stdclass;
+		$o->lang='en';				
+		$o->means=array_merge(
+			$this->changeMeansFormat($this->getMeansList()),
+			$this->changeMeansFormat($this->getMeansBody())
+		);		
+		return  $o;
 	}
 	
 	/**
@@ -311,8 +341,23 @@ class crawler
 			}
 		return $means;
 	}
+	
+	/**
+	 * gönderilen dizi formatını uygun formata çevirir geri döndürür.
+	 * 
+	 * @param array $means
+	 * 
+	 * @return array
+	 * */
+	public function changeMeansFormat($means){
+		$meansTemp=array();
+		foreach($means as $k=>$i)
+			$meansTemp[]=array($k,$means[$k]);
+			
+		return $meansTemp;
+	}
 }
-$c= new crawler();
-$c->pageRead('fast');
-?>
 
+$g=new dictionaryC();
+print_r($g->get("fast"));
+?>
