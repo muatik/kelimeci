@@ -13,21 +13,22 @@
 .synonymSelectionTest span.alternatives span{
 	margin-left:5px;
 	cursor:pointer;
+	padding:3px;
 }
 .synonymSelectionTest span.alternatives span.selected{
 	background:#E5C532;
 	border:1px solid #C8AE32;
-	padding:1px;
+	padding:2px;
 }
 .synonymSelectionTest span.alternatives span.correct{
 	background:#8AEB6D;
 	border:1px solid green;
-	padding:1px;
+	padding:2px;
 }
 .synonymSelectionTest span.alternatives span.incorrect{
 	background:#FF8787;
 	border:1px solid red;
-	padding:1px;
+	padding:2px;
 }
 </style>
 

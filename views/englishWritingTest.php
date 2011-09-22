@@ -17,6 +17,10 @@
 .englishWritingTest a{
 	text-decoration:underline;
 }
+.englishWritingTest p.incorrect a{
+	padding-right:15px;
+	border-right:1px solid black;
+}
 </style>
 
 <div class="englishWritingTest">
@@ -44,7 +48,6 @@
 			</p>
 			<p class="incorrect">
 				<strong>Doğrusu:</strong><a href="#">doğru kelime</a>
-				<span class="seperator">|</span>
 				<strong>Yanlış:</strong>
 				<span class="meaningOfIncorrect">program</span>
 			</p>

@@ -36,6 +36,9 @@
 	padding:2px;
 	color:white;
 }
+.categorySelectionTest input[type=submit]{
+	margin-left:20px;
+}
 </style>
 
 <div class="categorySelectionTest">

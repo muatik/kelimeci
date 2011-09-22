@@ -10,7 +10,7 @@
 	-webkit-border-radius:5px;
 	
 	border:1px solid #D2D2D2;
-	width:440px;
+	width:445px;
 	padding:5px;
 	
 	/*

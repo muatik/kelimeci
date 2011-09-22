@@ -1,28 +1,23 @@
 html{
-	font:normal 12px sans-serif,arial;
-	color:#383838;
+	
+	font:normal 13px verdana,sans-serif,cantarell,"trebuchet ms",arial,"bitstream vera sans";
+	color:#111;
 }
-h1, h2, h3, h4{
+h1,h2,h3,h4{
 	font-weight:bold;
 	margin:10px 0 10px 0;
 	color:black;
 }
-
 h1{font-size:19px;}
 h2{font-size:17px;}
 h3{font-size:16px;}
 h4{font-size:15px;}
-
-input[type=text], input[type=select]{
+input[type=text],input[type=select]{
 	width:150px;
-	border:1px solid #DDE1E8;
-	border-top-color:#CBCCD0;
 }
-
 label{
 	font-weight:bold;
 }
-
 a,a:link,a:visited,a:hover,a:active{
 	border:none;
 	font-family:sans-serif;
@@ -37,7 +32,6 @@ img{
 p{
 	margin:5px 0 5px 0;
 }
-
 span.seperator{
 	font-family:tahoma;
 	font-size:15px;
