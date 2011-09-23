@@ -336,8 +336,8 @@ class crawlers
 	 * @return bool
 	 * */
 	public function isWebPageCrawled($wordId,$pageName){
-		
-		$sql='select id from wordContens where wId=\''.$wordId.'\' 
+
+		$sql='select id from wordContents where wId=\''.$wordId.'\' 
 			and webPageName=\''.$pageName.'\' limit 1';
 		$r=$this->db->fetchFirst($sql);
 		
