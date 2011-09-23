@@ -33,6 +33,8 @@ class seslisozlukC extends dictionaryCrawler{
 		
 		$o->word=$this->word;
 		
+		$o->webPageName='seslisozluk';
+		
 		$o->lang='en';
 		
 		$o->content=$this->content;
@@ -54,7 +56,9 @@ class seslisozlukC extends dictionaryCrawler{
 	public function getEtymology(){
 		
 		preg_match('/(<div><b>Etymology:<\/b>)([\s\S.]*?)(<\/div>)/i',$this->content,$m);
-		return strip_tags($m[0]);
+		if (isset($m[0]))
+			return strip_tags($m[0]);
+		else return '';
 	}
 	
 	public function getWords($lang){
@@ -99,7 +103,7 @@ class seslisozlukC extends dictionaryCrawler{
 										$cChildNodes = $node->childNodes;// tür için
 										foreach($cChildNodes as $nodeC)	{
 											if ($nodeC->nodeName!='#text'){
-												$kind=$nodeC->nodeValue;
+												$kind=$this->trConvert($nodeC->nodeValue);
 												
 											} 
 											if ($nodeC->nodeName=='#text'){	
@@ -138,15 +142,12 @@ class seslisozlukC extends dictionaryCrawler{
 	public function trConvert($string){
 		
 		$string=str_replace(
-				array('Ã¶z','Ã§','Ã¼','Å','Ä±','Ä','Ã¢'),
+				array('Ã¶','Ã§','Ã¼','Å','Ä±','Ä','Ã¢'),
 				array('ö','ç','ü','ş','ı','ğ','â'),
 				$string
 		);
 		
 		return $string;
 	}
-
 }
-$s=new seslisozlukC();
-print_r($s->get("have"));
 ?>

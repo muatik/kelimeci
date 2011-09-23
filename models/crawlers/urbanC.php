@@ -28,6 +28,8 @@ class urbanC extends dictionaryCrawler{
 		
 		$o->word=$this->word;
 		
+		$o->webPageName='urban';
+		
 		$o->lang='en';
 		
 		$o->content=$this->content;
@@ -166,6 +168,4 @@ class urbanC extends dictionaryCrawler{
 		return $string; 
 	}
 }
-$u=new urbanC();
-print_r($u->get("car"));
 ?>

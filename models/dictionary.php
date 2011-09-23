@@ -280,6 +280,17 @@ class dictionary
 		
 		return $this->db->fetch($sql);
 	}
-}
+	
+	public static function learn($word){
+		requiure_once("crawlers/googleC.php");
+		requiure_once("crawlers/urbanC.php");
+		requiure_once("crawlers/seslisozlukC.php");
+		requiure_once("crawlers/dictionaryC.php");
+		$g=new googleC();
+		print_r($g->get($word));
 
+	}
+
+}
+$d::learn("araba");
 ?>
