@@ -2,6 +2,9 @@
 <meta charset="utf-8" />
 <link rel="stylesheet" type="text/css" href="../css/reset.css" />
 <link rel="stylesheet" type="text/css" href="../css/common.css" />
+<script type="text/javascript" src="../js/createXHR.js"></script>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
 <style type="text/css">
 .wordList{
 	padding:10px;
@@ -72,6 +75,33 @@
 <div class="wordList">
 	<h2>KELİMELER LİSTELENİYOR</h2>
 	<ul class="words">
+		<?php
+			require('../dummyData.php');
+			foreach($dummyData as $i){
+				$classes=$i['classes'];
+				echo '
+					<li>
+						<span class="categories">';
+						foreach($classes as $c){
+							$c2='';
+							switch($c){
+								case 'noun':$c2='n';break;
+								case 'adjective':$c2='aj';break;
+								case 'verb':$c2='v';break;
+								case 'adverb':$c2='av';break;
+								case 'preposition':$c2='pp';break;
+							}
+							echo '<span class="'.$c2.'">'.$c2.'</span>';
+						}
+						echo '
+						</span>
+						<span class="level">'.$i['level'].'</span>
+						<span class="word">'.$i['word'].'</span>
+					</li>
+				';
+			}
+		?>
+		<!--
 		<li>
 			<span class="categories">
 				<span class="v">v</span>
@@ -94,5 +124,6 @@
 			<span class="level">12</span>
 			<span class="word">bike</span>
 		</li>
+		-->
 	</ul>
 </div>
