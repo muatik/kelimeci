@@ -76,7 +76,7 @@ class vocabulary
 	/**
 	 * adds a word into the user's vocabulary
 	 * 
-	 * @param words $word  id of word, word itself or words object
+	 * @param string $word word itself or words object
 	 * @param string $tags tag of the word
 	 * @access public
 	 * @return bool
@@ -85,10 +85,10 @@ class vocabulary
 		
 		if(!is_object($word))
 			$word=dictionary::getWord($word);
-		
+
 		if($word==false)
 			return false;
-		
+
 		$sql='insert into vocabulary (userId,wordId,level,tags)
 			values(
 				\''.$this->userId.'\',

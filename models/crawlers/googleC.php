@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
+namespace crawlers;
 require_once("dictionaryCrawler.php");
 class googleC extends dictionaryCrawler{
 	

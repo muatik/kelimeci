@@ -1,4 +1,5 @@
 <?php
+namespace crawlers;
 abstract class dictionaryCrawler{
 
 	/**
