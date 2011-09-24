@@ -230,13 +230,15 @@ abstract class apage{
 		if(count($action)==2){
 			$className=$action[0].'Controller';
 			main::loadController(self::stripView($action[0]));
-			
 			$controller=new $className();
-		}else
+			$methodName=$action[1];
+		}else{
 			$controller=$this;
-		
-		if(method_exists($controller,$action[1]))
-			return call_user_func(array($controller,$action[1]));
+			$methodName=$action[0];
+		}
+
+		if(method_exists($controller,$methodName))
+			return call_user_func(array($controller,$methodName));
 
 		else
 			die('The action "'.$action[1].'" not found in the 
