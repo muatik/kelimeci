@@ -17,49 +17,128 @@
 .turkishWritingTest a{
 	text-decoration:underline;
 }
-.turkishWritingTest p.incorrect a{
+.turkishWritingTest p.correction span{
 	padding-right:15px;
 	border-right:1px solid black;
 }
+.turkishWritingTest p.correction strong:first-child{
+	margin-left:0;
+}
 </style>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/createXHR.js"></script>
+<script type="text/javascript" src="../js/test.js"></script> 
+<script type="text/javascript">
+	$(document).ready(function(){
 
+		// 'turkishWritingTest' replaced to the test name that
+		// comes from the server
+		var test=new Test('turkishWritingTest');
+
+		test.showTime=function(){
+			$('.spentTime').html(test.elapsedTime);	
+		}
+
+		test.bindItems=function(){
+			$('.testPageOl li input[type=text]').focusout(function(){
+				
+				if($(this).val()!=''){
+					
+					// Disable the input that is operated for
+					$(this).attr('disabled',true);
+					
+					var params={
+						itemId:$(this).parent().parent().attr('itemId'),
+						answer:$(this).val()
+					};	
+
+					test.checkAnswers(params);
+
+				}
+
+			});
+
+		}
+
+		test.afterChecked=function(rsp){
+	
+			rsp=eval('('+rsp+')');	
+
+			if(rsp!=''){
+
+				var resultInput=$(
+					'.testPageOl li[itemId='+rsp.itemId+'] input[type=text]'
+				);
+				
+				// If the answer is correct
+				if(rsp.result){
+					$(resultInput).addClass('correct');
+					test.incrementCorrectCounter();
+					$('.testPageHeader .correctAnswers').html(test.correctAnswerCounter);
+				}
+				// If the answer is incorrect
+				else{
+					$(resultInput).addClass('incorrect');
+					test.incrementIncorrectCounter();
+					$('.testPageHeader .incorrectAnswers').html(test.incorrectAnswerCounter);
+					var correction=$(
+						'<p class="correction">'+
+							'<strong>Doğrusu:</strong><span>'+rsp.answer+'</span>'+
+							'<strong>Yanlış:</strong>'+
+							'<a href="#">'+rsp.correction+'</a>'+
+						'</p>'
+					);
+
+					$(resultInput).parent().append(correction);
+				}
+
+			}
+
+		}
+		
+		test.startTimer();
+
+		// DELETE THIS LINE
+		test.ajaxFile='../dummyData/turkishWritingTest.php';
+
+		test.bindItems();
+
+	});
+
+</script>
 <div class="turkishWritingTest">
-	<div class="testPageHeader">
+	<?php
+	require('../dummyData/turkishWritingTest.php');
+
+	echo '<div class="testPageHeader">
 		<h1>Türkçesini Yazma Testi</h1>
 		<p>
-			Toplam soru:<span class="totalQuestions">21</span>,
-			Tahmini süre:<span class="estimatedTime">10 dakika</span>,
+			Toplam soru:<span class="totalQuestions">'.count($o->items).'</span>,
+			Tahmini süre:<span class="estimatedTime">'.$o->estimatedTime.'</span>,
 		</p>
 		<p>
-			Geçen süre:<span class="spentTime">00:00:05</span>,
+			Geçen süre:<span class="spentTime">00:00:00</span>,
 			Doğru sayısı:<span class="correctAnswers">0</span>,
-			Yanlış sayısı:<span class="incorrectAnswers">1</span>,
-			Boş:<span class="emptyQuestions">11</span>
+			Yanlış sayısı:<span class="incorrectAnswers">0</span>,
+			Boş:<span class="emptyQuestions">0</span>
 		</p>
 	</div>
-	<ol class="testPageOl">
-		<li>
+	<ol class="testPageOl">';
+	foreach($o->items as $item){
+		$classes='';
+		foreach($item['classes'] as $c){
+			$classes.=$c.', ';
+		}
+		$classes=substr($classes,0,strlen($classes)-2);
+		echo '<li itemId="'.$item['id'].'">
 			<p>
-				<input type="text" class="incorrect" value="schedule" />
-				<span class="categories">[v, n]</span>
-				<span class="meanings">
-					perfect, elegant, outstanding
-				</span>
+				<input type="text" value="" />
+				<span class="categories">['.$classes.']</span>
+				<span class="meanings">'.$item['defination'].'</span>
 			</p>
-			<p class="incorrect">
-				<strong>Doğrusu:</strong><a href="#">doğru kelime</a>
-				<strong>Yanlış:</strong>
-				<span class="meaningOfIncorrect">program</span>
-			</p>
-		</li>
-		<li>
-			<p>
-				<input type="text" class="correct" value="excellent" />
-				<span class="categories">[v, n]</span>
-				<span class="meanings">
-					perfect, elegant, outstanding
-				</span>
-			</p>
-		</li>
-	</ol>
+		</li>';
+		
+	}
+	echo '</ol>';
+	?>
 </div>

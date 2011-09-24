@@ -10,68 +10,183 @@
 .synonymSelectionTest a{
 	text-decoration:underline;
 }
-.synonymSelectionTest span.alternatives span{
+.synonymSelectionTest span.synonyms span{
 	margin-left:5px;
 	cursor:pointer;
 	padding:3px;
 }
-.synonymSelectionTest span.alternatives span.selected{
+.synonymSelectionTest span.synonyms span.selected{
 	background:#E5C532;
 	border:1px solid #C8AE32;
 	padding:2px;
 }
-.synonymSelectionTest span.alternatives span.correct{
+.synonymSelectionTest span.synonyms span.correct{
 	background:#8AEB6D;
 	border:1px solid green;
 	padding:2px;
 }
-.synonymSelectionTest span.alternatives span.incorrect{
+.synonymSelectionTest span.synonyms span.incorrect{
 	background:#FF8787;
 	border:1px solid red;
 	padding:2px;
 }
+.synonymSelectionTest p.correction span{
+	padding-right:15px;
+	border-right:1px solid black;
+}
+.synonymSelectionTest p.correction strong:first-child{
+	margin-left:0;
+}
 </style>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/createXHR.js"></script>
+<script type="text/javascript" src="../js/test.js"></script> 
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		// 'englishWritingTest' replaced to the test name that
+		// comes from the server
+		var test=new Test('synonymSelectionTest');
+
+		test.showTime=function(){
+			$('.spentTime').html(test.elapsedTime);	
+		}
+
+		test.bindItems=function(){
+			$('.testPageOl li span.synonyms span').click(function(){
+
+				// If not selected
+				if(!$(this).hasClass('selected'))
+					$(this).addClass('selected');
+				// If selected
+				else
+					$(this).removeClass('selected');
+				
+
+			});
+
+			$('.testPageOl li input[type=submit]').click(function(){
+			
+				var selectedItems=$(this).parent().find('span.synonyms span.selected');
+				
+				if($(selectedItems).length>0){
+
+					// Disable the input that is operated for
+					$(this).attr('disabled',true);
+
+					var params={
+						itemId:$(this).parent().attr('itemId')
+					};
+					
+					test.checkAnswers(params);
+
+				}
+
+				return false;
+			
+			});
+
+		}
+
+		test.afterChecked=function(rsp){
+	
+			rsp=eval('('+rsp+')');	
+
+			if(rsp!=''){
+
+				var resultSpan=$(
+					'.testPageOl li[itemId='+rsp.itemId+']  span.synonyms span'
+				);
+				
+				var hasIncorrects=false,correctCounter=0;
+				$(resultSpan).each(function(index){
+				
+					// If the synonym in the answer
+					if($.inArray($(this).html(),rsp.answer)!=-1){
+						// If the synonym not selected
+						if(!$(this).hasClass('selected')){
+							$(this).addClass('incorrect');
+							hasIncorrects=true;
+						}
+						// If the synonym selected
+						else{
+							$(this).addClass('correct');
+							correctCounter++;
+						}	
+
+					}
+					// If the synonym not in the answer
+					else{
+						// If the synonym selected
+						if($(this).hasClass('selected')){
+							$(this).addClass('incorrect');
+							hasIncorrects=true;
+						}
+					}		
+				
+				});
+				
+				// If has not incorrect and the correct count is true
+				if(!hasIncorrects && correctCounter==rsp.answer.length){
+					test.incrementCorrectCounter();
+					$('.testPageHeader .correctAnswers').html(test.correctAnswerCounter);
+				}
+				// If has any incorrect
+				else if(hasIncorrects){
+					test.incrementIncorrectCounter();
+					$('.testPageHeader .incorrectAnswers').html(test.incorrectAnswerCounter);
+				}
+
+
+			}
+
+		}
+		
+		test.startTimer();
+
+		// DELETE THIS LINE
+		test.ajaxFile='../dummyData/synonymSelectionTest.php';
+
+		test.bindItems();
+
+	});
+
+</script>
 
 <div class="synonymSelectionTest">
-	<div class="testPageHeader">
+	<?php
+	require('../dummyData/synonymSelectionTest.php');
+
+	echo '<div class="testPageHeader">
 		<h1>Eş Anlamlıları Seçme Testi</h1>
 		<p>
-			Toplam soru:<span class="totalQuestions">21</span>,
-			Tahmini süre:<span class="estimatedTime">10 dakika</span>,
+			Toplam soru:<span class="totalQuestions">'.count($o->items).'</span>,
+			Tahmini süre:<span class="estimatedTime">'.$o->estimatedTime.'</span>,
 		</p>
 		<p>
-			Geçen süre:<span class="spentTime">00:00:05</span>,
+			Geçen süre:<span class="spentTime">00:00:00</span>,
 			Doğru sayısı:<span class="correctAnswers">0</span>,
-			Yanlış sayısı:<span class="incorrectAnswers">1</span>,
-			Boş:<span class="emptyQuestions">11</span>
+			Yanlış sayısı:<span class="incorrectAnswers">0</span>,
+			Boş:<span class="emptyQuestions">0</span>
 		</p>
 	</div>
-	<ol class="testPageOl">
-		<li>
+	<ol class="testPageOl">';
+	foreach($o->items as $item){
+		$synonyms='';
+		foreach($item['synonyms'] as $s){
+			$synonyms.='<span>'.$s.'</span>,';
+		}
+		$synonyms=substr($synonyms,0,strlen($synonyms)-1);
+		echo '<li itemId="'.$item['id'].'">
 			<p>
-				<strong>excellent</strong>
+				<strong>'.$item['word'].'</strong>
 				<span>=</span>
-				<span class="alternatives">
-					<span class="correct">outstanding</span>,
-					<span class="incorrect">car</span>,
-					<span>elegant</span>,
-					<span>perfect</span>
-				</span>
+				<span class="synonyms">'.$synonyms.'</span>
 			</p>
 			<input type="submit" value="Tamam" />
-		</li>
-		<li>
-			<p>
-				<strong>excellent</strong>
-				<span>=</span>
-				<span class="alternatives">
-					<span>outstanding</span>,
-					<span>car</span>,
-					<span class="selected">elegant</span>,
-					<span class="selected">perfect</span>
-				</span>
-			</p>
-			<input type="submit" value="Tamam" />
-		</li>
-	</ol>
+		</li>';
+		
+	}
+	echo '</ol>';
+	?>
 </div>
