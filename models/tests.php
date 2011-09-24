@@ -1,5 +1,5 @@
 <?php
-
+namespace kelimeci
 /**
  * the class tests prepares and evaluates tests
  * 

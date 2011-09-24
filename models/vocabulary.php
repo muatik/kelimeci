@@ -1,4 +1,5 @@
 <?php
+namespace kelimeci
 /**
  * vocabulary class contains operations that perform for only one user
  * 

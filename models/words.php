@@ -1,5 +1,5 @@
 <?php
-
+namespace kelimeci
 /**
  * the class words represents a word with it's all details
  * 
