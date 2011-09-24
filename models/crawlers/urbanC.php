@@ -1,4 +1,5 @@
 <?php
+namespace crawlers;
 header('Content-Type: text/html; charset=utf-8');
 require_once("dictionaryCrawler.php");
 class urbanC extends dictionaryCrawler{
