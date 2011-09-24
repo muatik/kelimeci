@@ -1,5 +1,5 @@
 <?php
-namespace kalimeci
+namespace kelimeci
 /**
  * This dictionary class presents general lexical operations.
  *
