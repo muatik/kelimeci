@@ -89,39 +89,23 @@ Test.prototype.bindItems=function(){}
 Test.prototype.prepareTest=function(){}
 
 Test.prototype.checkAnswers=function(params){
-
+	
 	var ajax=new simpleAjax(),that=this;
 	
-	var answer='&answer='+encodeURI(params.answer);
-
-	// If the answer is a array
-	if(typeof(params.answer)=='object' && (params.answer instanceof Array)){
+	var paramCloud='';
+	for(var i in params){
+		if(params[i] instanceof Array)
+			for(var k in params[i])
+				paramCloud+=i+'[]='+params[i][k]+'&';
+		else
+			paramCloud+=i+'='+params[i]+'&';
+	}
 	
-		answer='&';
-		for(var i in params.answer){
-			answer+='answer[]='+encodeURI(params.answer[i])+'&';
-		}
-		answer=answer.substring(0,answer.length-1);
-
-	}
-	// If the answer is undefined or empty
-	else if(typeof(params.answer)=='undefined' || params.answer==''){
-		answer='';
-	}
-	else{
-		// If params.answer contain data like:
-		// &variation[]=noun&answer[]=p&variation[]=verb&answer[]=o...
-		if(
-			params.answer.indexOf('answer')!=-1 || 
-			params.answer.indexOf('answers')!=-1
-		)
-			answer=params.answer;
-	}
+	
 	
 	ajax.send(
 		this.ajaxFile,
-		'testName='+encodeURI(this.testName)+
-		'&itemId='+encodeURI(params.itemId)+answer,
+		'testName='+encodeURI(this.testName)+'&'+paramCloud,
 		{'onSuccess':function(rsp,o){
 			that.afterChecked(rsp,o);
 		}}
