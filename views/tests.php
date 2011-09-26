@@ -107,7 +107,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="#" alt="">
+		<a href="?_view=categorySelectionTest" alt="">
 			<span class="container">
 				<h3>Kelime Kategorilerini Seçme</h3>
 				<p>
@@ -131,7 +131,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="#" alt="">
+		<a href="?_view=voiceTest" alt="">
 			<span class="container">
 				<h3>Duyulan Kelimeyi Yazma</h3>
 				<p>
