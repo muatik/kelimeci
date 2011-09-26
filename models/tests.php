@@ -1,5 +1,5 @@
 <?php
-namespace kelimeci
+namespace kelimeci;
 /**
  * the class tests prepares and evaluates tests
  * 
@@ -46,7 +46,7 @@ class tests
 	 * @access public
 	 * @return void
 	 */
-	public static function __construct(){
+	public static function tests(){
 		
 		//level=>interval, specified in days
 		$levels=array(
@@ -101,10 +101,12 @@ class tests
 	 * @return object contains test items and other details
 	 */
 	public static function pepare($testType){
+		/*
 		'fetch words of user for the test
 		preapre test items by each word
 		preapre test info
 		return'
+		*/
 
 		$test=new stdClass();
 		$test->items=array();
@@ -146,7 +148,7 @@ class tests
 		foreach(self::$levels as $level=>$i)
 			$levelConds[$level]=date(
 				'Y-m-d H:i:00',
-				$time-(3600*24*$i))
+				$time-(3600*24*$i)
 			);
 		
 		//preparing condititions of levels
@@ -258,10 +260,10 @@ class tests
 	}
 
 	public static function getItemOfWritingVariations($word){
-		select * from wordClasses 
+		/*select * from wordClasses 
 			where
 			wordId='.$word->id.' and
-
+		 */
 		/*catastrophic
 		catastrophic?lly
 		catastrophic?ly
@@ -287,26 +289,264 @@ class tests
 
 	/**
 	 * verify a test answer that's represented by a result object
-	 * 
-	 * @param object $result 
+	 *
+	 * the parameter test contains at least two properties which are
+	 * "name" that specifies the name of the test, and "wordId" that
+	 * specifies the word which are being test.
+	 *
+	 * and the parameter must have various properties corresponded to
+	 * the test.
+	 *
+	 * @param object $test 
 	 * @static
 	 * @access public
 	 * @return bool
 	 */
-	public static function verify($result){
-	}
+	public function validate($test){
+		switch($test->name){
+			case 'sentenceCompletionTest':
+				return $this->validateSentComp(
+					$test->wordId,
+					$test->quoteId,
+					$test->answer
+				);
+			case 'variationWritingTest':
+				return $this->validateVariationWriting(
+					$test->wordId,
+					$test->variations
+				);
+			case 'categorySelectionTest':
+				return $this->validatecategorySelection(
+					$test->wordId,
+					$test->selected
+				);
+			case 'synonymSelectionTest':
+				return $this->validatesynonymSelection(
+					$test->wordId,
+					$test->selected
+				);
+			case 'englishWritingTest':
+				return $this->validateEnglishWriting(
+					$test->wordId,
+					$test->answer
+				);
+			case 'turkishhWritingTest':
+				return $this->validateTurkshWriting(
+					$test->wordId,
+					$test->answer
+				);
+		}
 
+		return false;
+	}
+	
 	/**
-	 * verify a sentence completion test answer that's represented 
-	 * by a result object
+	 * validate answer for a sentence completion test
 	 * 
-	 * @param object $result 
+	 * @param int $wordId
+	 * @param int $quoteId 
+	 * @param string $answer 
 	 * @access public
 	 * @return bool
 	 */
-	public function verifyInSentComp($result){
+	public function validateSentenceCompletion($wordId,$quoteId,$answer){
+		if($wordId==1){
+			if($answer=='ever')
+				return '{"wordId":1,"result":true}';
+			else
+				return '{"wordId":1,"result":false,"answer":"ever","correction":"good"}';
+		}
+		elseif($wordId==2){
+			if($answer=='car')
+				return '{"wordId":2,"result":true}';
+			else
+					return '{"wordId":2,"result":false,"answer":"car","correction":"yaRRak"}';
+		}
 	}
 
+
+	/**
+	 * validate answer for a variation writing test
+	 * 
+	 * @param int $wordId
+	 * @param array $variations array of 
+	 * objects which are consist of {object->className, object->answer}
+	 * @access public
+	 * @return bool
+	 */
+	public function validateVariationWritingTest($wordId,$variations){
+		
+		if($wordId==1){
+			/*
+			$variation[0]->className='';
+			$variation[0]->answer='';
+			 */
+
+			$answers='';
+			foreach($variations as $i)
+				$answers.=$i->answer;
+			
+			if($answers=='access,access,accessible')
+				return '{"wordId":1,"result":true}';
+			else
+				return '{"wordId":1,"result":false,
+					"correction":[
+						["noun","access"],
+						["verb","access"],
+						["adjective","accessible"]
+					]}';
+		}
+		elseif($wordId==2){
+
+			/*
+			$variation[0]->className='';
+			$variation[0]->answer='';
+			 */
+
+			$answers='';
+			foreach($variations as $i)
+				$answers.=$i->answer;
+
+			if($answers=='noun,verb,adjective')
+				return '{"wordId":2,"result":true}';
+			else
+				return '{"wordId":2,"result":false,
+					"correction":[
+						["noun","meaning"],
+						["verb","mean"],
+						["adjective","meaningfull"]
+					]}';
+		}
+
+	}
+
+
+	/**
+	 * validate answer for a category selection test
+	 * 
+	 * @param int $wordId
+	 * @param array $selected selected categories by the user
+	 * @access public
+	 * @return bool
+	 */
+	public function validateCategorySelection($wordId,$selected){
+
+		if($wordId==51){
+		if(implode(',',$selected)=='adjective')
+			return '{"wordId":51,"result":true}';
+		else
+			return '{"wordId":51,"result":false,
+			"correction":["adjective"]}';
+		}
+		elseif($wordId==86){
+		if(implode(',',$selected)=='verb')
+			return '{"wordId":86,"result":true}';
+		else
+			return '{"wordId":86,"result":false,
+			"correction":["verb"]}';
+		}
+
+		return false;
+
+	}
+
+
+	/**
+	 * validate answer for a category selection test
+	 * 
+	 * @param int $wordId
+	 * @param array $selected selected synonyms by the user
+	 * @access public
+	 * @return bool
+	 */
+	public function validateSynonymSelection($wordId,$selected){
+		if($wordId==42){
+		if(implode(',',$selected)=='excellent,elegant')
+			return '{"wordId":42,"result":true}';
+		else
+			return '{"wordId":42,"result":false,
+			"correction":["excellent","elegant"]}';
+		}
+		elseif($wordId==62){
+		if(implode(',',$selected)=='nefarious')
+			return '{"wordId":62,"result":true}';
+		else
+			return '{"wordId":62,"result":false,
+			"correction":["nefarious"]}';
+		}
+	}
+
+
+	/**
+	 * validate answer for a english writing
+	 * 
+	 * @param int $wordId
+	 * @param string $answer
+	 * @access public
+	 * @return bool
+	 */
+	public function validateEnglishWriting($wordId,$answer){
+		if($wordId==4){
+		if($answer=='perfect')
+			return '{"wordId":4,"result":true}';
+		else
+			$h='{"wordId":4,"result":false,
+			"answer":"perfect"';
+			if($answer=='car')
+			$h.=',"correction":"araba"';
+			$h.='}';
+			return $h;
+		}
+		elseif($wordId==7){
+		if($answer=='fast')
+			return '{"wordId":7,"result":true}';
+		else
+			$h='{"wordId":7,"result":false,
+			"answer":"fast"';
+			if($answer=='car')
+			$h.=',"correction":"araba"';
+			$h.='}';
+			return $h;
+		}
+		return false;
+	}
+
+
+	/**
+	 * validate answer for a turkish writing
+	 * 
+	 * @param int $wordId
+	 * @param string $answer
+	 * @access public
+	 * @return bool
+	 */
+	public function validateTurkishWriting($wordId,$answer){
+
+		if($wordId==22){
+		if($answer=='mükemmel')
+			return '{"wordId":22,"result":true}';
+		else
+			$h='{"wordId":22,"result":false,
+			"answer":"mükemmel"';
+			if($answer=='araba')
+			$h.=',"correction":"car"';
+			$h.='}';
+			return $h;
+		}
+		elseif($wordId==14){
+		if($answer=='sürat')
+			return '{"wordId":14,"result":true}';
+		else
+			$h='{"wordId":14,"result":false,
+			"answer":"sürat"';
+			if($answer=='araba')
+			$h.=',"correction":"car"';
+			$h.='}';
+			return $h;
+		}
+
+		return false;
+	}
 
 	### END OF VERIFICATION METHODS ###
 
