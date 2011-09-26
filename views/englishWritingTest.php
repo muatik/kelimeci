@@ -34,7 +34,7 @@
 		var test=new Test('englishWritingTest');
 
 		test.bindItems=function(){
-			$('.input.answer').focusout(function(){
+			$('input.answer').focusout(function(){
 				
 				if($(this).val()!=''){
 
@@ -42,10 +42,9 @@
 					$(this).attr('disabled',true);
 
 					var params={
-						wordId:$(this).parent().find('input.wordId').attr('itemId'),
-						answer:$(this).val()
+						'wordId':$(this).parent().find('input.wordId').attr('itemId'),
+						'answer':$(this).val()
 					};	
-
 					test.checkAnswers(params);
 
 				}

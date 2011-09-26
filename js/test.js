@@ -103,10 +103,24 @@ Test.prototype.checkAnswers=function(params){
 	
 	
 	
+	alert(parameters);
+
 	ajax.send(
 		this.ajaxFile,
-		'testName='+encodeURI(this.testName)+'&'+paramCloud,
+
+		'testName='+encodeURI(this.testName)+'&'+parameters,
 		{'onSuccess':function(rsp,o){
+
+			var rsp=eval('('+rsp+')');
+			//var rsp=jQuery.parseJSON(rsp);
+
+			// If the answer is correct
+			if(rsp.result)
+				incrementCorrectAnswer();
+			// If the answer is incorrect
+			else
+				incrementIncorrectAnswer();
+	
 			that.afterChecked(rsp,o);
 		}}
 	);
