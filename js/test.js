@@ -8,11 +8,7 @@
  */
 function Test(testName){
  	
-	/*
-	 * THINK OF THIS AGAIN
-	 * THINK MAY BE DEFINED IN COMMON JS FILE
-	 */
-	this.ajaxFile='ajax.php';
+	this.ajaxFile='tests/?_ajax=validate';
 	this.testName=testName;
 	this.correctAnswerCounter=0;
 	this.incorrectAnswerCounter=0;
@@ -53,16 +49,20 @@ Test.prototype.setTimer=function(){
 		new Date((new Date()).getTime()-this.initialTime.getTime());
 	
 	this.elapsedTime=
-		this.timeDiff.toUTCString().match(/\d{2}:\d{2}:\d{2}/).toString();
+		this.timeDiff.
+			toUTCString().match(/\d{2}:\d{2}:\d{2}/).toString();
 
-	this.showTime();
+	this.showElapsedTime();
 
 }
 
 /**
- * Absract function - must be overwritten(implemented)
+ * Shows the elapsed time on the test page
  */
-Test.prototype.showTime=function(){}
+Test.prototype.showElapsedTime=function(){
+	document.getElementByClass('elapsedTime')
+		.innerHTML(this.elapsedTime);
+}
 
 /**
  * Increments the variable correctAnswerCounter
@@ -84,46 +84,51 @@ Test.prototype.incrementIncorrectCounter=function(){
 Test.prototype.bindItems=function(){}
 
 /**
- * Absract function - must be overwritten(implemented)
+ * Send requests to the server to check answers for 
+ * the test pages
  */
-Test.prototype.prepareTest=function(){}
-
 Test.prototype.checkAnswers=function(params){
 
-	var ajax=new simpleAjax(),that=this;
-	
-	var answer='&answer='+encodeURI(params.answer);
+	var ajax=new simpleAjax(),
+		that=this
+		parameters='';
 
-	// If the answer is a array
-	if(typeof(params.answer)=='object' && (params.answer instanceof Array)){
-	
-		answer='&';
-		for(var i in params.answer){
-			answer+='answer[]='+encodeURI(params.answer[i])+'&';
+	for(var i in params.answer){
+
+		var p=params.answer[i];
+
+		// If the answer is a array
+		if(typeof(p)=='object' && (p instanceof Array)){
+			for(var j in p)
+				parameters+=j+'[]='+p[i]+'&';
 		}
-		answer=answer.substring(0,answer.length-1);
+		else
+			parameters+=i+'='+p+'&';
+			
+	}
 
-	}
-	// If the answer is undefined or empty
-	else if(typeof(params.answer)=='undefined' || params.answer==''){
-		answer='';
-	}
-	else{
-		// If params.answer contain data like:
-		// &variation[]=noun&answer[]=p&variation[]=verb&answer[]=o...
-		if(
-			params.answer.indexOf('answer')!=-1 || 
-			params.answer.indexOf('answers')!=-1
-		)
-			answer=params.answer;
-	}
+	/**
+	* Remove the character '&' 
+	* that is the last character of the variable parameters
+	*/
+	parameters.substr(0,parameters.length-1);
 	
 	ajax.send(
 		this.ajaxFile,
-		'testName='+encodeURI(this.testName)+
-		'&itemId='+encodeURI(params.itemId)+answer,
+		'testName='+encodeURI(this.testName)+'&'+parameters
 		{'onSuccess':function(rsp,o){
+
+			rsp=eval('('+rsp+')');
+
+			// If the answer is correct
+			if(rsp.result)
+				incrementCorrectAnswer();
+			// If the answer is incorrect
+			else
+				incrementIncorrectAnswer();
+				
 			that.afterChecked(rsp,o);
+		
 		}}
 	);
 
