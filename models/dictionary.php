@@ -300,6 +300,6 @@ class dictionary
 		
 		return $this->db->fetch($sql);
 	}
-}
 
+}
 ?>

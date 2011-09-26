@@ -13,11 +13,11 @@ class dictionaryC extends dictionaryCrawler{
 		 * */
 		$this->synUrl='http://thesaurus.com/browse/';
 		
-		$this->domDoc=new DOMDocument();
+		$this->domDoc=new \DOMDocument();
 	}
 	
 	public function fetch($word){
-
+		
 		$this->word=$word;
 		 		
 			$this->word=$word;
@@ -29,22 +29,24 @@ class dictionaryC extends dictionaryCrawler{
 				$this->content=str_replace(
 					$badChars,$goodChars,$this->content
 				);
-
+				
 				@$this->domDoc->loadHTML($this->content);
-				@$this->domXPath = new DOMXPath($this->domDoc);
+				@$this->domXPath = new \DOMXPath($this->domDoc);
+				return $this->content;
 			}else return false;
-		
 	}
 	
 	public function parse(){		
-
-		$o=new stdClass;
+		
+		$o=new \stdClass;
 
 		$o->word=$this->word;
-
+		
+		$o->webPageName='dictionary';
+		
 		$o->lang='en';
 
-		$o->content='$this->content';
+		$o->content=$this->content;
 
 		$o->pronunciation=$this->getPronunciation();
 
@@ -59,7 +61,7 @@ class dictionaryC extends dictionaryCrawler{
 		$o->etymology=$this->getEtymology();
 
 		$o->partOfSpeech=array($this->getMeans());
-
+		
 		return $o;
 	}
 	
@@ -69,9 +71,16 @@ class dictionaryC extends dictionaryCrawler{
 	 * @return string
 	 * */
 	public function getEtymology(){
+		
 		preg_match('/<div class="dicTl">Word Origin & History<\/div[\w\s\S]*?([\s\S]*?<\/div>[\s\S]*?){4}/im',$this->content,$m);
-		preg_match_all('/(div class="body")(.*)(<\/div)/im',$m[0],$k);
-		return str_replace('div class="body">','',strip_tags($k[0][0]));
+		
+		if (isset($m[0]))
+			preg_match_all('/(div class="body")(.*)(<\/div)/im',$m[0],$k);
+		
+		if (isset($k[0][0]))
+			return str_replace('div class="body">','',strip_tags($k[0][0]));
+		else
+			return '';
 	}
 	
 	/**
@@ -86,24 +95,25 @@ class dictionaryC extends dictionaryCrawler{
 		$content=file_get_contents($this->synUrl.$this->word);		
 
 		if ($content!=false){
-			$domDoc=new DOMDocument();
+			$domDoc=new \DOMDocument();
 			@$domDoc->loadHTML($content);
-			@$domXPath = new DOMXPath($domDoc);
+			@$domXPath = new \DOMXPath($domDoc);
 			
-			$tables=$domXPath->query("//*[@class='the_content']");
+			$tables=$domXPath->query("//*[@class='the_content']");			
 			
 			foreach($tables as $table){
-
+				
 				$tbody=$table->childNodes;
 				$continue=false;
 				$trCount=0;
-				$oSyn=new stdClass;
-				$oAnt=new stdClass;
+				$oSyn=new \stdClass;
+				$oAnt=new \stdClass;
 				foreach($tbody as $tr){
-					$trCount++;			
-					$td=$tr->childNodes;						
+					$trCount++;
+					$td=$tr->childNodes;
+					if (!isset($td)) break;
 					$tdCount=0;
-					
+
 					foreach($td as $node){
 						$tdCount++; // kolon kontrolü için kullanılıyor.
 						
@@ -139,10 +149,15 @@ class dictionaryC extends dictionaryCrawler{
 				}
 				
 				if ($continue){
-					foreach($oSyn->synonyms as $k=>$i)
-						$oSyn->synonyms[$k]=trim($i);
-					foreach($oAnt->antonyms as $k=>$i)
-						$oAnt->antonyms[$k]=trim($i);	
+					
+					if (isset($oSyn->synonyms))
+						foreach($oSyn->synonyms as $k=>$i)
+							$oSyn->synonyms[$k]=trim($i);
+					
+					if (isset($oSyn->antonyms))
+						foreach($oAnt->antonyms as $k=>$i)
+							$oAnt->antonyms[$k]=trim($i);
+							
 					$synonyms[]=$oSyn;
 					$antonyms[]=$oAnt;
 					
@@ -162,8 +177,10 @@ class dictionaryC extends dictionaryCrawler{
 
 		$structure='';
 		$pron=$this->domXPath->query("//*[@class='pron']");		
-	
-		return $pron->item(0)->nodeValue;
+		if (isset($pron->item(0)->nodeValue))
+			return $pron->item(0)->nodeValue;
+		else 
+			return '';
 	}
 	
 	/**
@@ -172,7 +189,7 @@ class dictionaryC extends dictionaryCrawler{
 	 * @return array
 	 * */
 	public function getMeans(){
-		$o=new stdclass;
+		$o=new \stdclass;
 		$o->lang='en';				
 		$o->means=array_merge(
 			$this->changeMeansFormat($this->getMeansList()),
@@ -358,7 +375,4 @@ class dictionaryC extends dictionaryCrawler{
 		return $meansTemp;
 	}
 }
-
-$g=new dictionaryC();
-print_r($g->get("fast"));
 ?>

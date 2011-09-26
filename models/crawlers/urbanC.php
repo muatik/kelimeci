@@ -25,9 +25,11 @@ class urbanC extends dictionaryCrawler{
 		
 		$pos=$this->getWordsDetail();
 		
-		$o=new stdClass;
+		$o=new \stdClass;
 		
 		$o->word=$this->word;
+		
+		$o->webPageName='urban';
 		
 		$o->lang='en';
 		
@@ -97,7 +99,7 @@ class urbanC extends dictionaryCrawler{
 			}			
 			$this->content=$tempContent;
 
-		$o=new stdClass;
+		$o=new \stdClass;
 		$o->lang='en';
 		$o->means=array(array('sentence',$means));
 		return $o;
@@ -112,9 +114,9 @@ class urbanC extends dictionaryCrawler{
 	public function getWordsDetailParse(){
 		// kelimenin detayları alınıyor.
 		$means=array();
-		$domDoc=new DOMDocument();
+		$domDoc=new \DOMDocument();
 		@$domDoc->loadHTML($this->content);
-		@$domXPath = new DOMXPath($domDoc);
+		@$domXPath = new \DOMXPath($domDoc);
 		$elements=$domXPath->query("//*[@id='entries']");
 		foreach($elements as $nodes){
 
@@ -167,6 +169,4 @@ class urbanC extends dictionaryCrawler{
 		return $string; 
 	}
 }
-$u=new urbanC();
-print_r($u->get("car"));
 ?>
