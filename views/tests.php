@@ -69,7 +69,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="#" alt="">
+		<a href="?_view=synonymSelectionTest" alt="">
 			<span class="container">
 				<h3>Eşanlamlıları Seçme</h3>
 				<p>
