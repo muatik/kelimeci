@@ -146,5 +146,29 @@ class testsController extends ipage{
 			false
 		);
 	}
+
+	public function viewTurkishWritingTest(){
+		$o=new stdClass();
+		$o->estimatedTime='00:31:00';
+		
+		$i1=new stdClass();
+		$i1->wordId=22;
+		$i1->defination='perfect, excellent, elegant';
+		$i1->classes=array('noun','verb');
+
+		$i2=new stdClass();
+		$i2->wordId=14;
+		$i2->defination='quick, speedy, agile';
+		$i2->classes=array('noun','adjective');
+	
+		$o->items=array($i1,$i2);
+		
+		return $this->loadView(
+			'turkishWritingTest.php',
+			$o,
+			false
+		);
+	}
 }	
+
 ?>
