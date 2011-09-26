@@ -107,7 +107,6 @@ Test.prototype.checkAnswers=function(params){
 
 	ajax.send(
 		this.ajaxFile,
-
 		'testName='+encodeURI(this.testName)+'&'+paramCloud,
 		{'onSuccess':function(rsp,o){
 

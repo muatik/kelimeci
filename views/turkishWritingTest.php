@@ -31,27 +31,20 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
-		// 'turkishWritingTest' replaced to the test name that
-		// comes from the server
 		var test=new Test('turkishWritingTest');
 
-		test.showTime=function(){
-			$('.spentTime').html(test.elapsedTime);	
-		}
-
 		test.bindItems=function(){
-			$('.testPageOl li input[type=text]').focusout(function(){
+			$('input.answer').focusout(function(){
 				
 				if($(this).val()!=''){
-					
+
 					// Disable the input that is operated for
 					$(this).attr('disabled',true);
-					
-					var params={
-						itemId:$(this).parent().parent().attr('itemId'),
-						answer:$(this).val()
-					};	
 
+					var params={
+						'wordId':$(this).parent().find('input.wordId').attr('itemId'),
+						'answer':$(this).val()
+					};	
 					test.checkAnswers(params);
 
 				}
@@ -67,19 +60,17 @@
 			if(rsp!=''){
 
 				var resultInput=$(
-					'.testPageOl li[itemId='+rsp.itemId+'] input[type=text]'
+					'.input[class=wordId][value='+rsp.wordId+']'
 				);
 				
 				// If the answer is correct
 				if(rsp.result){
 					$(resultInput).addClass('correct');
-					test.incrementCorrectCounter();
 					$('.testPageHeader .correctAnswers').html(test.correctAnswerCounter);
 				}
 				// If the answer is incorrect
 				else{
 					$(resultInput).addClass('incorrect');
-					test.incrementIncorrectCounter();
 					$('.testPageHeader .incorrectAnswers').html(test.incorrectAnswerCounter);
 					var correction=$(
 						'<p class="correction">'+
@@ -95,20 +86,14 @@
 			}
 
 		}
-		
-		test.startTimer();
-
-		// DELETE THIS LINE
-		test.ajaxFile='../dummyData/turkishWritingTest.php';
-
 		test.bindItems();
 
+		test.startTimer();
 	});
 
 </script>
-<div class="turkishWritingTest">
+<div class="englishWritingTest">
 	<?php
-	require('../dummyData/turkishWritingTest.php');
 
 	echo '<div class="testPageHeader">
 		<h1>Türkçesini Yazma Testi</h1>
@@ -126,15 +111,16 @@
 	<ol class="testPageOl">';
 	foreach($o->items as $item){
 		$classes='';
-		foreach($item['classes'] as $c){
+		foreach($item->classes as $c){
 			$classes.=$c.', ';
 		}
 		$classes=substr($classes,0,strlen($classes)-2);
-		echo '<li itemId="'.$item['id'].'">
+		echo '<li>
+			<input class="wordId" type="hidden" value="'.$item->wordId.'" />
 			<p>
-				<input type="text" value="" />
+				<input class="answer" type="text" value="" />
 				<span class="categories">['.$classes.']</span>
-				<span class="meanings">'.$item['defination'].'</span>
+				<span class="meanings">'.$item->defination.'</span>
 			</p>
 		</li>';
 		

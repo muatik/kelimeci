@@ -44,13 +44,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
-		// 'englishWritingTest' replaced to the test name that
-		// comes from the server
 		var test=new Test('synonymSelectionTest');
-
-		test.showTime=function(){
-			$('.spentTime').html(test.elapsedTime);	
-		}
 
 		test.bindItems=function(){
 			$('.testPageOl li span.synonyms span').click(function(){
@@ -142,12 +136,9 @@
 
 		}
 		
-		test.startTimer();
-
-		// DELETE THIS LINE
-		test.ajaxFile='../dummyData/synonymSelectionTest.php';
-
 		test.bindItems();
+
+		test.startTimer();
 
 	});
 
@@ -173,13 +164,14 @@
 	<ol class="testPageOl">';
 	foreach($o->items as $item){
 		$synonyms='';
-		foreach($item['synonyms'] as $s){
+		foreach($item->options as $s){
 			$synonyms.='<span>'.$s.'</span>,';
 		}
 		$synonyms=substr($synonyms,0,strlen($synonyms)-1);
-		echo '<li itemId="'.$item['id'].'">
+		echo '<li>
+			<input class="wordId" type="hidden" value="'.$item->wordId.'" />
 			<p>
-				<strong>'.$item['word'].'</strong>
+				<strong>'.$item->word.'</strong>
 				<span>=</span>
 				<span class="synonyms">'.$synonyms.'</span>
 			</p>
