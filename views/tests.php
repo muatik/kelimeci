@@ -95,7 +95,7 @@
 	
 	
 	<li>
-		<a href="#" alt="">
+		<a href="?_view=englishWritingTest" alt="">
 			<span class="container">
 				<h3>İngilizce'den Türkçe'ye</h3>
 				<p>

@@ -87,12 +87,13 @@
 
 		}
 		test.bindItems();
+
+		test.startTimer();
 	});
 
 </script>
 <div class="englishWritingTest">
 	<?php
-	require('../dummyData/englishWritingTest.php');
 
 	echo '<div class="testPageHeader">
 		<h1>İngilizcesini Yazma Testi</h1>

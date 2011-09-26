@@ -33,7 +33,7 @@ class testsController extends ipage{
 				if($r['answer']=='car')
 					return '{"wordId":2,"result":true}';
 				else
-					return '{"wordId":2,"result":false,"answer":"car","correction":"yaRRak"}';
+					return '{"wordId":2,"result":false,"answer":"car","correction":"bad"}';
 			}
 		}
 		elseif($tt=='variationWritingTest'
@@ -66,7 +66,50 @@ class testsController extends ipage{
 						]}';
 			}
 		}
+		elseif($tt=='englishWritingTest' && isset($r['answer'])){
+		
+			if($r['wordId']==1){
+				if($r['answer']=='perfect')
+					return '{"wordId":1,"result":true}';
+				else
+					return '{"wordId":1,"result":false,
+						"answer:":"perfect",	
+						"correction":"'.$r['answer'].'"
+						}';
+			}
+			if($r['wordId']==2){
+				if($r['answer']=='speed')
+					return '{"wordId":1,"result":true}';
+				else
+					return '{"wordId":1,"result":false,
+						"answer":"speed",
+						"correction":"'.$r['answer'].'"
+						}';
+			}
 
+		}
+		elseif($tt=='turkishWritingTest' && isset($r['answer'])){
+		
+			if($r['wordId']==1){
+				if($r['answer']=='outstanding')
+					return '{"wordId":1,"result":true}';
+				else
+					return '{"wordId":1,"result":false,
+						"answer:":"perfect",	
+						"correction":"'.$r['answer'].'"
+						}';
+			}
+			if($r['wordId']==2){
+				if($r['answer']=='speed')
+					return '{"wordId":1,"result":true}';
+				else
+					return '{"wordId":1,"result":false,
+						"answer":"speed",
+						"correction":"'.$r['answer'].'"
+						}';
+			}
+
+		}
 		return true;
 		echo 'toplanıyor..';
 	}
@@ -129,12 +172,12 @@ class testsController extends ipage{
 		$o->estimatedTime='00:31:00';
 		
 		$i1=new stdClass();
-		$i1->wordId=4;
+		$i1->wordId=1;
 		$i1->defination='mükemmel, kusursuz, harika';
 		$i1->classes=array('noun','verb');
 
 		$i2=new stdClass();
-		$i2->wordId=7;
+		$i2->wordId=2;
 		$i2->defination='sürat, hız, hızlı';
 		$i2->classes=array('noun','adjective');
 	

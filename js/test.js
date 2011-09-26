@@ -8,11 +8,7 @@
  */
 function Test(testName){
  	
-	/*
-	 * THINK OF THIS AGAIN
-	 * THINK MAY BE DEFINED IN COMMON JS FILE
-	 */
-	this.ajaxFile='ajax.php';
+	this.ajaxFile='controllers/tests.php';
 	this.testName=testName;
 	this.correctAnswerCounter=0;
 	this.incorrectAnswerCounter=0;
@@ -53,16 +49,21 @@ Test.prototype.setTimer=function(){
 		new Date((new Date()).getTime()-this.initialTime.getTime());
 	
 	this.elapsedTime=
-		this.timeDiff.toUTCString().match(/\d{2}:\d{2}:\d{2}/).toString();
+		this.timeDiff.toUTCString().
+		match(/\d{2}:\d{2}:\d{2}/).toString();
 
-	this.showTime();
+	this.showElapsedTime();
 
 }
 
 /**
- * Absract function - must be overwritten(implemented)
+ * Shows the elapsed time
  */
-Test.prototype.showTime=function(){}
+Test.prototype.showElapsedTime=function(){
+
+	$('.testPageHeader span.spentTime').html(this.elapsedTime);
+
+}
 
 /**
  * Increments the variable correctAnswerCounter
@@ -101,18 +102,16 @@ Test.prototype.checkAnswers=function(params){
 			paramCloud+=i+'='+params[i]+'&';
 	}
 	
-	
-	
-	alert(parameters);
+	paramCloud=paramCloud.substr(0,paramCloud.length-1);
 
 	ajax.send(
 		this.ajaxFile,
 
-		'testName='+encodeURI(this.testName)+'&'+parameters,
+		'testName='+encodeURI(this.testName)+'&'+paramCloud,
 		{'onSuccess':function(rsp,o){
 
-			var rsp=eval('('+rsp+')');
-			//var rsp=jQuery.parseJSON(rsp);
+			//var rsp=eval('('+rsp+')');
+			var rsp=jQuery.parseJSON(rsp);
 
 			// If the answer is correct
 			if(rsp.result)
@@ -130,7 +129,7 @@ Test.prototype.checkAnswers=function(params){
 /**
  * Absract function - must be overwritten(implemented)
  *
- * Called this function to do operations for (SAYFAYA ÖZEL)
+ * Called this function to do operations for the test page
  * after answer(s) is checked out
  */
 Test.prototype.afterChecked=function(){}
