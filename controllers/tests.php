@@ -66,9 +66,99 @@ class testsController extends ipage{
 						]}';
 			}
 		}
+		elseif($tt=='categorySelectionTest'
+			&& isset($r['wordId'],$r['selected'])
+			&& is_array($r['selected'])){	
+			
+				if($r['wordId']==51){
+				if(implode(',',$r['selected'])=='adjective')
+					return '{"wordId":51,"result":true}';
+				else
+					return '{"wordId":51,"result":false,
+					"correction":["adjective"]}';
+				}
+				elseif($r['wordId']==86){
+				if(implode(',',$r['selected'])=='verb')
+					return '{"wordId":86,"result":true}';
+				else
+					return '{"wordId":86,"result":false,
+					"correction":["verb"]}';
+				}
 
-		return true;
-		echo 'toplanıyor..';
+		}
+		elseif($tt=='synonymSelectionTest'
+			&& isset($r['wordId'],$r['selected'])
+			&& is_array($r['selected'])){	
+				
+				if($r['wordId']==42){
+				if(implode(',',$r['selected'])=='excellent,elegant')
+					return '{"wordId":42,"result":true}';
+				else
+					return '{"wordId":42,"result":false,
+					"correction":["excellent","elegant"]}';
+				}
+				elseif($r['wordId']==62){
+				if(implode(',',$r['selected'])=='nefarious')
+					return '{"wordId":62,"result":true}';
+				else
+					return '{"wordId":62,"result":false,
+					"correction":["nefarious"]}';
+				}
+		}
+		elseif($tt=='englishWritingTest'
+			&& isset($r['wordId'],$r['answer'])){	
+				
+				if($r['wordId']==4){
+				if($r['answer']=='perfect')
+					return '{"wordId":4,"result":true}';
+				else
+					$h='{"wordId":4,"result":false,
+					"answer":"perfect"';
+					if($r['answer']=='car')
+					$h.=',"correction":"araba"';
+					$h.='}';
+					return $h;
+				}
+				elseif($r['wordId']==7){
+				if($r['answer']=='fast')
+					return '{"wordId":7,"result":true}';
+				else
+					$h='{"wordId":7,"result":false,
+					"answer":"fast"';
+					if($r['answer']=='car')
+					$h.=',"correction":"araba"';
+					$h.='}';
+					return $h;
+				}
+		}
+		elseif($tt=='turkishWritingTest'
+			&& isset($r['wordId'],$r['answer'])){	
+				
+				if($r['wordId']==22){
+				if($r['answer']=='mükemmel')
+					return '{"wordId":22,"result":true}';
+				else
+					$h='{"wordId":22,"result":false,
+					"answer":"mükemmel"';
+					if($r['answer']=='araba')
+					$h.=',"correction":"car"';
+					$h.='}';
+					return $h;
+				}
+				elseif($r['wordId']==14){
+				if($r['answer']=='sürat')
+					return '{"wordId":14,"result":true}';
+				else
+					$h='{"wordId":14,"result":false,
+					"answer":"sürat"';
+					if($r['answer']=='araba')
+					$h.=',"correction":"car"';
+					$h.='}';
+					return $h;
+				}
+		}
+
+		return false;
 	}
 
 	public function viewsentenceCompletionTest(){
@@ -177,12 +267,12 @@ class testsController extends ipage{
 		$i1=new stdClass();
 		$i1->wordId=42;
 		$i1->word='perfect';
-		$i1->options=array('excellent','elegant','perception','great','bad');
+		$i1->options=array('excellent','elegant','perception','car','bad');
 
 		$i2=new stdClass();
-		$i2->wordId=42;
+		$i2->wordId=62;
 		$i2->word='bad';
-		$i2->options=array('good','insult','save','suck','disgusting');
+		$i2->options=array('good','insult','save','nefarious','disgusting');
 
 		$o->items=array($i1,$i2);
 		
@@ -191,6 +281,29 @@ class testsController extends ipage{
 			$o,
 			false
 		);
+	}
+
+	public function viewcategorySelectionTest(){
+		$o=new stdClass();
+		$o->estimatedTime='00:31:00';
+		
+		$i1=new stdClass();
+		$i1->wordId=51;
+		$i1->word='perfect';
+
+		$i2=new stdClass();
+		$i2->wordId=86;
+		$i2->word='go';
+
+		$o->items=array($i1,$i2);
+
+		return $this->loadView(
+			'categorySelectionTest.php',
+			$o,
+			false
+		);
+	}
+
 }	
 
 ?>
