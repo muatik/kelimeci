@@ -81,7 +81,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="#" alt="">
+		<a href="?_view=turkishWritingTest" alt="">
 			<span class="container">
 				<h3>Türkçe'den İngilizce'ye</h3>
 				<p>
