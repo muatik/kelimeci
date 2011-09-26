@@ -1,0 +1,3 @@
+rewriteengine On
+RewriteRule ^vocabulary /main.php?_controller=vocabulary?&%{QUERY_STRING}
+RewriteRule ^tests /main.php?_controller=tests?&%{QUERY_STRING}
