@@ -91,7 +91,8 @@ Test.prototype.prepareTest=function(){}
 
 Test.prototype.checkAnswers=function(params){
 	
-	var ajax=new simpleAjax(),that=this;
+	var ajax=new simpleAjax(),
+	that=this;
 	
 	var paramCloud='';
 	for(var i in params){
