@@ -13,7 +13,8 @@ class seslisozlukC extends dictionaryCrawler{
 
 		$this->word=$word;
 
-		$this->content=file_get_contents($this->crwlUrl.$word);
+		$this->content=file_get_contents($this->crwlUrl.urlencode($word));
+		
 		if ($this->content!=false){
 
 			$rx='/(<div id="translations">)([\s\S\f\t\r\w.*?]+)(<!-- id=translations -->)/im';
@@ -30,7 +31,7 @@ class seslisozlukC extends dictionaryCrawler{
 		$trWords=$this->getWords('tr');
 		$enWords=$this->getWords('en');
 		
-		$o=new stdClass;
+		$o=new \stdClass;
 		
 		$o->word=$this->word;
 		
@@ -64,9 +65,9 @@ class seslisozlukC extends dictionaryCrawler{
 	
 	public function getWords($lang){
 		
-		$domDoc=new DOMDocument();
+		$domDoc=new \DOMDocument();
 		@$domDoc->loadHTML($this->content);
-		@$domXPath = new DOMXPath($domDoc);
+		@$domXPath = new \DOMXPath($domDoc);
 		
 		if ($lang=='tr')
 			$qId="//*[@id='dc_en_tr']";
@@ -129,7 +130,7 @@ class seslisozlukC extends dictionaryCrawler{
 		 * tür ve anlamlardan oluşan words dizisi nesneye çevriliyor ve geri
 		 * döndürülüyor.
 		 * */
-		$o=new stdClass;
+		$o=new \stdClass;
 		$o->lang=$lang;
 		$o->means=array();
 		foreach($words as $k=>$i){

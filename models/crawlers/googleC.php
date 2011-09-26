@@ -1,6 +1,6 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
 namespace crawlers;
+header('Content-Type: text/html; charset=utf-8');
 require_once("dictionaryCrawler.php");
 class googleC extends dictionaryCrawler{
 	
@@ -22,7 +22,6 @@ class googleC extends dictionaryCrawler{
 	public function fetch($word){
 
 		$this->word=$word;
-		echo $this->word."<hr>";
 		
 		$content=$this->lookFor($word,'tr');
 		if($content===false)
@@ -58,7 +57,7 @@ class googleC extends dictionaryCrawler{
 	
 	public function parse(){		
 		
-		$o=new stdClass;
+		$o=new \stdClass;
 		
 		$o->word=$this->word;
 		
@@ -116,10 +115,13 @@ class googleC extends dictionaryCrawler{
 		
 		$words=json_decode($this->content);
 		
-		$o=new stdClass();
+		$o=new \stdClass();
 		$o->lang=$this->langSearched;
-		$o->means=$words[1];
-				
+		
+		if (isset($words[1]))
+			$o->means=$words[1];
+		else 	
+			$o->means=$words[1];	
 		return $o;
 	}
 	

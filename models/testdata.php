@@ -1,6 +1,7 @@
 <?php
-
+namespace crawlers;
 require_once('crawlers.php');
+
 $c=new crawlers();
 $c->learn('fast');
 $r=$c->db->fetch('select * from words');

@@ -1,15 +1,15 @@
 <?php
+namespace crawlers;
 class crawlers
-{	
-		
+{		
 	public $db;
 	
 	public $wordId;
 
 	public function __construct(){
-		require_once('../_config.php');
-		require_once('../moduler/libraries/db/db.php');
-		$this->db=new db();
+		require_once('_config.php');
+		require_once('db.php');
+		$this->db=new \db();
 	}	
 
 	/**
@@ -27,7 +27,6 @@ class crawlers
 		require_once("crawlers/dictionaryC.php");
 		
 		$this->wordId=$this->insertWord($word);
-		
 		
 		if (!$this->isWebPageCrawled($this->wordId,'dictionary')){
 			
@@ -217,9 +216,13 @@ class crawlers
 	 * */
 	public function insertSynonyms($wordId,$synonyms){
 		
-		if (count($synonyms)==0) return true;
+		if (count($synonyms)==0) return false;
 		
-		foreach($synonyms as $in){			
+		foreach($synonyms as $in){
+			
+			if(!isset($in->synonyms)) 
+				continue;
+
 			foreach($in->synonyms as $syn){
 				
 					$synId=$this->insertWord($syn);
@@ -253,12 +256,12 @@ class crawlers
 	 * */
 	public function insertAntonyms($wordId,$antonyms){
 		
-		if (count($antonyms)==0) return true;
+		if (count($antonyms)==0) return false;
 		
 		foreach($antonyms as $in){
 			
-			if(isset($in->antonyms))
-				continue;
+			if(!isset($in->antonyms)) 
+				continue;				
 				
 			foreach($in->antonyms as $ant){
 				

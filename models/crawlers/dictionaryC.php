@@ -13,11 +13,11 @@ class dictionaryC extends dictionaryCrawler{
 		 * */
 		$this->synUrl='http://thesaurus.com/browse/';
 		
-		$this->domDoc=new DOMDocument();
+		$this->domDoc=new \DOMDocument();
 	}
 	
 	public function fetch($word){
-
+		
 		$this->word=$word;
 		 		
 			$this->word=$word;
@@ -29,16 +29,16 @@ class dictionaryC extends dictionaryCrawler{
 				$this->content=str_replace(
 					$badChars,$goodChars,$this->content
 				);
-
+				
 				@$this->domDoc->loadHTML($this->content);
-				@$this->domXPath = new DOMXPath($this->domDoc);
+				@$this->domXPath = new \DOMXPath($this->domDoc);
+				return $this->content;
 			}else return false;
-		
 	}
 	
 	public function parse(){		
-
-		$o=new stdClass;
+		
+		$o=new \stdClass;
 
 		$o->word=$this->word;
 		
@@ -61,7 +61,7 @@ class dictionaryC extends dictionaryCrawler{
 		$o->etymology=$this->getEtymology();
 
 		$o->partOfSpeech=array($this->getMeans());
-
+		
 		return $o;
 	}
 	
@@ -95,9 +95,9 @@ class dictionaryC extends dictionaryCrawler{
 		$content=file_get_contents($this->synUrl.$this->word);		
 
 		if ($content!=false){
-			$domDoc=new DOMDocument();
+			$domDoc=new \DOMDocument();
 			@$domDoc->loadHTML($content);
-			@$domXPath = new DOMXPath($domDoc);
+			@$domXPath = new \DOMXPath($domDoc);
 			
 			$tables=$domXPath->query("//*[@class='the_content']");			
 			
@@ -106,8 +106,8 @@ class dictionaryC extends dictionaryCrawler{
 				$tbody=$table->childNodes;
 				$continue=false;
 				$trCount=0;
-				$oSyn=new stdClass;
-				$oAnt=new stdClass;
+				$oSyn=new \stdClass;
+				$oAnt=new \stdClass;
 				foreach($tbody as $tr){
 					$trCount++;
 					$td=$tr->childNodes;
@@ -189,7 +189,7 @@ class dictionaryC extends dictionaryCrawler{
 	 * @return array
 	 * */
 	public function getMeans(){
-		$o=new stdclass;
+		$o=new \stdclass;
 		$o->lang='en';				
 		$o->means=array_merge(
 			$this->changeMeansFormat($this->getMeansList()),
