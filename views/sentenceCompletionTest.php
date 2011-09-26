@@ -86,7 +86,7 @@
 					var incorrect='';
 					if(rsp.correction){
 						incorrect='<strong class="incorrect">Yanlış:</strong>'+
-							'<a href="#">'+rsp.correction+'</a>'+';
+							'<a href="#">'+rsp.correction+'</a>';
 					}
 					var correction=$(
 						'<p class="correction">'+
