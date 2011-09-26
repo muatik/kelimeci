@@ -169,6 +169,28 @@ class testsController extends ipage{
 			false
 		);
 	}
+
+	public function viewsynonymSelectionTest(){
+		$o=new stdClass();
+		$o->estimatedTime='00:31:00';
+		
+		$i1=new stdClass();
+		$i1->wordId=42;
+		$i1->word='perfect';
+		$i1->options=array('excellent','elegant','perception','great','bad');
+
+		$i2=new stdClass();
+		$i2->wordId=42;
+		$i2->word='bad';
+		$i2->options=array('good','insult','save','suck','disgusting');
+
+		$o->items=array($i1,$i2);
+		
+		return $this->loadView(
+			'synonymSelectionTest.php',
+			$o,
+			false
+		);
 }	
 
 ?>
