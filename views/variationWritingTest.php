@@ -28,28 +28,24 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
-		// 'categorySelectionTest' replaced to the test name that
-		// comes from the server
 		var test=new Test('variationWritingTest');
-
-		test.showTime=function(){
-			$('.spentTime').html(test.elapsedTime);	
-		}
 
 		test.bindItems=function(){
 			
 			$('.testPageOl li input[type=submit]').click(function(){
 			
-				var nonemptyInputs=$(this).parent().find('ul.variations li input[type=text][value!=""]');
-				var allInputs=$(this).parent().find('ul.variations li input[type=text]');
+				var nonemptyInputs=$(this).parent().
+					find('ul.variations li input[type=text][value!=""]');
+				var allInputs=$(this).parent().
+					find('ul.variations li input[type=text]');
 				
 				if($(nonemptyInputs).length>0){
 
 					// Disable the input that is operated for
 					$(this).attr('disabled',true);
 
-					var wordId=$('input[name="wordId"]'
-						,$(this).parent()).val();
+					var wordId=$('input[name="wordId"]',
+						$(this).parent()).val();
 
 					var variations=[];
 					var answers=[];
@@ -84,33 +80,33 @@
 		}
 
 		test.afterChecked=function(rsp){
-	
-			var rsp=jQuery.parseJSON(rsp);
 
-			if(rsp!=''){
+			if(rsp!=null){
 
-				var wordInput=$('input[value="'+rsp.wordId+'"]');
-				var imgIncorrect='<img src="../images/incorrect.png" alt="" />';
-				var imgCorrect='<img src="../images/correct.png" alt="" />';
+				var wordInput=$('input[value="'+rsp.wordId+'"]'),
+					imgIncorrect='<img src="../images/incorrect.png" alt="" />',
+					imgCorrect='<img src="../images/correct.png" alt="" />';
 
 				for(var i in rsp.correction){
 					var c=rsp.correction[i];
 					
 					var vryInput=$(
-						'input[value="'+c[0]+'"]'
-						,wordInput.parent()
+						'input[value="'+c[0]+'"]',
+						wordInput.parent()
 					);
 					
-					var answerInput=$('input[name="answer"]',vryInput.parent());
+					var answerInput=$('input[name="answer"]',
+						vryInput.parent());
 					
-					// if the value is correct
+					// If the answer is correct
 					if(answerInput.val()==c[1]){
 						$(answerInput).addClass('correct');
-						$(answerInput).parent().append(imgCorrect);
+						$(answerInput).parent().parent().append(imgCorrect);
 					}
+					// If the answer is incorrect
 					else{
 						$(answerInput).addClass('incorrect');
-						$(answerInput).parent().append(
+						$(answerInput).parent().parent().append(
 							imgIncorrect+
 							'<span>'+
 								'<b>Doğrusu:</b>'+
@@ -119,31 +115,29 @@
 						);
 					}
 
-				} // end of for corrections
+				} // end of corrections
 
 
 			}
 		
 		} // end of function afterCheck
 		
-		test.startTimer();
-
-		// DELETE THIS LINE
-		test.ajaxFile='tests?_ajax=validate';
-
 		test.bindItems();
+		
+		test.startTimer();
 
 	});
 
 </script>
 
 <div class="variationWritingTest">
-	<?php
-	echo '<div class="testPageHeader">
+	<div class="testPageHeader">
 		<h1>Kelimenin Varyasyonlarını Yazma</h1>
 		<p>
-			Toplam soru:<span class="totalQuestions">'.count($o->items).'</span>,
-			Tahmini süre:<span class="estimatedTime">'.$o->estimatedTime.'</span>,
+			Toplam soru:<span class="totalQuestions">
+				<?php echo count($o->items);?></span>,
+			Tahmini süre:<span class="estimatedTime">
+				<?php echo $o->estimatedTime;?></span>,
 		</p>
 		<p>
 			Geçen süre:<span class="spentTime">00:00:00</span>,
@@ -152,7 +146,8 @@
 			Boş:<span class="emptyQuestions">0</span>
 		</p>
 	</div>
-	<ol class="testPageOl">';
+	<ol class="testPageOl">
+	<?php
 	foreach($o->items as $item){
 		$variations='';
 		foreach($item->variations as $v){
@@ -166,7 +161,7 @@
 		}
 		$variations='<ul class="variations">'.$variations.'</ul>';
 		
-		echo '<li itemId="'.$item->wordId.'">
+		echo '<li>
 			<input name="wordId" value="'.$item->wordId.'" type="hidden" />
 			<strong>'.$item->word.'</strong>
 			'.$variations.'

@@ -17,9 +17,9 @@
 .turkishWritingTest a{
 	text-decoration:underline;
 }
-.turkishWritingTest p.correction span{
-	padding-right:15px;
-	border-right:1px solid black;
+.turkishWritingTest p.correction strong.incorrect{
+	padding-left:15px;
+	border-left:1px solid black;
 }
 .turkishWritingTest p.correction strong:first-child{
 	margin-left:0;
@@ -42,7 +42,7 @@
 					$(this).attr('disabled',true);
 
 					var params={
-						'wordId':$(this).parent().find('input.wordId').attr('itemId'),
+						'wordId':$(this).parent().find('input.wordId').val(),
 						'answer':$(this).val()
 					};	
 					test.checkAnswers(params);
@@ -55,31 +55,32 @@
 
 		test.afterChecked=function(rsp){
 	
-			rsp=eval('('+rsp+')');	
+			//rsp=eval('('+rsp+')');	
 
-			if(rsp!=''){
+			if(rsp!=null){
 
 				var resultInput=$(
-					'.input[class=wordId][value='+rsp.wordId+']'
-				);
+					'input[class="wordId"][value="'+rsp.wordId+'"]'
+				).parent().find('input[class="answer"]');
 				
 				// If the answer is correct
 				if(rsp.result){
 					$(resultInput).addClass('correct');
-					$('.testPageHeader .correctAnswers').html(test.correctAnswerCounter);
 				}
 				// If the answer is incorrect
 				else{
 					$(resultInput).addClass('incorrect');
-					$('.testPageHeader .incorrectAnswers').html(test.incorrectAnswerCounter);
+					var incorrect='';
+					if(rsp.correction)
+						incorrect='<strong class="incorrect">Yanlış:</strong>'+
+						'<a href="#">'+rsp.correction+'</a>';
 					var correction=$(
 						'<p class="correction">'+
-							'<strong>Doğrusu:</strong><span>'+rsp.answer+'</span>'+
-							'<strong>Yanlış:</strong>'+
-							'<a href="#">'+rsp.correction+'</a>'+
+							'<strong>Doğrusu:</strong>'+
+							'<span>'+rsp.answer+'</span>'
+							+incorrect+
 						'</p>'
 					);
-
 					$(resultInput).parent().append(correction);
 				}
 
@@ -93,13 +94,13 @@
 
 </script>
 <div class="englishWritingTest">
-	<?php
-
-	echo '<div class="testPageHeader">
-		<h1>Türkçesini Yazma Testi</h1>
+	<div class="testPageHeader">
+		<h1>İngilizcesini Yazma Testi</h1>
 		<p>
-			Toplam soru:<span class="totalQuestions">'.count($o->items).'</span>,
-			Tahmini süre:<span class="estimatedTime">'.$o->estimatedTime.'</span>,
+			Toplam soru:<span class="totalQuestions">
+				<?php echo count($o->items);?></span>,
+			Tahmini süre:<span class="estimatedTime">
+				<?php echo $o->estimatedTime;?></span>,
 		</p>
 		<p>
 			Geçen süre:<span class="spentTime">00:00:00</span>,
@@ -108,7 +109,8 @@
 			Boş:<span class="emptyQuestions">0</span>
 		</p>
 	</div>
-	<ol class="testPageOl">';
+	<?php
+	echo '<ol class="testPageOl">';
 	foreach($o->items as $item){
 		$classes='';
 		foreach($item->classes as $c){
@@ -116,8 +118,8 @@
 		}
 		$classes=substr($classes,0,strlen($classes)-2);
 		echo '<li>
-			<input class="wordId" type="hidden" value="'.$item->wordId.'" />
 			<p>
+				<input class="wordId" type="hidden" value="'.$item->wordId.'" />
 				<input class="answer" type="text" value="" />
 				<span class="categories">['.$classes.']</span>
 				<span class="meanings">'.$item->defination.'</span>

@@ -48,7 +48,10 @@
 
 		test.bindItems=function(){
 			$('.testPageOl li span.synonyms span').click(function(){
-
+				// If the question answered
+				if($(this).parent().parent().parent().
+					find('input[type="submit"]').attr('disabled'))
+						return;
 				// If not selected
 				if(!$(this).hasClass('selected'))
 					$(this).addClass('selected');
@@ -67,9 +70,16 @@
 
 					// Disable the input that is operated for
 					$(this).attr('disabled',true);
+					
+					var selected2=new Array();
+
+					$(selectedItems).each(function(){
+						selected2.push($(this).html());
+					});
 
 					var params={
-						itemId:$(this).parent().attr('itemId')
+						"wordId":$(this).parent().find('.wordId').val(),
+						"selected":selected2
 					};
 					
 					test.checkAnswers(params);
@@ -84,54 +94,47 @@
 
 		test.afterChecked=function(rsp){
 	
-			rsp=eval('('+rsp+')');	
+			if(rsp!=null){
 
-			if(rsp!=''){
+				if(rsp.result){
+					var resultSpan=$(
+						'input[class="wordId"][value="'+rsp.wordId+'"]'  
+					).parent().find('span.synonyms span.selected');
 
-				var resultSpan=$(
-					'.testPageOl li[itemId='+rsp.itemId+']  span.synonyms span'
-				);
-				
-				var hasIncorrects=false,correctCounter=0;
-				$(resultSpan).each(function(index){
-				
-					// If the synonym in the answer
-					if($.inArray($(this).html(),rsp.answer)!=-1){
-						// If the synonym not selected
-						if(!$(this).hasClass('selected')){
-							$(this).addClass('incorrect');
-							hasIncorrects=true;
+					$(resultSpan).each(function(){
+						$(this).addClass('correct');
+					});
+				}
+				else{
+					var resultSpan=$(
+						'input[class="wordId"][value="'+rsp.wordId+'"]'  
+					).parent().find('span.synonyms span');
+					
+					$(resultSpan).each(function(index){
+
+						// If the synonym in the answer
+						if($.inArray($(this).html(),rsp.correction)!=-1){
+							// If the synonym not selected
+							if(!$(this).hasClass('selected')){
+								$(this).addClass('incorrect');
+							}
+							// If the synonym selected
+							else{
+								$(this).addClass('correct');
+							}	
+
 						}
-						// If the synonym selected
+						// If the synonym not in the answer
 						else{
-							$(this).addClass('correct');
-							correctCounter++;
-						}	
-
-					}
-					// If the synonym not in the answer
-					else{
-						// If the synonym selected
-						if($(this).hasClass('selected')){
-							$(this).addClass('incorrect');
-							hasIncorrects=true;
-						}
-					}		
-				
-				});
-				
-				// If has not incorrect and the correct count is true
-				if(!hasIncorrects && correctCounter==rsp.answer.length){
-					test.incrementCorrectCounter();
-					$('.testPageHeader .correctAnswers').html(test.correctAnswerCounter);
+							// If the synonym selected
+							if($(this).hasClass('selected')){
+								$(this).addClass('incorrect');
+							}
+						}		
+					
+					});
 				}
-				// If has any incorrect
-				else if(hasIncorrects){
-					test.incrementIncorrectCounter();
-					$('.testPageHeader .incorrectAnswers').html(test.incorrectAnswerCounter);
-				}
-
-
+				
 			}
 
 		}
@@ -145,14 +148,13 @@
 </script>
 
 <div class="synonymSelectionTest">
-	<?php
-	require('../dummyData/synonymSelectionTest.php');
-
-	echo '<div class="testPageHeader">
+	<div class="testPageHeader">
 		<h1>Eş Anlamlıları Seçme Testi</h1>
 		<p>
-			Toplam soru:<span class="totalQuestions">'.count($o->items).'</span>,
-			Tahmini süre:<span class="estimatedTime">'.$o->estimatedTime.'</span>,
+			Toplam soru:<span class="totalQuestions">
+				<?php echo count($o->items);?></span>,
+			Tahmini süre:<span class="estimatedTime">
+				<?php echo $o->estimatedTime;?></span>,
 		</p>
 		<p>
 			Geçen süre:<span class="spentTime">00:00:00</span>,
@@ -161,7 +163,8 @@
 			Boş:<span class="emptyQuestions">0</span>
 		</p>
 	</div>
-	<ol class="testPageOl">';
+	<?php
+	echo '<ol class="testPageOl">';
 	foreach($o->items as $item){
 		$synonyms='';
 		foreach($item->options as $s){

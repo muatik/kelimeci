@@ -20,9 +20,9 @@
 .sentenceCompletionTest a{
 	text-decoration:underline;
 }
-.sentenceCompletionTest p.correction span{
-	padding-right:15px;
-	border-right:1px solid black;
+.sentenceCompletionTest p.correction strong.incorrect{
+	padding-left:15px;
+	border-left:1px solid black;
 }
 .sentenceCompletionTest p.correction strong:first-child{
 	margin-left:0;
@@ -38,13 +38,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
-		// 'englishWritingTest' replaced to the test name that
-		// comes from the server
 		var test=new Test('sentenceCompletionTest');
-
-		test.showTime=function(){
-			$('.spentTime').html(test.elapsedTime);	
-		}
 
 		test.bindItems=function(){
 			$('.testPageOl li input[type=text]').focusout(function(){
@@ -74,9 +68,7 @@
 
 		test.afterChecked=function(rsp){
 		
-			rsp=jQuery.parseJSON(rsp);
-			
-			if(rsp!=''){
+			if(rsp!=null){
 
 				var resultInput=$(
 					'input[name="answer"]',
@@ -86,21 +78,20 @@
 				// If the answer is correct
 				if(rsp.result){
 					$(resultInput).addClass('correct');
-					test.incrementCorrectCounter();
-					$('.testPageHeader .correctAnswers')
-						.html(test.correctAnswerCounter);
 				}
 				// If the answer is incorrect
 				else{
 					$(resultInput).addClass('incorrect');
-					test.incrementIncorrectCounter();
-					$('.testPageHeader .incorrectAnswers')
-						.html(test.incorrectAnswerCounter);
+					
+					var incorrect='';
+					if(rsp.correction){
+						incorrect='<strong class="incorrect">Yanlış:</strong>'+
+							'<a href="#">'+rsp.correction+'</a>'+';
+					}
 					var correction=$(
 						'<p class="correction">'+
-							'<strong>Doğrusu:</strong><span>'+rsp.answer+'</span>'+
-							'<strong>Yanlış:</strong>'+
-							'<a href="#">'+rsp.correction+'</a>'+
+							'<strong>Doğrusu:</strong><span>'+rsp.answer+'</span>'
+							+incorrect+
 						'</p>'
 					);
 
@@ -112,12 +103,9 @@
 
 		}
 		
-		test.startTimer();
-
-		// DELETE THIS LINE
-		test.ajaxFile='tests/?_ajax=validate';
-
 		test.bindItems();
+		
+		test.startTimer();
 
 	});
 
@@ -142,7 +130,6 @@
 
 	<ol class="testPageOl">
 	<?php
-	$i=0;
 	foreach($o->items as $item){
 		
 		// Replace '[...]' to '<input type="text" />'
@@ -164,8 +151,6 @@
 			<p>'.$sentence.'</p>
 			<p class="clue"><span>İpucu:</span><i>'.$clue.'</i></p>
 			</li>';
-
-		$i++;
 	}
 	echo '</ol>';
 	?>

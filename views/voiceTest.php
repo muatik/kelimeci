@@ -35,14 +35,8 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
-		// 'voice' replaced to the test name that
-		// comes from the server
 		var test=new Test('voiceTest');
-
-		test.showTime=function(){
-			$('.spentTime').html(test.elapsedTime);	
-		}
-
+		
 		test.bindItems=function(){
 			
 			$('.testPageOl li input[type=text]').focusout(function(){
@@ -53,7 +47,7 @@
 					$(this).attr('disabled',true);
 
 					var params={
-						itemId:$(this).parent().attr('itemId'),
+						wordId:$(this).parent().find('.wordId').val(),
 						answer:$(this).val()
 					};	
 
@@ -63,7 +57,7 @@
 
 			});
 			
-			$('.testPageOl li img.voice').click(function(){
+			$('.testPageOl li img.voiceIcon').click(function(){
 				
 				// CODE FOR PLAYING THE VOICE FILE
 				$(this).addClass('playing');
@@ -74,12 +68,10 @@
 
 		test.afterChecked=function(rsp){
 	
-			rsp=eval('('+rsp+')');	
-
-			if(rsp!=''){
+			if(rsp!=null){
 
 				var resultInput=$(
-					'.testPageOl li[itemId='+rsp.itemId+'] input[type=text]'
+					'.testPageOl input[class="wordId"][value="'+rsp.wordId+'"]'
 				);
 				
 				var imgIncorrect='<img src="../images/incorrect.png" alt="" />',
@@ -88,19 +80,20 @@
 				// If the answer is correct
 				if(rsp.result){
 					$(resultInput).parent().append(imgCorrect);
-					test.incrementCorrectCounter();
-					$('.testPageHeader .correctAnswers').html(test.correctAnswerCounter);
 				}
 				// If the answer is incorrect
 				else{
 					$(resultInput).parent().append(imgIncorrect);
-					test.incrementIncorrectCounter();
-					$('.testPageHeader .incorrectAnswers').html(test.incorrectAnswerCounter);
+					var incorrect='';
+					
+					if(rsp.correction)
+						incorrect='<strong>Yanlış:</strong>'+
+							'<a href="#">'+rsp.correction+'</a>';
+							
 					var correction=$(
 						'<span class="correction">'+
-							'<strong>Doğrusu:</strong><span>'+rsp.answer+'</span>'+
-							'<strong>Yanlış:</strong>'+
-							'<a href="#">'+rsp.correction+'</a>'+
+							'<strong>Doğrusu:</strong><span>'+rsp.answer+'</span>'
+							+incorrect+							
 						'</span>'
 					);
 
@@ -111,26 +104,22 @@
 
 		}
 		
-		test.startTimer();
-
-		// DELETE THIS LINE
-		test.ajaxFile='../dummyData/voiceTest.php';
-
 		test.bindItems();
+		
+		test.startTimer();
 
 	});
 
 </script>
 
 <div class="voiceTest">
-	<?php
-	require('../dummyData/voiceTest.php');
-
-	echo '<div class="testPageHeader">
+	<div class="testPageHeader">
 		<h1>Seslendirilen Kelimeyi Yazma Testi</h1>
 		<p>
-			Toplam soru:<span class="totalQuestions">'.count($o->items).'</span>,
-			Tahmini süre:<span class="estimatedTime">'.$o->estimatedTime.'</span>,
+			Toplam soru:<span class="totalQuestions">
+				<?php echo count($o->items);?></span>,
+			Tahmini süre:<span class="estimatedTime">
+				<?php echo $o->estimatedTime;?></span>,
 		</p>
 		<p>
 			Geçen süre:<span class="spentTime">00:00:00</span>,
@@ -139,32 +128,17 @@
 			Boş:<span class="emptyQuestions">0</span>
 		</p>
 	</div>
-	<ol class="testPageOl">';
+	<?php
+	echo '<ol class="testPageOl">';
 	foreach($o->items as $item){
-		echo '<li itemId="'.$item['id'].'">
-			<img class="voice" src="../images/speaker.png" />
+		echo '<li>
+			<input class="wordId" type="hidden" value="'.$item->wordId.'" />
+			<input class="voiceFile" type="hidden" value="'.$item->voiceFile.'" />
+			<img class="voiceIcon" src="../images/speaker.png" />
 			<input type="text" />
 		</li>';	
 	}
 	echo '</ol>';
 	?>
-	<!--
-	<ol class="testPageOl">
-		<li>
-			<img src="../images/speaker.png" />
-			<input type="text" />
-			<span class="result">
-				<img src="../images/correct.png" />
-			</span>
-		</li>
-		<li>
-			<img src="../images/speaker.png" />
-			<input type="text" />
-			<span class="result">
-				<img src="../images/correct.png" />
-			</span>
-		</li>
-	</ol>
-	-->
 </div>
 

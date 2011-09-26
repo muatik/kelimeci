@@ -8,7 +8,7 @@
  */
 function Test(testName){
  	
-	this.ajaxFile='controllers/tests.php';
+	this.ajaxFile='?_ajax=validate';
 	this.testName=testName;
 	this.correctAnswerCounter=0;
 	this.incorrectAnswerCounter=0;
@@ -114,11 +114,17 @@ Test.prototype.checkAnswers=function(params){
 			var rsp=jQuery.parseJSON(rsp);
 
 			// If the answer is correct
-			if(rsp.result)
-				incrementCorrectAnswer();
+			if(rsp.result){
+				that.incrementCorrectCounter();
+				$('.testPageHeader .correctAnswers')
+					.html(that.correctAnswerCounter);
+			}
 			// If the answer is incorrect
-			else
-				incrementIncorrectAnswer();
+			else{
+				that.incrementIncorrectCounter();
+				$('.testPageHeader .incorrectAnswers')
+					.html(that.incorrectAnswerCounter);
+			}
 	
 			that.afterChecked(rsp,o);
 		}}
