@@ -113,12 +113,15 @@ Test.prototype.checkAnswers=function(params){
 	*/
 	parameters.substr(0,parameters.length-1);
 	
+	alert(parameters);
+
 	ajax.send(
 		this.ajaxFile,
-		'testName='+encodeURI(this.testName)+'&'+parameters
+		'testName='+encodeURI(this.testName)+'&'+parameters,
 		{'onSuccess':function(rsp,o){
 
-			rsp=eval('('+rsp+')');
+			var rsp=eval('('+rsp+')');
+			//var rsp=jQuery.parseJSON(rsp);
 
 			// If the answer is correct
 			if(rsp.result)
