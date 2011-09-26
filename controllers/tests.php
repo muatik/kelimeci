@@ -4,6 +4,8 @@ class testsController extends ipage{
 	
 	public function initialize(){
 		parent::initialize();
+		$this->addModel('tests');
+		$this->tests=new \kelimeci\tests();
 	}
 	
 	public function run(){
@@ -16,146 +18,67 @@ class testsController extends ipage{
 		if(!isset($r['testName'],$r['wordId']) 
 			|| !is_numeric($r['wordId']))
 			return false;
+		
+		$tests=$this->tests;
 
-		$tt=$r['testName'];
+		// creating a test response object
+		$t=new stdClass();
+		$t->name=$r['testName'];
+		$t->wordId=$r['wordId'];
 		
-		
-		if($tt=='sentenceCompletionTest' 
+		if($t->name=='sentenceCompletionTest' 
 			&& isset($r['quoteId']) && is_numeric($r['quoteId'])){
-		
-			if($r['wordId']==1){
-				if($r['answer']=='ever')
-					return '{"wordId":1,"result":true}';
-				else
-					return '{"wordId":1,"result":false,"answer":"ever","correction":"good"}';
-			}
-			elseif($r['wordId']==2){
-				if($r['answer']=='car')
-					return '{"wordId":2,"result":true}';
-				else
-					return '{"wordId":2,"result":false,"answer":"car","correction":"yaRRak"}';
-			}
+
+				$t->quoteId=$r['quoteId'];
+				$t->answer=$r['answer'];
+				return $tests->validate($t);
+			
 		}
-		elseif($tt=='variationWritingTest'
+		elseif($t->name=='variationWritingTest'
 			&& isset($r['answers'],$r['variations'])
 			&& is_array($r['answers'])
 			&& is_array($r['variations'])){	
+				
+				$t->variations=array();
+				foreach($r['variations'] as $k=>$i){
+					$o=new stdClass();
+					$o->answer=$r['answers'][$k];
+					$o->variation=$i;
+					$t->variations[]=$o=$o;;
+				}
+				
+				return $tests->validate($t);
 		
-			if($r['wordId']==1){
-				if(implode(',',$r['variations'])=='noun,verb,adjective'
-					&& implode(',',$r['answers'])=='access,access,accessible')
-					return '{"wordId":1,"result":true}';
-				else
-					return '{"wordId":1,"result":false,
-						"correction":[
-							["noun","access"],
-							["verb","access"],
-							["adjective","accessible"]
-						]}';
-			}
-			if($r['wordId']==2){
-				if(implode(',',$r['variations'])=='noun,verb,adjective'
-					&& implode(',',$r['answers'])=='meaning,mean,meaningfull')
-					return '{"wordId":2,"result":true}';
-				else
-					return '{"wordId":2,"result":false,
-						"correction":[
-							["noun","meaning"],
-							["verb","mean"],
-							["adjective","meaningfull"]
-						]}';
-			}
 		}
-		elseif($tt=='categorySelectionTest'
+		elseif($t->name=='categorySelectionTest'
 			&& isset($r['wordId'],$r['selected'])
-			&& is_array($r['selected'])){	
-			
-				if($r['wordId']==51){
-				if(implode(',',$r['selected'])=='adjective')
-					return '{"wordId":51,"result":true}';
-				else
-					return '{"wordId":51,"result":false,
-					"correction":["adjective"]}';
-				}
-				elseif($r['wordId']==86){
-				if(implode(',',$r['selected'])=='verb')
-					return '{"wordId":86,"result":true}';
-				else
-					return '{"wordId":86,"result":false,
-					"correction":["verb"]}';
-				}
+			&& is_array($r['selected'])){
+
+				$t->selected=$r['selected'];
+				return $tests->validate($t);
 
 		}
-		elseif($tt=='synonymSelectionTest'
+		elseif($t->name=='synonymSelectionTest'
 			&& isset($r['wordId'],$r['selected'])
 			&& is_array($r['selected'])){	
 				
-				if($r['wordId']==42){
-				if(implode(',',$r['selected'])=='excellent,elegant')
-					return '{"wordId":42,"result":true}';
-				else
-					return '{"wordId":42,"result":false,
-					"correction":["excellent","elegant"]}';
-				}
-				elseif($r['wordId']==62){
-				if(implode(',',$r['selected'])=='nefarious')
-					return '{"wordId":62,"result":true}';
-				else
-					return '{"wordId":62,"result":false,
-					"correction":["nefarious"]}';
-				}
+				$t->selected=$r['selected'];
+				return $tests->validate($t);
+
 		}
-		elseif($tt=='englishWritingTest'
+		elseif($t->name=='englishWritingTest'
 			&& isset($r['wordId'],$r['answer'])){	
 				
-				if($r['wordId']==4){
-				if($r['answer']=='perfect')
-					return '{"wordId":4,"result":true}';
-				else
-					$h='{"wordId":4,"result":false,
-					"answer":"perfect"';
-					if($r['answer']=='car')
-					$h.=',"correction":"araba"';
-					$h.='}';
-					return $h;
-				}
-				elseif($r['wordId']==7){
-				if($r['answer']=='fast')
-					return '{"wordId":7,"result":true}';
-				else
-					$h='{"wordId":7,"result":false,
-					"answer":"fast"';
-					if($r['answer']=='car')
-					$h.=',"correction":"araba"';
-					$h.='}';
-					return $h;
-				}
+				$t->answer=$r['answer'];
+				return $tests->validate($t);
+
 		}
-		elseif($tt=='turkishWritingTest'
+		elseif($t->name=='turkishWritingTest'
 			&& isset($r['wordId'],$r['answer'])){	
 				
-				if($r['wordId']==22){
-				if($r['answer']=='mükemmel')
-					return '{"wordId":22,"result":true}';
-				else
-					$h='{"wordId":22,"result":false,
-					"answer":"mükemmel"';
-					if($r['answer']=='araba')
-					$h.=',"correction":"car"';
-					$h.='}';
-					return $h;
-				}
-				elseif($r['wordId']==14){
-				if($r['answer']=='sürat')
-					return '{"wordId":14,"result":true}';
-				else
-					$h='{"wordId":14,"result":false,
-					"answer":"sürat"';
-					if($r['answer']=='araba')
-					$h.=',"correction":"car"';
-					$h.='}';
-					return $h;
-				}
+				$t->answer=$r['answer'];
+				return $tests->validate($t);
+
 		}
 
 		return false;
