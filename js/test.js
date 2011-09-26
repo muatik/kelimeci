@@ -107,7 +107,7 @@ Test.prototype.checkAnswers=function(params){
 
 	ajax.send(
 		this.ajaxFile,
-<<<<<<< HEAD
+
 		'testName='+encodeURI(this.testName)+'&'+parameters,
 		{'onSuccess':function(rsp,o){
 
@@ -120,11 +120,7 @@ Test.prototype.checkAnswers=function(params){
 			// If the answer is incorrect
 			else
 				incrementIncorrectAnswer();
-				
-=======
-		'testName='+encodeURI(this.testName)+'&'+paramCloud,
-		{'onSuccess':function(rsp,o){
->>>>>>> mustafa/master
+	
 			that.afterChecked(rsp,o);
 		}}
 	);
