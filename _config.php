@@ -11,6 +11,6 @@ date_default_timezone_set('Europe/Istanbul');
 define('_dbHost','localhost');
 define('_dbUser','root');
 define('_dbPassword','root');
-define('_dbDatabase','cuzdan');
+define('_dbDatabase','kelimeci');
 
 ?>

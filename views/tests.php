@@ -57,7 +57,7 @@
 
 <ul class="testTypes">
 	<li>
-		<a href="#" alt="">
+		<a href="?_view=sentenceCompletionTest" alt="">
 			<span class="container">
 				<h3>Cümle Tamamlama</h3>
 				<p>
@@ -119,7 +119,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="#" alt="">
+		<a href="?_view=variationWritingTest" alt="">
 			<span class="container">
 				<h3>Kelime Varyasyonlarını Yazma</h3>
 				<p>

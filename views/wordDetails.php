@@ -70,7 +70,7 @@
 	<div>
 		<h4>ALINTILAR</h4>
 		<ul class="quotes">
-			<li>Alıntı - 1</li>
+			<li><blockquote>Alıntı - 1</blockquote></li>
 			<li>Alıntı - 2</li>
 			<li>Alıntı - 3</li>
 		</ul>

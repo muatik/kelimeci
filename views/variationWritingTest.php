@@ -45,34 +45,32 @@
 				
 				if($(nonemptyInputs).length>0){
 
-					var answer2='';
-					encodeURI
-
 					// Disable the input that is operated for
 					$(this).attr('disabled',true);
+
+					var wordId=$('input[name="wordId"]'
+						,$(this).parent()).val();
+
+					var variations=[];
+					var answers=[];
 					
 					$(allInputs).each(function(index){
 						
 						// Disable the input that is operated for
 						$(this).attr('disabled','disabled');
 						
-						/*
-						answer2[index]=[
-							$(this).attr('variation'),
-							$(this).val()
-						];
-						*/
-						answer2+=
-							'&variation[]='+
-								encodeURI($(this).attr('variation'))+
-							'&answer[]='+
-								encodeURI($(this).val());
-								
-					});		
+						answers.push(encodeURI($(this).val()));
+						variations.push(encodeURI(
+							$('input[name="variation"]',
+								$(this).parent()).val()
+						));
+
+					});
 
 					var params={
-						itemId:$(this).parent().attr('itemId'),
-						answer:answer2
+						'wordId':wordId,
+						'variations':variations,
+						'answers':answers
 					};
 					
 					test.checkAnswers(params);
@@ -87,77 +85,51 @@
 
 		test.afterChecked=function(rsp){
 	
-			rsp=eval('('+rsp+')');	
+			var rsp=jQuery.parseJSON(rsp);
 
 			if(rsp!=''){
 
-				var resultInputs=$(
-					'.testPageOl li[itemId='+rsp.itemId+']  ul.variations li input[type=text]'
-				);
-				
-				var hasIncorrects=false,
-					correctCounter=0,
-					imgIncorrect='<img src="../images/incorrect.png" alt="" />';
-					imgCorrect='<img src="../images/correct.png" alt="" />';
-				$(resultInputs).each(function(index){
-				
-					// Define the variation name of  current input and
-					// the value of  current input
-					var currInputVariation=$(this).attr('variation').toLowerCase();
-					var currInputValue=$(this).val();
+				var wordInput=$('input[value="'+rsp.wordId+'"]');
+				var imgIncorrect='<img src="../images/incorrect.png" alt="" />';
+				var imgCorrect='<img src="../images/correct.png" alt="" />';
+
+				for(var i in rsp.correction){
+					var c=rsp.correction[i];
 					
-					for(var i in rsp.answer){
-						
-						// If the input variation equals to 
-						// the variation of current answer
-						if(currInputVariation==rsp.answer[i][0]){
-							
-							// If the answer is correct
-							if(currInputValue==rsp.answer[i][1]){
-								$(this).addClass('correct');
-								$(this).parent().parent().append(imgCorrect);
-								correctCounter++;
-							}
-							// If the answer is incorrect
-							else{
-								$(this).addClass('incorrect');
-								$(this).parent().parent().append(
-									imgIncorrect+
-									'<span>'+
-										'<b>Doğrusu:</b>'+
-										'<span>'+rsp.answer[i][1]+'</span>'+
-									'</span>'
-								);
-								hasIncorrects=true;
-							}
-							
-						}
-						
+					var vryInput=$(
+						'input[value="'+c[0]+'"]'
+						,wordInput.parent()
+					);
+					
+					var answerInput=$('input[name="answer"]',vryInput.parent());
+					
+					// if the value is correct
+					if(answerInput.val()==c[1]){
+						$(answerInput).addClass('correct');
+						$(answerInput).parent().append(imgCorrect);
 					}
-				
-				
-				});
-				
-				// If has not incorrect and the correct count is true
-				if(!hasIncorrects && correctCounter==rsp.answer.length){
-					test.incrementCorrectCounter();
-					$('.testPageHeader .correctAnswers').html(test.correctAnswerCounter);
-				}
-				// If has any incorrect
-				else if(hasIncorrects){
-					test.incrementIncorrectCounter();
-					$('.testPageHeader .incorrectAnswers').html(test.incorrectAnswerCounter);
-				}
+					else{
+						$(answerInput).addClass('incorrect');
+						$(answerInput).parent().append(
+							imgIncorrect+
+							'<span>'+
+								'<b>Doğrusu:</b>'+
+								'<span>'+c[1]+'</span>'+
+							'</span>'
+						);
+					}
+
+				} // end of for corrections
 
 
 			}
-
-		}
+		
+		} // end of function afterCheck
 		
 		test.startTimer();
 
 		// DELETE THIS LINE
-		test.ajaxFile='../dummyData/variationWritingTest.php';
+		test.ajaxFile='tests?_ajax=validate';
 
 		test.bindItems();
 
@@ -167,7 +139,6 @@
 
 <div class="variationWritingTest">
 	<?php
-	require('../dummyData/variationWritingTest.php');
 	echo '<div class="testPageHeader">
 		<h1>Kelimenin Varyasyonlarını Yazma</h1>
 		<p>
@@ -184,17 +155,20 @@
 	<ol class="testPageOl">';
 	foreach($o->items as $item){
 		$variations='';
-		foreach($item['variations'] as $v){
+		foreach($item->variations as $v){
 			$variations.='<li>
 				<label>'.$v.':
-					<input type="text" variation="'.$v.'" />
+					<input name="variation" value="'.$v.'" 
+						type="hidden" />
+					<input type="text" name="answer" />
 				</label>
 			</li>';
 		}
 		$variations='<ul class="variations">'.$variations.'</ul>';
 		
-		echo '<li itemId="'.$item['id'].'">
-			<strong>'.$item['word'].'</strong>
+		echo '<li itemId="'.$item->wordId.'">
+			<input name="wordId" value="'.$item->wordId.'" type="hidden" />
+			<strong>'.$item->word.'</strong>
 			'.$variations.'
 			<input type="submit" value="Tamam" />
 		</li>';

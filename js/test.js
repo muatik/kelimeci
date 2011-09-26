@@ -8,7 +8,11 @@
  */
 function Test(testName){
  	
-	this.ajaxFile='tests/?_ajax=validate';
+	/*
+	 * THINK OF THIS AGAIN
+	 * THINK MAY BE DEFINED IN COMMON JS FILE
+	 */
+	this.ajaxFile='ajax.php';
 	this.testName=testName;
 	this.correctAnswerCounter=0;
 	this.incorrectAnswerCounter=0;
@@ -49,20 +53,16 @@ Test.prototype.setTimer=function(){
 		new Date((new Date()).getTime()-this.initialTime.getTime());
 	
 	this.elapsedTime=
-		this.timeDiff.
-			toUTCString().match(/\d{2}:\d{2}:\d{2}/).toString();
+		this.timeDiff.toUTCString().match(/\d{2}:\d{2}:\d{2}/).toString();
 
-	this.showElapsedTime();
+	this.showTime();
 
 }
 
 /**
- * Shows the elapsed time on the test page
+ * Absract function - must be overwritten(implemented)
  */
-Test.prototype.showElapsedTime=function(){
-	document.getElementByClass('elapsedTime')
-		.innerHTML(this.elapsedTime);
-}
+Test.prototype.showTime=function(){}
 
 /**
  * Increments the variable correctAnswerCounter
@@ -84,39 +84,30 @@ Test.prototype.incrementIncorrectCounter=function(){
 Test.prototype.bindItems=function(){}
 
 /**
- * Send requests to the server to check answers for 
- * the test pages
+ * Absract function - must be overwritten(implemented)
  */
+Test.prototype.prepareTest=function(){}
+
 Test.prototype.checkAnswers=function(params){
-
-	var ajax=new simpleAjax(),
-		that=this
-		parameters='';
-
-	for(var i in params.answer){
-
-		var p=params.answer[i];
-
-		// If the answer is a array
-		if(typeof(p)=='object' && (p instanceof Array)){
-			for(var j in p)
-				parameters+=j+'[]='+p[i]+'&';
-		}
+	
+	var ajax=new simpleAjax(),that=this;
+	
+	var paramCloud='';
+	for(var i in params){
+		if(params[i] instanceof Array)
+			for(var k in params[i])
+				paramCloud+=i+'[]='+params[i][k]+'&';
 		else
-			parameters+=i+'='+p+'&';
-			
+			paramCloud+=i+'='+params[i]+'&';
 	}
-
-	/**
-	* Remove the character '&' 
-	* that is the last character of the variable parameters
-	*/
-	parameters.substr(0,parameters.length-1);
+	
+	
 	
 	alert(parameters);
 
 	ajax.send(
 		this.ajaxFile,
+<<<<<<< HEAD
 		'testName='+encodeURI(this.testName)+'&'+parameters,
 		{'onSuccess':function(rsp,o){
 
@@ -130,8 +121,11 @@ Test.prototype.checkAnswers=function(params){
 			else
 				incrementIncorrectAnswer();
 				
+=======
+		'testName='+encodeURI(this.testName)+'&'+paramCloud,
+		{'onSuccess':function(rsp,o){
+>>>>>>> mustafa/master
 			that.afterChecked(rsp,o);
-		
 		}}
 	);
 

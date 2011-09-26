@@ -44,14 +44,13 @@
 <div id="banner">
 	<div id="logo"></div>
 	<ul id="topMenu">
-		<li><a href="#" alt="">Kelimeler</a></li>
-		<li><a href="#" alt="">Test</a></li>
-		<li><a href="#" alt="">Durum</a></li>
-		<li><a href="#" alt="">Ayarlar</a></li>
+		<li><a href="vocabulary" alt="">Kelimeler</a></li>
+		<li><a href="tests" alt="">Test</a></li>
+		<li><a href="status" alt="">Durum</a></li>
+		<li><a href="settings" alt="">Ayarlar</a></li>
 	</ul>
 </div>
 
 <?php
-echo '--';
 echo $this->loadPageLayout();
 ?>

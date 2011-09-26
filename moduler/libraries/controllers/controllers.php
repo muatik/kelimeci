@@ -3,7 +3,14 @@ moduler::simportLib('apage');
 abstract class controllers extends apage
 {
 	public function run(){
-		$this->generatedOutput=$this->loadPageLayout();
+		$this->generatedOutput=$this->loadSiteLayout();
+	}
+
+	public function loadSiteLayout(){
+		$siteLayout='layout.php';
+		if(file_exists($this->layoutsPath.$siteLayout))
+			return $this->loadView($siteLayout,null);
+
 	}
 
 	public function loadPageLayout(){
