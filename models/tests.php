@@ -305,7 +305,7 @@ class tests
 	public function validate($test){
 		switch($test->name){
 			case 'sentenceCompletionTest':
-				return $this->validateSentComp(
+				return $this->validateSentenceCompletion(
 					$test->wordId,
 					$test->quoteId,
 					$test->answer
@@ -330,8 +330,8 @@ class tests
 					$test->wordId,
 					$test->answer
 				);
-			case 'turkishhWritingTest':
-				return $this->validateTurkshWriting(
+			case 'turkishWritingTest':
+				return $this->validateTurkishWriting(
 					$test->wordId,
 					$test->answer
 				);
@@ -374,7 +374,7 @@ class tests
 	 * @access public
 	 * @return bool
 	 */
-	public function validateVariationWritingTest($wordId,$variations){
+	public function validateVariationWriting($wordId,$variations){
 		
 		if($wordId==1){
 			/*
