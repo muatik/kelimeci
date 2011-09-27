@@ -230,14 +230,18 @@ class crawlers
 						$synId,'definition',$in->definition);
 						
 					$this->insertWordOfClass($synId,$in->pos);
-					
+					$wCId=$this->insertClass($in->pos);
+
 					$sql='select id from synonyms where wId=\''.
 						$wordId.'\' and synId=\''.$synId.'\' limit 1';
 					$r=$this->db->fetchFirst($sql);
 					
 					if (!$r){
-						$sql='insert into synonyms(wId,synId) 
-							values(\''.$wordId.'\',\''.$synId.'\')';
+						$sql='insert into synonyms(wId,synId,clsId) 
+							values(
+								\''.$wordId.'\',
+								\''.$synId.'\',
+								\''.$wCId.'\')';
 						$this->db->query($sql);
 					} else continue;
 			}
@@ -270,14 +274,16 @@ class crawlers
 						$antId,'definition',$in->definition);
 						
 					$this->insertWordOfClass($antId,$in->pos);
-					
+					$wCId=$this->insertclass($in->pos);
+
 					$sql='select id from antonyms where wId=\''.
 						$wordId.'\' and antId=\''.$antId.'\' limit 1';
 					$r=$this->db->fetchFirst($sql);
 					
 					if (!$r){
-						$sql='insert into antonyms(wId,antId) 
-							values(\''.$wordId.'\',\''.$antId.'\')';
+						$sql='insert into antonyms(wId,antId,clsId) 
+							values(\''.$wordId.'\',\''.$antId.'\'
+							,\''.$wCId.'\')';
 						$this->db->query($sql);
 					} else continue;
 			}
