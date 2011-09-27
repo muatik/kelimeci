@@ -174,7 +174,7 @@
 			Boş:<span class="emptyQuestions">0</span>
 		</p>
 	</div>
-	<?
+	<?php
 	echo '<ol class="testPageOl">';
 	$categoriesArr=array('verb','noun','adjective','adverb','preposition');
 	$categories='';
