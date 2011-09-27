@@ -54,10 +54,47 @@ class dictionary
 		);
 
 	}
-	
+
+
+	/**
+	 * getLastWord 
+	 * 
+	 * @static
+	 * @access private
+	 * @return void
+	 */
 	private static function getLastWord(){
 		$sql='select * from words order by id desc limit 1';
 		return self::$db->fetchFirst($sql);
+	}
+
+
+	/**
+	 * getWordsByIds 
+	 * 
+	 * @param mixed $ids 
+	 * @param string $returnType 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function getWordsByIds($ids,$returnType='array'){
+		foreach($ids as $k=>$i)
+			$ids[$k]=self::$db->escape($i);
+		
+		$ids=implode('\',\'',$ids);
+
+		$rs=self::$db->fetch('select * from words 
+			where id in(\''.$ids.'\')'
+		);
+
+		if($returnType=='array')
+			return $rs;
+		
+		foreach($rs as $k=>$i)
+			$rs[$k]=self::getWord($i->id);
+
+		return $rs;
 	}
 
 	/**
@@ -274,7 +311,12 @@ class dictionary
 	 * @return array
 	 */
 	public static function getSynonymsOfWord($wordId){
-		return self::getWordItemsByTable($wordId,'synonyms');
+		$rs=self::getWordItemsByTable($wordId,'synonyms');
+		foreach($rs as $k=>$i){
+			$i=self::getWord($i->synId);
+			$rs[$k]=$i;
+		}
+		return $rs;
 	}
 
 	/**

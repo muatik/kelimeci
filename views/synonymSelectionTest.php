@@ -168,14 +168,14 @@
 	foreach($o->items as $item){
 		$synonyms='';
 		foreach($item->options as $s){
-			$synonyms.='<span>'.$s.'</span>,';
+			$synonyms.='<span>'.$s.'</span>, ';
 		}
 		$synonyms=substr($synonyms,0,strlen($synonyms)-1);
 		echo '<li>
 			<input class="wordId" type="hidden" value="'.$item->wordId.'" />
 			<p>
 				<strong>'.$item->word.'</strong>
-				<span>=</span>
+				<span>=</span> 
 				<span class="synonyms">'.$synonyms.'</span>
 			</p>
 			<input type="submit" value="Tamam" />

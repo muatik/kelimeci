@@ -1,6 +1,7 @@
 <?php
 namespace kelimeci;
 use \stdClass;
+use \arrays,\db,\strings;
 /**
  * the class tests prepares and evaluates tests
  * 
@@ -288,17 +289,14 @@ class tests
 		
 		shuffle($synonyms);
 		$synonyms=array_slice($synonyms,0,8);
-		
+	
 		$item=new stdClass();
 		$item->wordId=$word->id;
 		$item->word=$word->word;
 		$item->options=array();
-
-		foreach($synonyms as $i)
-			$item->options[]=dictionary::getWord($i->synId);
-
-		$item->options=\arrays::convertToArray(
-			$item->options, 'word'
+		
+		$item->options=arrays::convertToArray(
+			$synonyms, 'word'
 		);
 
 		$rws=dictionary::getRandomWords(3);
@@ -399,19 +397,9 @@ class tests
 			
 			if($cword=dictionary::getword($answer))
 				$r->correction=$cword->word;
-			
 		}
 		
 		return $r;
-
-		if($wordId==1){
-		}
-		elseif($wordId==2){
-			if($answer=='car')
-				return '{"wordId":2,"result":true}';
-			else
-					return '{"wordId":2,"result":false,"answer":"car","correction":"yaRRak"}';
-		}
 	}
 
 
@@ -510,20 +498,28 @@ class tests
 	 * @return bool
 	 */
 	public function validateSynonymSelection($wordId,$selected){
-		if($wordId==42){
-		if(implode(',',$selected)=='excellent,elegant')
-			return '{"wordId":42,"result":true}';
+		
+		
+		$word=dictionary::getWord($wordId);
+		$r=new \stdClass();
+		$r->wordId=$word->id;
+		$word=dictionary::getWord($wordId);
+		
+		$synonyms=arrays::convertToArray($word->synonyms,'word');
+		$intersect=array_uintersect($synonyms,$selected,'strcasecmp');
+
+		// max 8 words can be selected
+		if(count($synonyms)>7 && count($intersect)==8)
+			$r->result=true;
+		elseif(count($synonyms)==count($intersect))
+			$r->result=true;
 		else
-			return '{"wordId":42,"result":false,
-			"correction":["excellent","elegant"]}';
-		}
-		elseif($wordId==62){
-		if(implode(',',$selected)=='nefarious')
-			return '{"wordId":62,"result":true}';
-		else
-			return '{"wordId":62,"result":false,
-			"correction":["nefarious"]}';
-		}
+			$r->result=false;
+
+
+		$r->corrections=arrays::convertToArray($word->synonyms,'word');
+		
+		return $r;
 	}
 
 
