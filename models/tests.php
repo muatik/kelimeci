@@ -1,5 +1,6 @@
 <?php
 namespace kelimeci;
+use \stdClass;
 /**
  * the class tests prepares and evaluates tests
  * 
@@ -89,11 +90,12 @@ class tests
 
 	public function __construct(){
 		self::init();
+		$this->db=new \db();
 	}
 	
 	public static function getIdOfTestType($testType){
 		
-		$db=new db();
+		$db=new \db();
 
 		$r=$db->fetchFirst('select * from testTypes
 			where 
@@ -110,11 +112,10 @@ class tests
 	 * pepare a test for a user
 	 * 
 	 * @param string $testType 
-	 * @static
 	 * @access public
 	 * @return object contains test items and other details
 	 */
-	public static function pepare($testType){
+	public function prepare($testType){
 		/*
 		'fetch words of user for the test
 		preapre test items by each word
@@ -122,12 +123,11 @@ class tests
 		return'
 		*/
 
-		$test=new stdClass();
+		$test=new \stdClass();
 		$test->items=array();
 		$testWords=$this->getWordsForTest($testType);
-
 		foreach($testWords as $i)
-			$test->items[$i->id]=self::getTestDate($testType,$i);
+			$test->items[$i->id]=self::getTestData($testType,$i);
 
 		
 		$test->type=$testType;
@@ -144,17 +144,16 @@ class tests
 	 * returns words which are ready to be tested.
 	 *
 	 * @param string $testType 
-	 * @static
 	 * @access public
 	 * @return array words
 	 */
-	public static function getWordsForTest($testType){
+	public function getWordsForTest($testType){
 		
 		$time=time();
 
 		$interval=date(
 			'Y-m-d H:i:00',
-			$time-(self::minInterval*3600)
+			$time-(self::$minInterval*3600)
 		);
 
 		// calculation dates of levels
@@ -168,10 +167,10 @@ class tests
 		//preparing condititions of levels
 		foreach($levelConds as $level=>$i)
 			$levelConds[$level]='(v.level='
-				.$level.' and t.date<"'.$i.'")';
+				.$level.' and t.crtDate<"'.$i.'")';
 		
 		$testId=self::getIdOfTestType($testType);
-		
+
 		$sql='
 		select 
 			v.*
@@ -179,13 +178,13 @@ class tests
 			vocabulary as v
 			left join (
 				select * from tests
-				group by wordId
 				where
 					userId='.$this->userId.' and
 					testTypeId='.$testId.'
+				group by wordId
 				order by crtDate desc
 			) as t on
-				t.wordId=v.wordId
+				t.wordId=v.wordId and
 				t.userId=v.UserId
 		where
 		
@@ -253,23 +252,29 @@ class tests
 		$quotes=$word->quotes;
 		shuffle($quotes);
 
-		foreach($quotes as $k=>$quote)
-			$quotes[$k]=str_replace(
-				$word->word,
-				'.....',
-				$quote
-			);
+		if(count($quotes)==0)
+			return false;
 		
-		
+
+		$selQuote=$quotes[0];
+		$selQuote->quote=str_replace(
+			$word->word,
+			'[...]',
+			$selQuote->quote
+		);
+
+
 		$clues=dictionary::getRandomWords(6);
 		foreach($clues as $k=>$i)
 			$clues[$k]=dictionary::getWord($i);
 
 		$clues[]=$word;
 		shuffle($clues);
-		
-		$item->quotes=$quotes;
-		$item->clues=$clues;
+
+		$item->wordId=$word->id;
+		$item->quoteId=$selQuote->id;
+		$item->sentence=$selQuote->quote;
+		$item->clue=\arrays::convertToArray($clues,'word');
 		return $item;
 	}
 
@@ -364,11 +369,25 @@ class tests
 	 * @return bool
 	 */
 	public function validateSentenceCompletion($wordId,$quoteId,$answer){
+		$word=dictionary::getWord($wordId);
+		
+		$r=new \stdClass();
+		$r->wordId=$word->id;
+
+		if($word->word==trim($answer))
+			$r->result=true;
+		else{
+			$r->result=false;
+			$r->answer=$word->word;
+			
+			if($cword=dictionary::getword($answer))
+				$r->correction=$cword->word;
+			
+		}
+		
+		return $r;
+
 		if($wordId==1){
-			if($answer=='ever')
-				return '{"wordId":1,"result":true}';
-			else
-				return '{"wordId":1,"result":false,"answer":"ever","correction":"good"}';
 		}
 		elseif($wordId==2){
 			if($answer=='car')

@@ -1,5 +1,5 @@
 <?php
-namespace kelimeci
+namespace kelimeci;
 /**
  * This dictionary class presents general lexical operations.
  *
@@ -10,6 +10,23 @@ class dictionary
 {
 
 	/**
+	 * database object
+	 * 
+	 * @static
+	 * @var db
+	 * @access private
+	 */
+	private static $db;
+
+	public static function __sconstruct(){
+		self::$db=new \db();
+	}
+
+	public function __construct(){
+		self::__sconstruct();	
+	}
+
+	/**
 	 * returns random word IDs 
 	 * 
 	 * @param int $length (default:10) how many words will be returned
@@ -17,24 +34,30 @@ class dictionary
 	 * @access public
 	 * @return array words Ids
 	 */
-	public static function getRandowmWords($length=10){
+	public static function getRandomWords($length=10){
 		
-		$maxId=$this->getLastWord();
+		$maxId=self::getLastWord();
 		$maxId=$maxId->id;
 		
 		// this might look strange but more robust random method for sql.
-		for($i=0; $i<$length*100)
-			$randomIds=rand(1,$maxId);
+		$randomIds=array();
+		for($i=0; $i<$length*100; $i++)
+			$randomIds[]=rand(1,$maxId);
 		
-		$sql='select id form words 
+		$sql='select id from words 
 			where id in ('.implode(',',$randomIds).')
 			limit '.$length;
 		
-		return arrays::convertToArray(
-			$this->db->fetch($sql),
+		return \arrays::convertToArray(
+			self::$db->fetch($sql),
 			'id'
 		);
 
+	}
+	
+	private static function getLastWord(){
+		$sql='select * from words order by id desc limit 1';
+		return self::$db->fetchFirst($sql);
 	}
 
 	/**
@@ -47,11 +70,11 @@ class dictionary
 	 * @return array
 	 */
 	private static function getWordItemsByTable($wordId,$table){
-		$sql='select * from '.$this->db->escape($table).'
+		$sql='select * from '.self::$db->escape($table).'
 			where
-			wId='.$this->db->escape($wordId);
+			wId='.self::$db->escape($wordId);
 		
-		return $this->db->fetch($sql);
+		return self::$db->fetch($sql);
 	}
 
 	/**
@@ -210,11 +233,11 @@ class dictionary
 	public static function getLangOfWord($wordId){
 		$sql='select * from wordInfo
 			where 
-			wId='.$this->db->escape($wordId).' and
+			wId='.self::$db->escape($wordId).' and
 			name="lang"
 			limit 1';
 		
-		$r=$this->db->fetchFirst($sql);
+		$r=self::$db->fetchFirst($sql);
 		return ($r==false? false : $r->value);
 	}
 	
@@ -227,7 +250,7 @@ class dictionary
 	 * @return array
 	 */
 	public static function getMeaningsOfWord($wordId){
-		return $this->getWordItemsByTable($wordId,'quotes');
+		return $this->getWordItemsByTable($wordId,'meanings');
 	}
 
 	/**
@@ -239,7 +262,7 @@ class dictionary
 	 * @return array
 	 */
 	public static function getQuotesOfWord($wordId){
-		return $this->getWordItemsByTable($wordId,'quote');
+		return self::getWordItemsByTable($wordId,'quotes');
 	}
 	
 	/**
@@ -278,7 +301,7 @@ class dictionary
 		$w=new words($word);
 		if(is_numeric($w->id))
 			return $w;
-
+		
 		return false;
 	}
 	
@@ -302,4 +325,6 @@ class dictionary
 	}
 
 }
+
+dictionary::__sconstruct();
 ?>

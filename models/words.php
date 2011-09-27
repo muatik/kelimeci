@@ -1,5 +1,5 @@
 <?php
-namespace kelimeci
+namespace kelimeci;
 /**
  * the class words represents a word with it's all details
  * 
@@ -17,7 +17,7 @@ class words
 	 * @var mixed
 	 * @access public
 	 */
-	static private $var2method;
+	static private $var2methods;
 
 	/**
 	 * id of the word
@@ -82,7 +82,15 @@ class words
 	 * @access private
 	 */
 	private $antonyms;
-
+	
+	/**
+	 * database object 
+	 * 
+	 * @static
+	 * @var db
+	 * @access private
+	 */
+	private static $db;
 	
 
 	/**
@@ -92,12 +100,16 @@ class words
 	 * @access public
 	 * @return void
 	 */
-	public static function __construct(){
-		self::$methods=array(
-			'quotes','getQuotesOfWord',
-			'meanings','getMeaningsOfWord'
-			'synonyms','getSynonymsOfWord',
-			'antonyms','getAntonymsOfWord',
+	public static function init(){
+		if(is_array(self::$var2methods) && count(self::$var2methods)>0)
+			return false;
+		
+		self::$db=new \db();
+		self::$var2methods=array(
+			'quotes'=>'getQuotesOfWord',
+			'meanings'=>'getMeaningsOfWord',
+			'synonyms'=>'getSynonymsOfWord',
+			'antonyms'=>'getAntonymsOfWord',
 		);
 	}
 
@@ -109,6 +121,7 @@ class words
 	 * @return void
 	 */
 	public function __construct($word=null){
+		self::init();
 		$this->bind($word);
 	}
 	
@@ -120,16 +133,15 @@ class words
 	 * @return bool
 	 */
 	public function bind($word){
+		$word=self::$db->escape($word);
 		
-		$word=$this->db->escape($word);
-
-		$sql='select from words
+		$sql='select * from words
 			where '.
 			(is_numeric($word)?'id':'word')
 			.'=\''.$word.'\'
 			limit 1';
-
-		$r=$this->db->fetchFirst($sql);
+		
+		$r=self::$db->fetchFirst($sql);
 
 		if($r!==false){
 			$this->id=$r->id;
@@ -149,8 +161,7 @@ class words
 	 * @access private
 	 * @return void
 	 */
-	private function __get($var){
-
+	public function __get($var){
 		// is getting the array vars of the word, at first fill them
 		if(isset(self::$var2methods[$var])){
 			if($this->$var==null){

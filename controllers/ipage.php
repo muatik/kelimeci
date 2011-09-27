@@ -12,6 +12,12 @@ class ipage extends controllers
 	
 	public function initialize(){
 		$this->addLib('db');
+		$this->addModel(array(
+			'dictionary',
+			'words',
+			'vocabulary',
+			'tests',
+		));
 	}
 	
 	public function run(){

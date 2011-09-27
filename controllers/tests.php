@@ -4,7 +4,6 @@ class testsController extends ipage{
 	
 	public function initialize(){
 		parent::initialize();
-		$this->addModel('tests');
 		$this->tests=new \kelimeci\tests();
 	}
 	
@@ -25,13 +24,15 @@ class testsController extends ipage{
 		$t=new stdClass();
 		$t->name=$r['testName'];
 		$t->wordId=$r['wordId'];
-		
+
+		$result=null;
+
 		if($t->name=='sentenceCompletionTest' 
 			&& isset($r['quoteId']) && is_numeric($r['quoteId'])){
 
 				$t->quoteId=$r['quoteId'];
 				$t->answer=$r['answer'];
-				return $tests->validate($t);
+				$result=$tests->validate($t);
 			
 		}
 		elseif($t->name=='variationWritingTest'
@@ -47,7 +48,7 @@ class testsController extends ipage{
 					$t->variations[]=$o=$o;;
 				}
 				
-				return $tests->validate($t);
+				$result=$tests->validate($t);
 		
 		}
 		elseif($t->name=='categorySelectionTest'
@@ -55,7 +56,7 @@ class testsController extends ipage{
 			&& is_array($r['selected'])){
 
 				$t->selected=$r['selected'];
-				return $tests->validate($t);
+				$result=$tests->validate($t);
 
 		}
 		elseif($t->name=='synonymSelectionTest'
@@ -63,31 +64,38 @@ class testsController extends ipage{
 			&& is_array($r['selected'])){	
 				
 				$t->selected=$r['selected'];
-				return $tests->validate($t);
+				$result=$tests->validate($t);
 
 		}
 		elseif($t->name=='englishWritingTest'
 			&& isset($r['wordId'],$r['answer'])){	
 				
 				$t->answer=$r['answer'];
-				return $tests->validate($t);
-
+				$result=$tests->validate($t);
 		}
 		elseif($t->name=='turkishWritingTest'
 			&& isset($r['wordId'],$r['answer'])){	
 				
 				$t->answer=$r['answer'];
-				return $tests->validate($t);
-
+				$result=$tests->validate($t);
 		}
-
-		return false;
+		
+		return json_encode($result);
+	}
+	
+	public function prepareTest($testType){
+		$test=$this->tests->prepare($testType);
+		
+		return $this->loadview(
+			$testType.'Test.php',
+			$test,
+			false
+		);
 	}
 
 	public function viewsentenceCompletionTest(){
-		// test modelinden cümle tamamlama testini hazırlat
-		// modelden gelen datadatı ikinci parametreyle
-		// view'e aktar.
+		
+		return $this->prepareTest('sentenceCompletion');
 
 		$o=new stdClass();
 		$o->estimatedTime='00:12:00';
@@ -105,7 +113,7 @@ class testsController extends ipage{
 		$i2->clue=array('go','are','car','ever','got');
 
 		$o->items=array($i1,$i2);
-
+		
 		return $this->loadView(
 			'sentenceCompletionTest.php',
 			$o,

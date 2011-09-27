@@ -1,5 +1,5 @@
 <?php
-namespace kelimeci
+namespace kelimeci;
 /**
  * vocabulary class contains operations that perform for only one user
  * 
@@ -118,7 +118,7 @@ class vocabulary
 	public function suggestTags($keyword,$length=15){
 		$sql='select * from vocabulary
 			where
-			tags like \'%'.$this->db->escape($keyword.'%\'
+			tags like \'%'.$this->db->escape($keyword).'%\'
 			limit '.$length;
 
 		return $this->db->fetch($sql);
@@ -135,7 +135,7 @@ class vocabulary
 	public function suggestWords($keyword,$length=15){
 		$sql='select v.*,w.word from vocabulary as v,words as w
 			where
-			w.word like \'%'.$this->db->escape($keyword.'%\' and
+			w.word like \'%'.$this->db->escape($keyword).'%\' and
 			w.id=v.wordId
 			limit '.$length;
 		
