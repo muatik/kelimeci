@@ -35,9 +35,16 @@ class tests
 	 * @var array
 	 * @access public
 	 */
-	public static $level=array();
+	public static $levels=array();
 	
-
+	/**
+	 * indicates if this class is initiliazed.
+	 * 
+	 * @static
+	 * @var bool
+	 * @access public
+	 */
+	public static $initialized=false;
 
 	/**
 	 * static __construct 
@@ -46,7 +53,9 @@ class tests
 	 * @access public
 	 * @return void
 	 */
-	public static function tests(){
+	public static function init(){
+		if(self::$initialized)
+			return false;
 		
 		//level=>interval, specified in days
 		$levels=array(
@@ -74,9 +83,14 @@ class tests
 		);
 		
 		self::$levels=$levels;
+		
+		self::$initialized=true;
 	}
 
-
+	public function __construct(){
+		self::init();
+	}
+	
 	public static function getIdOfTestType($testType){
 		
 		$db=new db();
