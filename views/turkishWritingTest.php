@@ -122,7 +122,7 @@
 				<input class="wordId" type="hidden" value="'.$item->wordId.'" />
 				<input class="answer" type="text" value="" />
 				<span class="categories">['.$classes.']</span>
-				<span class="meanings">'.$item->defination.'</span>
+				<span class="meanings">'.$item->meaning.'</span>
 			</p>
 		</li>';
 		

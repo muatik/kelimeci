@@ -106,6 +106,7 @@ class words
 		
 		self::$db=new \db();
 		self::$var2methods=array(
+			'classes'=>'getClassesOfWord',
 			'quotes'=>'getQuotesOfWord',
 			'meanings'=>'getMeaningsOfWord',
 			'synonyms'=>'getSynonymsOfWord',

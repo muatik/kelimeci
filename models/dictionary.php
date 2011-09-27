@@ -171,6 +171,32 @@ class dictionary
 
 
 	/**
+	 * getMeaningsByLang 
+	 * 
+	 * @param mixed $wordId 
+	 * @param mixed $meanings 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function getMeaningsByLang($wordId,$langs){
+		if(!is_array($langs))
+			$langs=array($langs);
+
+		foreach($langs as $k=>$i)
+			$langs[$k]=self::$db->escape($i);
+
+		$langs=implode('\',\'',$langs);
+
+		return self::$db->fetch('select * from meanings
+			where
+			wId=\''.$wordId.'\' and
+			lang in (\''.$langs.'\') '
+		);
+	}
+
+
+	/**
 	 * Gives -ing, -s/-es, -ed forms of a word
 	 * 
 	 * @param words $word the object word or id of a word
@@ -253,10 +279,10 @@ class dictionary
 	public static function getClassesOfWord($wordId){
 		$sql='select c.* from wordClasses as wc, classes as c
 			where 
-			wc.wId='.$this->db->escape($wordId).' 
+			wc.wId='.self::$db->escape($wordId).' 
 			and wc.clsId=c.id';
 		
-		return $this->db->fetch($sql);
+		return self::$db->fetch($sql);
 	}
 	
 	/**

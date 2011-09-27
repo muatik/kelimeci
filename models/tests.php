@@ -127,8 +127,11 @@ class tests
 		$test=new \stdClass();
 		$test->items=array();
 		$testWords=$this->getWordsForTest($testType);
-		foreach($testWords as $i)
-			$test->items[$i->id]=self::getTestData($testType,$i);
+		foreach($testWords as $i){
+			$d=self::getTestData($testType,$i);
+			if($d!=false)
+				$test->items[$i->id]=$d;
+		}
 
 		
 		$test->type=$testType;
@@ -201,7 +204,7 @@ class tests
 				'.implode(' or ',$levelConds).'
 			)
 		)';
-		
+
 		$rs=$this->db->fetch($sql);
 		$words=array();
 		foreach($rs as $i)
@@ -227,15 +230,18 @@ class tests
 	 * @return array
 	 */
 	public static function getTestData($testType,$word){
+		
 		switch($testType){
 			case 'sentenceCompletion':
 				return self::getItemOfSentenceCompletion($word);
-			case 'writingVariations':
 			case 'synonymSelection':
 				return self::getItemOfSynonymSelection($word);
+			case 'writingVariations':
 			case 'categorySelection':
-			case 'writingInEnglish':
-			case 'writingInTurkish':
+			case 'englishWriting':
+				return self::getItemOfEnglishWriting($word);
+			case 'turkishWriting':
+				return self::getItemOfTurkishWriting($word);
 		}
 		return false;
 	}
@@ -281,6 +287,14 @@ class tests
 		return $item;
 	}
 
+	/**
+	 * getItemOfSynonymSelection 
+	 * 
+	 * @param mixed $word 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
 	public static function getItemOfSynonymSelection($word){
 		
 		$synonyms=$word->synonyms;
@@ -311,6 +325,52 @@ class tests
 	}
 
 
+	/**
+	 * getItemOfSynonymSelection 
+	 * 
+	 * @param mixed $word 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function getItemOfEnglishWriting($word){
+		
+		$meanings=dictionary::getMeaningsByLang($word->id,'en');
+		if(count($meanings)==0)
+			return false;
+		
+		$sel=array_rand($meanings);
+
+		$item=new stdClass();
+		$item->wordId=$word->id;
+		$item->meaning=$meanings[$sel]->meaning;
+		$item->classes=arrays::convertToArray($word->classes,'name');
+		return $item;
+	}
+
+
+	/**
+	 * getItemOfEnglishWriting 
+	 * 
+	 * @param mixed $word 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function getItemOfTurkishWriting($word){
+		
+		$meanings=dictionary::getMeaningsByLang($word->id,'tr');
+		if(count($meanings)==0)
+			return false;
+		
+		$sel=array_rand($meanings);
+
+		$item=new stdClass();
+		$item->wordId=$word->id;
+		$item->meaning=$meanings[$sel]->meaning;
+		$item->classes=arrays::convertToArray($word->classes,'name');
+		return $item;
+	}
 
 	### END OF TEST DATA METHODS ###
 	
