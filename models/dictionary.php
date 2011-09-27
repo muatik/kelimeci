@@ -274,7 +274,7 @@ class dictionary
 	 * @return array
 	 */
 	public static function getSynonymsOfWord($wordId){
-		return $this->getWordItemsByTable($wordId,'synonyms');
+		return self::getWordItemsByTable($wordId,'synonyms');
 	}
 
 	/**

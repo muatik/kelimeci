@@ -170,7 +170,7 @@ class tests
 				.$level.' and t.crtDate<"'.$i.'")';
 		
 		$testId=self::getIdOfTestType($testType);
-
+		
 		$sql='
 		select 
 			v.*
@@ -228,10 +228,11 @@ class tests
 	public static function getTestData($testType,$word){
 		switch($testType){
 			case 'sentenceCompletion':
-				return self::getItemOfSentComp($word);
+				return self::getItemOfSentenceCompletion($word);
 			case 'writingVariations':
-			case 'writingClasses':
-			case 'choosingSynonyms':
+			case 'synonymSelection':
+				return self::getItemOfSynonymSelection($word);
+			case 'categorySelection':
 			case 'writingInEnglish':
 			case 'writingInTurkish':
 		}
@@ -247,22 +248,23 @@ class tests
 	 * @access public
 	 * @return array
 	 */
-	public static function getItemOfSentComp($word){
+	public static function getItemOfSentenceCompletion($word){
 		$item=new stdClass();
 		$quotes=$word->quotes;
+		
 		shuffle($quotes);
-
+		
 		if(count($quotes)==0)
 			return false;
 		
 
 		$selQuote=$quotes[0];
-		$selQuote->quote=str_replace(
-			$word->word,
+		$selQuote->quote=preg_replace(
+			'/'.$word->word.'/i',
 			'[...]',
 			$selQuote->quote
 		);
-
+		
 
 		$clues=dictionary::getRandomWords(6);
 		foreach($clues as $k=>$i)
@@ -278,24 +280,39 @@ class tests
 		return $item;
 	}
 
-	public static function getItemOfWritingVariations($word){
-		/*select * from wordClasses 
-			where
-			wordId='.$word->id.' and
-		 */
-		/*catastrophic
-		catastrophic?lly
-		catastrophic?ly
-		catastrophiced
-		catastrophicd
-		catastropcing
-		catastrophics
+	public static function getItemOfSynonymSelection($word){
+		
+		$synonyms=$word->synonyms;
+		if(count($synonyms)==0)
+			return false;
+		
+		shuffle($synonyms);
+		$synonyms=array_slice($synonyms,0,8);
+		
+		$item=new stdClass();
+		$item->wordId=$word->id;
+		$item->word=$word->word;
+		$item->options=array();
 
-		arrangem[ea]{1}nt
-		a
+		foreach($synonyms as $i)
+			$item->options[]=dictionary::getWord($i->synId);
 
-		 */
+		$item->options=\arrays::convertToArray(
+			$item->options, 'word'
+		);
+
+		$rws=dictionary::getRandomWords(3);
+		foreach($rws as $i){
+			$i=dictionary::getWord($i);
+			$item->options[]=$i->word;
+		}
+		
+		shuffle($item->options);
+
+		return $item;
 	}
+
+
 
 	### END OF TEST DATA METHODS ###
 	
@@ -327,7 +344,7 @@ class tests
 				return $this->validateSentenceCompletion(
 					$test->wordId,
 					$test->quoteId,
-					$test->answer
+					mb_strtolower($test->answer)
 				);
 			case 'variationWritingTest':
 				return $this->validateVariationWriting(

@@ -94,31 +94,7 @@ class testsController extends ipage{
 	}
 
 	public function viewsentenceCompletionTest(){
-		
 		return $this->prepareTest('sentenceCompletion');
-
-		$o=new stdClass();
-		$o->estimatedTime='00:12:00';
-		
-		$i1=new stdClass;
-		$i1->wordId=1;
-		$i1->quoteId=5;
-		$i1->sentence='Have you [...] been in Turkey?';
-		$i1->clue=array('go','are','ever','got');
-
-		$i2=new stdClass;
-		$i2->wordId=2;
-		$i2->quoteId=6;
-		$i2->sentence='The [...] is really faster than that.';
-		$i2->clue=array('go','are','car','ever','got');
-
-		$o->items=array($i1,$i2);
-		
-		return $this->loadView(
-			'sentenceCompletionTest.php',
-			$o,
-			false
-		);
 	}
 
 	public function viewvariationWritingTest(){
@@ -192,26 +168,7 @@ class testsController extends ipage{
 	}
 
 	public function viewsynonymSelectionTest(){
-		$o=new stdClass();
-		$o->estimatedTime='00:31:00';
-		
-		$i1=new stdClass();
-		$i1->wordId=42;
-		$i1->word='perfect';
-		$i1->options=array('excellent','elegant','perception','car','bad');
-
-		$i2=new stdClass();
-		$i2->wordId=62;
-		$i2->word='bad';
-		$i2->options=array('good','insult','save','nefarious','disgusting');
-
-		$o->items=array($i1,$i2);
-		
-		return $this->loadView(
-			'synonymSelectionTest.php',
-			$o,
-			false
-		);
+		return $this->prepareTest('synonymSelection');
 	}
 
 	public function viewcategorySelectionTest(){
