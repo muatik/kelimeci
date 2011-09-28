@@ -134,24 +134,7 @@ class testsController extends ipage{
 	}
 
 	public function viewcategorySelectionTest(){
-		$o=new stdClass();
-		$o->estimatedTime='00:31:00';
-		
-		$i1=new stdClass();
-		$i1->wordId=51;
-		$i1->word='perfect';
-
-		$i2=new stdClass();
-		$i2->wordId=86;
-		$i2->word='go';
-
-		$o->items=array($i1,$i2);
-
-		return $this->loadView(
-			'categorySelectionTest.php',
-			$o,
-			false
-		);
+		return $this->prepareTest('categorySelection');
 	}
 
 }	

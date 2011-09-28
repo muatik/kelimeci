@@ -104,7 +104,7 @@ class words
 		if(is_array(self::$var2methods) && count(self::$var2methods)>0)
 			return false;
 		
-		self::$db=new \db();
+		self::$db=new db();
 		self::$var2methods=array(
 			'classes'=>'getClassesOfWord',
 			'quotes'=>'getQuotesOfWord',

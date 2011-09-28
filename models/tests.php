@@ -238,6 +238,7 @@ class tests
 				return self::getItemOfSynonymSelection($word);
 			case 'writingVariations':
 			case 'categorySelection':
+				return self::getItemOfCategorySelection($word);
 			case 'englishWriting':
 				return self::getItemOfEnglishWriting($word);
 			case 'turkishWriting':
@@ -371,7 +372,22 @@ class tests
 		$item->classes=arrays::toArray($word->classes,'name');
 		return $item;
 	}
-
+	
+	/**
+	 * getItemOfCategorySelection
+	 * 
+	 * @param mixed $word 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function getItemOfCategorySelection($word){
+		$item=new stdClass();
+		$item->wordId=$word->id;
+		$item->word=$word->word;
+		return $item;
+	}
+		
 	### END OF TEST DATA METHODS ###
 	
 
@@ -529,23 +545,29 @@ class tests
 	 */
 	public function validateCategorySelection($wordId,$selected){
 
-		if($wordId==51){
-		if(implode(',',$selected)=='adjective')
-			return '{"wordId":51,"result":true}';
-		else
-			return '{"wordId":51,"result":false,
-			"correction":["adjective"]}';
-		}
-		elseif($wordId==86){
-		if(implode(',',$selected)=='verb')
-			return '{"wordId":86,"result":true}';
-		else
-			return '{"wordId":86,"result":false,
-			"correction":["verb"]}';
+		$word=dictionary::getWord($wordId);
+		
+		$result=true;
+		foreach($word->classes as $c){
+			if(!in_array($c->name,$selected)){
+				$result=false;
+				break;
+			}
 		}
 
-		return false;
-
+		$r=new stdClass();
+		$r->wordId=$word->id;
+		if($result && count($word->classes)==count($selected)){
+			$r->result=true;
+		}
+		else{
+			$r->result=false;
+			$r->correction=arrays::toArray(
+				$word->classes,'name'
+			);
+		}
+		
+		return $r;
 	}
 
 

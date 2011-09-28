@@ -1,5 +1,6 @@
 <?php
 namespace kelimeci;
+use \db,\arrays;
 /**
  * This dictionary class presents general lexical operations.
  *
@@ -19,7 +20,7 @@ class dictionary
 	private static $db;
 
 	public static function __sconstruct(){
-		self::$db=new \db();
+		self::$db=new db();
 	}
 
 	public function __construct(){
@@ -48,7 +49,7 @@ class dictionary
 			where id in ('.implode(',',$randomIds).')
 			limit '.$length;
 		
-		return \arrays::convertToArray(
+		return arrays::toArray(
 			self::$db->fetch($sql),
 			'id'
 		);
