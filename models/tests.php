@@ -283,7 +283,7 @@ class tests
 		$item->wordId=$word->id;
 		$item->quoteId=$selQuote->id;
 		$item->sentence=$selQuote->quote;
-		$item->clue=\arrays::convertToArray($clues,'word');
+		$item->clue=\arrays::toArray($clues,'word');
 		return $item;
 	}
 
@@ -309,7 +309,7 @@ class tests
 		$item->word=$word->word;
 		$item->options=array();
 		
-		$item->options=arrays::convertToArray(
+		$item->options=arrays::toArray(
 			$synonyms, 'word'
 		);
 
@@ -335,7 +335,7 @@ class tests
 	 */
 	public static function getItemOfEnglishWriting($word){
 		
-		$meanings=dictionary::getMeaningsByLang($word->id,'en');
+		$meanings=dictionary::getMeaningsByLang($word->id,'tr');
 		if(count($meanings)==0)
 			return false;
 		
@@ -344,7 +344,7 @@ class tests
 		$item=new stdClass();
 		$item->wordId=$word->id;
 		$item->meaning=$meanings[$sel]->meaning;
-		$item->classes=arrays::convertToArray($word->classes,'name');
+		$item->classes=arrays::toArray($word->classes,'name');
 		return $item;
 	}
 
@@ -359,7 +359,7 @@ class tests
 	 */
 	public static function getItemOfTurkishWriting($word){
 		
-		$meanings=dictionary::getMeaningsByLang($word->id,'tr');
+		$meanings=dictionary::getMeaningsByLang($word->id,'en');
 		if(count($meanings)==0)
 			return false;
 		
@@ -367,8 +367,8 @@ class tests
 
 		$item=new stdClass();
 		$item->wordId=$word->id;
-		$item->meaning=$meanings[$sel]->meaning;
-		$item->classes=arrays::convertToArray($word->classes,'name');
+		$item->meaning=$word->word;
+		$item->classes=arrays::toArray($word->classes,'name');
 		return $item;
 	}
 
@@ -565,7 +565,7 @@ class tests
 		$r->wordId=$word->id;
 		$word=dictionary::getWord($wordId);
 		
-		$synonyms=arrays::convertToArray($word->synonyms,'word');
+		$synonyms=arrays::toArray($word->synonyms,'word');
 		$intersect=array_uintersect($synonyms,$selected,'strcasecmp');
 
 		// max 8 words can be selected
@@ -577,7 +577,7 @@ class tests
 			$r->result=false;
 
 
-		$r->corrections=arrays::convertToArray($word->synonyms,'word');
+		$r->corrections=arrays::toArray($word->synonyms,'word');
 		
 		return $r;
 	}
@@ -592,29 +592,22 @@ class tests
 	 * @return bool
 	 */
 	public function validateEnglishWriting($wordId,$answer){
-		if($wordId==4){
-		if($answer=='perfect')
-			return '{"wordId":4,"result":true}';
-		else
-			$h='{"wordId":4,"result":false,
-			"answer":"perfect"';
-			if($answer=='car')
-			$h.=',"correction":"araba"';
-			$h.='}';
-			return $h;
+		$word=dictionary::getWord($wordId);
+
+		$r=new stdClass();
+		$r->wordId=$word->id;
+		
+		if($word->word==trim($answer))
+			$r->result=true;
+		else{
+			$r->result=false;
+			$r->answer=$word->word;
+
+			if(($cWord=dictionary::getWord($answer))!==false)
+				$r->correction=$cWord->word;
 		}
-		elseif($wordId==7){
-		if($answer=='fast')
-			return '{"wordId":7,"result":true}';
-		else
-			$h='{"wordId":7,"result":false,
-			"answer":"fast"';
-			if($answer=='car')
-			$h.=',"correction":"araba"';
-			$h.='}';
-			return $h;
-		}
-		return false;
+
+		return $r;
 	}
 
 
@@ -627,7 +620,48 @@ class tests
 	 * @return bool
 	 */
 	public function validateTurkishWriting($wordId,$answer){
+		
+		$word=dictionary::getWord($wordId);
+		
+		$r=new stdClass();
+		$r->wordId=$word->id;
+		
+		$meanings=dictionary::getMeaningsByLang($word->id,'tr');
+		$answer=trim($answer);
+		$result=false;
+		foreach($meanings as $i)
+			if($i->meaning==$answer){
+				$result=true;
+				break;
+			}
+		
+		if($result)
+			$r->result=$result;
+		else{
+			$r->result=false;
 
+			$meanings=arrays::toArray($meanings,'meaning');
+			shuffle($meanings);
+			$r->answer=implode(' | ',$meanings);
+			$r->corrections=array();
+
+			$wmeanings=dictionary::getWordsByMeaning($answer);
+			foreach($wmeanings as $i){
+				$cWord=dictionary::getWord($i->wId);
+				$className=dictionary::getClassById(
+					$i->clsId
+				);
+
+				$r->corrections[]=$cWord->word
+					.' = ('.$className.')'.$i->meaning;
+			}
+			
+
+			if(($cWord=dictionary::getWord($answer))!==false)
+				$r->correction=$cWord->word;
+		}
+
+		return $r;
 		if($wordId==22){
 		if($answer=='mükemmel')
 			return '{"wordId":22,"result":true}';

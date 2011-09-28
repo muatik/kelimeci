@@ -83,7 +83,7 @@
 	<li>
 		<a href="?_view=turkishWritingTest" alt="">
 			<span class="container">
-				<h3>Türkçe'den İngilizce'ye</h3>
+				<h3>İngilizce'den Türkçe'ye</h3>
 				<p>
 					Son:<span>5 gün önce</span>,
 					Toplam:<span>16</span>
@@ -97,7 +97,7 @@
 	<li>
 		<a href="?_view=englishWritingTest" alt="">
 			<span class="container">
-				<h3>İngilizce'den Türkçe'ye</h3>
+				<h3>Türkçe'den İngilizce'ye</h3>
 				<p>
 					Son:<span>5 gün önce</span>,
 					Toplam:<span>16</span>

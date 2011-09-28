@@ -194,8 +194,37 @@ class dictionary
 			lang in (\''.$langs.'\') '
 		);
 	}
+	
+	/**
+	 * getWordsByMeaning 
+	 * 
+	 * @param mixed $keyword 
+	 * @param mixed $langs 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function getWordsByMeaning($keyword,$langs=null){
+		
+		if($langs!=null){
+			if(!is_array($langs))
+				$langs=array($langs);
 
+			$langs=implode('\',\'',$langs);
+			$langs='lang in(\''.$langs.'\')';
+		}
 
+		$sql='select 
+			wId,meaning,lang,clsId 
+			from words as w, meanings as m
+			where
+			'.$langs.'
+			m.meaning=\''.$keyword.'\' and
+			m.wId=w.id';
+		
+		return self::$db->fetch($sql);
+	}
+	
 	/**
 	 * Gives -ing, -s/-es, -ed forms of a word
 	 * 
@@ -383,13 +412,35 @@ class dictionary
 	 */
 	public static function getClasses($names){
 		
-		$names=$this->db->escape($names);
-		
+		if(!is_array($names))
+			$names=is_array($names);
+
+		foreach($names as $k=>$i)
+			$names[$k]=$this->db->escape($i);
+
+		$names=implode('\',\'',$names);
 		$sql='select * from wordClasses
 			where
 			name in (\''.$names.'\')';
-		
+
 		return $this->db->fetch($sql);
+	}
+
+	/**
+	 * getClassById 
+	 * 
+	 * @param mixed $clsId 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function getClassById($clsId){
+		$sql='select * from wordClasses
+			where
+			id=\''.self::$db->escape($clsId).'\'
+			limit 1';
+
+		return self::$db->fetchFirst($sql);
 	}
 
 }

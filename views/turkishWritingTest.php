@@ -95,7 +95,7 @@
 </script>
 <div class="englishWritingTest">
 	<div class="testPageHeader">
-		<h1>İngilizcesini Yazma Testi</h1>
+		<h1>Türkçesini Yazma Testi</h1>
 		<p>
 			Toplam soru:<span class="totalQuestions">
 				<?php echo count($o->items);?></span>,

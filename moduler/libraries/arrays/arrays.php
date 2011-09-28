@@ -27,7 +27,7 @@ class arrays{
 	 * print_r(arrays::convertToArray($x,'a','b'));
 	 * çıktı: Array([5] => elma) 
 	 * */
-	public static function convertToArray($arr,$field,$keyField=null){
+	public static function toArray($arr,$field,$keyField=null){
 		$newArr='';
 		if(count($arr)<1) return null;
 		
