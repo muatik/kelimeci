@@ -1,5 +1,6 @@
 <?php
 namespace kelimeci;
+use \db,\arrays,\strings;
 /**
  * the class words represents a word with it's all details
  * 

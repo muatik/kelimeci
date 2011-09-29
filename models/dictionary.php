@@ -415,16 +415,19 @@ class dictionary
 		
 		if(!is_array($names))
 			$names=is_array($names);
+		
+		if(count($names)==0)
+			return array();
 
 		foreach($names as $k=>$i)
-			$names[$k]=$this->db->escape($i);
+			$names[$k]=self::$db->escape($i);
 
 		$names=implode('\',\'',$names);
-		$sql='select * from wordClasses
+		$sql='select * from classes
 			where
 			name in (\''.$names.'\')';
-
-		return $this->db->fetch($sql);
+		
+		return self::$db->fetch($sql);
 	}
 
 	/**

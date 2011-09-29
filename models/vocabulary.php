@@ -1,5 +1,6 @@
 <?php
 namespace kelimeci;
+use \db,\arrays;
 /**
  * vocabulary class contains operations that perform for only one user
  * 
@@ -34,6 +35,7 @@ class vocabulary
 			.' instance without a user');
 
 		$this->userId=$userId;
+		$this->db=new db();
 	}
 
 	/**
@@ -45,29 +47,71 @@ class vocabulary
 	 * @access public
 	 * @return array the array of the words instances
 	 */
-	public function getWords($start=0, $length=100, $classes=array()){
+	public function getWords($start=0, $length=100, $classes=null
+		,$keyword=null,$levelMin=null,$levelMax=null,$orderBy=null){
+		
+		
+		if($classes!=null){
+			$classes=dictionary::getClasses($classes);
+			$classes=arrays::toArray($classes,'id');
+			if(is_array($classes) && count($classes)>0)
+				$classes=' and wc.clsId in (\''.
+					implode('\',\'',$classes)
+					.'\')';
+		}
+		if(!is_string($classes))
+			$classe=null;
+		
+		if($keyword!=null)
+			$keyword=' and w.word like \'%'
+				.$this->db->escape($keyword).'%\'';
+		
+		if($levelMin!=null && $levelMax!=null)
+			$level=' and v.level between 
+				'.$this->db->escape($levelMin).' 
+				and '.$this->db->escape($levelMax);
+		else
+			$level=null;
+		
+		switch($orderBy){
+			case 'alphabetically':
+				$orderBy='order by w.word'; break;
+			case 'level':
+				$orderBy='order by v.level'; break;
+			case 'class':
+				$orderBy='order by cls.name';break;
+			default:
+				$orderBy=null;
+		}
 
-		$classes=dictionary::getClasses($classes);
-
-		$sql='select v.* from vocabulary as v, wordClasses as wc
+		$sql='select v.* 
+			from 
+			vocabulary as v, words as w, 
+			wordClasses as wc, classes as cls
 			where
-			v.userId='.$this->userId.'
-
-			'.(count($classes)>0?
-				implode('\',\'',$classes)
-				:null
-				).'
-
+			v.userId='.$this->userId.' and
+			v.wordId=w.id and
+			w.id=wc.wId and
+			wc.clsId=cls.id
+			'.$keyword.'
+			'.$level.'
+			'.$classes.'
+			group by w.id
+			'.$orderBy.'
 			limit '.$start.','.$length;
 		
 		$rs=$this->db->fetch($sql);
-		if($rs==false)
+		
+		if($rs===false)
 			return false;
 		
 		// converting array to word objects
 		$ws=array();
-		foreach($rs as $i)
-			$ws[]=new words($i->wId);
+		foreach($rs as $i){
+			$k=new words($i->wordId);
+			$k->level=$i->level;
+			$ws[]=$k;
+		}
 		
 		return $ws;
 		

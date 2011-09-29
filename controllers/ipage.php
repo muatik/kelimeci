@@ -18,6 +18,9 @@ class ipage extends controllers
 			'vocabulary',
 			'tests',
 		));
+
+		$userId=1;
+		$this->vocabulary=new kelimeci\vocabulary($userId);
 	}
 	
 	public function run(){
