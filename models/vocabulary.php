@@ -130,7 +130,7 @@ class vocabulary
 		
 		if(!is_object($word))
 			$word=dictionary::getWord($word);
-
+		
 		if($word==false)
 			return false;
 

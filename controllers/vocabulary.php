@@ -5,7 +5,33 @@ class vocabularyController extends ipage {
 	public function initialize(){
 		parent::initialize();
 	}
-	
+
+	public function addWord(){
+		$r=$this->r;
+
+		if(!isset($r['word']))
+			return 'the parameter "word" is required.';
+		$word=$r['word'];
+
+		if(!isset($r['tag']))
+			$tag=$r['tag'];
+		else
+			$tag=$r['tag'];
+
+		$a=$this->vocabulary->addWord($word,$tag);
+		if($a==true){
+
+			$t=new stdClass();
+			$word=\kelimeci\dictionary::getWord($word);
+			$t->classes=arrays::toArray($word->classes,'name');
+			$t->id=$word->id;
+			$t->word=$word->word;
+			$t->level=0;
+			return json_encode($t);
+		}
+		return 0;
+	}
+
 	public function viewwordList(){
 		$r=$this->r;
 		

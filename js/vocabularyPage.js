@@ -1,6 +1,7 @@
 function vcbPage(){
 	this.list=$('.ul');
 	this.bind();
+	wordAdditionForm.onAdd=this.onAddedWord;
 }
 
 var vcbp=vcbPage.prototype;
@@ -34,7 +35,7 @@ vcbp.bind=function(){
 		} 
 	}
 	);
-	
+
 	$(".levelRange").slider({
 		range: true,
 		min: -20,
@@ -68,7 +69,9 @@ vcbp.bind=function(){
 
 vcbp.getWords=function(){
 	var t=this;
+	try{
 	var classes=$('.classesCheckList').val().toString().split(',');
+	}catch(e){}
 	var levelRange=$('.levelRangeInput').val().split(':');
 	var keyword=$('.wordFilterForm .keyword').val();
 	var orderBy=$('.wordFilterForm .orderBy option:selected').val();
@@ -101,5 +104,42 @@ vcbp.bindList=function(){
 
 vcbp.showDetail=function(word){
 
+}
+
+vcbp.onAddedWord=function(rsp,f){
+	
+	$('input[name="word"]').focus();
+
+	if(rsp==0){
+		alert(rsp);
+		return false;
+	}
+
+	$('input[name="word"]').val('');
+
+	var word=jQuery.parseJSON(rsp);
+	var classList=['verb','noun','adjective','adverb','preposition'];
+	var abbr=['v','n','aj','av','pp'];
+	
+	var h='<span class="categories">';
+	for(var i in classList){
+
+		var cssClass='';
+		for(var k in word.classes)
+			if(classList[i]==word.classes[k]){
+				cssClass='active';
+				break;
+			}
+
+		h+='<span class="'+abbr[i]+' '+cssClass+'">'+abbr[i]+'</span>'
+	}
+	h+='</span> ';
+
+	h+='<span class="level">'+word.level+'</span> ';
+	h+='<span class="word">'+word.word+'</span> ';
+	
+	$('<li>'+h+'</li>').prependTo('ul.words').find('span.word')
+		.css('background-color','#fffa00').animate({backgroundColor:'#fff'},1800);
+	
 }
 

@@ -43,6 +43,7 @@
 
 <script type="text/javascript" src="js/createXHR.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
 
 <div id="banner">

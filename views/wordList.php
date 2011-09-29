@@ -32,8 +32,8 @@
 
 				<span class="level">'.$i->level.'</span>
 				<span class="word">'.$i->word.'</span>
-					</li>
-				';
+			</li>
+		';
 	}
 	?>
 	</ul>

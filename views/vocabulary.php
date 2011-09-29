@@ -7,6 +7,7 @@ echo $this->loadView('wordAdditionForm.php');
 echo $this->loadView('wordFilterForm.php');
 echo $this->loadView('wordList.php');
 ?>
+
 <link rel="stylesheet" href="css/jquery-ui.custom.css" />
 <style>
 .wordAdditionForm{margin:14px 5px;}
