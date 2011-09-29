@@ -17,13 +17,13 @@
 		IE İÇİN TEST ET 
 	*/
 	/* Box Shadow */
-	box-shadow:0px 0px 15px #000;
-	-moz-box-shadow:0px 0px 15px #000;
-	-webkit-box-shadow:0px 0px 15px #000;
+	box-shadow:0px 0px 10px #333;
+	-moz-box-shadow:0px 0px 10px #333;
+	-webkit-box-shadow:0px 0px 10px #333;
 	/* For IE 8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+	-ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333')";
 	/* For IE 5.5 - 7 */
-	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+	filter:progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333');
 }
 </style>
 

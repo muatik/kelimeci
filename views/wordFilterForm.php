@@ -1,7 +1,8 @@
-<meta charset="utf-8" />
-<link rel="stylesheet" type="text/css" href="../css/reset.css" />
-<link rel="stylesheet" type="text/css" href="../css/common.css" />
+<script src="js/jquery-ui.custom.min.js"></script>
+<script src="js/dropDownChecklist.js"></script>
+<link rel="stylesheet" href="css/dropDownChecklist.css" />
 <style type="text/css">
+
 .wordFilterForm{
 	/*Box Radius*/
 	border-radius:5px;
@@ -17,44 +18,81 @@
 		IE İÇİN TEST ET 
 	*/
 	/* Box Shadow */
-	box-shadow:0px 0px 15px #000;
-	-moz-box-shadow:0px 0px 15px #000;
-	-webkit-box-shadow:0px 0px 15px #000;
+	box-shadow:0px 0px 7px #555;
+	-moz-box-shadow:0px 0px 7px #555;
+	-webkit-box-shadow:0px 0px 7px #555;
 	/* For IE 8 */
-	-ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+	-ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333')";
 	/* For IE 5.5 - 7 */
-	filter:progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+	filter:progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333');
 }
-.wordFilterForm label{
-	font-weight:normal;
+.wordFilterForm{
+	padding-left:10px;
+	overflow:hidden;
 }
-.wordFilterForm .bold{
-	font-weight:bold;
+.wordFilterForm .frow{
+	overflow:hidden;
+	margin-bottom:5px;
 }
-.wordFilterForm div{
-	margin-top:10px;
+.wordFilterForm .felement{
+	margin-right:10px;
+	float:left;
+	width:180px;
 }
-.wordFilterForm div:first-child{
-	margin-top:0;
+.wordFilterForm .felement .flabel{
+	float:left;
+	width:44px;
+	margin-right:4px;
+	margin-top:5px;
+	text-align:right;
 }
-
+.ui-dropdownchecklist {
+	width:120px;
+}
+.levelRange{
+	width:120px;
+	display:inline-block;
+}
+.wordFilterForm .keyword{
+	width:95px;
+}
 </style>
 
 <form class="wordFilterForm" method="post" action="">
-	<div>
-		<span class="bold">Tür:</span>
-		<label><input type="checkbox" name="verb" />Fiil</label>
-		<label><input type="checkbox" name="noun" />İsim</label>
-		<label><input type="checkbox" name="adverb" />Zarf</label>
-		<label><input type="checkbox" name="adjective" />Sıfat</label>
-		<label><input type="checkbox" name="preposition" />Edat</label>
-		<label><input type="checkbox" name="other" />Diğer</label>
-	</div>
-	<div>
-		<label class="bold">Seviye:<----------></label>
-		<label class="bold">Süz:<input type="text" name="filter" /></label>
-		<select name="orderBy">
-			<option value="1">Az seviye</option>
+	<div class="frow">
+		<div class="felement">
+		<label class="flabel">Tür:</label>
+		<select class="classesCheckList" multiple="6">
+			<option value="Hepsi">Hepsi</option>
+			<option value="verb">Verb</option>
+			<option value="noun">Noun</option>
+			<option value"adjective">Adjective</option>
+			<option value="adverb">Adverb</option>
+			<option value="preposition">Preposition</option>
 		</select>
+		</div>
+
+		<div class="felement">
+		<label class="flabel">Diz:</label>
+		<select class="orderBy">
+			<option value="alphabetically">Alfabetik</option>
+			<option value="level">Seviye göre</option>
+			<option value="class">Tür göre</option>
+		</select>
+		</div>
 	</div>
+	<div>	
+
+		<div class="felement">
+		<label class="flabel">Seviye:</label>
+		<div class="levelRange"></div>
+		<input type="hidden" class="levelRangeInput" />
+		</div>
+
+		<div class="felement">
+		<label class="flabel">Ara:</label>
+		<input type="input" class="keyword" />
+		</div>
+	</div>
+
 </form>

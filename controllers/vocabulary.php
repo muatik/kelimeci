@@ -28,7 +28,7 @@ class vocabularyController extends ipage {
 			$levelMin=$r['levelMin'];
 		if(isset($r['keyword']))
 			$keyword=$r['keyword'];
-		if(isset($r['orderBy']) && in_array($r['orderBy'],$orderByList))
+		if(isset($r['orderBy']))
 			$orderBy=$r['orderBy'];
 		if(isset($r['classes']) && is_array($r['classes']))
 			$classes=$r['classes'];
