@@ -77,5 +77,20 @@ class vocabularyController extends ipage {
 		);
 	}
 
+	public function viewword(){
+		if(!isset($this->r['word']))
+			return 'The parameter "word" is required.';
+
+		$word=kelimeci\dictionary::getWord($this->r['word']);
+		if($word===false)
+			return 'word not found!';
+
+		return $this->loadView(
+			'word.php',
+			$word,
+			false
+		);
+
+	}
 }
 ?>

@@ -1,0 +1,36 @@
+#banner{
+	margin:0;
+	padding:0;
+	width:1000px;
+	height:50px;
+	background:url(../images/bannerBg.png) #fff repeat-x;
+	border-bottom:8px solid #525252;
+	overflow:hidden;
+}
+#logo{
+	float:left;
+	background-image:url(../images/logo.png);
+	margin-left:50px;
+	width:131px;
+	height:49px;
+}
+#topMenu{
+	float:left;
+	overflow:hidden;
+	margin:0 0 0 50px;
+	width:500px;
+	height:49px;
+	color:#fff;
+}
+#topMenu li{
+	float:left;
+	padding:25px 0 0px 0;
+}
+#topMenu a{
+	padding:25px 12px 0px 12px;
+	font:normal 18px sans-serif;
+	color:#fff;
+}
+#topMenu a:hover{
+	background:url(../images/topMenuHoverBg.png) repeat-x;
+}

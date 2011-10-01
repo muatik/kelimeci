@@ -1,5 +1,3 @@
-
-
 .wordFilterForm{
 	/*Box Radius*/
 	border-radius:5px;
@@ -32,9 +30,9 @@
 	margin-bottom:5px;
 }
 .wordFilterForm .felement{
-	margin-right:10px;
+	margin-right:8px;
 	float:left;
-	width:180px;
+	width:175px;
 }
 .wordFilterForm .felement .flabel{
 	float:left;
@@ -44,9 +42,11 @@
 	text-align:right;
 }
 .ui-dropdownchecklist {
+	z-index:2000000!important;
 	width:120px;
 }
 .levelRange{
+	margin:4px 0 0 4px;
 	width:120px;
 	display:inline-block;
 }

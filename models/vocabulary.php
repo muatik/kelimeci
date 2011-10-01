@@ -74,6 +74,8 @@ class vocabulary
 			$level=null;
 		
 		switch($orderBy){
+			case 'date':
+				$orderBy='order by v.crtDate desc'; break;
 			case 'alphabetically':
 				$orderBy='order by w.word'; break;
 			case 'level':

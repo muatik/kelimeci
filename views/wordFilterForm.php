@@ -1,5 +1,5 @@
 <script src="js/jquery-ui.custom.min.js"></script>
-<script src="js/dropDownChecklist.js"></script>
+<script src="js/ui.dropdownchecklist-1.4-min.js"></script>
 <link rel="stylesheet" href="css/dropDownChecklist.css" />
 <link rel="stylesheet" href="css/wordFilterForm.css" />
 
@@ -8,7 +8,7 @@
 		<div class="felement">
 		<label class="flabel">Tür:</label>
 		<select class="classesCheckList" multiple="6">
-			<option value="Hepsi">Hepsi</option>
+			<option value="Hepsi" selected="selected">Hepsi</option>
 			<option value="verb">Verb</option>
 			<option value="noun">Noun</option>
 			<option value="adjective">Adjective</option>
@@ -20,6 +20,7 @@
 		<div class="felement">
 		<label class="flabel">Diz:</label>
 		<select class="orderBy">
+			<option value="date">Tarihe Göre</option>
 			<option value="alphabetically">Alfabetik</option>
 			<option value="level">Seviye göre</option>
 			<option value="class">Tür göre</option>

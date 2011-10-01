@@ -50,7 +50,7 @@ class words
 	 * @var array
 	 * @access private
 	 */
-	private $meainging;
+	private $meanings;
 
 	/**
 	 * classes of the word

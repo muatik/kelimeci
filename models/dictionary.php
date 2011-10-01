@@ -142,7 +142,7 @@ class dictionary
 	 * @return bool
 	 */
 	public static function hasClasses($word,$wClass){
-		$word=$this->assureWord($word);
+		$word=self::assureWord($word);
 		
 		foreach($word->classes as $ic)
 			if($ic==$wClass)
@@ -163,11 +163,11 @@ class dictionary
 	public static function isWordExists($word){
 		$sql='select id from dictionary 
 			where 
-			word=\''.$this->db->escape($word).'\'
+			word=\''.self::$db->escape($word).'\'
 			limit 1';
 
-		$this->db->query($sql);
-		return ( $this->db->numRows>0 ? true : false );
+		self::$db->query($sql);
+		return ( self::$db->numRows>0 ? true : false );
 	}
 
 
@@ -237,11 +237,11 @@ class dictionary
 	public static function getInflections($word){
 		// just for now, we produce basic inflections in primitive ways
 		
-		$word=$this->assureWord($word);
+		$word=self::assureWord($word);
 		$inflections=array();
 
 		// if the word isn't a verb, it has no verb inflections
-		if(!$this->hasClass($word,'verb'))
+		if(!self::hasClass($word,'verb'))
 			return $inflections;
 
 		// -ed inflection
@@ -281,7 +281,7 @@ class dictionary
 	 */
 	public static function getInflectionsOfVerb($word){
 		// for the time being, no difference at inflections of verb and noun
-		$this->getInflections($word);
+		self::getInflections($word);
 	}
 	
 	/**
@@ -294,7 +294,7 @@ class dictionary
 	 */
 	public static function getInflectionsOfNoun($word){
 		// for the time being, no difference at inflections of verb and noun
-		$this->getInflections($word);
+		self::getInflections($word);
 	}
 	
 	/**
@@ -343,7 +343,7 @@ class dictionary
 	 * @return array
 	 */
 	public static function getMeaningsOfWord($wordId){
-		return $this->getWordItemsByTable($wordId,'meanings');
+		return self::getWordItemsByTable($wordId,'meanings');
 	}
 
 	/**
@@ -384,7 +384,12 @@ class dictionary
 	 * @return array
 	 */
 	public static function getAntonymsOfWord($wordId){
-		return $this->getWordItemsByTable($wordId,'antonyms');
+		$rs=self::getWordItemsByTable($wordId,'antonyms');
+		foreach($rs as $k=>$i){
+			$i=self::getWord($i->antId);
+			$rs[$k]=$i;
+		}
+		return $rs;
 	}
 	
 	/**

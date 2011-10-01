@@ -1,6 +1,6 @@
 html{
 	
-	font:normal 0.65em verdana,sans-serif,cantarell,"trebuchet ms",arial,"bitstream vera sans";
+	font:normal 62.5% verdana,sans-serif,cantarell,"trebuchet ms",arial,"bitstream vera sans";
 	color:#111;
 }
 h1,h2,h3,h4{
@@ -18,13 +18,21 @@ input[type=text],input[type=select]{
 label{
 	font-weight:bold;
 }
-a,a:link,a:visited,a:hover,a:active{
+a{
 	border:none;
 	font-family:sans-serif;
-	color:#3372D9;
-	text-decoration:none;
+	color:#2450B5;
 	outline:none;
+	text-decoration:none;
 }
+a:hover{
+	color:#137cdd;
+}
+
+a.action{
+	color:#B55107;
+}
+
 img{
 	vertical-align:middle;
 	border:none;
@@ -35,4 +43,8 @@ p{
 span.seperator{
 	font-family:tahoma;
 	font-size:15px;
+}
+
+.text{
+	font:normal 1.3em verdana,sans-serif,cantarell,"trebuchet ms",arial,"bitstream vera sans";
 }

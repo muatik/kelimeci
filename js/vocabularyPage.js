@@ -1,6 +1,7 @@
 function vcbPage(){
 	this.list=$('.ul');
 	this.bind();
+	this.bindList();
 	wordAdditionForm.onAdd=this.onAddedWord;
 }
 
@@ -36,6 +37,7 @@ vcbp.bind=function(){
 	}
 	);
 
+
 	$(".levelRange").slider({
 		range: true,
 		min: -20,
@@ -69,8 +71,11 @@ vcbp.bind=function(){
 
 vcbp.getWords=function(){
 	var t=this;
+	var classes=new Array()
 	try{
-	var classes=$('.classesCheckList').val().toString().split(',');
+		classes=$('.classesCheckList').val().toString().split(',');
+		if(classes[0]=='Hepsi')
+			classes.shift();
 	}catch(e){}
 	var levelRange=$('.levelRangeInput').val().split(':');
 	var keyword=$('.wordFilterForm .keyword').val();
@@ -96,14 +101,27 @@ vcbp.listWords=function(words){
 	$('.wordList').replaceWith(
 		'<div class="wordList">'+words+'</div>'
 	);
+	
+	this.bindList();
 }
 
 vcbp.bindList=function(){
-
+	var t=this;
+	$('ul.words span.word').click(function(){
+		t.showDetail($(this).text());
+	})
 }
 
 vcbp.showDetail=function(word){
-
+	var ajax=new simpleAjax();
+	ajax.send(
+		'vocabulary?_view=word&word='+word,
+		null,
+		{onSuccess:function(rsp,o){
+			$('.detailSide').html(rsp)
+				.hide().toggle('slide',{},450);
+		}}
+	);
 }
 
 vcbp.onAddedWord=function(rsp,f){
@@ -140,6 +158,7 @@ vcbp.onAddedWord=function(rsp,f){
 	
 	$('<li>'+h+'</li>').prependTo('ul.words').find('span.word')
 		.css('background-color','#fffa00').animate({backgroundColor:'#fff'},1800);
+
 	
 }
 
