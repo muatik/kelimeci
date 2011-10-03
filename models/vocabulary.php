@@ -121,6 +121,24 @@ class vocabulary
 	
 	
 	/**
+	 * returns the vocabulary record corresponded to word
+	 * 
+	 * @param string $word 
+	 * @access public
+	 * @return object/false
+	 */
+	public function getVocabularyByWord($word){
+		$sql='select v.* from words as w,vocabulary as v
+			where
+			v.userId='.$this->userId.' and
+			v.wordId=w.id
+			limit 1';
+
+		return $this->db->fetchFirst($sql);
+	}
+
+
+	/**
 	 * adds a word into the user's vocabulary
 	 * 
 	 * @param string $word word itself or words object
@@ -152,6 +170,28 @@ class vocabulary
 		return false;
 	}
 	
+	/**
+	 * adds a quote for a word of the user
+	 * 
+	 * @param string $word word itself or words object
+	 * @param string $quote
+	 * @access public
+	 * @return bool
+	 */
+	public function addQuote($word,$quote){
+		$word=dictionary::getWord($word);
+		if($word==false)
+			return false;
+		
+		$sql='insert into userQuotes (userId,wordId,quote)
+		values(
+			\''.$this->userId.'\',
+			\''.$word->id.'\',
+			\''.$this->db->escape($quote).'\'
+		)';
+		
+		return $this->db->query($sql);
+	}
 	
 	/**
 	 * suggests tags which contain the keyword

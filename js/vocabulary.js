@@ -45,3 +45,23 @@ _vcbp.get=function(filter){
 		}}
 	)
 }
+
+
+_vcbp.addQuote=function(word,quote){
+	
+	if(arguments.length>2)
+		var callBack=arguments[2];
+	else	
+		var callBack=false;
+
+	var ajax=new simpleAjax();
+	ajax.send(
+		'vocabulary?_ajax=addQuote&word='+word+'&quote='+quote,
+		null,
+		{onSuccess:function(rsp,o){
+			if(callBack)
+				callBack(rsp);
+		}}
+	);
+}
+

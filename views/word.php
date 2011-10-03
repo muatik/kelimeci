@@ -2,6 +2,8 @@
 $w=$o;
 ?>
 <div class="wordDetails" id="word<?php echo $w->id;?>">
+	<input type="hidden" name="word" 
+		value="<?php echo $w->word?>" />
 	<script tyoe="text/javascript" src="js/words.js"></script>
 	<link rel="stylesheet" href="css/word.css" />
 	<h1><?php echo $w->word;?></h1>
@@ -36,12 +38,16 @@ $w=$o;
 		?>
 		</ul>
 		<div class="addMore">
-			<a href="#" alt="">ekle</a>
+			<a href="#" class="action add">ekle</a>
 			<?php
 			if(count($w->quotes)>4)
 				echo '<a href="#" class="action seperator more"
 			       		alt="">hepsi...</a>';
 			?>
+			<div class="addForm">
+				<input type="text" />
+				<button>Ekle</button>
+			</div>
 		</div>
 	</div>
 	

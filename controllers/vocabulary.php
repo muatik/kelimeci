@@ -92,5 +92,15 @@ class vocabularyController extends ipage {
 		);
 
 	}
+
+	public function addQuote(){
+		$r=$this->r;
+		
+		if(!isset($r['word'],$r['quote']))
+			return 'The parameters \'word\' and \'quote\' are required.';
+
+
+		return $this->vocabulary->addQuote($r['word'],$r['quote']);
+	}
 }
 ?>
