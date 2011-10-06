@@ -82,7 +82,11 @@ class crawlers
 
 		$this->insertAntonyms($wordId,$o->antonyms);
 
-		$this->insertMeans($wordId,$o->partOfSpeech);		
+		$this->insertMeans(
+			$wordId,
+			$o->partOfSpeech,
+			$o->webPageName
+		);		
 		
 	}
 	
@@ -96,7 +100,7 @@ class crawlers
 	 * */
 	public function insertWord($word){
 
-		$word=$this->db->escape($word);
+		$word=$this->db->escape(trim($word));
 
 		$sql='select id from words where word=\''.$word.'\'';		
 		$r=$this->db->fetchFirst($sql);
@@ -120,7 +124,7 @@ class crawlers
 	 * */
 	public function insertClass($clsName){
 		
-		$clsName=$this->db->escape($clsName);
+		$clsName=$this->db->escape(trim($clsName));
 		$sql='select * from classes where name=\''.$clsName.'\' ';
 		$r=$this->db->fetchFirst($sql);
 		
@@ -190,8 +194,8 @@ class crawlers
 	 * */
 	public function insertWordInfo($wordId,$name,$value){
 
-		$name=$this->db->escape($name);
-		$value=$this->db->escape($value);
+		$name=$this->db->escape(trim($name));
+		$value=$this->db->escape(trim($value));
 
 		$sql='select id,value from wordInfo where wId=\''.
 			$wordId.'\' and name=\''.$name.'\' limit 1';
@@ -296,10 +300,11 @@ class crawlers
 	 * 
 	 * @param int $wordId
 	 * @param array means
+	 * @param string webPageName
 	 * 
 	 * @return bool
 	 * */
-	public function insertMeans($wordId,$partOfSpeech){		
+	public function insertMeans($wordId,$partOfSpeech,$webPageName){		
 		
 		if (count($partOfSpeech)==0) return true;
 		
@@ -315,16 +320,17 @@ class crawlers
 					$sql='select id from meanings where  
 						wId=\''.$wordId.'\',lang=\''.$in->lang.
 						'\',clsId=\''.$clsId.'\',meaning=\''.
-						$this->db->escape($k).'\'';						
+						$this->db->escape(trim($k)).'\'';						
 							
 					if (!$this->db->fetchFirst($sql)){
 						$sql='
 							insert into 
-								meanings(wId,lang,clsId,meaning) 
+								meanings(wId,lang,clsId,meaning,page) 
 							values(\''.$wordId.'\',
 								\''.$in->lang.'\',
 								\''.$clsId.'\',
-								\''.$this->db->escape($k).'\') ';
+								\''.$this->db->escape(trim($k)).'\',
+								\''.$webPageName.'\') ';
 						$this->db->query($sql);
 					}
 				}
