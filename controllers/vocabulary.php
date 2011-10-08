@@ -82,8 +82,13 @@ class vocabularyController extends ipage {
 			return 'The parameter "word" is required.';
 
 		$word=kelimeci\dictionary::getWord($this->r['word']);
+
 		if($word===false)
 			return 'word not found!';
+
+		// kullanıcının bu kelime için sağladı verileri
+		// çeker
+		$word=$this->vocabulary->fillUserData($word);
 
 		return $this->loadView(
 			'word.php',

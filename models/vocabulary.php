@@ -136,7 +136,19 @@ class vocabulary
 
 		return $this->db->fetchFirst($sql);
 	}
-
+	
+	/**
+	 * fills data which is provided by the user into the object word
+	 * for example: user quotes
+	 *
+	 * @param word $word 
+	 * @access public
+	 * @return object the object word
+	 */
+	public function fillUserData($word){
+		$word->uQuotes=$this->getUserQuotes($word->id);
+		return $word;
+	}
 
 	/**
 	 * adds a word into the user's vocabulary
@@ -192,7 +204,23 @@ class vocabulary
 		
 		return $this->db->query($sql);
 	}
-	
+
+	/**
+	 * returns user's quotes
+	 * 
+	 * @param int $wordId
+	 * @access public
+	 * @return array
+	 */
+	public function getUserQuotes($wordId){
+		$sql='select * from userQuotes 
+			where
+			userId='.$this->userId.' and
+			wordId=\''.$this->db->escape($wordId).'\' ';
+		
+		return $this->db->fetch($sql);
+	}
+
 	/**
 	 * suggests tags which contain the keyword
 	 * 

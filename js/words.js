@@ -16,6 +16,7 @@ words.prototype.bind=function(){
 	$('a.more',t.layer).unbind('click').click(function(e){
 		var p=$(this).parent();
 		var hiddens=$('.hidden',p);
+
 		if(hiddens.get(0)){
 			$(hiddens).toggleClass('hidden')
 				.toggleClass('exp');
@@ -31,13 +32,27 @@ words.prototype.bind=function(){
 	});
 
 	$('.quotes a.add',t.layer).click(function(e){
-		$('.addForm',t.layer).toggle();
+		if($(this).text()=='Alıntı ekle'){
+			$(this).text('kapat');
+			$('.addForm',t.layer).slideDown('fast');
+			$('.quotes .addForm input',t.layer)
+				.focus();
+		}
+		else{
+			$(this).text('Alıntı ekle');
+			$('.addForm',t.layer).slideUp('fast');
+		}
 		e.preventDefault();	
 	});
 
 	$('.quotes .addForm button',t.layer).click(function(e){
-		var button=this;
 		var quote=$('.quotes .addForm input').val();
+		if(quote.replace(' ','').length<2){
+			alert('Alıntı çok kısa');
+			return false;
+		}
+		
+		var button=this;
 		$(this).html('Ekleniyor...');
 		$(this).attr('disabled','disabled');
 
@@ -78,7 +93,9 @@ words.prototype.showAddedQuote=function(quote,rsp){
 		var i='<li class="user"><blockquote class="text">'
 			+quote+'</blockquote></li>';
 
-		$(i).appendTo('ul.quotes',t.layer);
+		$(i).appendTo('ul.quotes',t.layer)
+			.css('background-color','#fffa00')
+			.animate({backgroundColor:'#fff'},1800);
 	}
 	else{
 		$('<p class="erro">Alıntı eklenemedi. '+rsp+'</p>')

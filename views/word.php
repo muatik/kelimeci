@@ -10,11 +10,24 @@ $w=$o;
 	
 	<div class="meanings">
 	<?php
-	if(count($w->meanings)>0){
-		echo '<p class="text">
-			<i class="lang">'.$w->meanings[0]->lang.': </i>'
-			.$w->meanings[0]->meaning.'</p>';
+	$quotes=array_merge($w->uQuotes,$w->quotes);
+	$i=0;
+	$pClass='';
+	foreach($w->meanings as $m){
+		if($i>3)
+			$pClass='hidden';
+		
+		echo '<p class="text '.$pClass.'">
+			<i class="lang">'.$m->lang.': </i>'
+			.$m->meaning.'</p>';
+
+		$i++;
 	}
+	
+	if(count($w->meanings)>3)
+		echo '<a href="#" class="action more"
+			alt="">hepsi...</a>';
+
 	?>
 	</div>
 
@@ -29,26 +42,37 @@ $w=$o;
 
 	<div class="quotes">
 		<h4>ALINTILAR</h4>
+		
 		<ul class="quotes">
 		<?php
-		$quotes=$w->quotes;
-		array_slice($quotes,0,4);
-		foreach($quotes as $i)
-			echo '<li><blockquote class="text">'.$i->quote.'</blockquote></li>';
+		$quotes=array_merge($w->uQuotes,$w->quotes);
+		$i=0;
+		$liClass='';
+		foreach($quotes as $q){
+			if($i>3)
+				$liClass='hidden';
+
+			echo '<li class="'.$liClass.'">
+				<blockquote class="text">'
+				.$q->quote.'</blockquote></li>';
+
+			$i++;
+		}
 		?>
 		</ul>
-		<div class="addMore">
-			<a href="#" class="action add">ekle</a>
-			<?php
-			if(count($w->quotes)>4)
-				echo '<a href="#" class="action seperator more"
-			       		alt="">hepsi...</a>';
-			?>
-			<div class="addForm">
-				<input type="text" />
-				<button>Ekle</button>
-			</div>
+		
+		<a href="#" class="action add">Alıntı ekle</a>
+		<?php
+		if(count($quotes)>4)
+			echo '<a href="#" class="action more seperator"
+				alt="">hepsi...</a>';
+		?>
+		
+		<div class="addForm">
+			<input type="text" />
+			<button>Ekle</button>
 		</div>
+		
 	</div>
 	
 	<div class="variations">

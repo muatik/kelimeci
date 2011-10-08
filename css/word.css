@@ -1,6 +1,5 @@
 .wordDetails{
 	padding:10px;
-	font-size:1.2em;
 }
 .wordDetails h4{
 	font-size:10px;
@@ -66,6 +65,10 @@
 	font:normal 1.1em verdana,sans-serif,cantarell,"trebuchet ms",arial,"bitstream vera sans";
 }
 
-a.hidden{
+.quotes .addForm{
 	display:none;
+}
+
+.quotes .addForm input{
+	width:290px;
 }
