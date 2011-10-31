@@ -1,0 +1,22 @@
+.listSide,.detailSide{
+	margin:20px 10px 10px 20px;
+	float:left;
+}
+.listSide{
+	width:380px;
+	padding-right:30px;
+	border-right:1px solid #d0d0d0;
+	/*
+	box-shadow:0px 0px 12px #333;
+	-moz-box-shadow:0px 0px 12px #333;
+	-webkit-box-shadow:0px 0px 16px #333;
+	*/
+}
+.detailSide{
+	width:450px;
+	margin-left:20px;
+	z-index:-999999;
+}
+
+.wordAdditionForm{margin:14px 5px;}
+.wordFilterForm{margin:14px 5px;}

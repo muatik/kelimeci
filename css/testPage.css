@@ -36,7 +36,7 @@
 .testPageOl input[type=text]{
 
 }
-.testPageOl p.hint, .testPageOl span.hint{
+.testPageOl p.clue, .testPageOl span.clue{
 	color:gray;
 }
 .testPageOl ul{

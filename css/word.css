@@ -1,0 +1,74 @@
+.wordDetails{
+	padding:10px;
+}
+.wordDetails h4{
+	font-size:10px;
+	/*color:#B9978F;/*#C7A59E;*/
+	color:#111;
+	text-transform:uppercase;
+	font-weight:bold;
+	margin:5px 0 5px 0;
+}
+.wordDetails h4.inline{
+	display:inline-block;
+}
+.wordDetails a{
+	font:13px verdana,sans-serif;
+	margin-left:5px;
+	line-height:21px;
+	text-decoration:none;
+
+}
+.wordDetails div.addMore a{
+	text-decoration:none;
+}
+.wordDetails ul{
+	margin-left:10px;
+	list-style-type:disc;
+	list-style-position:inside;
+}
+.wordDetails ul li{
+	margin:3px 0;
+}
+.wordDetails div, .wordDetails ul{
+	margin-bottom:10px;
+}
+.wordDetails ul.gray{
+	list-style-type:none;
+	color:#7F7F7F;
+}
+.wordDetails ul.gray span{
+	margin-left:5px;
+}
+.wordDetails .gray{
+	color:#7F7F7F;
+}
+.wordDetails .seperator{
+	margin:0 3px 0 3px;
+	border-left:1px solid #3372D9;
+	padding-left:7px;
+}
+/* THIS DIV TAG WILL REPLACE TO IMG TAG */
+.wordDetails .img{
+	background:#D0E4F0;
+	width:400px;
+	height:150px;
+	text-align:center;
+	vertical-align:middle;
+}
+.wordDetails div.delAndTestLinks{
+	margin-top:30px;
+}
+
+
+.wordDetails .meanings{
+	font:normal 1.1em verdana,sans-serif,cantarell,"trebuchet ms",arial,"bitstream vera sans";
+}
+
+.quotes .addForm{
+	display:none;
+}
+
+.quotes .addForm input{
+	width:290px;
+}

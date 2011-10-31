@@ -1,4 +1,4 @@
-<?
+<?php
 class simple_table
 {
 	

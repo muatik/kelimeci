@@ -1,5 +1,7 @@
 <?php
-
+namespace kelimeci;
+use \stdClass;
+use \arrays,\db,\strings;
 /**
  * the class tests prepares and evaluates tests
  * 
@@ -35,9 +37,16 @@ class tests
 	 * @var array
 	 * @access public
 	 */
-	public static $level=array();
+	public static $levels=array();
 	
-
+	/**
+	 * indicates if this class is initiliazed.
+	 * 
+	 * @static
+	 * @var bool
+	 * @access public
+	 */
+	public static $initialized=false;
 
 	/**
 	 * static __construct 
@@ -46,7 +55,9 @@ class tests
 	 * @access public
 	 * @return void
 	 */
-	public static function __construct(){
+	public static function init(){
+		if(self::$initialized)
+			return false;
 		
 		//level=>interval, specified in days
 		$levels=array(
@@ -74,12 +85,18 @@ class tests
 		);
 		
 		self::$levels=$levels;
+		
+		self::$initialized=true;
 	}
 
-
+	public function __construct(){
+		self::init();
+		$this->db=new \db();
+	}
+	
 	public static function getIdOfTestType($testType){
 		
-		$db=new db();
+		$db=new \db();
 
 		$r=$db->fetchFirst('select * from testTypes
 			where 
@@ -96,22 +113,25 @@ class tests
 	 * pepare a test for a user
 	 * 
 	 * @param string $testType 
-	 * @static
 	 * @access public
 	 * @return object contains test items and other details
 	 */
-	public static function pepare($testType){
+	public function prepare($testType){
+		/*
 		'fetch words of user for the test
 		preapre test items by each word
 		preapre test info
 		return'
+		*/
 
-		$test=new stdClass();
+		$test=new \stdClass();
 		$test->items=array();
 		$testWords=$this->getWordsForTest($testType);
-
-		foreach($testWords as $i)
-			$test->items[$i->id]=self::getTestDate($testType,$i);
+		foreach($testWords as $i){
+			$d=self::getTestData($testType,$i);
+			if($d!=false)
+				$test->items[$i->id]=$d;
+		}
 
 		
 		$test->type=$testType;
@@ -128,17 +148,16 @@ class tests
 	 * returns words which are ready to be tested.
 	 *
 	 * @param string $testType 
-	 * @static
 	 * @access public
 	 * @return array words
 	 */
-	public static function getWordsForTest($testType){
+	public function getWordsForTest($testType){
 		
 		$time=time();
 
 		$interval=date(
 			'Y-m-d H:i:00',
-			$time-(self::minInterval*3600)
+			$time-(self::$minInterval*3600)
 		);
 
 		// calculation dates of levels
@@ -146,13 +165,13 @@ class tests
 		foreach(self::$levels as $level=>$i)
 			$levelConds[$level]=date(
 				'Y-m-d H:i:00',
-				$time-(3600*24*$i))
+				$time-(3600*24*$i)
 			);
 		
 		//preparing condititions of levels
 		foreach($levelConds as $level=>$i)
 			$levelConds[$level]='(v.level='
-				.$level.' and t.date<"'.$i.'")';
+				.$level.' and t.crtDate<"'.$i.'")';
 		
 		$testId=self::getIdOfTestType($testType);
 		
@@ -163,13 +182,13 @@ class tests
 			vocabulary as v
 			left join (
 				select * from tests
-				group by wordId
 				where
 					userId='.$this->userId.' and
 					testTypeId='.$testId.'
+				group by wordId
 				order by crtDate desc
 			) as t on
-				t.wordId=v.wordId
+				t.wordId=v.wordId and
 				t.userId=v.UserId
 		where
 		
@@ -185,7 +204,7 @@ class tests
 				'.implode(' or ',$levelConds).'
 			)
 		)';
-		
+
 		$rs=$this->db->fetch($sql);
 		$words=array();
 		foreach($rs as $i)
@@ -211,14 +230,19 @@ class tests
 	 * @return array
 	 */
 	public static function getTestData($testType,$word){
+		
 		switch($testType){
 			case 'sentenceCompletion':
-				return self::getItemOfSentComp($word);
+				return self::getItemOfSentenceCompletion($word);
+			case 'synonymSelection':
+				return self::getItemOfSynonymSelection($word);
 			case 'writingVariations':
-			case 'writingClasses':
-			case 'choosingSynonyms':
-			case 'writingInEnglish':
-			case 'writingInTurkish':
+			case 'categorySelection':
+				return self::getItemOfCategorySelection($word);
+			case 'englishWriting':
+				return self::getItemOfEnglishWriting($word);
+			case 'turkishWriting':
+				return self::getItemOfTurkishWriting($word);
 		}
 		return false;
 	}
@@ -232,50 +256,138 @@ class tests
 	 * @access public
 	 * @return array
 	 */
-	public static function getItemOfSentComp($word){
+	public static function getItemOfSentenceCompletion($word){
 		$item=new stdClass();
 		$quotes=$word->quotes;
+		
 		shuffle($quotes);
+		
+		if(count($quotes)==0)
+			return false;
+		
 
-		foreach($quotes as $k=>$quote)
-			$quotes[$k]=str_replace(
-				$word->word,
-				'.....',
-				$quote
-			);
+		$selQuote=$quotes[0];
+		$selQuote->quote=preg_replace(
+			'/'.$word->word.'/i',
+			'[...]',
+			$selQuote->quote
+		);
 		
-		
+
 		$clues=dictionary::getRandomWords(6);
 		foreach($clues as $k=>$i)
 			$clues[$k]=dictionary::getWord($i);
 
 		$clues[]=$word;
 		shuffle($clues);
-		
-		$item->quotes=$quotes;
-		$item->clues=$clues;
+
+		$item->wordId=$word->id;
+		$item->quoteId=$selQuote->id;
+		$item->sentence=$selQuote->quote;
+		$item->clue=\arrays::toArray($clues,'word');
 		return $item;
 	}
 
-	public static function getItemOfWritingVariations($word){
-		select * from wordClasses 
-			where
-			wordId='.$word->id.' and
+	/**
+	 * getItemOfSynonymSelection 
+	 * 
+	 * @param mixed $word 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function getItemOfSynonymSelection($word){
+		
+		$synonyms=$word->synonyms;
+		if(count($synonyms)==0)
+			return false;
+		
+		shuffle($synonyms);
+		$synonyms=array_slice($synonyms,0,8);
+	
+		$item=new stdClass();
+		$item->wordId=$word->id;
+		$item->word=$word->word;
+		$item->options=array();
+		
+		$item->options=arrays::toArray(
+			$synonyms, 'word'
+		);
 
-		/*catastrophic
-		catastrophic?lly
-		catastrophic?ly
-		catastrophiced
-		catastrophicd
-		catastropcing
-		catastrophics
+		$rws=dictionary::getRandomWords(3);
+		foreach($rws as $i){
+			$i=dictionary::getWord($i);
+			$item->options[]=$i->word;
+		}
+		
+		shuffle($item->options);
 
-		arrangem[ea]{1}nt
-		a
-
-		 */
+		return $item;
 	}
 
+
+	/**
+	 * getItemOfSynonymSelection 
+	 * 
+	 * @param mixed $word 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function getItemOfEnglishWriting($word){
+		
+		$meanings=dictionary::getMeaningsByLang($word->id,'tr');
+		if(count($meanings)==0)
+			return false;
+		
+		$sel=array_rand($meanings);
+
+		$item=new stdClass();
+		$item->wordId=$word->id;
+		$item->meaning=$meanings[$sel]->meaning;
+		$item->classes=arrays::toArray($word->classes,'name');
+		return $item;
+	}
+
+
+	/**
+	 * getItemOfEnglishWriting 
+	 * 
+	 * @param mixed $word 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function getItemOfTurkishWriting($word){
+		
+		$meanings=dictionary::getMeaningsByLang($word->id,'en');
+		if(count($meanings)==0)
+			return false;
+		
+		$sel=array_rand($meanings);
+
+		$item=new stdClass();
+		$item->wordId=$word->id;
+		$item->meaning=$word->word;
+		$item->classes=arrays::toArray($word->classes,'name');
+		return $item;
+	}
+	
+	/**
+	 * getItemOfCategorySelection
+	 * 
+	 * @param mixed $word 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function getItemOfCategorySelection($word){
+		$item=new stdClass();
+		$item->wordId=$word->id;
+		$item->word=$word->word;
+		return $item;
+	}
+		
 	### END OF TEST DATA METHODS ###
 	
 
@@ -287,26 +399,316 @@ class tests
 
 	/**
 	 * verify a test answer that's represented by a result object
-	 * 
-	 * @param object $result 
+	 *
+	 * the parameter test contains at least two properties which are
+	 * "name" that specifies the name of the test, and "wordId" that
+	 * specifies the word which are being test.
+	 *
+	 * and the parameter must have various properties corresponded to
+	 * the test.
+	 *
+	 * @param object $test 
 	 * @static
 	 * @access public
 	 * @return bool
 	 */
-	public static function verify($result){
-	}
+	public function validate($test){
+		switch($test->name){
+			case 'sentenceCompletionTest':
+				return $this->validateSentenceCompletion(
+					$test->wordId,
+					$test->quoteId,
+					mb_strtolower($test->answer)
+				);
+			case 'variationWritingTest':
+				return $this->validateVariationWriting(
+					$test->wordId,
+					$test->variations
+				);
+			case 'categorySelectionTest':
+				return $this->validatecategorySelection(
+					$test->wordId,
+					$test->selected
+				);
+			case 'synonymSelectionTest':
+				return $this->validatesynonymSelection(
+					$test->wordId,
+					$test->selected
+				);
+			case 'englishWritingTest':
+				return $this->validateEnglishWriting(
+					$test->wordId,
+					$test->answer
+				);
+			case 'turkishWritingTest':
+				return $this->validateTurkishWriting(
+					$test->wordId,
+					$test->answer
+				);
+		}
 
+		return false;
+	}
+	
 	/**
-	 * verify a sentence completion test answer that's represented 
-	 * by a result object
+	 * validate answer for a sentence completion test
 	 * 
-	 * @param object $result 
+	 * @param int $wordId
+	 * @param int $quoteId 
+	 * @param string $answer 
 	 * @access public
 	 * @return bool
 	 */
-	public function verifyInSentComp($result){
+	public function validateSentenceCompletion($wordId,$quoteId,$answer){
+		$word=dictionary::getWord($wordId);
+		
+		$r=new \stdClass();
+		$r->wordId=$word->id;
+
+		if($word->word==trim($answer))
+			$r->result=true;
+		else{
+			$r->result=false;
+			$r->answer=$word->word;
+			
+			if($cword=dictionary::getword($answer))
+				$r->correction=$cword->word;
+		}
+		
+		return $r;
 	}
 
+
+	/**
+	 * validate answer for a variation writing test
+	 * 
+	 * @param int $wordId
+	 * @param array $variations array of 
+	 * objects which are consist of {object->className, object->answer}
+	 * @access public
+	 * @return bool
+	 */
+	public function validateVariationWriting($wordId,$variations){
+		
+		if($wordId==1){
+			/*
+			$variation[0]->className='';
+			$variation[0]->answer='';
+			 */
+
+			$answers='';
+			foreach($variations as $i)
+				$answers.=$i->answer;
+			
+			if($answers=='access,access,accessible')
+				return '{"wordId":1,"result":true}';
+			else
+				return '{"wordId":1,"result":false,
+					"correction":[
+						["noun","access"],
+						["verb","access"],
+						["adjective","accessible"]
+					]}';
+		}
+		elseif($wordId==2){
+
+			/*
+			$variation[0]->className='';
+			$variation[0]->answer='';
+			 */
+
+			$answers='';
+			foreach($variations as $i)
+				$answers.=$i->answer;
+
+			if($answers=='noun,verb,adjective')
+				return '{"wordId":2,"result":true}';
+			else
+				return '{"wordId":2,"result":false,
+					"correction":[
+						["noun","meaning"],
+						["verb","mean"],
+						["adjective","meaningfull"]
+					]}';
+		}
+
+	}
+
+
+	/**
+	 * validate answer for a category selection test
+	 * 
+	 * @param int $wordId
+	 * @param array $selected selected categories by the user
+	 * @access public
+	 * @return bool
+	 */
+	public function validateCategorySelection($wordId,$selected){
+
+		$word=dictionary::getWord($wordId);
+		
+		$result=true;
+		foreach($word->classes as $c){
+			if(!in_array($c->name,$selected)){
+				$result=false;
+				break;
+			}
+		}
+
+		$r=new stdClass();
+		$r->wordId=$word->id;
+		if($result && count($word->classes)==count($selected)){
+			$r->result=true;
+		}
+		else{
+			$r->result=false;
+			$r->correction=arrays::toArray(
+				$word->classes,'name'
+			);
+		}
+		
+		return $r;
+	}
+
+
+	/**
+	 * validate answer for a category selection test
+	 * 
+	 * @param int $wordId
+	 * @param array $selected selected synonyms by the user
+	 * @access public
+	 * @return bool
+	 */
+	public function validateSynonymSelection($wordId,$selected){
+		
+		
+		$word=dictionary::getWord($wordId);
+		$r=new \stdClass();
+		$r->wordId=$word->id;
+		$word=dictionary::getWord($wordId);
+		
+		$synonyms=arrays::toArray($word->synonyms,'word');
+		$intersect=array_uintersect($synonyms,$selected,'strcasecmp');
+
+		// max 8 words can be selected
+		if(count($synonyms)>7 && count($intersect)==8)
+			$r->result=true;
+		elseif(count($synonyms)==count($intersect))
+			$r->result=true;
+		else
+			$r->result=false;
+
+
+		$r->corrections=arrays::toArray($word->synonyms,'word');
+		
+		return $r;
+	}
+
+
+	/**
+	 * validate answer for a english writing
+	 * 
+	 * @param int $wordId
+	 * @param string $answer
+	 * @access public
+	 * @return bool
+	 */
+	public function validateEnglishWriting($wordId,$answer){
+		$word=dictionary::getWord($wordId);
+
+		$r=new stdClass();
+		$r->wordId=$word->id;
+		
+		if($word->word==trim($answer))
+			$r->result=true;
+		else{
+			$r->result=false;
+			$r->answer=$word->word;
+
+			if(($cWord=dictionary::getWord($answer))!==false)
+				$r->correction=$cWord->word;
+		}
+
+		return $r;
+	}
+
+
+	/**
+	 * validate answer for a turkish writing
+	 * 
+	 * @param int $wordId
+	 * @param string $answer
+	 * @access public
+	 * @return bool
+	 */
+	public function validateTurkishWriting($wordId,$answer){
+		
+		$word=dictionary::getWord($wordId);
+		
+		$r=new stdClass();
+		$r->wordId=$word->id;
+		
+		$meanings=dictionary::getMeaningsByLang($word->id,'tr');
+		$answer=trim($answer);
+		$result=false;
+		foreach($meanings as $i)
+			if($i->meaning==$answer){
+				$result=true;
+				break;
+			}
+		
+		if($result)
+			$r->result=$result;
+		else{
+			$r->result=false;
+
+			$meanings=arrays::toArray($meanings,'meaning');
+			shuffle($meanings);
+			$r->answer=implode(' | ',$meanings);
+			$r->corrections=array();
+
+			$wmeanings=dictionary::getWordsByMeaning($answer);
+			foreach($wmeanings as $i){
+				$cWord=dictionary::getWord($i->wId);
+				$className=dictionary::getClassById(
+					$i->clsId
+				);
+
+				$r->corrections[]=$cWord->word
+					.' = ('.$className.')'.$i->meaning;
+			}
+			
+
+			if(($cWord=dictionary::getWord($answer))!==false)
+				$r->correction=$cWord->word;
+		}
+
+		return $r;
+		if($wordId==22){
+		if($answer=='mükemmel')
+			return '{"wordId":22,"result":true}';
+		else
+			$h='{"wordId":22,"result":false,
+			"answer":"mükemmel"';
+			if($answer=='araba')
+			$h.=',"correction":"car"';
+			$h.='}';
+			return $h;
+		}
+		elseif($wordId==14){
+		if($answer=='sürat')
+			return '{"wordId":14,"result":true}';
+		else
+			$h='{"wordId":14,"result":false,
+			"answer":"sürat"';
+			if($answer=='araba')
+			$h.=',"correction":"car"';
+			$h.='}';
+			return $h;
+		}
+
+		return false;
+	}
 
 	### END OF VERIFICATION METHODS ###
 

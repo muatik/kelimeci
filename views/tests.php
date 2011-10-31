@@ -69,7 +69,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="#" alt="">
+		<a href="?_view=synonymSelectionTest" alt="">
 			<span class="container">
 				<h3>Eşanlamlıları Seçme</h3>
 				<p>
@@ -81,21 +81,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="#" alt="">
-			<span class="container">
-				<h3>Türkçe'den İngilizce'ye</h3>
-				<p>
-					Son:<span>5 gün önce</span>,
-					Toplam:<span>16</span>
-				</p>
-			</span>
-			<img src="../images/play.png" />
-		</a>
-	</li>
-	
-	
-	<li>
-		<a href="#" alt="">
+		<a href="?_view=turkishWritingTest" alt="">
 			<span class="container">
 				<h3>İngilizce'den Türkçe'ye</h3>
 				<p>
@@ -106,8 +92,22 @@
 			<img src="../images/play.png" />
 		</a>
 	</li>
+	
+	
 	<li>
-		<a href="#" alt="">
+		<a href="?_view=englishWritingTest" alt="">
+			<span class="container">
+				<h3>Türkçe'den İngilizce'ye</h3>
+				<p>
+					Son:<span>5 gün önce</span>,
+					Toplam:<span>16</span>
+				</p>
+			</span>
+			<img src="../images/play.png" />
+		</a>
+	</li>
+	<li>
+		<a href="?_view=categorySelectionTest" alt="">
 			<span class="container">
 				<h3>Kelime Kategorilerini Seçme</h3>
 				<p>
@@ -119,7 +119,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="#" alt="">
+		<a href="?_view=variationWritingTest" alt="">
 			<span class="container">
 				<h3>Kelime Varyasyonlarını Yazma</h3>
 				<p>
@@ -131,7 +131,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="#" alt="">
+		<a href="?_view=voiceTest" alt="">
 			<span class="container">
 				<h3>Duyulan Kelimeyi Yazma</h3>
 				<p>
