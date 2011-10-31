@@ -7,7 +7,6 @@
 <script type="text/javascript" src="../js/profile.js"></script>
 <div class="profilePage">
 <form class="profileForm" method="post" action="">
-	<input type="hidden" name="userId" id="userId" value="<?php //echo $o->userId; ?>" />
 	<p>
 		<label for="userName">Kullanıcı adı:</label>
 		<?php //echo $o->userName; ?>

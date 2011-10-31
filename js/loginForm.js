@@ -19,7 +19,7 @@ $(document).ready(function(){
 
 		var ajax=new simpleAjax();
 		ajax.send(
-			'?_ajax=validateLogin',
+			'?_ajax=users/login',
 			'userName='+encodeURI(userName)+'&'+
 				'password='+encodeURI(password),
 			{'onSuccess':function(rsp,o){

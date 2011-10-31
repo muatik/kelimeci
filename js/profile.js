@@ -41,7 +41,7 @@ $(document).ready(function(){
 			},
 			result=null;				
 
-		result=updateInformation('updatePersonelInfo',infoObj);
+		result=updateInformation('personelInfo',infoObj);
 
 		if(result!==true)
 			alert(result);
@@ -66,7 +66,7 @@ $(document).ready(function(){
 			infoObj={'email':email},
 			result=null;				
 
-		result=updateInformation('updateEmail',infoObj);
+		result=updateInformation('email',infoObj);
 
 		if(result!==true)
 			alert(result);
@@ -97,12 +97,11 @@ $(document).ready(function(){
 		var 
 			infoObj={
 				'currentPassword':curPass,
-				'newPassword':newPass,
-				'newPassword2':newPass2
+				'newPassword':newPass
 			},
 			result=null;				
 
-		result=updateInformation('updatePassword',infoObj);
+		result=updateInformation('password',infoObj);
 
 		if(result!==true)
 			alert(result);
@@ -153,7 +152,7 @@ $(document).ready(function(){
 		
 		infoObj.practice=practice;
 
-		result=updateInformation('updatePractice',infoObj);
+		result=updateInformation('practice',infoObj);
 
 		if(result!==true)
 			alert(result);
@@ -191,7 +190,6 @@ function updateInformation(type,infoObj){
 	
 	var
 		$f=$('.profileForm'),
-		userId=$f.find('input#userId').val(),
 		data='',
 		ajax=null;
 
@@ -202,8 +200,8 @@ function updateInformation(type,infoObj){
 	
 	ajax=new simpleAjax();
 	ajax.send(
-		'?_ajax='+type+'&'+
-			'userId='+userId+'&'+
+		'?_ajax=users/update',
+		'type='+type+'&'+
 			data,
 		{'onSuccess':function(rsp,o){
 			if(!rsp.result)
