@@ -4,7 +4,7 @@ moduler::simportLib('controllers');
 class ipage extends controllers
 {
 	public function isSession(){
-		if(isset($this->u->email))
+		if(isset($this->u->id))
 			$this->isLogined=true;
 		else
 			$this->isLogined=false;
@@ -17,10 +17,10 @@ class ipage extends controllers
 			'words',
 			'vocabulary',
 			'tests',
+			'users'
 		));
-
-		$userId=1;
-		$this->vocabulary=new kelimeci\vocabulary($userId);
+		
+		$this->vocabulary=new kelimeci\vocabulary($this->u->id);
 	}
 	
 	public function run(){
