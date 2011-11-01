@@ -5,7 +5,6 @@ $(document).ready(function(){
 		$f=$('.profileForm'),
 		$storedCity=$f.find('input#storedCity'),
 		$city=$f.find('select#city');
-		$alert=$('<p class="alert"></p>').appendTo($f);
 
 	// If there is storedCity
 	if($storedCity.length>0){
@@ -160,24 +159,6 @@ $(document).ready(function(){
 
 });
 
-// Check the user name if it is already in use or not
-function checkUserName(userName){
-
-	var ajax=new simpleAjax();
-	ajax.send(
-		'?_ajax=checkUserName',
-		'userName='+encodeURI(userName),
-		{'onSuccess':function(rsp,o){
-			if(!rsp.result)
-				return false;
-			else
-				return true;
-
-		}}
-	);
-
-}
-
 // Validate the email
 function validateEmail(data){
 	var patt=new RegExp("^[a-zA-Z0-9_\\-.]*@[a-zA-Z0-9_\\-]+.[a-zA-Z]{3,4}.*[a-zA-Z]*$","g"); 
@@ -189,7 +170,6 @@ function validateEmail(data){
 function updateInformation(type,infoObj){
 	
 	var
-		$f=$('.profileForm'),
 		data='',
 		ajax=null;
 
@@ -204,10 +184,14 @@ function updateInformation(type,infoObj){
 		'type='+type+'&'+
 			data,
 		{'onSuccess':function(rsp,o){
-			if(!rsp.result)
-				return rsp.error;
-			else
+
+			// Okay
+			if(rsp=='1')
 				return true;
+			// Error
+			else
+				return rsp;
+
 		}}
 	);
 

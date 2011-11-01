@@ -9,24 +9,10 @@
 	<p>
 		<label for="email">E-posta adresi:</label>
 		<input type="text" name="email" id="email" maxlength="50" />
-		<img 
-			src="../images/question.png" 
-			class="question"
-			id="checkEmail"
-			alt="E-posta adresi kullanılıyor mu?" 
-			title="E-posta adresi kullanılıyor mu?" 
-		/>
 	</p>
 	<p>
 		<label for="userName">Kullanıcı adı:</label>
 		<input type="text" name="userName" id="userName" maxlength="50" />
-		<img 
-			src="../images/question.png" 
-			class="question"
-			id="checkUserName"
-			alt="Kullanıcı adı kullanılıyor mu?" 
-			title="Kullanıcı adı kullanılıyor mu?" 
-		/>
 	</p>
 	<p>
 		<label for="password">Şifre:</label>

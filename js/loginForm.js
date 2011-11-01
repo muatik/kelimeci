@@ -1,7 +1,6 @@
 $(document).ready(function(){
 	var 
-		$f=$('.loginForm'),
-		$alert=$('<p class="alert"></p>').appendTo($f);
+		$f=$('.loginForm');
 
 	$('.loginForm').submit(function(){
 		var
@@ -11,7 +10,6 @@ $(document).ready(function(){
 		if(userName=='' || password==''){
 
 			var alertText='Kullanıcı adını ve şifreyi giriniz!';
-			//$alert.html(alertText);	
 			alert(alertText);
 			return false;
 
@@ -24,12 +22,16 @@ $(document).ready(function(){
 				'password='+encodeURI(password),
 			{'onSuccess':function(rsp,o){
 				
-				if(!rsp.result){
-					//$alert.html(rsp.error);
-					alert(rsp.error);
-					return false;	
+				// Login okay
+				if(rsp=='1'){
+					alert('Giriş yapıldı.');
+					// DELETE
+					return false;
 				}
-				// REDIRECT
+				else{
+					// Alert the error
+					alert(rsp);
+				}
 				return false;
 
 			}}

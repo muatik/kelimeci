@@ -9,17 +9,17 @@
 <form class="profileForm" method="post" action="">
 	<p>
 		<label for="userName">Kullanıcı adı:</label>
-		<?php //echo $o->userName; ?>
+		<?php echo $o->userName; ?>
 	</p>
 	<p class="personel" style="border-top:1px solid #e2e2e2;">
 		<h4>Kişisel Bilgilerini Güncelle</h4>
 		<p>
 			<label for="name">Ad soyad:</label>
-			<input type="text" name="name" id="name" maxlength="50" value="<?php //echo $o->name; ?>" />
+			<input type="text" name="name" id="name" maxlength="50" value="<?php echo $o->name; ?>" />
 		</p>
 		<p>
 			<label for="birthDate">Doğum tarihi:</label>
-			<input type="text" name="birthDate" id="birthDate" maxlength="20" value="<?php //echo $o->birthDate; ?>" />
+			<input type="text" name="birthDate" id="birthDate" maxlength="20" value="<?php echo $o->birthDate; ?>" />
 		</p>
 		<input type="button" name="updatePersonelInfo" value="Güncelle" />
 	</p>
@@ -27,7 +27,7 @@
 		<h4>E-posta adresini Güncelle</h4>
 		<p>
 			<label for="email">E-posta adresi:</label>
-			<input type="text" name="email" id="email" maxlength="50" value="<?php //echo $o->email; ?>" />
+			<input type="text" name="email" id="email" maxlength="50" value="<?php echo $o->email; ?>" />
 		</p>
 		<input type="button" name="updateEmail" value="Güncelle" />
 	</p>
