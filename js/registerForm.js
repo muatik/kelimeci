@@ -4,18 +4,18 @@ $(document).ready(function(){
 	var 
 		$f=$('.registerForm'),
 		checkEmailResult=null,
-		checkUserNameResult=null;
+		checkUsernameResult=null;
 
 	$('.registerForm').submit(function(){
 		// Prepare
 		var
 			email=$f.find('input#email').val(),
-			userName=$f.find('input#userName').val(),
+			username=$f.find('input#username').val(),
 			password=$f.find('input#password').val(),
 			password2=$f.find('input#password2').val();
 
 		// If any inputs is empty
-		if(email=='' || userName=='' || password=='' || password2==''){
+		if(email=='' || username=='' || password=='' || password2==''){
 
 			var alertText='Tüm bilgileri giriniz!';
 			alert(alertText);	
@@ -46,12 +46,12 @@ $(document).ready(function(){
 		}
 
 		// If the user name already in use
-		if(!checkUserNameResult){
+		if(!checkUsernameResult){
 
 			var alertText='Bu kullanıcı adı kullanılıyor. '+
 				'Başka bir kullanıcı adı seçiniz.'
 			alert(alertText);	
-			$f.find('input#userName').focus();
+			$f.find('input#username').focus();
 			return false;
 
 		}
@@ -70,7 +70,7 @@ $(document).ready(function(){
 		ajax.send(
 			'?_ajax=users/register',
 			'email='+encodeURI(email)+'&'+
-				'userName='+encodeURI(userName)+'&'+
+				'username='+encodeURI(username)+'&'+
 				'password='+encodeURI(password),
 			{'onSuccess':function(rsp,o){
 				
@@ -91,8 +91,8 @@ $(document).ready(function(){
 		return false;
 	});	
 	
-	// If the img checkEmail or checkUserName clicked
-	$f.find('input#email,input#userName').blur(function(){
+	// If the img checkEmail or checkUsername clicked
+	$f.find('input#email,input#username').blur(function(){
 		
 		var 
 			$t=$(this),
@@ -109,7 +109,7 @@ $(document).ready(function(){
 			checkEmailResult=checkEmail(val);
 		}
 		else{
-			checkUserNameResult=checkUserName(val);
+			checkUsernameResult=checkUsername(val);
 		}
 
 		if($t.parent().find('img').length>0)
@@ -127,8 +127,8 @@ $(document).ready(function(){
 
 	});
 
-	// If the email or userName focused
-	$f.find('input#email,input#userName').focus(function(){
+	// If the email or username focused
+	$f.find('input#email,input#username').focus(function(){
 
 		var 
 			$t=$(this),
@@ -147,12 +147,12 @@ $(document).ready(function(){
 });
 
 // Check the user name if it is already in use or not
-function checkUserName(userName){
+function checkUsername(username){
 
 	var ajax=new simpleAjax();
 	ajax.send(
-		'?_ajax=users/checkUserName',
-		'userName='+encodeURI(userName),
+		'?_ajax=users/checkUsername',
+		'username='+encodeURI(username),
 		{'onSuccess':function(rsp,o){
 
 			// Okay

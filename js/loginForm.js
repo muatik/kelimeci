@@ -4,10 +4,10 @@ $(document).ready(function(){
 
 	$('.loginForm').submit(function(){
 		var
-			userName=$f.find('input[name="userName"]').val(),
+			username=$f.find('input[name="username"]').val(),
 			password=$f.find('input[name="password"]').val();
 
-		if(userName=='' || password==''){
+		if(username=='' || password==''){
 
 			var alertText='Kullanıcı adını ve şifreyi giriniz!';
 			alert(alertText);
@@ -18,7 +18,7 @@ $(document).ready(function(){
 		var ajax=new simpleAjax();
 		ajax.send(
 			'?_ajax=users/login',
-			'userName='+encodeURI(userName)+'&'+
+			'username='+encodeURI(username)+'&'+
 				'password='+encodeURI(password),
 			{'onSuccess':function(rsp,o){
 				

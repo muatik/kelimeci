@@ -10,7 +10,7 @@
 <form class="loginForm" method="post" action="">
 	<p>
 		<label>Kullanıcı adı:</label>
-		<input type="text" name="userName" maxlength="50" />
+		<input type="text" name="username" maxlength="50" />
 	</p>
 	<p>
 		<label>Şifre:</label>

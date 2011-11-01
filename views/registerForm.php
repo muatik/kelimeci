@@ -12,7 +12,7 @@
 	</p>
 	<p>
 		<label for="userName">Kullanıcı adı:</label>
-		<input type="text" name="userName" id="userName" maxlength="50" />
+		<input type="text" name="userName" id="username" maxlength="50" />
 	</p>
 	<p>
 		<label for="password">Şifre:</label>
