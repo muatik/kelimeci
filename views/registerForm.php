@@ -16,11 +16,11 @@
 	</p>
 	<p>
 		<label for="password">Şifre:</label>
-		<input type="text" name="password" id="password" maxlength="50" />
+		<input type="password" name="password" id="password" maxlength="50" />
 	</p>
 	<p>
 		<label for="password2">Şifre(tekrar):</label>
-		<input type="text" name="password2" id="password2" maxlength="50" />
+		<input type="password" name="password2" id="password2" maxlength="50" />
 	</p>
 	<input type="submit" name="registerFormSubmit" value="Kayıt ol" />
 </form>

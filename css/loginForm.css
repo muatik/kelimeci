@@ -1,10 +1,12 @@
 .loginForm label{
+	display:inline-block;
+	width:80px;
 }
 .loginForm label input{
 	margin-left:5px;
 }
 .loginForm input[type=text],.loginForm input[type=password]{
-	width:135px;
+	width:150px;
 }
 .loginForm input[type=submit]{
 	margin-left:0;

@@ -8,8 +8,14 @@
 <script type="text/javascript">
 </script>
 <form class="loginForm" method="post" action="">
-	<label>Kullanıcı adı:<input type="text" name="userName" maxlength="50" /></label>
-	<label>Şifre:<input type="text" name="password" maxlength="50" /></label>
+	<p>
+		<label>Kullanıcı adı:</label>
+		<input type="text" name="userName" maxlength="50" />
+	</p>
+	<p>
+		<label>Şifre:</label>
+		<input type="password" name="password" maxlength="50" />
+	</p>
 	<input type="submit" name="loginFormSubmit" value="Giriş yap" />
 </form>
 
