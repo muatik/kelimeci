@@ -149,7 +149,7 @@ function checkUserName(userName){
 
 	var ajax=new simpleAjax();
 	ajax.send(
-		'?_ajax=users/register',
+		'?_ajax=users/checkUserName',
 		'userName='+encodeURI(userName),
 		{'onSuccess':function(rsp,o){
 
@@ -171,7 +171,7 @@ function checkEmail(email){
 
 	var ajax=new simpleAjax();
 	ajax.send(
-		'?_ajax=users/register',
+		'?_ajax=users/checkEmail',
 		'email='+encodeURI(email),
 		{'onSuccess':function(rsp,o){
 
