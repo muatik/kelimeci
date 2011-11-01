@@ -2,7 +2,9 @@ $(document).ready(function(){
 
 	// Prepare
 	var 
-		$f=$('.registerForm');
+		$f=$('.registerForm'),
+		checkEmailResult=null,
+		checkUserNameResult=null;
 
 	$('.registerForm').submit(function(){
 		// Prepare
@@ -33,7 +35,7 @@ $(document).ready(function(){
 		}
 
 		// If the email already in use
-		if(!checkEmail(email)){
+		if(!checkEmailResult){
 
 			var alertText='Bu e-posta adresi kullanılıyor. '+
 				'Başka bir e-posta adresi seçiniz.'
@@ -44,7 +46,7 @@ $(document).ready(function(){
 		}
 
 		// If the user name already in use
-		if(!checkUserName(userName)){
+		if(!checkUserNameResult){
 
 			var alertText='Bu kullanıcı adı kullanılıyor. '+
 				'Başka bir kullanıcı adı seçiniz.'
@@ -104,10 +106,10 @@ $(document).ready(function(){
 				alert('Önce geçerli bir e-posta adresi giriniz!');
 				return;
 			}
-			result=checkEmail(val);
+			checkEmailResult=checkEmail(val);
 		}
 		else{
-			result=checkUserName(val);
+			checkUserNameResult=checkUserName(val);
 		}
 
 		if($t.parent().find('img').length>0)
