@@ -14,31 +14,52 @@ class usersController extends ipage {
 		if(!isset($r['email']) && !isset($r['username']) 
 			&& !isset($r['password']))
 			return 'kullanıcı bilgileri eksik veya hatalı';
-
-		$c=$this->users->register($r['email'],$r['username'],$r['password']);
+		
+		$err=$this->checkUsername($r['username']);
+		if($err!==true)
+			return $err;
+		
+		$err=$this->checkEmail($r['email']);
+		if($err!==true)
+			return $err;
+		
+		$c=$this->users->register(
+			$r['email'],
+			$r['username'],
+			$r['password']
+		);
 
 		if($c>0)
 			return 1;
 		return 0;
 	}
 	
-	public function checkUserName(){
+	public function checkUserName($username=null){
 		$r=$this->r;
-		if (!isset($r['userName'])){
-			if ($this->users->checkUserInfo('username',$r['userName']))
-				return 1;
-			else 
+		if($username!=null)
+			$r['username']=$username;
+		
+		if (isset($r['username'])){
+			if ($this->users->checkUserInfo(
+					'username',
+					$r['username'])
+				)
 				return 'Kullanıcı adı kullanılıyor.Lütfen değiştiriniz !';
+			else 
+				return true;
 		}
 	}
 	
-	public function checkEmail(){
+	public function checkEmail($email=null){
 		$r=$this->r;
+		if($email!=null)
+			$r['email']=$email;
+		
 		if (isset($r['email'])){
 			if ($this->users->checkUserInfo('email',$r['email']))
-				return 1;
-			else 
 				return 'Email adresi kullanılıyor.Lütfen değiştiriniz.';
+			else 
+				return true;
 		}
 	}
 	
@@ -91,12 +112,15 @@ class usersController extends ipage {
 		if (isset($r['username']) && isset($r['password'])){
 			$r=$this->users->validateLogin($r['username'],$r['password']);
 			if ($r>0){
-				$this->u->id=$r;
-				$this->userId=$r;
+				$this->u=$r;
+				$this->session->create($r);
+				return true;
 			}
 			else
-				return 'Kullanıcı girişi yapılamadı.Lütfen bilgilerinizi kontrol ediniz.';
-		}else return 'Kullanıcı bilgileri eksik yada hatalı.';
+				return 0;
+		}
+		
+		return 'Kullanıcı bilgileri eksik yada hatalı.';
 	}
 }
 ?>

@@ -31,8 +31,7 @@ $(document).ready(function(){
 			return false;
 
 		}
-
-		// If the email already in use
+/*
 		if(!checkEmail(email)){
 
 			var alertText='Bu e-posta adresi kullanılıyor. '+
@@ -53,6 +52,7 @@ $(document).ready(function(){
 			return false;
 
 		}
+*/
 
 		// If the passwords are not the same
 		if(password!=password2){
@@ -68,7 +68,7 @@ $(document).ready(function(){
 		ajax.send(
 			'?_ajax=users/register',
 			'email='+encodeURI(email)+'&'+
-				'userName='+encodeURI(userName)+'&'+
+				'username='+encodeURI(userName)+'&'+
 				'password='+encodeURI(password),
 			{'onSuccess':function(rsp,o){
 				
@@ -174,7 +174,6 @@ function checkEmail(email){
 		'?_ajax=users/checkEmail',
 		'email='+encodeURI(email),
 		{'onSuccess':function(rsp,o){
-
 			// Okay
 			if(rsp=='1'){
 				return true;
