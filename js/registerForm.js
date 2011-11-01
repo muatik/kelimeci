@@ -33,10 +33,7 @@ $(document).ready(function(){
 			return false;
 
 		}
-
-		// If the email already in use
 		if(!checkEmailResult){
-
 			var alertText='Bu e-posta adresi kullanılıyor. '+
 				'Başka bir e-posta adresi seçiniz.'
 			alert(alertText);	
@@ -70,7 +67,7 @@ $(document).ready(function(){
 		ajax.send(
 			'?_ajax=users/register',
 			'email='+encodeURI(email)+'&'+
-				'username='+encodeURI(username)+'&'+
+				'username='+encodeURI(userName)+'&'+
 				'password='+encodeURI(password),
 			{'onSuccess':function(rsp,o){
 				
@@ -176,7 +173,6 @@ function checkEmail(email){
 		'?_ajax=users/checkEmail',
 		'email='+encodeURI(email),
 		{'onSuccess':function(rsp,o){
-
 			// Okay
 			if(rsp=='1'){
 				return true;

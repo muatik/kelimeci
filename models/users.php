@@ -34,16 +34,16 @@ class users
 	 * @return int
 	 */
 	public function register($email,$username,$password){
-		
 		$sql='insert into users(email,username,password) 
 			values(
-				\''.$this->db->escape($email).'\',
-				\''.$this->db->escape($username).'\',
-				\''.md5($this->db->escape($password)).'\')';
-
-		if ($db->query($sql)){
+			\''.$this->db->escape($email).'\',
+			\''.$this->db->escape($username).'\',
+			\''.md5($this->db->escape($password)).'\')';
+		
+		if ($this->db->query($sql))
 			return true;
-		}else return false;
+		else
+			return false;
 	}
 
 	/**
@@ -58,11 +58,11 @@ class users
 
 		$sql='select * from users 
 			where username=\''.$this->db->escape($username).'\' and 
-			password=\''.md5($this->db-escape($password)).'\'';
+			password=\''.md5($this->db->escape($password)).'\'';
+		
+		$r=$this->db->fetchFirst($sql);
 
-		$r=$this->db->fetch($sql);
-
-		if (count($r)>0)
+		if ($r!==false)
 			return $r->id;
 		else
 			return false;
