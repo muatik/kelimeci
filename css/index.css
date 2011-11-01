@@ -1,0 +1,13 @@
+.whatis{
+	float:left;
+	width:400px;
+	height:20px;
+}
+.forms{
+	margin-right:20px;
+	float:right;
+	width:320px;
+}
+.registerForm, .loginForm{
+	margin:20px 0;
+}

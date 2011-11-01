@@ -17,7 +17,7 @@
 <body>
 
 <div id="banner">
-	<div id="logo"></div>
+	<a href="/" id="logo"></a>
 	<ul id="topMenu">
 		<li><a href="vocabulary" alt="">Kelimeler</a></li>
 		<li><a href="tests" alt="">Test</a></li>

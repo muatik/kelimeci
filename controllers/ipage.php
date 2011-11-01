@@ -4,8 +4,10 @@ moduler::simportLib('controllers');
 class ipage extends controllers
 {
 	public function isSession(){
-		if(isset($this->u->id))
+		if(isset($this->u->id)){
 			$this->isLogined=true;
+			$this->vocabulary=new kelimeci\vocabulary($this->u->id);
+		}
 		else
 			$this->isLogined=false;
 	}
@@ -19,12 +21,10 @@ class ipage extends controllers
 			'tests',
 			'users'
 		));
-		
-		$this->vocabulary=new kelimeci\vocabulary($this->u->id);
+		$this->isSession();
 	}
 	
 	public function run(){
-		$this->isSession();
 		parent::run();
 	}
 	
