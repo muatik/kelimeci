@@ -1,9 +1,4 @@
-<meta charset="utf-8" />
-<link rel="stylesheet" type="text/css" href="../css/reset.css" />
-<link rel="stylesheet" type="text/css" href="../css/common.css" />
 <link rel="stylesheet" type="text/css" href="../css/registerForm.css" />
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/createXHR.js"></script>
 <script type="text/javascript" src="../js/registerForm.js"></script>
 <form class="registerForm" method="post" action="">
 	<p>
