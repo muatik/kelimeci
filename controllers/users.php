@@ -111,7 +111,7 @@ class usersController extends ipage {
 		$r=$this->r;
 		if (isset($r['username']) && isset($r['password'])){
 			$r=$this->users->validateLogin($r['username'],$r['password']);
-			if ($r>0){
+			if ($r!==false){
 				$this->u=$r;
 				$this->session->create($r);
 				return true;

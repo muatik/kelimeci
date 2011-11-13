@@ -72,7 +72,7 @@ $(document).ready(function(){
 		ajax.send(
 			'?_ajax=users/register',
 			'email='+encodeURI(email)+'&'+
-				'username='+encodeURI(userName)+'&'+
+				'username='+encodeURI(username)+'&'+
 				'password='+encodeURI(password),
 			{'onSuccess':function(rsp,o){
 				

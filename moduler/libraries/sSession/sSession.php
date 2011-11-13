@@ -285,7 +285,7 @@ class sSession{
 	protected static function getIntegrityId(){
 		$s=self::$_desired;
 		$v=md5(md5(
-			$s->uagent.$s->uaccept.$s->radd
+			$s->uagent.$s->radd
 			.$s->acpLang.$s->acpEnc.$s->acpCHR.$s->keepAlive
 		));
 		self::$_iid=$v;

@@ -63,7 +63,7 @@ class users
 		$r=$this->db->fetchFirst($sql);
 
 		if ($r!==false)
-			return $r->id;
+			return $r;
 		else
 			return false;
 	}
