@@ -92,17 +92,17 @@ class users
 	public function  updateUserInfo($userId,$field,$value,$pass=null){
 
 		$field=$this->db->escape($field);
-		if ($pass==null)
-			$value=$this->db->escape($field);
+		if ($pass==null){
+			$value=$this->db->escape($value);
+		}
 		elseif ($pass){
-			$value=md5($this->db->escape($field[1]));
-			$psw=' and '.$field.'=\''.md5($this->db->escape($field[0])).'\'';
+			$value=md5($this->db->escape($value));
 		}
 			
 		$sql='update users set '.$field.'=\''.$value.'\' where id=\''
-			.$this->userId.'\''.$psw;
+			.$userId.'\'';
 
-		$this->db->query($sql);	
+		return $this->db->query($sql);	
 	}
 	
 	/**

@@ -57,9 +57,9 @@
 			<label for="practice" style="width:auto;">Pratik yapmak ister misin:</label>
 			<?php
 				$city='';
-				if($o->practice=='yes'){
+				if($o->practice=='1'){
 					echo '<input type="checkbox" name="practiceYes" 
-						id="practiceYes" value="yes" checked="checked" />';
+						id="practiceYes" value="1" checked="checked" />';
 
 					// On page load, set selected city with this input or
 					// disable the city select box
@@ -68,7 +68,7 @@
 				}
 				else{
 					echo '<input type="checkbox" name="practiceYes" 
-						id="practiceYes" value="yes" />';
+						id="practiceYes" value="1" />';
 				}
 			?>
 			<label for="practiceYes" style="font-weight:normal;">Evet</label>
@@ -77,7 +77,7 @@
 			<?php echo $city; ?>
 			<label for="city">Şehir:</label>
 			<select name="city" id="city">
-				<option value="Seçiniz" selected="selected">Seçiniz</option>
+				<option value="0" selected="selected">Seçiniz</option>
 				<option value="Adana">Adana</option>
 				<option value="Adıyaman">Adıyaman</option>
 				<option value="Afyon">Afyon</option>

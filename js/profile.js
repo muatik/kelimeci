@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
 	// Prepare
 	var 
 		$f=$('.profileForm'),
@@ -7,7 +6,7 @@ $(document).ready(function(){
 		$city=$f.find('select#city');
 
 	// If there is storedCity
-	if($storedCity.length>0){
+	if($storedCity.length>0 && $storedCity.val()!='0'){
 		var t;
 		$city.find('option').each(function(){
 			t=$(this);
@@ -42,10 +41,8 @@ $(document).ready(function(){
 			},
 			result=null;				
 
-		result=updateInformation('personelInfo',infoObj);
+		updateInformation('personelInfo',infoObj);
 
-		if(result!==true)
-			alert(result);
 	});
 
 	// Update email
@@ -67,10 +64,8 @@ $(document).ready(function(){
 			infoObj={'email':email},
 			result=null;				
 
-		result=updateInformation('email',infoObj);
+		updateInformation('email',infoObj);
 
-		if(result!==true)
-			alert(result);
 	});
 
 	// Update password
@@ -109,10 +104,8 @@ $(document).ready(function(){
 			},
 			result=null;				
 
-		result=updateInformation('password',infoObj);
+		updateInformation('password',infoObj);
 
-		if(result!==true)
-			alert(result);
 	});
 
 	
@@ -146,24 +139,23 @@ $(document).ready(function(){
 
 		// If checked
 		if(isChecked){
-			if($city.val().toLowerCase()=='seçiniz'){
+			if($city.val()=='0'){
 				alert('Pratik yapmak için bir şehir seçmelisiniz!');
 				$city.focus();
 				return;
 			}
-			practice='yes';
+			practice='1';
 			infoObj.city=$city.val();
 		}
 		else{
-			practice='no';
+			practice='0';
+			infoObj.city='';
 		}
 		
 		infoObj.practice=practice;
 
-		result=updateInformation('practice',infoObj);
+		updateInformation('practice',infoObj);
 
-		if(result!==true)
-			alert(result);
 	});
 
 });
@@ -194,12 +186,10 @@ function updateInformation(type,infoObj){
 			data,
 		{'onSuccess':function(rsp,o){
 
-			// Okay
-			if(rsp=='1')
-				return true;
-			// Error
+			if(rsp!='1')
+				alert(rsp);
 			else
-				return rsp;
+				alert('Güncelleme başarılı.');
 
 		}}
 	);

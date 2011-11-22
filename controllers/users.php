@@ -44,7 +44,7 @@ class usersController extends ipage {
 					'username',
 					$r['username'])
 				)
-				return 'Kullanıcı adı kullanılıyor.Lütfen değiştiriniz !';
+				return 'Kullanıcı adı kullanılıyor. Lütfen değiştiriniz!';
 			else 
 				return true;
 		}
@@ -57,7 +57,7 @@ class usersController extends ipage {
 		
 		if (isset($r['email'])){
 			if ($this->users->checkUserInfo('email',$r['email']))
-				return 'Email adresi kullanılıyor.Lütfen değiştiriniz.';
+				return 'E-posta adresi kullanılıyor. Lütfen değiştiriniz.';
 			else 
 				return true;
 		}
@@ -77,33 +77,79 @@ class usersController extends ipage {
 	}
 	
 	public function update(){
+		$r=$this->r;
 		$type=$r['type'];
 		$uId=$this->u->id;
-		if(isset($type) && empty($type)){
-			
-			if ($type=='personeInfo' && isset($r['fname']) 
+		if(isset($type) && !empty($type)){
+
+			$rtn=true;
+
+			if($type=='personelInfo' && isset($r['fname']) 
 				&& isset($r['lname']) && isset($r['birthDate'])){
 					
-					$this->users->updateUserInfo('fname',$r['fname']);
-					$this->users->updateUserInfo('lname',$r['lname']);
-					$this->users->updateUserInfo('birthDate',$r['birthDate']);
+				$rtn=$this->users->updateUserInfo($uId,'fname',$r['fname']);
+				if($rtn!==true)
+					return 'Ad güncellenemedi!';
+					
+				$rtn=$this->users->updateUserInfo($uId,'lname',$r['lname']);
+				if($rtn!==true)
+					return 'Soyad güncellenemedi!';
+
+				$rtn=$this->users->updateUserInfo($uId,'birthDate',$r['birthDate']);
+				if($rtn!==true)
+					return 'Doğum tarihi güncellenemedi!';
+
+			}
+			else if($type=='email' && isset($r['email'])){
+
+				$uInfo=$this->users->getUserInfo($uId);
+
+				// Eğer mevcut e-posta adresi ise
+				if($uInfo->email==$r['email'])
+					return '1';
+
+				// Yeni e-posta adresinin kullanılabilirliğini kontrol et
+				$rtn=$this->checkEmail($r['email']);
+				if($rtn!==true)
+					return $rtn;
+
+				$rtn=$this->users->updateUserInfo($uId,'email',$r['email']);
+				if($rtn!==true)
+					return 'E-posta adresi güncellenemedi!';
+
+			}
+			else if($type=='password' && isset($r['currentPassword'])
+				&& isset($r['newPassword'])){
+				
+				if(empty($r['currentPassword']) || empty($r['newPassword']))
+					return 'Mevcut şifreyi ve yeni şifreyi girmelisin!';
+
+				$uInfo=$this->users->getUserInfo($uId);
+				// Mevcut şifreyi kontrol et
+				if(!$this->users->validateLogin($uInfo->username,$r['currentPassword']))
+					return 'Mevcut şifre hatalı!';
+
+				$rtn=$this->users->updateUserInfo($uId,'password',$r['newPassword'],true);
+				if($rtn!==true)
+					return 'Şifre güncellenemedi!';
+
+			}
+			else if($type=='practice' && isset($r['practice']) && isset($r['city'])){
+					
+				$rtn=$this->users->updateUserInfo($uId,'practice',$r['practice']);
+				if($rtn!==true)
+					return 'Pratik yapma bilgisi güncellenemedi!';
+					
+				$rtn=$this->users->updateUserInfo($uId,'city',$r['city']);
+				if($rtn!==true)
+					return 'Şehir güncellenemedi!';
+
 			}
 			
-			if ($type=='email' && isset($r['email']))
-					$this->users->updateUserInfo('email',$r['email']);
+			return '1';
 			
-			if ($type=='password' && isset($r['currentPassword']) 
-				&& isset($r['newPassword']))
-					$this->users->updateUserInfo('password',
-						array($r['currentPassword'],$r['newPassword']),true);
-			
-			if ($type=='practice' && isset($r['practice']) && isset($r['city'])){
-					$this->users->updateUserInfo('practice',$r['practice']);
-					$this->users->updateUserInfo('city',$r['city']);
-			}
-			
-			
-		}else return 'Güncelleme işlemi yapılamadı.';
+		}
+		else return 'Güncelleme işlemi yapılamadı!';
 	}	
 	
 	public function login(){
@@ -119,7 +165,7 @@ class usersController extends ipage {
 				return 0;
 		}
 		
-		return 'Kullanıcı bilgileri eksik yada hatalı.';
+		return 'Kullanıcı bilgileri eksik yada hatalı!';
 	}
 }
 ?>
