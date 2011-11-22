@@ -74,10 +74,10 @@ class users
 	 * 
 	 * @return object
 	 * */
-	public function getUserInfo(){
+	public function getUserInfo($userId){
 	
-		$sql='select * from users where id=\''.$this->userId.'\' limit 1';
-		return $this->db->fetch($sql);
+		$sql='select * from users where id=\''.$userId.'\' limit 1';
+		return $this->db->fetchFirstRecord($sql);
 	}
 	
 	/**

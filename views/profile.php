@@ -9,13 +9,17 @@
 <form class="profileForm" method="post" action="">
 	<p>
 		<label for="userName">Kullanıcı adı:</label>
-		<?php echo $o->userName; ?>
+		<?php echo $o->username; ?>
 	</p>
 	<p class="personel" style="border-top:1px solid #e2e2e2;">
 		<h4>Kişisel Bilgilerini Güncelle</h4>
 		<p>
-			<label for="name">Ad soyad:</label>
-			<input type="text" name="name" id="name" maxlength="50" value="<?php echo $o->name; ?>" />
+			<label for="fname">Ad:</label>
+			<input type="text" name="fname" id="fname" maxlength="50" value="<?php echo $o->fname; ?>" />
+		</p>
+		<p>
+			<label for="lname">Soyad:</label>
+			<input type="text" name="lname" id="lname" maxlength="50" value="<?php echo $o->lname; ?>" />
 		</p>
 		<p>
 			<label for="birthDate">Doğum tarihi:</label>

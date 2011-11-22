@@ -27,15 +27,17 @@ $(document).ready(function(){
 	$f.find('input[name="updatePersonelInfo"]').click(function(){
 		
 		var 
-			name=$f.find('input#name').val(),
+			fname=$f.find('input#fname').val(),
+			lname=$f.find('input#lname').val(),
 			birthDate=$f.find('input#birthDate').val();
-		
+
 		// If empty
-		if(name=='' || birthDate=='') return;
+		//if(fname=='' || lname=='' || birthDate=='') return;
 		
 		var 
 			infoObj={
-				'name':name,
+				'fname':fname,
+				'lname':lname,
 				'birthDate':birthDate
 			},
 			result=null;				
@@ -83,6 +85,13 @@ $(document).ready(function(){
 		if(curPass=='' || newPass=='' || newPass2==''){
 			alert('Şifre ile ilgili tüm alanları doldurmalısınız!');
 			$f.find('input#currentPassword');
+			return;
+		}
+
+		// The length of the password must be 5
+		if(newPass.length<5){
+			alert('Şifre en az 5 karakterden oluşmalı!');
+			$f.find('input#newPassword');
 			return;
 		}
 
@@ -174,7 +183,7 @@ function updateInformation(type,infoObj){
 		ajax=null;
 
 	for(var i in infoObj)
-		data=i+'='+encodeURI(infoObj[i])+'&';
+		data+=i+'='+encodeURI(infoObj[i])+'&';
 
 	data=data.substring(0,data.length-1);
 	

@@ -64,14 +64,13 @@ class usersController extends ipage {
 	}
 	
 	public function viewProfile(){
-		
 		if (!$this->isLogined) return false;
 		
-		$user=$this->users->getUserInfo();
+		$user=$this->users->getUserInfo($this->u->id);
 		
 		return $this->loadView(
 			'profile.php',
-			$users,
+			$user,
 			false
 		);
 

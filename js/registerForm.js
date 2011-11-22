@@ -58,6 +58,16 @@ $(document).ready(function(){
 
 		}
 
+		// The length of the password must be 5
+		if(password.length<5){
+
+			var alertText='Şifre en az 5 karakterden oluşmalı!';
+			alert(alertText);	
+			$f.find('input#password').focus();
+			return false;
+
+		}
+
 		// If the passwords are not the same
 		if(password!=password2){
 
