@@ -13,8 +13,7 @@ class seslisozlukC extends dictionaryCrawler{
 
 		$this->word=$word;
 
-		$this->content=file_get_contents($this->crwlUrl.urlencode($word));
-		
+		$this->content=$this->getContents(urlencode($word));
 		if ($this->content!=false){
 
 			$rx='/(<div id="translations">)([\s\S\f\t\r\w.*?]+)(<!-- id=translations -->)/im';
@@ -42,9 +41,9 @@ class seslisozlukC extends dictionaryCrawler{
 		$o->content=$this->content;
 		
 		$o->pronunciation='';
-		
-		$o->synonyms=array();
-		$o->antonyms=array();
+		;
+		$o->synonyms=array($this->getSynonyms());
+		$o->antonyms=array($this->getAntonyms());
 		
 		$o->nearbyWords=array();
 		
@@ -57,9 +56,37 @@ class seslisozlukC extends dictionaryCrawler{
 	
 	public function getEtymology(){
 		
-		preg_match('/(<div><b>Etymology:<\/b>)([\s\S.]*?)(<\/div>)/i',$this->content,$m);
+		preg_match('/(<div><b>Etymology:<\/b>)([\s\S.]*?)(<\/div>)/i',
+			$this->content,$m);
+			
 		if (isset($m[0]))
 			return strip_tags($m[0]);
+		else return '';
+	}
+	
+	public function getSynonyms(){
+		
+		preg_match('/(Synonyms:<\/b>)([\r\t\w\s\S.]*?)(<\/td>)/i',
+			$this->content,$m);
+		
+		if (isset($m[2])){
+			$o=new \stdClass;
+			$o->synonyms=explode(',',$m[2]);
+			return $o;
+		}
+		else return '';
+	}
+	
+	public function getAntonyms(){
+		
+		preg_match('/(Antonyms:<\/b>)([\r\t\w\s\S.]*?)(<\/td>)/i',
+			$this->content,$m);
+		
+		if (isset($m[2])){
+			$o=new \stdClass;
+			$o->antonyms=explode(',',$m[2]);
+			return $o;
+		}
 		else return '';
 	}
 	
@@ -73,7 +100,9 @@ class seslisozlukC extends dictionaryCrawler{
 			$qId="//*[@id='dc_en_tr']";
 		elseif ($lang=='en')
 			$qId="//*[@id='dc_en_en']";
-
+		
+		$qId="//*[@id='dc_tr_en']";
+		
 		// türler ve anlamları bulunuyor
 		$words=array();
 		$elements=$domXPath->query($qId); // tr_en en_en
@@ -101,9 +130,10 @@ class seslisozlukC extends dictionaryCrawler{
 										
 									if ($node->getAttribute('class')=='m'){
 										$kind='genel';
-										
 										$cChildNodes = $node->childNodes;// tür için
+
 										foreach($cChildNodes as $nodeC)	{
+										$value='';										
 											if ($nodeC->nodeName!='#text'){
 												$kind=$this->trConvert($nodeC->nodeValue);
 												
@@ -112,10 +142,10 @@ class seslisozlukC extends dictionaryCrawler{
 												$value=$nodeC->nodeValue;
 											} 
 											$value=trim($value);
-											if 	(empty($value)) 
+											if($value=='') 
 											$value=trim($node->nodeValue);
 										}
-										$value=trim(str_replace($kind,'',$value));
+										$value=trim(str_replace($kind,'',$this->trConvert($value)));
 										$value=str_replace('  ','',$value);
 										@$words[$kind].=$this->trConvert($value).'|';
 									}
@@ -150,6 +180,35 @@ class seslisozlukC extends dictionaryCrawler{
 		);
 		
 		return $string;
+	}
+	
+	public function getContents($word){
+		
+		$path='/?ssQBy=0&word='.$word;
+
+		$headers="GET ".$path." HTTP/1.1
+		Accept:text/plain,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+		Accept-Charset:ISO-8859-1,utf-8;q=0.7,*;q=0.3
+		Accept-Encoding:deflate
+		Accept-Language:en-US,en;q=0.8
+		Connection:keep-alive
+		Cookie:SS_SD=6; PHPSESSID=la9dq9ea3iqnee2hmlttjeqj91; seslisozluk=exact%7Ccomplete%7Ce%C5%9Fit%7Caynen%7Cbirebir%7Cba%C5%9F%C4%B1nda%7Csonunda%7Cbegin%7Celma%7Capple%7Ccar%7Cfast%7Cslw%7Cslow%7Cpotato%7Cpotato+coach%7Ccostumers%7Ccustomers%7Caraba; __utma=243518343.1772327051.1321458461.1322054864.1322058130.6; __utmb=243518343.4.10.1322058130; __utmc=243518343; __utmz=243518343.1321458461.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)
+		Host:www.seslisozluk.net
+		Referer:http://www.seslisozluk.net/?ssQBy=0&word=araba
+		User-Agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko) Ubuntu/11.04 Chromium/12.0.742.112 Chrome/12.0.742.112 Safari/534.30";
+
+		$headers=str_replace("\t",'',$headers)."\n\n";
+		
+		$fp=fsockopen('www.seslisozluk.net',80);
+		fwrite($fp, $headers);
+		
+		$kk='';
+		while (!feof($fp)){
+			
+			$kk.=fread($fp, 4096);
+		}
+		fclose($fp);
+		return $kk;
 	}
 }
 ?>

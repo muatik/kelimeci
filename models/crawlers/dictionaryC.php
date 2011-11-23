@@ -50,11 +50,8 @@ class dictionaryC extends dictionaryCrawler{
 
 		$o->pronunciation=$this->getPronunciation();
 
-		$synAnt=$this->getSynAnt();
-		$synonyms=$synAnt[0];
-		$antonyms=$synAnt[1];	
-		$o->synonyms=$synonyms;
-		$o->antonyms=$antonyms;
+		$o->synonyms=array();
+		$o->antonyms=array();
 
 		$o->nearbyWords=array();
 
