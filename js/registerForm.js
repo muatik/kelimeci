@@ -88,9 +88,7 @@ $(document).ready(function(){
 				
 				// Register okay
 				if(rsp=='1'){
-					alert('Kullanıcı kaydınız gerçekleşti.');
-					// DELETE
-					return false;
+					window.location.href='/profile';
 				}
 				else{
 					// Alert the error

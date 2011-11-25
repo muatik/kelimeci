@@ -5,6 +5,8 @@ $(document).ready(function(){
 		$storedCity=$f.find('input#storedCity'),
 		$city=$f.find('select#city');
 
+	$f.find('input#birthDate').datepicker();
+
 	// If there is storedCity
 	if($storedCity.length>0 && $storedCity.val()!='0'){
 		var t;

@@ -12,6 +12,7 @@
 <link rel="stylesheet" type="text/css" href="css/reset.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/layout.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.custom.css" />
 
 </head>
 <body>
@@ -22,7 +23,12 @@
 		<li><a href="vocabulary" alt="">Kelimeler</a></li>
 		<li><a href="tests" alt="">Test</a></li>
 		<li><a href="status" alt="">Durum</a></li>
-		<li><a href="settings" alt="">Ayarlar</a></li>
+		<li><a href="profile" alt="">Ayarlar</a></li>
+		<?php
+			// Add "log out" link if logged in
+			if($o->isLogined)
+				echo '<li><a href="?_ajax=users/logout" alt="">Çıkış</a></li>';
+		?>
 	</ul>
 </div>
 

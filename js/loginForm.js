@@ -24,9 +24,7 @@ $(document).ready(function(){
 				
 				// Login okay
 				if(rsp=='1'){
-					alert('Giriş yapıldı.');
-					// DELETE
-					return false;
+					window.location.href='/vocabulary';
 				}
 				else{
 					// Alert the error

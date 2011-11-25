@@ -1,10 +1,6 @@
-<meta charset="utf-8" />
-<link rel="stylesheet" type="text/css" href="../css/reset.css" />
-<link rel="stylesheet" type="text/css" href="../css/common.css" />
 <link rel="stylesheet" type="text/css" href="../css/profile.css" />
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/createXHR.js"></script>
 <script type="text/javascript" src="../js/profile.js"></script>
+
 <div class="profilePage">
 <form class="profileForm" method="post" action="">
 	<p>
@@ -23,7 +19,7 @@
 		</p>
 		<p>
 			<label for="birthDate">Doğum tarihi:</label>
-			<input type="text" name="birthDate" id="birthDate" maxlength="20" value="<?php echo $o->birthDate; ?>" />
+			<input type="text" name="birthDate" id="birthDate" maxlength="20" value="<?php echo date('d/m/Y',strtotime($o->birthDate)); ?>" />
 		</p>
 		<input type="button" name="updatePersonelInfo" value="Güncelle" />
 	</p>
@@ -39,15 +35,15 @@
 		<h4>Şifreni Güncelle</h4>
 		<p>
 			<label for="password">Mevcut şifre:</label>
-			<input type="text" name="currentPassword" id="currentPassword" maxlength="50" />
+			<input type="password" name="currentPassword" id="currentPassword" maxlength="50" />
 		</p>
 		<p>
 			<label for="newPassword">Yeni şifre:</label>
-			<input type="text" name="newPassword" id="newPassword" maxlength="50" />
+			<input type="password" name="newPassword" id="newPassword" maxlength="50" />
 		</p>
 		<p>
 			<label for="newPassword2">Yeni şifre(tekrar):</label>
-			<input type="text" name="newPassword2" id="newPassword2" maxlength="50" />
+			<input type="password" name="newPassword2" id="newPassword2" maxlength="50" />
 		</p>
 		<input type="button" name="updatePassword" value="Güncelle" />
 	</p>

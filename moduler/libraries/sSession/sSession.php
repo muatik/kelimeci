@@ -51,6 +51,14 @@ class sSession{
 	private $uobj;
 	
 	/*
+	 * açılmış oturum kaydı bilgilerini tutan nesnedir.
+	 * 
+	 * @type		object
+	 * @access		static
+	 * */
+	static private $_uobj;
+
+	/*
 	 * oturum başlıklarının gönderilip gönderilemediği belirtir.
 	 * 
 	 * @type	boolean
@@ -123,7 +131,7 @@ class sSession{
 	 * */
 	public function __destruct(){
 		if(!$this->isOpened) return false;
-		$_SESSION[$this->uVarName]=$this->uobj;
+		$_SESSION[$this->uVarName]=self::$_uobj;
 	} 
 	
 	/*
@@ -159,7 +167,8 @@ class sSession{
 		$_SESSION[$this->uVarName]=$p;
 		$this->s[$this->uVarName]=$p;
 		$this->uobj=$p;
-		
+		self::$_uobj=$p;
+
 		$this->isOpened=true;
 		return true;
 	}
@@ -178,6 +187,7 @@ class sSession{
 		$_uobj=$this->s[$this->uVarName];
 		if($_uobj->_iid!==$this->iid) return false;
 		$this->uobj=$_uobj;
+		self::$_uobj=$_uobj;
 		$this->isOpened=true;
 		return $this->uobj;
 	}
@@ -194,7 +204,8 @@ class sSession{
 		unset($_SESSION[$this->uVarName]);
 		unset($this->s[$this->uVarName]);
 		$this->uobj=null;
-		
+		self::$_uobj=null;
+
 		return true;
 	}
 	
@@ -231,6 +242,7 @@ class sSession{
 		$n=(!is_array($n)?array($n):$n);
 		foreach($n as $i){
 			unset($this->uobj->$i);
+			unset(self::$_uobj->$i);
 		}
 		return true;
 	}

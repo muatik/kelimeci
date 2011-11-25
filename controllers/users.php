@@ -162,10 +162,15 @@ class usersController extends ipage {
 				return true;
 			}
 			else
-				return 0;
+				return 'Giriş başarışız!';
 		}
 		
 		return 'Kullanıcı bilgileri eksik yada hatalı!';
+	}
+
+	public function logout(){
+		$this->session->kill();
+		header('location:/');
 	}
 }
 ?>
