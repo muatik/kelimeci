@@ -88,7 +88,7 @@ $(document).ready(function(){
 				
 				// Register okay
 				if(rsp=='1'){
-					window.location.href='/profile';
+					window.location.href='/profile?newUser=1';
 				}
 				else{
 					// Alert the error

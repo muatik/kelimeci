@@ -13,7 +13,7 @@ class usersController extends ipage {
 
 		if(!isset($r['email']) && !isset($r['username']) 
 			&& !isset($r['password']))
-			return 'kullanıcı bilgileri eksik veya hatalı';
+			return 'Kullanıcı bilgileri eksik ya da hatalı!';
 		
 		$err=$this->checkUsername($r['username']);
 		if($err!==true)
@@ -29,8 +29,12 @@ class usersController extends ipage {
 			$r['password']
 		);
 
-		if($c>0)
+		// If register okay
+		if($c>0){
+			// Login for starting the session
+			$this->login($r['username'],$r['password']);
 			return 1;
+		}
 		return 0;
 	}
 	
