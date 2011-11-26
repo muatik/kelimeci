@@ -1,6 +1,19 @@
 <link rel="stylesheet" type="text/css" href="../css/profile.css" />
 <script type="text/javascript" src="../js/profile.js"></script>
 
+<?php
+	$r=$this->r;
+
+	// If the user's just registered and redirected here
+	if(isset($r['newUser']) && $r['newUser']=='1'){
+		
+		$o2=new stdClass();
+		$o2->title='Duyuru';
+		$o2->message='Kullanıcı bilgilerinizi güncelleyebilirsiniz.';
+		echo $this->loadElement('notification.php',$o2);
+
+	}
+?>
 <div class="profilePage">
 <form class="profileForm" method="post" action="">
 	<p>
