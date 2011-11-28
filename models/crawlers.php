@@ -34,26 +34,27 @@ class crawlers
 			$data=$dctn->get($word);
 			if ($data) $this->save($data);
 		}
-		
+		/*
 		if (!$this->isWebPageCrawled($this->wordId,'google')){
 		
 			$ggle=new googleC();
 			$data=$ggle->get($word);
 			if($data) $this->save($data);			
 		}		
-		
+		*/
+
 		if (!$this->isWebPageCrawled($this->wordId,'seslisozluk')){
 			$ssli=new seslisozlukC();
 			$data=$ssli->get($word);
 			if ($data) $this->save($data);
 		}
-		
+		/*
 		if (!$this->isWebPageCrawled($this->wordId,'urban')){
 		
 			$urbn=new urbanC();
 			$data=$urbn->get($word);
 			if ($data) $this->save($data);
-		}
+		}*/
 		
 	}
 	
@@ -230,11 +231,19 @@ class crawlers
 			foreach($in->synonyms as $syn){
 				
 					$synId=$this->insertWord($syn);
-					$this->insertWordInfo(
-						$synId,'definition',$in->definition);
-						
-					$this->insertWordOfClass($synId,$in->pos);
-					$wCId=$this->insertClass($in->pos);
+					
+					if (isset($in->definition))
+						$this->insertWordInfo(
+							$synId,'definition',$in->definition);
+							
+					if (isset($in->pos))
+						$this->insertWordOfClass(
+							$synId,
+							$in->pos
+						);
+					
+					if (isset($in->pos))
+						$wCId=$this->insertClass($in->pos);
 
 					$sql='select id from synonyms where wId=\''.
 						$wordId.'\' and synId=\''.$synId.'\' limit 1';
@@ -274,10 +283,17 @@ class crawlers
 			foreach($in->antonyms as $ant){
 				
 					$antId=$this->insertWord($ant);
-					$this->insertWordInfo(
-						$antId,'definition',$in->definition);
+					if (isset($in->definition))
+						$this->insertWordInfo(
+							$antId,'definition',$in->definition
+						);
 						
-					$this->insertWordOfClass($antId,$in->pos);
+					if (isset($in->definition))
+						$this->insertWordOfClass(
+							$antId,
+							$in->pos
+						);
+						
 					$wCId=$this->insertclass($in->pos);
 
 					$sql='select id from antonyms where wId=\''.
