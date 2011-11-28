@@ -7,7 +7,12 @@ $(document).ready(function(){
 	var 
 		$f=$('.registerForm'),
 		checkEmailResult=null,
-		checkUsernameResult=null;
+		checkUsernameResult=null,
+		// Error element
+		$err=createFrmErr();
+	
+	// Add the error elem. to the form
+	$f.prepend($err);
 
 	$('.registerForm').submit(function(){
 		// Prepare
@@ -21,7 +26,7 @@ $(document).ready(function(){
 		if(email=='' || username=='' || password=='' || password2==''){
 
 			var alertText='Tüm bilgileri giriniz!';
-			alert(alertText);	
+			showFrmErr($err,alertText);
 			$f.find('input#email').focus();
 			return false;
 
@@ -31,7 +36,7 @@ $(document).ready(function(){
 		if(!validateEmail(email)){
 
 			var alertText='Geçerli bir e-posta adresi giriniz!';
-			alert(alertText);	
+			showFrmErr($err,alertText);
 			$f.find('input#email').focus();
 			return false;
 
@@ -41,7 +46,7 @@ $(document).ready(function(){
 		if(!resultOfEmailCheck){
 			var alertText='Bu e-posta adresi kullanılıyor. '+
 				'Başka bir e-posta adresi seçiniz.'
-			alert(alertText);	
+			showFrmErr($err,alertText);
 			$f.find('input#email').focus();
 			return false;
 
@@ -52,7 +57,7 @@ $(document).ready(function(){
 
 			var alertText='Bu kullanıcı adı kullanılıyor. '+
 				'Başka bir kullanıcı adı seçiniz.'
-			alert(alertText);	
+			showFrmErr($err,alertText);
 			$f.find('input#username').focus();
 			return false;
 
@@ -62,7 +67,7 @@ $(document).ready(function(){
 		if(password.length<5){
 
 			var alertText='Şifre en az 5 karakterden oluşmalı!';
-			alert(alertText);	
+			showFrmErr($err,alertText);
 			$f.find('input#password').focus();
 			return false;
 
@@ -72,7 +77,7 @@ $(document).ready(function(){
 		if(password!=password2){
 
 			var alertText='Şifre ve Şifre(tekrar) bilgileri aynı olmalı!';
-			alert(alertText);	
+			showFrmErr($err,alertText);
 			$f.find('input#password').focus();
 			return false;
 
@@ -92,7 +97,7 @@ $(document).ready(function(){
 				}
 				else{
 					// Alert the error
-					alert(rsp);
+					showFrmErr($err,rsp);
 				}
 				return false;
 
@@ -113,7 +118,8 @@ $(document).ready(function(){
 
 		if($t.attr('id')=='email'){
 			if(!validateEmail(val)){
-				alert('Önce geçerli bir e-posta adresi giriniz!');
+				alertText='Önce geçerli bir e-posta adresi giriniz!';
+				showFrmErr($err,alertText);
 				$f.find('input#email').focus();
 				return;
 			}

@@ -52,3 +52,28 @@ span.seperator{
 .hidden{
 	display:none;
 }
+
+form ul.frmItems{
+
+}
+
+form ul.frmItems li{
+	line-height:25px;
+	overflow:hidden;
+}
+
+form ul.frmItems li div.fLabel{
+	float:left;
+}
+
+form ul.frmItems li div.fInput{
+	float:right;
+}
+
+.frmErr img{
+	margin-right:8px;
+}
+
+.frmErr span.msg{
+	color:red;
+}

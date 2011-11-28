@@ -1,3 +1,4 @@
+/*
 .loginForm label{
 	display:inline-block;
 	width:80px;
@@ -10,6 +11,13 @@
 }
 .loginForm input[type=submit]{
 	margin-left:0;
+}
+*/
+.loginForm .frmItems .fLabel{
+	width:80px;
+}
+.loginForm .frmItems .fInput{
+	width:150px;
 }
 .loginForm{
 	/*Box Radius*/
