@@ -14,6 +14,8 @@
 	);
 	foreach($words as $i){
 		$classes=arrays::toArray($i->classes,'name');
+		if(!is_array($classes))
+			$classes=array();
 		echo '
 			<li>
 				<span class="categories">';

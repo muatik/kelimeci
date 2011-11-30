@@ -29,6 +29,10 @@ class vocabularyController extends ipage {
 			$t->level=0;
 			return json_encode($t);
 		}
+		else{
+			if($this->vocabulary->getVocabularyByWord($word))
+				return '0Bu kelime zaten ekli.';
+		}
 		return 0;
 	}
 

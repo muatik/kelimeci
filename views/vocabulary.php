@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="css/jquery-ui.custom.css" />
 <link rel="stylesheet" href="css/vocabularyPage.css" />
 
 <script src="js/vocabulary.js"></script>

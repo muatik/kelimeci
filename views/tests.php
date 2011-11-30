@@ -3,6 +3,7 @@
 <link rel="stylesheet" type="text/css" href="../css/common.css" />
 <style type="text/css">
 .testTypes{
+	margin:15px auto;
 	padding:10px;
 	width:360px;
 }
@@ -57,7 +58,7 @@
 
 <ul class="testTypes">
 	<li>
-		<a href="?_view=sentenceCompletionTest" alt="">
+		<a href="?testType=sentenceCompletionTest" alt="">
 			<span class="container">
 				<h3>Cümle Tamamlama</h3>
 				<p>
@@ -69,7 +70,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="?_view=synonymSelectionTest" alt="">
+		<a href="?testType=synonymSelectionTest" alt="">
 			<span class="container">
 				<h3>Eşanlamlıları Seçme</h3>
 				<p>
@@ -81,7 +82,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="?_view=turkishWritingTest" alt="">
+		<a href="?testType=turkishWritingTest" alt="">
 			<span class="container">
 				<h3>İngilizce'den Türkçe'ye</h3>
 				<p>
@@ -95,7 +96,7 @@
 	
 	
 	<li>
-		<a href="?_view=englishWritingTest" alt="">
+		<a href="?testType=englishWritingTest" alt="">
 			<span class="container">
 				<h3>Türkçe'den İngilizce'ye</h3>
 				<p>
@@ -107,7 +108,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="?_view=categorySelectionTest" alt="">
+		<a href="?testType=categorySelectionTest" alt="">
 			<span class="container">
 				<h3>Kelime Kategorilerini Seçme</h3>
 				<p>
@@ -119,7 +120,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="?_view=variationWritingTest" alt="">
+		<a href="?testType=variationWritingTest" alt="">
 			<span class="container">
 				<h3>Kelime Varyasyonlarını Yazma</h3>
 				<p>
@@ -131,7 +132,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="?_view=voiceTest" alt="">
+		<a href="?testType=voiceTest" alt="">
 			<span class="container">
 				<h3>Duyulan Kelimeyi Yazma</h3>
 				<p>

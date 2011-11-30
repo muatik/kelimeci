@@ -8,6 +8,23 @@ class testsController extends ipage{
 	}
 	
 	public function run(){
+
+		if(isset($this->r['testType'])){
+
+			$testTypes=array(
+				'sentenceCompletionTest',
+				'synonymSelectionTest',
+				'turkishWritingTest',
+				'englishWritingTest',
+				'categorySelectionTest',
+				'variationWritingTest',
+				'voiceTest'
+			);
+
+			if(in_array($this->r['testType'],$testTypes))
+				$this->pageLayout=$this->r['testType'];
+		}
+
 		parent::run();
 	}
 	
