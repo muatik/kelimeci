@@ -40,18 +40,31 @@ function createFrmAlert(){
 /**
  * Show the alert for form
  *
- * @param object alertElem Element object
+ * @param object where Where alert element inserts to
  * @param string msg Message of error
  * @param string type Type of error(1 or 0)
  * 	1: successful
  * 	0: unsuccessful
  * 	if not specified, means 0
  */
-function showFrmAlert(alertElem,msg,type){
+function showFrmAlert(where,msg,type){
+	// Prepare
 	var 
-		$e=$(alertElem),
+		$e=$(where),
 		sucImg='images/correct.png',
-		unSucImg='images/incorrect.png';
+		unSucImg='images/incorrect.png',
+		type=type || 0;
+
+	// If already inserted frmAlert element
+	if($e.find('.frmAlert').length>0){
+		// Use the inserted one
+		$e=$e.find('.frmAlert');
+	}
+	// If no inserted frmAlert element
+	else{
+		// Insert new one
+		$e=$e.append(createFrmAlert()).find('.frmAlert');
+	}
 	
 	// Show the new message
 	$e.find('.msg').html(msg);
@@ -60,7 +73,7 @@ function showFrmAlert(alertElem,msg,type){
 	$e.removeClass('successful unsuccessful');
 
 	// Set the img. and the message text color according to message type
-	if(!type || type==0){
+	if(type==0){
 		$e.addClass('unsuccessful');
 		$e.find('.icon').attr('src',unSucImg);
 	}
@@ -80,9 +93,12 @@ function showFrmAlert(alertElem,msg,type){
 		'fast',
 		function(){
 			$(this).show();
-			// Hide it, if successful message
+			// Hide it, if successful message within 2 sn.
 			if(type==1)
 				setTimeout(function(){hideFrmAlert($e);},2000);
+			// Hide it, if unsuccessful message within 2,5 sn.
+			if(type==0)
+				setTimeout(function(){hideFrmAlert($e);},2500);
 		}
 	);
 }
@@ -96,4 +112,27 @@ function hideFrmAlert(alertElem){
 	var $e=$(alertElem);
 	if(!$e.is(':hidden'))
 		$e.fadeOut('fast',function(){$(this).hide();});
+}
+
+
+/**
+ * Get empty inputs if there is
+ *
+ * @param object frm Form element object which
+ * @return jQuery object
+ */
+function getEmptyInputs(frm){
+	var
+		$frm=$(frm),
+		$eInputs=null;
+
+	// Get empty inputs if there is
+	$eInputs=$frm.find(':input').filter(
+		function(){
+			return $(this).val()=='';
+		}
+	);
+
+	// Return empty inputs
+	return $eInputs;
 }

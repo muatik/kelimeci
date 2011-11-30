@@ -7,12 +7,7 @@ $(document).ready(function(){
 	var 
 		$f=$('.registerForm'),
 		checkEmailResult=null,
-		checkUsernameResult=null,
-		// Error element
-		$alert=createFrmAlert();
-	
-	// Add the error elem. to the form
-	$f.prepend($alert);
+		checkUsernameResult=null;
 
 	$('.registerForm').submit(function(){
 		// Prepare
@@ -23,11 +18,12 @@ $(document).ready(function(){
 			password2=$f.find('input#password2').val();
 
 		// If any inputs is empty
-		if(email=='' || username=='' || password=='' || password2==''){
+		if(getEmptyInputs($f).length>0){
 
 			var alertText='Tüm bilgileri giriniz!';
-			showFrmAlert($alert,alertText);
-			$f.find('input#email').focus();
+			showFrmAlert($f,alertText);
+			// Focus the first empty input element
+			getEmptyInputs($f).filter(':first').focus();
 			return false;
 
 		}
@@ -36,7 +32,7 @@ $(document).ready(function(){
 		if(!validateEmail(email)){
 
 			var alertText='Geçerli bir e-posta adresi giriniz!';
-			showFrmAlert($alert,alertText);
+			showFrmAlert($f,alertText);
 			$f.find('input#email').focus();
 			return false;
 
@@ -46,7 +42,7 @@ $(document).ready(function(){
 		if(!resultOfEmailCheck){
 			var alertText='Bu e-posta adresi kullanılıyor. '+
 				'Başka bir e-posta adresi seçiniz.'
-			showFrmAlert($alert,alertText);
+			showFrmAlert($f,alertText);
 			$f.find('input#email').focus();
 			return false;
 
@@ -57,7 +53,7 @@ $(document).ready(function(){
 
 			var alertText='Bu kullanıcı adı kullanılıyor. '+
 				'Başka bir kullanıcı adı seçiniz.'
-			showFrmAlert($alert,alertText);
+			showFrmAlert($f,alertText);
 			$f.find('input#username').focus();
 			return false;
 
@@ -67,7 +63,7 @@ $(document).ready(function(){
 		if(password.length<5){
 
 			var alertText='Şifre en az 5 karakterden oluşmalı!';
-			showFrmAlert($alert,alertText);
+			showFrmAlert($f,alertText);
 			$f.find('input#password').focus();
 			return false;
 
@@ -77,7 +73,7 @@ $(document).ready(function(){
 		if(password!=password2){
 
 			var alertText='Şifre ve Şifre(tekrar) bilgileri aynı olmalı!';
-			showFrmAlert($alert,alertText);
+			showFrmAlert($f,alertText);
 			$f.find('input#password').focus();
 			return false;
 
@@ -97,7 +93,7 @@ $(document).ready(function(){
 				}
 				else{
 					// Alert the error
-					showFrmAlert($alert,rsp);
+					showFrmAlert($f,rsp);
 				}
 				return false;
 
@@ -119,7 +115,7 @@ $(document).ready(function(){
 		if($t.attr('id')=='email'){
 			if(!validateEmail(val)){
 				alertText='Önce geçerli bir e-posta adresi giriniz!';
-				showFrmAlert($alert,alertText);
+				showFrmAlert($f,alertText);
 				$f.find('input#email').focus();
 				return;
 			}
