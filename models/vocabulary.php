@@ -88,20 +88,19 @@ class vocabulary
 
 		$sql='select v.* 
 			from 
-			vocabulary as v, words as w, 
-			wordClasses as wc, classes as cls
+			vocabulary as v, words as w 
+			left join wordClasses as wc on w.id=wc.wId
+			left join classes as cls on wc.clsId=cls.id
 			where
 			v.userId='.$this->userId.' and
-			v.wordId=w.id and
-			w.id=wc.wId and
-			wc.clsId=cls.id
+			v.wordId=w.id
 			'.$keyword.'
 			'.$level.'
 			'.$classes.'
 			group by w.id
 			'.$orderBy.'
 			limit '.$start.','.$length;
-		
+
 		$rs=$this->db->fetch($sql);
 		
 		if($rs===false)
@@ -128,10 +127,12 @@ class vocabulary
 	 * @return object/false
 	 */
 	public function getVocabularyByWord($word){
-		$sql='select v.* from words as w,vocabulary as v
+		$sql='select v.* from 
+			words as w,vocabulary as v
 			where
 			v.userId='.$this->userId.' and
-			v.wordId=w.id
+			v.wordId=w.id and
+			w.word=\''.$this->db->escape($word).'\'
 			limit 1';
 
 		return $this->db->fetchFirst($sql);
@@ -164,6 +165,17 @@ class vocabulary
 			$word=dictionary::getWord($word);
 		
 		if($word==false)
+			return false;
+
+
+		$sql='select * from vocabulary
+			where 
+			userId=\''.$this->userId.'\' and
+			wordId=\''.$word->id.'\'
+			limit 1';
+
+		// if the word is already in the user's vocabulary
+		if($this->getVocabularyByWord($word->word)!==false)
 			return false;
 
 		$sql='insert into vocabulary (userId,wordId,level,tags)

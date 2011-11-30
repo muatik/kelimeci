@@ -29,7 +29,7 @@ class arrays{
 	 * */
 	public static function toArray($arr,$field,$keyField=null){
 		$newArr='';
-		if(count($arr)<1) return null;
+		if(count($arr)<1) return array();
 		
 		if($keyField==null)
 			foreach($arr as $i)

@@ -2,7 +2,10 @@ function vcbPage(){
 	this.list=$('.ul');
 	this.bind();
 	this.bindList();
-	wordAdditionForm.onAdd=this.onAddedWord;
+	var t=this;
+	wordAdditionForm.onAdd=function(rsp,f){
+		t.onAddedWord(rsp,f);
+	}
 }
 
 var vcbp=vcbPage.prototype;
@@ -128,8 +131,8 @@ vcbp.onAddedWord=function(rsp,f){
 	
 	$('input[name="word"]').focus();
 
-	if(rsp==0){
-		alert(rsp);
+	if(rsp.substr(0,1)==0){
+		alert(rsp.substr(1));
 		return false;
 	}
 
@@ -157,8 +160,11 @@ vcbp.onAddedWord=function(rsp,f){
 	h+='<span class="word">'+word.word+'</span> ';
 	
 	$('<li>'+h+'</li>').prependTo('ul.words').find('span.word')
-		.css('background-color','#fffa00').animate({backgroundColor:'#fff'},1800);
+		.css('background-color','#fffa00')
+		.animate({backgroundColor:'#fff'},1800,function(){
+			$(this).css('background-color','');
+		});
 
-	
+	this.bindList();
 }
 
