@@ -7,10 +7,13 @@ $(document).ready(function(){
 			username=$f.find('input[name="username"]').val(),
 			password=$f.find('input[name="password"]').val();
 
-		if(username=='' || password==''){
+		// If there is any empty input elements
+		if($f.find(':input[value=""]').length>0){
 
 			var alertText='Kullanıcı adını ve şifreyi giriniz!';
 			showFrmAlert($f,alertText);
+			// Focus the first empty input element
+			$f.find(':input[value=""]:first').focus();
 			return false;
 
 		}

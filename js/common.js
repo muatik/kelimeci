@@ -113,26 +113,3 @@ function hideFrmAlert(alertElem){
 	if(!$e.is(':hidden'))
 		$e.fadeOut('fast',function(){$(this).hide();});
 }
-
-
-/**
- * Get empty inputs if there is
- *
- * @param object frm Form element object which
- * @return jQuery object
- */
-function getEmptyInputs(frm){
-	var
-		$frm=$(frm),
-		$eInputs=null;
-
-	// Get empty inputs if there is
-	$eInputs=$frm.find(':input').filter(
-		function(){
-			return $(this).val()=='';
-		}
-	);
-
-	// Return empty inputs
-	return $eInputs;
-}

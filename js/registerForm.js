@@ -17,13 +17,13 @@ $(document).ready(function(){
 			password=$f.find('input#password').val(),
 			password2=$f.find('input#password2').val();
 
-		// If any inputs is empty
-		if(getEmptyInputs($f).length>0){
+		// If there is any empty input elements
+		if($f.find(':input[value=""]').length>0){
 
 			var alertText='Tüm bilgileri giriniz!';
 			showFrmAlert($f,alertText);
 			// Focus the first empty input element
-			getEmptyInputs($f).filter(':first').focus();
+			$f.find(':input[value=""]:first').focus();
 			return false;
 
 		}
