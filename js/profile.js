@@ -34,16 +34,24 @@ $(document).ready(function(){
 			fname=$f.find('input#fname').val(),
 			lname=$f.find('input#lname').val(),
 			birthDate=$f.find('input#birthDate').val(),
+			// Date pattern
+			datePatt=/\d{2}\/\d{2}\/\d{4}/,
 			// Current form
-			$frm=$('.profileForm.personel');
+			$frm=$('.profileForm.personel'),
+			infoObj={},
+			result=null;
+		
+		infoObj.fname=fname;
+		infoObj.lname=lname;
 
-		var 
-			infoObj={
-				'fname':fname,
-				'lname':lname,
-				'birthDate':birthDate
-			},
-			result=null;				
+		// If birth date is valid
+		if(datePatt.test(birthDate)){
+			var b=birthDate.split('/');
+			// Format birth date
+			birthDate=b[2]+'-'+b[1]+'-'+b[0];
+			// Add birth date to the stack to update
+			infoObj.birthDate=birthDate;
+		}
 
 		updateInformation('personelInfo',infoObj,$frm);
 
