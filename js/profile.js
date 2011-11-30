@@ -5,19 +5,7 @@ $(document).ready(function(){
 	var 
 		$f=$('.profileForm'),
 		$storedCity=$f.find('input#storedCity'),
-		$city=$f.find('select#city'),
-		// Alert elements for forms
-		$alertPersonel=$('.profileForm.personel'),
-		$alertEmail=$('.profileForm.email'),
-		$alertPassword=$('.profileForm.password'),
-		$alertPractice=$('.profileForm.practice');
-	
-	// Add the alert elements to the form
-	$alertPersonel=$alertPersonel.append(createFrmAlert()).find('p.frmAlert');
-	$alertEmail=$alertEmail.append(createFrmAlert()).find('p.frmAlert');
-	$alertPassword=$alertPassword.append(createFrmAlert()).find('p.frmAlert');
-	$alertPractice=$alertPractice.append(createFrmAlert()).find('p.frmAlert');
-
+		$city=$f.find('select#city');
 	
 	// When clicked on the calendar icon, show jquery datepicker
 	$f.find('img.calendar').click(function(){
@@ -45,7 +33,9 @@ $(document).ready(function(){
 		var 
 			fname=$f.find('input#fname').val(),
 			lname=$f.find('input#lname').val(),
-			birthDate=$f.find('input#birthDate').val();
+			birthDate=$f.find('input#birthDate').val(),
+			// Current form
+			$frm=$('.profileForm.personel');
 
 		var 
 			infoObj={
@@ -55,21 +45,24 @@ $(document).ready(function(){
 			},
 			result=null;				
 
-		updateInformation('personelInfo',infoObj,$alertPersonel);
+		updateInformation('personelInfo',infoObj,$frm);
 
 	});
 
 	// Update email
 	$f.find('input[name="updateEmail"]').click(function(){
 		
-		var email=$f.find('input#email').val();
+		var 
+			email=$f.find('input#email').val(),
+			// Current form
+			$frm=$('.profileForm.email');
 		
 		// If empty
 		if(email=='') return;
 		
 		// If not valid
 		if(!validateEmail(email)){
-			showFrmAlert($alertEmail,'Geçerli bir e-posta adresi giriniz!');
+			showFrmAlert($frm,'Geçerli bir e-posta adresi giriniz!');
 			$f.find('input#email').focus();
 			return;
 		}
@@ -78,7 +71,7 @@ $(document).ready(function(){
 		if(!resultOfEmailCheck){
 			var alertText='Bu e-posta adresi kullanılıyor. '+
 				'Başka bir e-posta adresi seçiniz.'
-			showFrmAlert($alertEmail,alertText);
+			showFrmAlert($frm,alertText);
 			$f.find('input#email').focus();
 			return false;
 
@@ -88,7 +81,7 @@ $(document).ready(function(){
 			infoObj={'email':email},
 			result=null;				
 
-		updateInformation('email',infoObj,$alertEmail);
+		updateInformation('email',infoObj,$frm);
 
 	});
 
@@ -98,25 +91,28 @@ $(document).ready(function(){
 		var 
 			curPass=$f.find('input#currentPassword').val(),
 			newPass=$f.find('input#newPassword').val(),
-			newPass2=$f.find('input#newPassword2').val();
+			newPass2=$f.find('input#newPassword2').val(),
+			// Current form
+			$frm=$('.profileForm.password');
 		
-		// If empty
-		if(curPass=='' || newPass=='' || newPass2==''){
-			showFrmAlert($alertPassword,'Şifre ile ilgili tüm alanları doldurmalısınız!');
-			$f.find('input#currentPassword');
+		// If any empty input elements
+		if($frm.find(':input[value=""]').length>0){
+			showFrmAlert($frm,'Şifre ile ilgili tüm alanları doldurmalısınız!');
+			// Focus the first empty input element
+			$frm.find(':input[value=""]:first').focus();
 			return;
 		}
 
 		// The length of the password must be 5
 		if(newPass.length<5){
-			showFrmAlert($alertPassword,'Şifre en az 5 karakterden oluşmalı!');
+			showFrmAlert($frm,'Şifre en az 5 karakterden oluşmalı!');
 			$f.find('input#newPassword');
 			return;
 		}
 
 		// If the new passwords not the same
 		if(newPass!=newPass2){
-			showFrmAlert($alertPassword,'Yeni şifre ve Yeni şifre(tekrar) bilgileri aynı değil!');
+			showFrmAlert($frm,'Yeni şifre ve Yeni şifre(tekrar) bilgileri aynı değil!');
 			$f.find('input#newPassword');
 			return;
 		}
@@ -128,7 +124,7 @@ $(document).ready(function(){
 			},
 			result=null;				
 
-		updateInformation('password',infoObj,$alertPassword);
+		updateInformation('password',infoObj,$frm);
 
 	});
 
@@ -159,12 +155,14 @@ $(document).ready(function(){
 			practice='',
 			$city=$f.find('select#city'),
 			infoObj={},
-			result=null;
+			result=null,
+			// Current form
+			$frm=$('.profileForm.practice');
 
 		// If checked
 		if(isChecked){
 			if($city.val()=='0'){
-				showFrmAlert($alertPractice,'Pratik yapmak için bir şehir seçmelisiniz!');
+				showFrmAlert($frm,'Pratik yapmak için bir şehir seçmelisiniz!');
 				$city.focus();
 				return;
 			}
@@ -178,7 +176,7 @@ $(document).ready(function(){
 		
 		infoObj.practice=practice;
 
-		updateInformation('practice',infoObj,$alertPractice);
+		updateInformation('practice',infoObj,$frm);
 
 	});
 
@@ -188,14 +186,16 @@ $(document).ready(function(){
 		var 
 			$t=$(this),
 			val=$t.val(),
-			result;
+			result=null,
+			// Current form
+			$frm=$('.profileForm.email');
 
 		if(val=='') return;
 
 		if($t.attr('id')=='email'){
 			if(!validateEmail(val)){
 				alertText='Önce geçerli bir e-posta adresi giriniz!';
-				showFrmAlert($alertEmail,alertText);
+				showFrmAlert($frm,alertText);
 				$f.find('input#email').focus();
 				return;
 			}
