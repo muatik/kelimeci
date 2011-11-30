@@ -42,7 +42,6 @@ class crawlers
 			if($data) $this->save($data);			
 		}		
 		*/
-
 		if (!$this->isWebPageCrawled($this->wordId,'seslisozluk')){
 			$ssli=new seslisozlukC();
 			$data=$ssli->get($word);
@@ -54,8 +53,8 @@ class crawlers
 			$urbn=new urbanC();
 			$data=$urbn->get($word);
 			if ($data) $this->save($data);
-		}*/
-		
+		}
+		*/
 	}
 	
 	/**
@@ -69,6 +68,9 @@ class crawlers
 		
 		$wordId=$this->wordId;	
 		
+		if (isset($o->class))
+			$this->insertWordOfClass($wordId,$o->class);
+
 		$this->insertWordInfo($wordId,'lang',$o->lang);
 
 		$this->insertWordInfo($wordId,'pronunciation',
@@ -232,29 +234,15 @@ class crawlers
 				
 					$synId=$this->insertWord($syn);
 					
-					if (isset($in->definition))
-						$this->insertWordInfo(
-							$synId,'definition',$in->definition);
-							
-					if (isset($in->pos))
-						$this->insertWordOfClass(
-							$synId,
-							$in->pos
-						);
-					
-					if (isset($in->pos))
-						$wCId=$this->insertClass($in->pos);
-
 					$sql='select id from synonyms where wId=\''.
 						$wordId.'\' and synId=\''.$synId.'\' limit 1';
 					$r=$this->db->fetchFirst($sql);
 					
 					if (!$r){
-						$sql='insert into synonyms(wId,synId,clsId) 
+						$sql='insert into synonyms(wId,synId) 
 							values(
 								\''.$wordId.'\',
-								\''.$synId.'\',
-								\''.$wCId.'\')';
+								\''.$synId.'\')';
 						$this->db->query($sql);
 					} else continue;
 			}
@@ -283,27 +271,14 @@ class crawlers
 			foreach($in->antonyms as $ant){
 				
 					$antId=$this->insertWord($ant);
-					if (isset($in->definition))
-						$this->insertWordInfo(
-							$antId,'definition',$in->definition
-						);
 						
-					if (isset($in->definition))
-						$this->insertWordOfClass(
-							$antId,
-							$in->pos
-						);
-						
-					$wCId=$this->insertclass($in->pos);
-
 					$sql='select id from antonyms where wId=\''.
 						$wordId.'\' and antId=\''.$antId.'\' limit 1';
 					$r=$this->db->fetchFirst($sql);
 					
 					if (!$r){
 						$sql='insert into antonyms(wId,antId,clsId) 
-							values(\''.$wordId.'\',\''.$antId.'\'
-							,\''.$wCId.'\')';
+							values(\''.$wordId.'\',\''.$antId.'\')';
 						$this->db->query($sql);
 					} else continue;
 			}
