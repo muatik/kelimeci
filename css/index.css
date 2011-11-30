@@ -6,8 +6,14 @@
 .forms{
 	margin-right:20px;
 	float:right;
-	width:320px;
+	width:280px;
 }
 .registerForm, .loginForm{
 	margin:20px 0;
+}
+.loginForm .fLabel,.registerForm .fLabel{
+	width:80px;
+}
+.loginForm .fInput,.registerForm .fInput{
+	width:190px;
 }

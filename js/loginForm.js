@@ -1,10 +1,10 @@
 $(document).ready(function(){
 	var 
 		$f=$('.loginForm'),
-		$err=createFrmErr();
+		$alert=createFrmAlert();
 	
-	// Add the error elem. to the form
-	$f.prepend($err);
+	// Add the alert elem. to the form
+	$f.append($alert);
 	
 	$('.loginForm').submit(function(){
 		var
@@ -14,7 +14,7 @@ $(document).ready(function(){
 		if(username=='' || password==''){
 
 			var alertText='Kullanıcı adını ve şifreyi giriniz!';
-			showFrmErr($err,alertText);
+			showFrmAlert($alert,alertText);
 			return false;
 
 		}
@@ -32,7 +32,7 @@ $(document).ready(function(){
 				}
 				else{
 					// Alert the error
-					showFrmErr($err,rsp);
+					showFrmAlert($alert,rsp);
 				}
 				return false;
 

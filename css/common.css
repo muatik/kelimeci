@@ -56,24 +56,24 @@ span.seperator{
 form ul.frmItems{
 
 }
-
 form ul.frmItems li{
+	margin-top:2px;
 	line-height:25px;
 	overflow:hidden;
 }
-
 form ul.frmItems li div.fLabel{
 	float:left;
 }
-
 form ul.frmItems li div.fInput{
 	float:right;
 }
 
-.frmErr img{
+.frmAlert img{
 	margin-right:8px;
 }
-
-.frmErr span.msg{
+.frmAlert.successful{
+	color:green;
+}
+.frmAlert.unsuccessful{
 	color:red;
 }

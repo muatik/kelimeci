@@ -13,11 +13,17 @@
 	margin-left:0;
 }
 */
+.loginForm input[type=text],.loginForm input[type=password]{
+	width:150px;
+}
+.loginForm input[type=submit]{
+	margin-left:0;
+}
 .loginForm .frmItems .fLabel{
-	width:80px;
+	/*width:80px;*/
 }
 .loginForm .frmItems .fInput{
-	width:150px;
+	/*width:150px;*/
 }
 .loginForm{
 	/*Box Radius*/

@@ -1,25 +1,40 @@
+resultOfEmailCheck=null;
+
 $(document).ready(function(){
 	// Prepare
 	var 
 		$f=$('.profileForm'),
 		$storedCity=$f.find('input#storedCity'),
-		$city=$f.find('select#city');
+		$city=$f.find('select#city'),
+		// Alert elements for forms
+		$alertPersonel=$('.profileForm.personel'),
+		$alertEmail=$('.profileForm.email'),
+		$alertPassword=$('.profileForm.password'),
+		$alertPractice=$('.profileForm.practice');
+	
+	// Add the alert elements to the form
+	$alertPersonel=$alertPersonel.append(createFrmAlert()).find('p.frmAlert');
+	$alertEmail=$alertEmail.append(createFrmAlert()).find('p.frmAlert');
+	$alertPassword=$alertPassword.append(createFrmAlert()).find('p.frmAlert');
+	$alertPractice=$alertPractice.append(createFrmAlert()).find('p.frmAlert');
 
+	
+	// When clicked on the calendar icon, show jquery datepicker
+	$f.find('img.calendar').click(function(){
+		$f.find('input#birthDate').trigger('focus');	
+	});
+
+	// Set jquery datepicker for the #birthDate input
 	$f.find('input#birthDate').datepicker();
 
 	// If there is storedCity
-	if($storedCity.length>0 && $storedCity.val()!='0'){
-		var t;
-		$city.find('option').each(function(){
-			t=$(this);
-			// Select storedCity
-			if(t.val().toLowerCase()==$storedCity.val().toLowerCase()){
-				t.attr('selected','selected');
-				return;
-			}
-		});
+	if($storedCity.length>0 && $storedCity.val()!=''){
+		// Select user's city
+		$city.val($storedCity.val());
 	}
-	else{
+	else{	
+		// If no city selected, select İstanbul as default
+		$city.val('İstanbul');
 		// Disable the city select box
 		$city.attr('disabled','disabled');
 	}
@@ -32,9 +47,6 @@ $(document).ready(function(){
 			lname=$f.find('input#lname').val(),
 			birthDate=$f.find('input#birthDate').val();
 
-		// If empty
-		//if(fname=='' || lname=='' || birthDate=='') return;
-		
 		var 
 			infoObj={
 				'fname':fname,
@@ -43,7 +55,7 @@ $(document).ready(function(){
 			},
 			result=null;				
 
-		updateInformation('personelInfo',infoObj);
+		updateInformation('personelInfo',infoObj,$alertPersonel);
 
 	});
 
@@ -57,16 +69,26 @@ $(document).ready(function(){
 		
 		// If not valid
 		if(!validateEmail(email)){
-			alert('Geçerli bir e-posta adresi giriniz!');
+			showFrmAlert($alertEmail,'Geçerli bir e-posta adresi giriniz!');
 			$f.find('input#email').focus();
 			return;
+		}
+
+		// If the email already in use
+		if(!resultOfEmailCheck){
+			var alertText='Bu e-posta adresi kullanılıyor. '+
+				'Başka bir e-posta adresi seçiniz.'
+			showFrmAlert($alertEmail,alertText);
+			$f.find('input#email').focus();
+			return false;
+
 		}
 		
 		var 
 			infoObj={'email':email},
 			result=null;				
 
-		updateInformation('email',infoObj);
+		updateInformation('email',infoObj,$alertEmail);
 
 	});
 
@@ -80,21 +102,21 @@ $(document).ready(function(){
 		
 		// If empty
 		if(curPass=='' || newPass=='' || newPass2==''){
-			alert('Şifre ile ilgili tüm alanları doldurmalısınız!');
+			showFrmAlert($alertPassword,'Şifre ile ilgili tüm alanları doldurmalısınız!');
 			$f.find('input#currentPassword');
 			return;
 		}
 
 		// The length of the password must be 5
 		if(newPass.length<5){
-			alert('Şifre en az 5 karakterden oluşmalı!');
+			showFrmAlert($alertPassword,'Şifre en az 5 karakterden oluşmalı!');
 			$f.find('input#newPassword');
 			return;
 		}
 
 		// If the new passwords not the same
 		if(newPass!=newPass2){
-			alert('Yeni şifre ve Yeni şifre(tekrar) bilgileri aynı değil!');
+			showFrmAlert($alertPassword,'Yeni şifre ve Yeni şifre(tekrar) bilgileri aynı değil!');
 			$f.find('input#newPassword');
 			return;
 		}
@@ -106,7 +128,7 @@ $(document).ready(function(){
 			},
 			result=null;				
 
-		updateInformation('password',infoObj);
+		updateInformation('password',infoObj,$alertPassword);
 
 	});
 
@@ -142,7 +164,7 @@ $(document).ready(function(){
 		// If checked
 		if(isChecked){
 			if($city.val()=='0'){
-				alert('Pratik yapmak için bir şehir seçmelisiniz!');
+				showFrmAlert($alertPractice,'Pratik yapmak için bir şehir seçmelisiniz!');
 				$city.focus();
 				return;
 			}
@@ -156,9 +178,48 @@ $(document).ready(function(){
 		
 		infoObj.practice=practice;
 
-		updateInformation('practice',infoObj);
+		updateInformation('practice',infoObj,$alertPractice);
 
 	});
+
+	// If the img checkEmail or checkUsername clicked
+	$f.find('input#email').blur(function(){
+	
+		var 
+			$t=$(this),
+			val=$t.val(),
+			result;
+
+		if(val=='') return;
+
+		if($t.attr('id')=='email'){
+			if(!validateEmail(val)){
+				alertText='Önce geçerli bir e-posta adresi giriniz!';
+				showFrmAlert($alertEmail,alertText);
+				$f.find('input#email').focus();
+				return;
+			}
+		}
+		checkUsability($t);
+	});
+
+	// If the email focused
+	$f.find('input#email').focus(function(){
+
+		var 
+			$t=$(this),
+			val=$t.val(),
+			img=$t.parent().find('img'),
+			label='';
+		
+		if(val=='') return;
+		
+		// If has img
+		if(img.length>0)
+			img.remove();	
+
+	});
+
 
 });
 
@@ -169,8 +230,45 @@ function validateEmail(data){
 	else false;
 }
 
+// Check the usability of the email
+function checkUsability(inputElem){
+
+	var
+		ajax=new simpleAjax(),
+		$elem=$(inputElem),
+		id=$elem.attr('id'),
+		val=$elem.val(),
+		_ajax='?_ajax=users/checkEmail',
+		param='email='+encodeURI(val),
+		resultVar=null;
+
+	ajax.send(
+		_ajax,
+		param,
+		{'onSuccess':function(rsp,o){
+			// Okay
+			if(rsp=='1'){
+				resultOfEmailCheck=true;
+
+				$elem.parent().find('img').remove().end()
+					.append('<img src="../images/correct.png" alt="Uygun" title="Uygun" />');
+
+			}
+			else{
+				resultOfEmailCheck=false;
+
+				$elem.parent().find('img').remove().end()
+					.append('<img src="../images/incorrect.png" alt="Uygun değil!" title="Uygun değil!" />');
+			}
+
+		}}
+	);
+
+
+}
+
 // Update information according to type(such email, password)
-function updateInformation(type,infoObj){
+function updateInformation(type,infoObj,$frmAlert){
 	
 	var
 		data='',
@@ -189,9 +287,9 @@ function updateInformation(type,infoObj){
 		{'onSuccess':function(rsp,o){
 
 			if(rsp!='1')
-				alert(rsp);
+				showFrmAlert($frmAlert,rsp);
 			else
-				alert('Güncelleme başarılı.');
+				showFrmAlert($frmAlert,'Güncelleme başarılı.',1);
 
 		}}
 	);

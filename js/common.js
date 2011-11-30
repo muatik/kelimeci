@@ -1,16 +1,16 @@
 $(function(){
 
 	/**
-	 * If the form has "frmErr" element, hide the form error element
+	 * If the form has "frmAlert" element, hide the form alert element
 	 * on its input change
 	 */
-	$('input[type=text],input[type=password],select,textarea').change(function(){
+	$(':input').change(function(){
 
-		var $err=$(this).parents('form').find('.frmErr');
+		var $alert=$(this).parents('form').find('.frmAlert');
 
-		// If the form has "frmErr" element, hide it
-		if($err.length>0){
-			hideFrmErr($err);
+		// If the form has "frmAlert" element, hide it
+		if($alert.length>0){
+			hideFrmAlert($alert);
 		}
 
 	});
@@ -22,15 +22,15 @@ function getWordList(){
 }
 
 /**
- * Create a form error element
+ * Create a alert element in the form
  *
  * css for elem: css/common.css
  *
  * @return object Element object
  */
-function createFrmErr(){
-	var $e=$('<p class="frmErr"></p>')
-		.append('<img src="images/incorrect.png" alt="" />')
+function createFrmAlert(){
+	var $e=$('<p class="frmAlert"></p>')
+		.append('<img src="images/incorrect.png" alt="" class="icon" />')
 		.append('<span class="msg"></span>')
 		.css('display','none');
 	
@@ -38,27 +38,62 @@ function createFrmErr(){
 }
 
 /**
- * Show the error for form
+ * Show the alert for form
  *
- * @param object errElem Element object
+ * @param object alertElem Element object
  * @param string msg Message of error
+ * @param string type Type of error(1 or 0)
+ * 	1: successful
+ * 	0: unsuccessful
+ * 	if not specified, means 0
  */
-function showFrmErr(errElem,msg){
-	var $e=$(errElem);
+function showFrmAlert(alertElem,msg,type){
+	var 
+		$e=$(alertElem),
+		sucImg='images/correct.png',
+		unSucImg='images/incorrect.png';
+	
+	// Show the new message
 	$e.find('.msg').html(msg);
+
+	// Remove classes
+	$e.removeClass('successful unsuccessful');
+
+	// Set the img. and the message text color according to message type
+	if(!type || type==0){
+		$e.addClass('unsuccessful');
+		$e.find('.icon').attr('src',unSucImg);
+	}
+	else{
+		$e.addClass('successful');
+		$e.find('.icon').attr('src',sucImg);
+	}
+
+	// If visible, hide it
 	if(!$e.is(':hidden')){
 		$e.hide().fadeOut();
 	}
-	$e.fadeIn('fast',function(){$(this).show();});
+
+	// Show it, and if it is a successful message,
+	// hide it width 2 seconds
+	$e.fadeIn(
+		'fast',
+		function(){
+			$(this).show();
+			// Hide it, if successful message
+			if(type==1)
+				setTimeout(function(){hideFrmAlert($e);},2000);
+		}
+	);
 }
 
 /**
- * Hide the error of form
+ * Hide the alert of form
  *
- * @param object errElem Element object
+ * @param object alertElem Element object
  */
-function hideFrmErr(errElem){
-	var $e=$(errElem);
+function hideFrmAlert(alertElem){
+	var $e=$(alertElem);
 	if(!$e.is(':hidden'))
 		$e.fadeOut('fast',function(){$(this).hide();});
 }
