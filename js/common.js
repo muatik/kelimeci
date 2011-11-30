@@ -82,6 +82,9 @@ function showFrmAlert(where,msg,type){
 		$e.find('.icon').attr('src',sucImg);
 	}
 
+	// Fade in the alert icon
+	$e.find('.icon').fadeTo('fast',0.8);
+
 	// If visible, hide it
 	if(!$e.is(':hidden')){
 		$e.hide().fadeOut();

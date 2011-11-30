@@ -268,7 +268,10 @@ function checkUsability(inputElem){
 }
 
 // Update information according to type(such email, password)
-function updateInformation(type,infoObj,$frmAlert){
+function updateInformation(type,infoObj,$frm){
+
+	// Disable the form button
+	$frm.find(':button,:submit').attr('disabled','disabled');
 	
 	var
 		data='',
@@ -287,12 +290,15 @@ function updateInformation(type,infoObj,$frmAlert){
 		{'onSuccess':function(rsp,o){
 
 			if(rsp!='1')
-				showFrmAlert($frmAlert,rsp);
+				showFrmAlert($frm,rsp);
 			else
-				showFrmAlert($frmAlert,'Güncelleme başarılı.',1);
+				showFrmAlert($frm,'Güncelleme başarılı.',1);
 
 		}}
 	);
+
+	// Enable the form button
+	$frm.find(':button,:submit').removeAttr('disabled');
 
 }
 

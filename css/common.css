@@ -68,12 +68,19 @@ form ul.frmItems li div.fInput{
 	float:right;
 }
 
-.frmAlert img{
-	margin-right:8px;
+.frmAlert.successful,.frmAlert.unsuccessful{
+	padding:3px;
 }
 .frmAlert.successful{
 	color:green;
+	background:#e7ffe7;
+	border:1px solid #d3ffd3;
 }
 .frmAlert.unsuccessful{
 	color:red;
+	background:#ffecec;
+	border:1px solid #ffdada;
+}
+.frmAlert img{
+	margin-right:8px;
 }
