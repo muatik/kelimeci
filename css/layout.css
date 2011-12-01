@@ -30,7 +30,7 @@
 	font:normal 18px sans-serif;
 	color:#fff;
 }
-#topMenu a:hover{
+#topMenu a:hover,#topMenu a.active{
 	background:url(../images/topMenuHoverBg.png) repeat-x;
 	text-shadow: 0px  0px 10px #fff;
 }

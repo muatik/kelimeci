@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="tr" lang="tr">
 <head>
-<title>CookingTheCode</title>
+<title><?php echo $this->title;?></title>
 <meta http-equiv="content-type" charset="text/html;charset=utf-8" />
 
 <script type="text/javascript" src="js/createXHR.js"></script>
@@ -20,10 +20,19 @@
 <div id="banner">
 	<a href="/" id="logo"></a>
 	<ul id="topMenu">
-		<li><a href="vocabulary" alt="">Kelimeler</a></li>
-		<li><a href="tests" alt="">Test</a></li>
-		<li><a href="status" alt="">Durum</a></li>
-		<li><a href="profile" alt="">Ayarlar</a></li>
+		<?php
+		$menus=array(
+			'vocabulary'=>'Kelimeler',
+			'tests'=>'Test',
+			'status'=>'Durum',
+			'profile'=>'Ayarlar'
+		);
+
+		foreach($menus as $k=>$i)
+			echo '<li><a href="'.$k.'" 
+				'.($this->name==$k?' class="active" ':'').'
+				alt="">'.$i.'</a></li>';
+		?>
 		<?php
 			// Add "log out" link if logged in
 			if($o->isLogined)

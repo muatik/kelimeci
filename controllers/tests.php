@@ -3,6 +3,7 @@ require_once('ipage.php');
 class testsController extends ipage{
 	
 	public function initialize(){
+		$this->title='Testler';
 		parent::initialize();
 		$this->tests=new \kelimeci\tests();
 	}
@@ -23,6 +24,7 @@ class testsController extends ipage{
 
 			if(in_array($this->r['testType'],$testTypes))
 				$this->pageLayout=$this->r['testType'];
+
 		}
 
 		parent::run();

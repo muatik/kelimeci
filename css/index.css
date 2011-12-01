@@ -1,8 +1,23 @@
-.whatis{
-	float:left;
-	width:400px;
-	height:20px;
+.index.centerer{
+	margin-top:15px;
+	width:900px;
+	overflow:hidden;
 }
+.whatis{
+	margin:10px 20px;
+	float:left;
+	width:500px;
+	font:17px Georgia,Serif;
+}
+
+.whatis h1{
+	color:#003D73;
+	font:24px verdana,helvetica,arial;
+}
+.whatis p{
+	margin-bottom:20px;
+}
+
 .forms{
 	margin-right:20px;
 	float:right;
@@ -16,4 +31,15 @@
 }
 .loginForm .fInput,.registerForm .fInput{
 	width:190px;
+}
+
+
+#todos ul{
+	padding-left:20px;
+	margin:10px 0 ;
+	list-style-type:disc;
+}
+
+#todos a{
+	font:14px verdana,helvetica;
 }

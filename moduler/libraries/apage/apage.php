@@ -2,8 +2,8 @@
 abstract class apage{
 	public $charset='utf-8';
 	public $siteUrl='domain.com';
-	public $siteName='Domain';
-	public $siteTitle='Page Title';
+	public $pageName='a page';
+	public $title='Page Title';
 	public $siteMail='mail@domain.com';
 	public $siteDescription='';
 	public $extHeaders;

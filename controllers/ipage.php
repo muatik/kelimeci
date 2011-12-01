@@ -16,6 +16,7 @@ class ipage extends controllers
 	}
 	
 	public function initialize(){
+		parent::initialize();
 		$this->addLib('db');
 		$this->addModel(array(
 			'dictionary',

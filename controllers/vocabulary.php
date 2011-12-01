@@ -3,6 +3,7 @@ require_once('ipage.php');
 class vocabularyController extends ipage {
 	
 	public function initialize(){
+		$this->title='Kelime dağarcığı';
 		parent::initialize();
 	}
 

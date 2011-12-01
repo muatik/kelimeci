@@ -84,3 +84,7 @@ form ul.frmItems li div.fInput{
 .frmAlert img{
 	margin-right:8px;
 }
+
+.centerer{
+	margin:auto auto;
+}
