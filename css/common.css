@@ -53,6 +53,11 @@ span.seperator{
 	display:none;
 }
 
+.centerer{
+	margin:auto auto;
+}
+
+/* Form */
 form ul.frmItems{
 
 }
@@ -66,6 +71,14 @@ form ul.frmItems li div.fLabel{
 }
 form ul.frmItems li div.fInput{
 	float:right;
+}
+
+form .frmTitle{
+	margin:0 0 15px 0;
+	padding:0 0 5px 0;
+	border-bottom:1px solid #e9e9e9;
+	color:#003D73;
+	font-size:13px;
 }
 
 .frmAlert.successful,.frmAlert.unsuccessful{
@@ -84,7 +97,4 @@ form ul.frmItems li div.fInput{
 .frmAlert img{
 	margin-right:8px;
 }
-
-.centerer{
-	margin:auto auto;
-}
+/* /Form */

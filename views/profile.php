@@ -17,6 +17,7 @@
 <div class="profilePage">
 
 <form class="profileForm personel" method="post" action="">
+	<h4 class="frmTitle">Kişisel Bilgilerini Güncelle</h4>
 	<ul class="frmItems">
 		<li>
 			<div class="fLabel">
@@ -26,14 +27,12 @@
 				<?php echo $o->username; ?>
 			</div>
 		</li>
-		<li style="border-top:1px solid #e2e2e2;"><h4>Kişisel Bilgilerini Güncelle</h4></li>
 		<li>
 			<div class="fLabel">
 				<label for="fname">Ad:</label>
 			</div>
 			<div class="fInput">
-				<input type="text" name="fname" id="fname" maxlength="50" value="<?php echo $o->fname; ?>" />
-			</div>
+				<input type="text" name="fname" id="fname" maxlength="50" value="<?php echo $o->fname; ?>" /div>
 		</li>
 		<li>
 			<div class="fLabel">
@@ -60,8 +59,8 @@
 </form>
 
 <form class="profileForm password" method="post" action="">
+	<h4 class="frmTitle">Şifreni Güncelle</h4>
 	<ul class="frmItems">
-		<li><h4>Şifreni Güncelle</h4></li>
 		<li>
 			<div class="fLabel">
 				<label for="password">Mevcut şifre:</label>
@@ -95,8 +94,8 @@
 </form>
 
 <form class="profileForm email" method="post" action="">
+	<h4 class="frmTitle">E-posta Adresini Güncelle</h4>
 	<ul class="frmItems">
-		<li><h4>E-posta Adresini Güncelle</h4></li>
 		<li>
 			<div class="fLabel">
 				<label for="email">E-posta adresi:</label>
@@ -114,8 +113,8 @@
 </form>
 
 <form class="profileForm practice" method="post" action="">
+	<h4 class="frmTitle">Pratik</h4>
 	<ul class="frmItems">
-		<li><h4>Pratik</h4></li>
 		<li>
 			<div class="fLabel" style="width:130px;">
 				<label for="practice">Pratik yapmak ister misin:</label>
