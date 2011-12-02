@@ -1,6 +1,7 @@
 <link rel="stylesheet" type="text/css" href="../css/registerForm.css" />
 <script type="text/javascript" src="../js/registerForm.js"></script>
 <form class="registerForm" method="post" action="">
+	<h4 class="frmTitle">Kullanıcı Kaydı</h4>
 	<ul class="frmItems">
 		<li>
 			<div class="fLabel">
