@@ -53,7 +53,7 @@ $(document).ready(function(){
 			infoObj.birthDate=birthDate;
 		}
 		else{
-			showFrmAlert($frm,'Doğum tarihini şu formata benzer girmelisin: 01/01/1985');
+			showFrmAlert($frm,'Doğum tarihini tam olarak şu formata benzer girmelisin: 01/01/1985');
 			return;
 		}
 
