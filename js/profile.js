@@ -52,6 +52,10 @@ $(document).ready(function(){
 			// Add birth date to the stack to update
 			infoObj.birthDate=birthDate;
 		}
+		else{
+			showFrmAlert($frm,'Doğum tarihini şu formata benzer girmelisin: 01/01/1985');
+			return;
+		}
 
 		updateInformation('personelInfo',infoObj,$frm);
 
