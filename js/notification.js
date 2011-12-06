@@ -10,13 +10,17 @@ $(function(){
 	if($nots.length>0){
 		$nots.each(function(){
 			var $t=$(this);
-			setTimeout(
-				function(){
-					// Fade out and remove it
-					$t.fadeOut('slow',function(){$(this).remove();});
-				}
-				,clsTime
-			);
+
+			// If the not. is hidable, hide it
+			if($t.attr('hidable')!='false'){
+				setTimeout(
+					function(){
+						// Fade out and remove it
+						$t.fadeOut('slow',function(){$(this).remove();});
+					}
+					,clsTime
+				);
+			}
 		});
 	}
 });
