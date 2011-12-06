@@ -1,0 +1,21 @@
+.englishWritingTest{
+	padding:10px;
+	width:600px;
+}
+.englishWritingTest input.correct{
+	color:green;
+}
+.englishWritingTest input.incorrect{
+	color:red;
+	text-decoration:line-through;
+}
+.englishWritingTest a{
+	text-decoration:underline;
+}
+.englishWritingTest p.correction strong.incorrect{
+	padding-left:15px;
+	border-left:1px solid black;
+}
+.englishWritingTest p.correction strong:first-child{
+	margin-left:0;
+}

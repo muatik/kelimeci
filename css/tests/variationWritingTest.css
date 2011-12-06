@@ -1,0 +1,17 @@
+.variationWritingTest{
+	padding:10px;
+	width:600px;
+}
+.variationWritingTest a{
+	text-decoration:underline;
+}
+.variationWritingTest label{
+	font-weight:normal;
+	text-align:right;
+	display:inline-block;
+	width:225px;
+	text-transform:capitalize;
+}
+.variationWritingTest input[type=submit]{
+	margin-left:100px;
+}

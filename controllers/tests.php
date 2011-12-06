@@ -104,12 +104,29 @@ class testsController extends ipage{
 	
 	public function prepareTest($testType){
 		$test=$this->tests->prepare($testType);
-		
-		return $this->loadview(
-			$testType.'Test.php',
-			$test,
-			false
-		);
+
+		// If no words to test, show a notification
+		if(count($test->items)==0){
+
+			$o2=new stdClass();
+			$o2->title='Duyuru';
+			$o2->message='
+				Testin uygulanabilmesi için, eklenen en az 1 kelimenizin
+				üzerinden 8 saat geçmelidir.
+			';
+			$o2->hidable=false;
+			echo $this->loadElement('notification.php',$o2);
+
+		}
+		else{
+			
+			return $this->loadview(
+				$testType.'Test.php',
+				$test,
+				false
+			);
+
+		}
 	}
 
 	public function viewsentenceCompletionTest(){
@@ -117,27 +134,7 @@ class testsController extends ipage{
 	}
 
 	public function viewvariationWritingTest(){
-		$o=new stdClass();
-		$o->estimatedTime='00:31:00';
-		
-		$i1=new stdClass();
-		$i1->wordId=1;
-		$i1->word='access';
-		$i1->variations=array('noun','verb','adjective');
-
-		$i2=new stdClass();
-		$i2->wordId=2;
-		$i2->word='mean';
-		$i2->variations=array('noun','verb','adjective');
-
-
-		$o->items=array($i1,$i2);
-
-		return $this->loadView(
-			'variationWritingTest.php',
-			$o,
-			false
-		);
+		return $this->prepareTest('variationWriting');
 	}
 
 	public function viewEnglishWritingTest(){
@@ -154,6 +151,10 @@ class testsController extends ipage{
 
 	public function viewcategorySelectionTest(){
 		return $this->prepareTest('categorySelection');
+	}
+
+	public function viewvoiceTest(){
+		return $this->prepareTest('voice');
 	}
 
 }	
