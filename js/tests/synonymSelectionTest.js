@@ -72,7 +72,7 @@ $(document).ready(function(){
 					if($.inArray($(this).html(),rsp.correction)!=-1){
 						// If the synonym not selected
 						if(!$(this).hasClass('selected')){
-							$(this).addClass('incorrect');
+							$(this).addClass('unselectedCorrect');
 						}
 						// If the synonym selected
 						else{

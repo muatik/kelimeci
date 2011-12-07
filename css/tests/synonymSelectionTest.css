@@ -25,6 +25,12 @@
 	border:1px solid red;
 	padding:2px;
 }
+.synonymSelectionTest span.synonyms span.unselectedCorrect{
+	text-decoration:line-through;
+	background:none;
+	border:none;
+	padding:2px;
+}
 .synonymSelectionTest p.correction span{
 	padding-right:15px;
 	border-right:1px solid black;
