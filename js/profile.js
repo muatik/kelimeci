@@ -13,7 +13,10 @@ $(document).ready(function(){
 	});
 
 	// Set jquery datepicker for the #birthDate input
-	$f.find('input#birthDate').datepicker();
+	$f.find('input#birthDate').datepicker({
+		changeMonth:true,
+		changeYear:true
+	});
 
 	// If there is storedCity
 	if($storedCity.length>0 && $storedCity.val()!=''){
