@@ -118,7 +118,7 @@ vcbp.bindList=function(){
 vcbp.showDetail=function(word){
 	var ajax=new simpleAjax();
 	ajax.send(
-		'vocabulary?_view=word&word='+word,
+		'vocabulary?_view=word&word='+word+'&noScriptStyle=1',
 		null,
 		{onSuccess:function(rsp,o){
 			$('.detailSide').html(rsp)

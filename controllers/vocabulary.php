@@ -94,10 +94,15 @@ class vocabularyController extends ipage {
 		// kullanıcının bu kelime için sağladı verileri
 		// çeker
 		$word=$this->vocabulary->fillUserData($word);
+		
+		$o=new stdClass();
+		$o->word=$word;
+		if(isset($this->r['noScriptStyle']))
+			$o->noScriptStyle=true;
 
 		return $this->loadView(
 			'word.php',
-			$word,
+			$o,
 			false
 		);
 

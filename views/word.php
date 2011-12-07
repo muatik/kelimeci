@@ -1,11 +1,21 @@
 <?php
-$w=$o;
+$w=$o->word;
 ?>
 <div class="wordDetails" id="word<?php echo $w->id;?>">
 	<input type="hidden" name="word" 
 		value="<?php echo $w->word?>" />
-	<script tyoe="text/javascript" src="js/words.js"></script>
-	<link rel="stylesheet" href="css/word.css" />
+
+	<?php
+	/**
+	 * hız kazandırması açısından betik ve sitil dosyaları yüklü bir
+	 * sayfadan gelen çağrılarda tekrar yüklenmesi istenmeyebilir.
+	 * */
+	if(!isset($o->noScriptStyle)){
+		echo '<script tyoe="text/javascript" src="js/words.js"></script>
+		<link rel="stylesheet" href="css/word.css" />';
+	}
+	?>
+
 	<h1><?php echo $w->word;?></h1>
 	
 	<div class="meanings">
