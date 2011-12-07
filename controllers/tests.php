@@ -6,6 +6,7 @@ class testsController extends ipage{
 		$this->title='Testler';
 		parent::initialize();
 		$this->tests=new \kelimeci\tests();
+		$this->tests->userId=$this->u->id;
 	}
 	
 	public function run(){
