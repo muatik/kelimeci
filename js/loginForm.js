@@ -40,6 +40,7 @@ $(document).ready(function(){
 		return false;
 	});
 
+	/* TOOLTIP EXAMPLE */
 	var hideLink='<a href="#" class="qtipHide" onclick="return hideTooltip(this);">[Gizle]</a>';
 
 	var t;
@@ -50,10 +51,13 @@ $(document).ready(function(){
 			id:'qt1',
 			show:{event:false,ready:true},
 			hide:false,
-			content:'Kullanıcı adını düzgün gir lan! '+hideLink,
+			content:'Kullanıcı adı en az 3 karakter olmalıdır. '+hideLink,
 			position:{
 				my:'left center',
 				at:'right center'
+			},
+			style:{
+				classes:'ui-tooltip-youtube ui-tooltip-shadow'
 			},
 			events:{
 				hide:function(event,api){
@@ -62,8 +66,6 @@ $(document).ready(function(){
 
 					// Get the id of tooltip
 					qtipId=qtipId[qtipId.length-1];
-
-					alert('qtip id: '+qtipId);
 
 					$.ajax({
 						type:'POST',
@@ -76,4 +78,5 @@ $(document).ready(function(){
 	};
 
 	$(t.target).qtip(t.options);
+	/* TOOLTIP EXAMPLE */
 });
