@@ -46,19 +46,6 @@
 	<a href="#" id="feedbackImg"></a>
 </div>
 
-<form id="feedbackForm" method="post" action="">
-	<h4 class="frmTitle">Görüş Bildirim Formu</h4>
-	<p>
-		<label for="fbEmail">E-posta:</label>
-		<input type="text" name="fbEmail" id="fbEmail" />
-	</p>
-	<p>
-		<label for="fbMessage">Görüş:</label>
-		<textarea name="fbMessage" id="fbMessage"></textarea>
-	</p>
-	<input type="submit" name="submitFeedback" value="Gönder" />
-</form>
-
 <?php
 echo $this->loadPageLayout();
 ?>
