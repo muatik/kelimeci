@@ -39,4 +39,41 @@ $(document).ready(function(){
 		);
 		return false;
 	});
+
+	var hideLink='<a href="#" class="qtipHide" onclick="return hideTooltip(this);">[Gizle]</a>';
+
+	var t;
+
+	t={
+		target:'.loginForm :input[name=username]',
+		options:{
+			id:'qt1',
+			show:{event:false,ready:true},
+			hide:false,
+			content:'Kullanıcı adını düzgün gir lan! '+hideLink,
+			position:{
+				my:'left center',
+				at:'right center'
+			},
+			events:{
+				hide:function(event,api){
+
+					var qtipId=$(this).attr('id').split('-');
+
+					// Get the id of tooltip
+					qtipId=qtipId[qtipId.length-1];
+
+					alert('qtip id: '+qtipId);
+
+					$.ajax({
+						type:'POST',
+						url:'?_ajax=genel/tooltip',
+						data:'id='+qtipId+'&op=hide'
+					});
+				}
+			}
+		}
+	};
+
+	$(t.target).qtip(t.options);
 });

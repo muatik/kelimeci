@@ -135,8 +135,11 @@ function createTooltip(tooltip){
 	}
 	// If not array
 	else{
-		// Create tooltip
-		$(tooltip.target).qtip(tooltip.options);
+		// If there is target element
+		if($(tooltip.target).length>0){
+			// Create tooltip
+			$(tooltip.target).qtip(tooltip.options);
+		}
 	}
 }
 
@@ -145,12 +148,12 @@ function createTooltip(tooltip){
  * 	by clicking the hide link inside the tooltip
  */
 function hideTooltip(elem){
-	var
-		$e=$(elem);
+	var $e=$(elem);
 
 	// If invoked by a qtip hide link inside a tooltip
 	if($e.hasClass('qtipHide')){
-		$e.parents('.ui-tooltip').hide();
+		var qtipId=$e.parents('.ui-tooltip').attr('id');
+		$('#'+qtipId).qtip('api').hide();
 		return false;
 	}
 }
