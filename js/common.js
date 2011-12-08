@@ -114,7 +114,35 @@ function hideFrmAlert(alertElem){
 }
 
 /**
- * Hide the tooltip by clicking the hide link inside the tooltip
+ * Create a tooltip
+ *
+ * @param array || object tooltip
+ * 	1) array:
+ * 		[
+ *			{'target':'','options':''},
+ *			{'target':'','options':''},
+ *			...
+ * 		]
+ *
+ * 	2) object:
+ *		{'target':'','options':''}
+ */
+function createTooltip(tooltip){
+	// If array, call self in a loop
+	if($.isArray(tooltip)){
+		for(var i in tooltip)
+			createTooltip(tooltip[i]);
+	}
+	// If not array
+	else{
+		// Create tooltip
+		$(tooltip.target).qtip(tooltip.options);
+	}
+}
+
+/**
+ * Hide the tooltip 
+ * 	by clicking the hide link inside the tooltip
  */
 function hideTooltip(elem){
 	var
@@ -126,3 +154,4 @@ function hideTooltip(elem){
 		return false;
 	}
 }
+
