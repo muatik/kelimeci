@@ -17,10 +17,6 @@ $(function(){
 
 });
 
-function getWordList(){
-	
-}
-
 /**
  * Create a alert element in the form
  *
@@ -115,4 +111,18 @@ function hideFrmAlert(alertElem){
 	var $e=$(alertElem);
 	if(!$e.is(':hidden'))
 		$e.fadeOut('fast',function(){$(this).hide();});
+}
+
+/**
+ * Hide the tooltip by clicking the hide link inside the tooltip
+ */
+function hideTooltip(elem){
+	var
+		$e=$(elem);
+
+	// If invoked by a qtip hide link inside a tooltip
+	if($e.hasClass('qtipHide')){
+		$e.parents('.ui-tooltip').hide();
+		return false;
+	}
 }

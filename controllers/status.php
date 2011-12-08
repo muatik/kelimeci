@@ -12,7 +12,7 @@ class statusController extends ipage {
 	public function run(){
 
 		if(!$this->isLogined){
-
+			
 			header('location:/');
 
 		}
@@ -21,4 +21,3 @@ class statusController extends ipage {
 	}
 }
 ?>
-
