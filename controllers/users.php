@@ -201,24 +201,27 @@ class usersController extends ipage {
 					'mr.ermangulhan@gmail.com',
 					'alpaycom@gmail.com'
 				);
-
+				
+				// Configure email
 				$mHandler=new mailHandler();
 				$mHandler->antiflood=false;
-				$mHandler->from='info@kelimeci.net';
+				$mHandler->content_type='text/html; charset=utf-8';
+				$mHandler->from='bilgi@kelimeci.net';
 				$mHandler->to=$emails;
-				$mHandler->subject='Yeni Geribildirim Var';
+				$mHandler->subject='Kelimeci - Yeni Geribildirim Var';
 				$mHandler->message=
 				'
 					<table style="border:none;">
 						<tr><th>E-posta:</th><td>'.$r['email'].'</td></tr>
+						<tr><td colspan="2">&nbsp;</td></tr>
 						<tr><th>Görüş:</th><td>'.$r['comments'].'</td></tr>
 					</table>
 				';
 
+				// Send the email(s)
 				$rtn=$mHandler->send();
 
-				if($rtn!==true)
-					echo $mHandler->error;
+				//if($rtn!==true) echo $mHandler->error;
 
 				return '1';
 			}
