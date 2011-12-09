@@ -8,7 +8,7 @@ $(function(){
 	'<form id="feedbackForm" method="post" action="">'+
 		'<p>'+
 			'<label for="fbEmail">E-posta (tercihen):</label>'+
-			'<input type="text" name="fbEmail" id="fbEmail" maxlength="50" />'+
+			'<input type="text" name="fbEmail" id="fbEmail" maxlength="50" value="'+__usrEmail+'" />'+
 		'</p>'+
 		'<p>'+
 			'<label for="fbComments">Görüşün:</label>'+

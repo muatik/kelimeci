@@ -47,6 +47,15 @@
 </div>
 
 <?php
+	/*
+	 * If the user logined, 
+	 *	store the email in a global var. for js
+	 * 	to add it into email textbox on feedback form
+	 */
+	if($o->isLogined){
+		echo '<script type="text/javascript">var __usrEmail=\''.$this->u->email.'\';</script>';
+	}
+
 echo $this->loadPageLayout();
 ?>
 
