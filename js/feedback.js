@@ -84,7 +84,7 @@ function fbFormOnSubmit($frm,$tooltip){
 		
 		var ajax=new simpleAjax();
 		ajax.send(
-			'?_ajax=users/sendFeedback',
+			'?_ajax=users/feedBack',
 			'email='+encodeURI($email.val())+'&'+
 				'comments='+encodeURI($comments.val()),
 			{'onSuccess':function(rsp,o){
