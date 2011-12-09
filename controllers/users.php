@@ -48,7 +48,7 @@ class usersController extends ipage {
 					'username',
 					$r['username'])
 				)
-				return 'Kullanıcı adı kullanılıyor. Lütfen değiştiriniz!';
+				return 'Kullanıcı adı kullanılıyor. Lütfen değiştiriniz.';
 			else 
 				return true;
 		}
@@ -181,6 +181,23 @@ class usersController extends ipage {
 	public function logout(){
 		$this->session->kill();
 		header('location:/');
+	}
+
+	public function feedBack(){
+
+		$r=$this->r;
+
+		if(isset($r['comments']) && !empty($r['comments'])){
+			$rtn=$this->users->feedBack($r['email'],$r['comments']);
+			
+			if($rtn===true)
+				return '1';
+			else
+				return 'Görüşünüz kayıt edilemedi!';
+		}
+
+		return 'Görüşünüzü yazın!';
+
 	}
 }
 ?>

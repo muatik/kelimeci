@@ -41,6 +41,7 @@ $(document).ready(function(){
 	});
 
 	/* TOOLTIP EXAMPLE */
+	/*
 	var hideLink='<a href="#" class="qtipHide" onclick="return hideTooltip(this);">[Gizle]</a>';
 
 	var t;
@@ -78,5 +79,6 @@ $(document).ready(function(){
 	};
 
 	$(t.target).qtip(t.options);
+	*/
 	/* TOOLTIP EXAMPLE */
 });
