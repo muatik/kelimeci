@@ -187,7 +187,7 @@ class usersController extends ipage {
 
 		$r=$this->r;
 
-		if(isset($r['comments'])){
+		if(isset($r['comments']) && !empty($r['comments'])){
 			$rtn=$this->users->feedBack($r['email'],$r['comments']);
 			
 			if($rtn===true)

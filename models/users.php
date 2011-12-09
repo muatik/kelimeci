@@ -137,8 +137,8 @@ class users
 		$email=$this->db->escape($email);
 		$comments=$this->db->escape($comments);
 
-		$sql='insert into feedbacks(email,comments) values(\''+$email+'\',\''+$comments+'\')';
-		
+		$sql='insert into feedbacks(email,comments) values(\''.$email.'\',\''.$comments.'\')';
+
 		if($this->db->query($sql))
 			return true;
 		else
