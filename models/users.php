@@ -123,6 +123,28 @@ class users
 		else 
 			return false;
 	}
+
+	/**
+	 * Geribildirimleri kayıt eder.
+	 *
+	 * @param string $email
+	 * @param string $comments
+	 *
+	 * @return bool
+	 */
+	 public function feedBack($email,$comments){
+		
+		$email=$this->db->escape($email);
+		$comments=$this->db->escape($comments);
+
+		$sql='insert into feedbacks(email,comments) values(\''.$email.'\',\''.$comments.'\')';
+
+		if($this->db->query($sql))
+			return true;
+		else
+			return false;
+
+	 }
 	
 	
 }

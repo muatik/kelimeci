@@ -1,11 +1,11 @@
-wordAdditionForm={}
+wordAdditionForm={};
 
 wordAdditionForm.bind=function(){
 	$('.wordAdditionForm').unbind('submit')
 		.bind('submit',function(e){
 			wordAdditionForm.add(this);
 			e.preventDefault();
-		})
+	});
 }
 
 wordAdditionForm.add=function(f){
@@ -21,5 +21,5 @@ wordAdditionForm.add=function(f){
 			if(wordAdditionForm.onAdd)
 				wordAdditionForm.onAdd(rsp,f)
 		}}
-	)
+	);
 }

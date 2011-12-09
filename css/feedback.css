@@ -7,21 +7,14 @@
 }
 
 #feedbackForm{
-	display:none;
-	position:absolute;
-	top:58px;
-	right:5px;
-	width:220px;
+	width:250px;
 	padding:7px;
-	background:#ecf8ff;
-	border:1px solid #cfedff;
 }
 #feedbackForm p{
 	margin-bottom:10px;
 }
 #feedbackForm label{
 	font-weight:normal;
-	color:#3a89cb;
 }
 #feedbackForm label,#feedbackForm input[type=text],#feedbackForm textarea{
 	display:block;

@@ -67,7 +67,11 @@ _vcbp.addQuote=function(word,quote){
 
 
 $(function(){
+	
+	// Close the filter form on the page load
+	$('.wordFilterForm').hide();
 
+	/*
 	var
 		// Defaults for qtip
 		qtipDefs=null,
@@ -83,10 +87,7 @@ $(function(){
 			classes:'ui-tooltip-youtube'
 		},
 		position:{my:'top center',at:'bottom center'},
-		content:{
-			text:'Default',
-			/*title:{text:'Bildirgeç',button:true}*/
-		}
+		content:'Default'
 	};
 
 	var qtipHideBtn='<a href="#" class="qtipHide" onclick="hideTooltip(this)">[Gizle]</a>';
@@ -96,5 +97,6 @@ $(function(){
 		'option','content.text',
 		'Kelime dağarcığınıza buradan kelime ekleyebilirsiniz. '+qtipHideBtn
 	);
+	*/
 
 });

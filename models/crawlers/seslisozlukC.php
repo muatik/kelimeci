@@ -41,25 +41,33 @@ class seslisozlukC extends dictionaryCrawler{
 		$o->content=$this->content;
 		
 		$o->pronunciation='';
-		;
+		
 		$o->synonyms=array($this->getSynonyms());
 		$o->antonyms=array($this->getAntonyms());
 		
 		$o->nearbyWords=array();
 		
 		$o->etymology=$this->getEtymology();
+
+		$o->class=$this->getClass($o->etymology);
 		
 		$o->partOfSpeech=array($trWords,$enWords);
 	
 		return $o;				
 	}
-	
+
+	public function getClass($s){
+		preg_match('/\(.*?\)/i',$s,$m);
+		return str_replace(array('.','(',')',''),'',$m[0]);
+	}
+
 	public function getEtymology(){
 		
-		preg_match('/(<div><b>Etymology:<\/b>)([\s\S.]*?)(<\/div>)/i',
+		//preg_match('/(<div><b>Etymology:<\/b>)([\s\S.]*?)(<\/div>)/i',
+		preg_match('/(Etymology:<\/b>)([\r\t\w\s\S.]*?)(<\/td>)/i',
 			$this->content,$m);
 			
-		if (isset($m[0]))
+		if (isset($m[2]))
 			return strip_tags($m[0]);
 		else return '';
 	}
@@ -100,8 +108,6 @@ class seslisozlukC extends dictionaryCrawler{
 			$qId="//*[@id='dc_en_tr']";
 		elseif ($lang=='en')
 			$qId="//*[@id='dc_en_en']";
-		
-		$qId="//*[@id='dc_tr_en']";
 		
 		// türler ve anlamları bulunuyor
 		$words=array();
@@ -200,6 +206,7 @@ class seslisozlukC extends dictionaryCrawler{
 		$headers=str_replace("\t",'',$headers)."\n\n";
 		
 		$fp=fsockopen('www.seslisozluk.net',80);
+		if (!$fp) return false;
 		fwrite($fp, $headers);
 		
 		$kk='';

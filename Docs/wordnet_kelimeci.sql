@@ -165,23 +165,25 @@ CREATE TABLE IF NOT EXISTS `userQuotes` (
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `email` varchar(80) COLLATE utf8_turkish_ci NOT NULL,
-  `username` varchar(20) COLLATE utf8_turkish_ci NOT NULL,
-  `password` varchar(40) COLLATE utf8_turkish_ci NOT NULL COMMENT 'minlength=5',
-  `fname` varchar(15) COLLATE utf8_turkish_ci DEFAULT NULL,
-  `lname` varchar(15) COLLATE utf8_turkish_ci DEFAULT NULL,
-  `birthDate` date NOT NULL,
-  `city` varchar(40) COLLATE utf8_turkish_ci NOT NULL,
-  `practice` tinyint(1) NOT NULL DEFAULT '0',
-  `crtDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `lastLogin` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email_UNIQUE` (`email`),
-  KEY `loginbyemail` (`password`,`email`,`active`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=1 ;
+CREATE  TABLE IF NOT EXISTS `users` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 ,
+  `email` VARCHAR(80) NOT NULL ,
+  `username` VARCHAR(20) NULL ,
+  `password` VARCHAR(40) NOT NULL COMMENT 'minlength=5' ,
+  `fname` VARCHAR(15) NULL ,
+  `lname` VARCHAR(15) NULL ,
+  `birthDate` DATE NULL ,
+  `city` VARCHAR(40) NULL ,
+  `crtDate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
+  `lastLogin` TIMESTAMP NULL ,
+  `practice` TINYINT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
+  INDEX `loginbyemail` (`password` ASC, `email` ASC, `active` ASC) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_turkish_ci;
 
 -- --------------------------------------------------------
 
@@ -342,3 +344,14 @@ ALTER TABLE `wordInfo`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+CREATE  TABLE IF NOT EXISTS `feedbacks` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(50) NULL ,
+  `email` VARCHAR(80) NULL ,
+  `comments` TEXT NULL ,
+  `crtDate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB, 
+COMMENT = 'feedbackleri tutar.' 
+ 

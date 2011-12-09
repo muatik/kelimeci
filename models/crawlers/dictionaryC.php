@@ -47,15 +47,22 @@ class dictionaryC extends dictionaryCrawler{
 		$o->lang='en';
 
 		$o->content=$this->content;
+		$o->content='';
 
 		$o->pronunciation=$this->getPronunciation();
 
-		$o->synonyms=array();
+		//$synAnt=$this->getSynAnt();
+		//$synonyms=$synAnt[0];
+		//$antonyms=$synAnt[1];	
+		//$o->synonyms=$synonyms;
+		//$o->antonyms=$antonyms;
+		$o->synonyms=array();		
 		$o->antonyms=array();
 
 		$o->nearbyWords=array();
 
-		$o->etymology=$this->getEtymology();
+		//$o->etymology=$this->getEtymology();;
+		$o->etymology='';
 
 		$o->partOfSpeech=array($this->getMeans());
 		
@@ -243,6 +250,7 @@ class dictionaryC extends dictionaryCrawler{
 								
 								if ($dataC->getAttribute('class')=='dndata'){
 									if (empty($means[$kind])) $means[$kind]=array();
+									if (strpos($dataC->nodeValue,'interfaceflash')===false)
 									$means[$kind]=array_merge(
 											$means[$kind],
 											array($dataC->nodeValue)
@@ -299,6 +307,7 @@ class dictionaryC extends dictionaryCrawler{
 								
 								if ($dataC->getAttribute('class')=='dndata'){
 									if (empty($means[$kind])) $means[$kind]=array();
+									if (strpos('interfaceflash',$dataC->nodeValue))
 									$means[$kind]=array_merge(
 											$means[$kind],
 											array($dataC->nodeValue)
