@@ -79,6 +79,9 @@ function fbFormOnSubmit($frm,$tooltip){
 			return false;
 		}
 
+		// Disable the form button
+		$f.find(':button,:submit').attr('disabled','disabled');
+		
 		var ajax=new simpleAjax();
 		ajax.send(
 			'?_ajax=users/sendFeedback',
@@ -104,6 +107,9 @@ function fbFormOnSubmit($frm,$tooltip){
 
 			}}
 		);
+
+		// Enable the form button
+		$f.find(':button,:submit').removeAttr('disabled');
 		
 		return false;
 	});
