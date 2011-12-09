@@ -2,5 +2,6 @@ rewriteengine On
 RewriteRule ^vocabulary /main.php?_controller=vocabulary?&%{QUERY_STRING}
 RewriteRule ^tests /main.php?_controller=tests?&%{QUERY_STRING}
 RewriteRule ^users /main.php?_controller=users?&%{QUERY_STRING}
-RewriteRule ^profil /main.php?_controller=profile?&%{QUERY_STRING}
+RewriteRule ^profile /main.php?_controller=profile?&%{QUERY_STRING}
+RewriteRule ^status /main.php?_controller=status?&%{QUERY_STRING}
 RewriteRule ^$ /main.php?_controller=index?&%{QUERY_STRING}

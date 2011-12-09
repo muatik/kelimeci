@@ -1,16 +1,19 @@
 $(document).ready(function(){
 	var 
 		$f=$('.loginForm');
-
+	
 	$('.loginForm').submit(function(){
 		var
 			username=$f.find('input[name="username"]').val(),
 			password=$f.find('input[name="password"]').val();
 
-		if(username=='' || password==''){
+		// If there is any empty input elements
+		if($f.find(':input[value=""]').length>0){
 
 			var alertText='Kullanıcı adını ve şifreyi giriniz!';
-			alert(alertText);
+			showFrmAlert($f,alertText);
+			// Focus the first empty input element
+			$f.find(':input[value=""]:first').focus();
 			return false;
 
 		}
@@ -24,19 +27,16 @@ $(document).ready(function(){
 				
 				// Login okay
 				if(rsp=='1'){
-					alert('Giriş yapıldı.');
-					// DELETE
-					return false;
+					window.location.href='/vocabulary';
 				}
 				else{
 					// Alert the error
-					alert(rsp);
+					showFrmAlert($f,rsp);
 				}
 				return false;
 
 			}}
 		);
 		return false;
-	});	
-
+	});
 });

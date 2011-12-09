@@ -1,4 +1,3 @@
-<script src="js/jquery-ui.custom.min.js"></script>
 <script src="js/ui.dropdownchecklist-1.4-min.js"></script>
 <link rel="stylesheet" href="css/dropDownChecklist.css" />
 <link rel="stylesheet" href="css/wordFilterForm.css" />

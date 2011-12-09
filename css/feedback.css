@@ -1,0 +1,39 @@
+#feedbackImg{
+	float:right;
+	background-image:url(../images/feedback.png);
+	width:126px;
+	height:37px;
+	margin:5px 5px 0 0;
+}
+
+#feedbackForm{
+	display:none;
+	position:absolute;
+	top:58px;
+	right:5px;
+	width:220px;
+	padding:7px;
+	background:#ecf8ff;
+	border:1px solid #cfedff;
+}
+#feedbackForm p{
+	margin-bottom:10px;
+}
+#feedbackForm label{
+	font-weight:normal;
+	color:#3a89cb;
+}
+#feedbackForm label,#feedbackForm input[type=text],#feedbackForm textarea{
+	display:block;
+	width:97%;
+}
+#feedbackForm textarea{
+	height:80px;
+}
+#feedbackForm input[type=text],textarea{
+	border:1px solid #e9e9e9;
+}
+#feedbackForm input[type=submit]{
+	margin-left:0;
+}
+

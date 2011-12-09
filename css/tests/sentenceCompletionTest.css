@@ -1,0 +1,27 @@
+.sentenceCompletionTest{
+	padding:10px;
+	width:600px;
+}
+.sentenceCompletionTest input{
+	margin:0 8px 0 8px;
+}
+.sentenceCompletionTest input.correct{
+	color:green;
+}
+.sentenceCompletionTest input.incorrect{
+	color:red;
+	text-decoration:line-through;
+}
+.sentenceCompletionTest a{
+	text-decoration:underline;
+}
+.sentenceCompletionTest p.correction strong.incorrect{
+	padding-left:15px;
+	border-left:1px solid black;
+}
+.sentenceCompletionTest p.correction strong:first-child{
+	margin-left:0;
+}
+.sentenceCompletionTest .testPageOl li p span:first-child{
+	margin-left:0px;
+}

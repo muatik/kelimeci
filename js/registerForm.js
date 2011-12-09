@@ -17,12 +17,13 @@ $(document).ready(function(){
 			password=$f.find('input#password').val(),
 			password2=$f.find('input#password2').val();
 
-		// If any inputs is empty
-		if(email=='' || username=='' || password=='' || password2==''){
+		// If there is any empty input elements
+		if($f.find(':input[value=""]').length>0){
 
 			var alertText='Tüm bilgileri giriniz!';
-			alert(alertText);	
-			$f.find('input#email').focus();
+			showFrmAlert($f,alertText);
+			// Focus the first empty input element
+			$f.find(':input[value=""]:first').focus();
 			return false;
 
 		}
@@ -31,7 +32,7 @@ $(document).ready(function(){
 		if(!validateEmail(email)){
 
 			var alertText='Geçerli bir e-posta adresi giriniz!';
-			alert(alertText);	
+			showFrmAlert($f,alertText);
 			$f.find('input#email').focus();
 			return false;
 
@@ -41,7 +42,7 @@ $(document).ready(function(){
 		if(!resultOfEmailCheck){
 			var alertText='Bu e-posta adresi kullanılıyor. '+
 				'Başka bir e-posta adresi seçiniz.'
-			alert(alertText);	
+			showFrmAlert($f,alertText);
 			$f.find('input#email').focus();
 			return false;
 
@@ -52,8 +53,18 @@ $(document).ready(function(){
 
 			var alertText='Bu kullanıcı adı kullanılıyor. '+
 				'Başka bir kullanıcı adı seçiniz.'
-			alert(alertText);	
+			showFrmAlert($f,alertText);
 			$f.find('input#username').focus();
+			return false;
+
+		}
+
+		// The length of the password must be 5
+		if(password.length<5){
+
+			var alertText='Şifre en az 5 karakterden oluşmalı!';
+			showFrmAlert($f,alertText);
+			$f.find('input#password').focus();
 			return false;
 
 		}
@@ -62,7 +73,7 @@ $(document).ready(function(){
 		if(password!=password2){
 
 			var alertText='Şifre ve Şifre(tekrar) bilgileri aynı olmalı!';
-			alert(alertText);	
+			showFrmAlert($f,alertText);
 			$f.find('input#password').focus();
 			return false;
 
@@ -78,13 +89,11 @@ $(document).ready(function(){
 				
 				// Register okay
 				if(rsp=='1'){
-					alert('Kullanıcı kaydınız gerçekleşti.');
-					// DELETE
-					return false;
+					window.location.href='/profile?newUser=1';
 				}
 				else{
 					// Alert the error
-					alert(rsp);
+					showFrmAlert($f,rsp);
 				}
 				return false;
 
@@ -105,7 +114,8 @@ $(document).ready(function(){
 
 		if($t.attr('id')=='email'){
 			if(!validateEmail(val)){
-				alert('Önce geçerli bir e-posta adresi giriniz!');
+				alertText='Önce geçerli bir e-posta adresi giriniz!';
+				showFrmAlert($f,alertText);
 				$f.find('input#email').focus();
 				return;
 			}

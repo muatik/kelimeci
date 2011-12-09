@@ -1,0 +1,24 @@
+.voiceTest{
+	padding:10px;
+	width:600px;
+}
+.voiceTest ol li img.voice{
+	
+}
+.voiceTest ol li img.playing{
+	border:1px dotted gray;
+}
+/* Speaker image */
+.voiceTest ol li *:first-child{
+	cursor:pointer;
+}
+.voiceTest a{
+	text-decoration:underline;
+}
+.voiceTest span.correction span{
+	padding-right:15px;
+	border-right:1px solid black;
+}
+.voiceTest span.correction strong:first-child{
+	margin-left:0;
+}

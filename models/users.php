@@ -74,10 +74,10 @@ class users
 	 * 
 	 * @return object
 	 * */
-	public function getUserInfo(){
+	public function getUserInfo($userId){
 	
-		$sql='select * from users where id=\''.$this->userId.'\' limit 1';
-		return $this->db->fetch($sql);
+		$sql='select * from users where id=\''.$userId.'\' limit 1';
+		return $this->db->fetchFirstRecord($sql);
 	}
 	
 	/**
@@ -92,17 +92,17 @@ class users
 	public function  updateUserInfo($userId,$field,$value,$pass=null){
 
 		$field=$this->db->escape($field);
-		if ($pass==null)
-			$value=$this->db->escape($field);
+		if ($pass==null){
+			$value=$this->db->escape($value);
+		}
 		elseif ($pass){
-			$value=md5($this->db->escape($field[1]));
-			$psw=' and '.$field.'=\''.md5($this->db->escape($field[0])).'\'';
+			$value=md5($this->db->escape($value));
 		}
 			
 		$sql='update users set '.$field.'=\''.$value.'\' where id=\''
-			.$this->userId.'\''.$psw;
+			.$userId.'\'';
 
-		$this->db->query($sql);	
+		return $this->db->query($sql);	
 	}
 	
 	/**

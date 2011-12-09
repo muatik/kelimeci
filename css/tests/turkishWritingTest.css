@@ -1,0 +1,21 @@
+.turkishWritingTest{
+	padding:10px;
+	width:600px;
+}
+.turkishWritingTest input.correct{
+	color:green;
+}
+.turkishWritingTest input.incorrect{
+	color:red;
+	text-decoration:line-through;
+}
+.turkishWritingTest a{
+	text-decoration:underline;
+}
+.turkishWritingTest p.correction strong.incorrect{
+	padding-left:15px;
+	border-left:1px solid black;
+}
+.turkishWritingTest p.correction strong:first-child{
+	margin-left:0;
+}

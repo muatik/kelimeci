@@ -3,6 +3,7 @@ require_once('ipage.php');
 class vocabularyController extends ipage {
 	
 	public function initialize(){
+		$this->title='Kelime dağarcığı';
 		parent::initialize();
 	}
 
@@ -28,6 +29,10 @@ class vocabularyController extends ipage {
 			$t->word=$word->word;
 			$t->level=0;
 			return json_encode($t);
+		}
+		else{
+			if($this->vocabulary->getVocabularyByWord($word))
+				return '0Bu kelime zaten ekli.';
 		}
 		return 0;
 	}
@@ -89,10 +94,15 @@ class vocabularyController extends ipage {
 		// kullanıcının bu kelime için sağladı verileri
 		// çeker
 		$word=$this->vocabulary->fillUserData($word);
+		
+		$o=new stdClass();
+		$o->word=$word;
+		if(isset($this->r['noScriptStyle']))
+			$o->noScriptStyle=true;
 
 		return $this->loadView(
 			'word.php',
-			$word,
+			$o,
 			false
 		);
 

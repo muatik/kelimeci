@@ -1,0 +1,37 @@
+.categorySelectionTest{
+	padding:10px;
+	width:600px;
+}
+.categorySelectionTest a{
+	text-decoration:underline;
+}
+.categorySelectionTest ul.categories li span{
+	margin-left:5px;
+	cursor:pointer;
+	display:inline-block;
+	width:100px;
+	border:1px solid white;
+	padding:2px;
+	text-transform:capitalize;
+}
+.categorySelectionTest ul.categories li span.selected{
+	background:#E5C532;
+	border:1px solid #C8AE32;
+	padding:2px;
+}
+.categorySelectionTest ul.categories li span.correct{
+	color:green;
+}
+.categorySelectionTest ul.categories li span.incorrect{
+	color:red;
+	text-decoration:line-through;
+}
+.categorySelectionTest ul.categories li span.unselectedCorrect{
+	background:green;/*#8AEB6D;*/
+	border:1px solid darkgreen;
+	padding:2px;
+	color:white;
+}
+.categorySelectionTest li input[type=submit]{
+	margin-left:20px;
+}

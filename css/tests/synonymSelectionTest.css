@@ -1,0 +1,40 @@
+.synonymSelectionTest{
+	padding:10px;
+	width:600px;
+}
+.synonymSelectionTest a{
+	text-decoration:underline;
+}
+.synonymSelectionTest span.synonyms span{
+	margin-left:5px;
+	cursor:pointer;
+	padding:3px;
+}
+.synonymSelectionTest span.synonyms span.selected{
+	background:#E5C532;
+	border:1px solid #C8AE32;
+	padding:2px;
+}
+.synonymSelectionTest span.synonyms span.correct{
+	background:#8AEB6D;
+	border:1px solid green;
+	padding:2px;
+}
+.synonymSelectionTest span.synonyms span.incorrect{
+	background:#FF8787;
+	border:1px solid red;
+	padding:2px;
+}
+.synonymSelectionTest span.synonyms span.unselectedCorrect{
+	text-decoration:line-through;
+	background:none;
+	border:none;
+	padding:2px;
+}
+.synonymSelectionTest p.correction span{
+	padding-right:15px;
+	border-right:1px solid black;
+}
+.synonymSelectionTest p.correction strong:first-child{
+	margin-left:0;
+}
