@@ -68,6 +68,9 @@ _vcbp.addQuote=function(word,quote){
 
 $(function(){
 	
+	// Close the filter form on the page load
+	$('.wordFilterForm').hide();
+
 	/*
 	var
 		// Defaults for qtip
