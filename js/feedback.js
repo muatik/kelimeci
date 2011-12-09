@@ -18,6 +18,7 @@ $(function(){
 			'<textarea name="fbComments" id="fbComments" maxlength="1000"></textarea>'+
 		'</p>'+
 		'<input type="submit" name="submitFeedback" value="Gönder" />'+
+		'<input type="button" name="resetFeedback" value="Sıfırla" onclick="resetFbForm();" />'+
 	'</form>';
 	
 	// Show the feedback form as tooltip
@@ -52,7 +53,7 @@ $(function(){
 				$fbForm.get(0).reset();
 
 				// Enable the form button
-				$fbForm.find(':button,:submit').removeAttr('disabled');
+				$fbForm.find(':submit').removeAttr('disabled');
 			}
 		}
 	});
@@ -86,7 +87,7 @@ function fbFormOnSubmit($frm,$tooltip){
 		}
 
 		// Disable the form button
-		$f.find(':button,:submit').attr('disabled','disabled');
+		$f.find(':submit').attr('disabled','disabled');
 		
 		var ajax=new simpleAjax();
 		ajax.send(
@@ -110,7 +111,7 @@ function fbFormOnSubmit($frm,$tooltip){
 					showFrmAlert($f,rsp);
 
 					// Enable the form button
-					$f.find(':button,:submit').removeAttr('disabled');
+					$f.find(':submit').removeAttr('disabled');
 				}
 
 				return false;
@@ -121,4 +122,13 @@ function fbFormOnSubmit($frm,$tooltip){
 		return false;
 	});
 
+}
+
+/**
+ * Reset the feedback form
+ */
+function resetFbForm(){
+	var $frm=$('#feedbackForm');
+	$frm.find(':input[id]').val('');
+	$frm.find(':input[name=fbComments]').focus();
 }
