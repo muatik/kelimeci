@@ -165,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `userQuotes` (
 -- Table structure for table `users`
 --
 
-CREATE  TABLE IF NOT EXISTS `mydb`.`users` (
+CREATE  TABLE IF NOT EXISTS `users` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 ,
   `email` VARCHAR(80) NOT NULL ,
@@ -350,7 +350,8 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`feedbacks` (
   `name` VARCHAR(50) NULL ,
   `email` VARCHAR(80) NULL ,
   `comments` TEXT NULL ,
-  `crtDate` TIMESTAMP NULL ,
+  `crtDate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB, 
 COMMENT = 'feedbackleri tutar.' 
+ 
