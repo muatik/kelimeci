@@ -52,9 +52,11 @@
 	 *	store the email in a global var. for js
 	 * 	to add it into email textbox on feedback form
 	 */
+	$usrEmail='null';
 	if($o->isLogined){
-		echo '<script type="text/javascript">var __usrEmail=\''.$this->u->email.'\';</script>';
+		$usrEmail='\''.$this->u->email.'\'';
 	}
+	echo '<script type="text/javascript">var __usrEmail='.$usrEmail.';</script>';
 
 echo $this->loadPageLayout();
 ?>
