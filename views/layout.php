@@ -9,12 +9,14 @@
 <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/feedback.js"></script>
+<script type="text/javascript" src="js/jquery.qtip.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/reset.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/layout.css" />
 <link rel="stylesheet" type="text/css" href="css/ui-lightness/jquery-ui-1.8.16.custom.css" />
 <link rel="stylesheet" type="text/css" href="css/feedback.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery.qtip.css" />
 
 </head>
 <body>
@@ -43,19 +45,6 @@
 	</ul>
 	<a href="#" id="feedbackImg"></a>
 </div>
-
-<form id="feedbackForm" method="post" action="">
-	<h4 class="frmTitle">Görüş Bildirim Formu</h4>
-	<p>
-		<label for="fbEmail">E-posta:</label>
-		<input type="text" name="fbEmail" id="fbEmail" />
-	</p>
-	<p>
-		<label for="fbMessage">Görüş:</label>
-		<textarea name="fbMessage" id="fbMessage"></textarea>
-	</p>
-	<input type="submit" name="submitFeedback" value="Gönder" />
-</form>
 
 <?php
 echo $this->loadPageLayout();

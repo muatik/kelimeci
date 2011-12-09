@@ -39,4 +39,44 @@ $(document).ready(function(){
 		);
 		return false;
 	});
+
+	/* TOOLTIP EXAMPLE */
+	var hideLink='<a href="#" class="qtipHide" onclick="return hideTooltip(this);">[Gizle]</a>';
+
+	var t;
+
+	t={
+		target:'.loginForm :input[name=username]',
+		options:{
+			id:'qt1',
+			show:{event:false,ready:true},
+			hide:false,
+			content:'Kullanıcı adı en az 3 karakter olmalıdır. '+hideLink,
+			position:{
+				my:'left center',
+				at:'right center'
+			},
+			style:{
+				classes:'ui-tooltip-youtube ui-tooltip-shadow'
+			},
+			events:{
+				hide:function(event,api){
+
+					var qtipId=$(this).attr('id').split('-');
+
+					// Get the id of tooltip
+					qtipId=qtipId[qtipId.length-1];
+
+					$.ajax({
+						type:'POST',
+						url:'?_ajax=genel/tooltip',
+						data:'id='+qtipId+'&op=hide'
+					});
+				}
+			}
+		}
+	};
+
+	$(t.target).qtip(t.options);
+	/* TOOLTIP EXAMPLE */
 });

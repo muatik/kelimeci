@@ -98,3 +98,9 @@ form .frmTitle{
 	margin-right:8px;
 }
 /* /Form */
+
+/* qtip */
+.ui-tooltip a.qtipHide{
+	color:orange;
+}
+/* qtip */

@@ -17,8 +17,11 @@ $(function(){
 
 });
 
-function getWordList(){
-	
+// Validate the email
+function validateEmail(data){
+	var patt=new RegExp("^[a-zA-Z0-9_\\-.]*@[a-zA-Z0-9_\\-]+.[a-zA-Z]{3,4}.*[a-zA-Z]*$","g"); 
+	if(patt.test(data)) return true;
+	else false;
 }
 
 /**
@@ -41,13 +44,14 @@ function createFrmAlert(){
  * Show the alert for form
  *
  * @param object where Where alert element inserts to
- * @param string msg Message of error
+ * @param string msg Message
  * @param string type Type of error(1 or 0)
  * 	1: successful
  * 	0: unsuccessful
  * 	if not specified, means 0
+ * @param function callBack Function called after alert message disappeared
  */
-function showFrmAlert(where,msg,type){
+function showFrmAlert(where,msg,type,callBack){
 	// Prepare
 	var 
 		$e=$(where),
@@ -96,12 +100,15 @@ function showFrmAlert(where,msg,type){
 		'fast',
 		function(){
 			$(this).show();
-			// Hide it, if successful message within 2 sn.
-			if(type==1)
-				setTimeout(function(){hideFrmAlert($e);},2000);
-			// Hide it, if unsuccessful message within 2,5 sn.
-			if(type==0)
-				setTimeout(function(){hideFrmAlert($e);},2500);
+
+			// Duration for hiding
+			var hideDur=(type==1) ? 2000 : 2500;
+
+			// Hide it in the duration according to the type of message
+			setTimeout(
+				function(){hideFrmAlert($e,callBack);},
+				hideDur
+			);
 		}
 	);
 }
@@ -110,9 +117,64 @@ function showFrmAlert(where,msg,type){
  * Hide the alert of form
  *
  * @param object alertElem Element object
+ * @param function callBack Function called after alert message disappeared
  */
-function hideFrmAlert(alertElem){
+function hideFrmAlert(alertElem,callBack){
 	var $e=$(alertElem);
 	if(!$e.is(':hidden'))
-		$e.fadeOut('fast',function(){$(this).hide();});
+		$e.fadeOut('fast',
+			function(){
+				$(this).hide();
+				// If there is callback, call it
+				if(callBack){
+					callBack();
+				}
+			}
+		);
 }
+
+/**
+ * Create a tooltip
+ *
+ * @param array || object tooltip
+ * 	1) array:
+ * 		[
+ *			{'target':'','options':''},
+ *			{'target':'','options':''},
+ *			...
+ * 		]
+ *
+ * 	2) object:
+ *		{'target':'','options':''}
+ */
+function createTooltip(tooltip){
+	// If array, call self in a loop
+	if($.isArray(tooltip)){
+		for(var i in tooltip)
+			createTooltip(tooltip[i]);
+	}
+	// If not array
+	else{
+		// If there is target element
+		if($(tooltip.target).length>0){
+			// Create tooltip
+			$(tooltip.target).qtip(tooltip.options);
+		}
+	}
+}
+
+/**
+ * Hide the tooltip 
+ * 	by clicking the hide link inside the tooltip
+ */
+function hideTooltip(elem){
+	var $e=$(elem);
+
+	// If invoked by a qtip hide link inside a tooltip
+	if($e.hasClass('qtipHide')){
+		var qtipId=$e.parents('.ui-tooltip').attr('id');
+		$('#'+qtipId).qtip('api').hide();
+		return false;
+	}
+}
+
