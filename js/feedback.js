@@ -47,6 +47,9 @@ $(function(){
 					
 				// Reset the form on every show
 				$fbForm.get(0).reset();
+
+				// Enable the form button
+				$fbForm.find(':button,:submit').removeAttr('disabled');
 			}
 		}
 	});
@@ -102,14 +105,15 @@ function fbFormOnSubmit($frm,$tooltip){
 				else{
 					// Alert the error
 					showFrmAlert($f,rsp);
+
+					// Enable the form button
+					$f.find(':button,:submit').removeAttr('disabled');
 				}
+
 				return false;
 
 			}}
 		);
-
-		// Enable the form button
-		$f.find(':button,:submit').removeAttr('disabled');
 		
 		return false;
 	});
