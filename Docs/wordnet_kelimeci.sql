@@ -350,7 +350,8 @@ CREATE  TABLE IF NOT EXISTS `feedbacks` (
   `name` VARCHAR(50) NULL ,
   `email` VARCHAR(80) NULL ,
   `comments` TEXT NULL ,
-  `crtDate` TIMESTAMP NULL ,
+  `crtDate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB, 
 COMMENT = 'feedbackleri tutar.' 
+ 
