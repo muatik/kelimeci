@@ -277,7 +277,7 @@ class crawlers
 					$r=$this->db->fetchFirst($sql);
 					
 					if (!$r){
-						$sql='insert into antonyms(wId,antId,clsId) 
+						$sql='insert into antonyms(wId,antId) 
 							values(\''.$wordId.'\',\''.$antId.'\')';
 						$this->db->query($sql);
 					} else continue;
