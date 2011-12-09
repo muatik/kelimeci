@@ -17,6 +17,13 @@ $(function(){
 
 });
 
+// Validate the email
+function validateEmail(data){
+	var patt=new RegExp("^[a-zA-Z0-9_\\-.]*@[a-zA-Z0-9_\\-]+.[a-zA-Z]{3,4}.*[a-zA-Z]*$","g"); 
+	if(patt.test(data)) return true;
+	else false;
+}
+
 /**
  * Create a alert element in the form
  *
@@ -37,13 +44,14 @@ function createFrmAlert(){
  * Show the alert for form
  *
  * @param object where Where alert element inserts to
- * @param string msg Message of error
+ * @param string msg Message
  * @param string type Type of error(1 or 0)
  * 	1: successful
  * 	0: unsuccessful
  * 	if not specified, means 0
+ * @param function callBack Function called after alert message disappeared
  */
-function showFrmAlert(where,msg,type){
+function showFrmAlert(where,msg,type,callBack){
 	// Prepare
 	var 
 		$e=$(where),
@@ -92,12 +100,15 @@ function showFrmAlert(where,msg,type){
 		'fast',
 		function(){
 			$(this).show();
-			// Hide it, if successful message within 2 sn.
-			if(type==1)
-				setTimeout(function(){hideFrmAlert($e);},2000);
-			// Hide it, if unsuccessful message within 2,5 sn.
-			if(type==0)
-				setTimeout(function(){hideFrmAlert($e);},2500);
+
+			// Duration for hiding
+			var hideDur=(type==1) ? 2000 : 2500;
+
+			// Hide it in the duration according to the type of message
+			setTimeout(
+				function(){hideFrmAlert($e,callBack);},
+				hideDur
+			);
 		}
 	);
 }
@@ -106,11 +117,20 @@ function showFrmAlert(where,msg,type){
  * Hide the alert of form
  *
  * @param object alertElem Element object
+ * @param function callBack Function called after alert message disappeared
  */
-function hideFrmAlert(alertElem){
+function hideFrmAlert(alertElem,callBack){
 	var $e=$(alertElem);
 	if(!$e.is(':hidden'))
-		$e.fadeOut('fast',function(){$(this).hide();});
+		$e.fadeOut('fast',
+			function(){
+				$(this).hide();
+				// If there is callback, call it
+				if(callBack){
+					callBack();
+				}
+			}
+		);
 }
 
 /**
