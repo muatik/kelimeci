@@ -163,6 +163,12 @@ class usersController extends ipage {
 			if ($r!==false){
 				$this->u=$r;
 				$this->session->create($r);
+
+				setcookie(
+					session_name(),session_id(),
+					time()+3600*24*150 // oturum ömrü 150 gün olarak belirleniyor
+				);
+
 				return true;
 			}
 			else
