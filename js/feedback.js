@@ -25,6 +25,7 @@ $(function(){
 	$('#feedbackImg').qtip({
 		id:'feedbackForm',
 		prerender:true,
+		show:'click',
 		hide:false,
 		position:{
 			my:'right top',
