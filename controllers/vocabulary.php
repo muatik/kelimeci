@@ -37,6 +37,15 @@ class vocabularyController extends ipage {
 		return 0;
 	}
 
+	/**
+	 * belirtilen anahtar kelimeyle uyuşan kelimeleri önerir.
+	 * */
+	public function suggest(){
+		$r=$this->r;
+		$words=kelimeci\dictionary::suggest($r['q']);
+		return arrays::makeCloud($words,'word',"\n");
+	}
+
 	public function viewwordList(){
 		$r=$this->r;
 		
@@ -117,5 +126,6 @@ class vocabularyController extends ipage {
 
 		return $this->vocabulary->addQuote($r['word'],$r['quote']);
 	}
+
 }
 ?>

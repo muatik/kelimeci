@@ -1,5 +1,7 @@
 <script type="text/javascript" src="js/wordAdditionForm.js"></script>
+<script type="text/javascript" src="js/jquery.autocomplete.js"></script>
 <link rel="stylesheet" type="text/css" href="css/wordAdditionForm.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
 
 <form class="wordAdditionForm" method="post" action="">
 	<label>Etiket:<input type="text" name="tag" maxlength="50" /></label>

@@ -464,6 +464,28 @@ class dictionary
 		return self::$db->fetchFirst($sql);
 	}
 
+
+	/**
+	 * suggests words that are matched by the keyword
+	 * 
+	 * @param string $keyword 
+	 * @param int $limit 10
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function suggest($keyword,$limit=10){
+		
+		$keyword=self::$db->escape($keyword);
+
+		$sql='select * from words
+			where 
+			word like \''.$keyword.'%\'
+			order by length(word),word
+			limit '.$limit;
+
+		return self::$db->fetch($sql);
+	}
 }
 
 dictionary::__sconstruct();
