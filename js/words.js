@@ -28,7 +28,7 @@ words.prototype.bind=function(){
 		if(text.length>170)
 			$(this).html(text.substr(0,170)
 			+'<span class="hidden">'+text.substr(170)+'</span>'
-			+'<a href="#" class="more">hepsi...</a>');
+			+'<a href="#" class="action more">hepsi...</a>');
 	});
 
 

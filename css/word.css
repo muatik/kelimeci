@@ -61,8 +61,46 @@
 }
 
 
-.wordDetails .meanings{
+.wordDetails .pronunciation{
+	font:0.7em verdana,sans;
+	color:#999;
+}
+
+.wordDetails .etymology{
+	font-size:1.1em;
+	line-height:16px;
+	color:#555;
+}
+
+.wordDetails div.meanings{
 	font:normal 1.1em verdana,sans-serif,cantarell,"trebuchet ms",arial,"bitstream vera sans";
+	margin-bottom:20px;
+}
+
+.wordDetails ol.meanings{
+	margin-left:25px;
+	list-style-position:outside;
+}
+
+.wordDetails li.meaning{
+	margin:6px 0;
+}
+
+.meanings .lang{
+	/* image-text replacement */
+	text-indent:-999px;
+	height:16px; 
+	width:16px;
+	display:inline-block;
+	background:url('../images/flags/usa.png') no-repeat;
+	
+}
+
+.meanings .lang.tr{
+	background-image:url('../images/flags/turkey.png');
+}
+.meanings .lang.en{
+	background-image:url('../images/flags/usa.png');
 }
 
 .quotes .addForm{

@@ -19,7 +19,8 @@ $w=$o->word;
 	<h1><?php 
 		echo $w->word;
 		if(isset($w->info['pronunciation']))
-			echo ' <span class="pronunciation">/ 
+			echo ' <span class="pronunciation" 
+			title="fonetik alfabede telaffuzu">/ 
 			'.$w->info['pronunciation']->value
 			.'</span>'; 
 	?></h1>
@@ -28,7 +29,18 @@ $w=$o->word;
 		echo (isset($w->info['etymology'])
 			?$w->info['etymology']->value:null);
 	?></div>
-	
+
+
+	<div class="classes">
+		<h4 class="inline">TÜRÜ:</h4>
+		<span>
+		<?php
+		echo implode(', ',arrays::toArray($w->classes,'name'))
+		?>
+		</span>
+	</div>
+
+
 	<div class="meanings">
 	<?php
 	
@@ -41,7 +53,7 @@ $w=$o->word;
 
 	foreach($langMeaining as $lang=>$meanings){
 		echo '<div class="langGroup lang'.$lang.'">
-			<i class="lang">'.$lang.': </i>';
+			<i class="lang '.$lang.'">'.$lang.' : </i>';
 
 		if(count($meanings)>2)
 			echo '<a href="#" 
@@ -49,30 +61,21 @@ $w=$o->word;
 
 		$pClass='';
 		$i=1;
+		echo '<ol class="meanings">';
 		foreach($meanings as $m){
 			if($i==3)
 				$pClass='hidden';
 			
-			echo '<p class="text '.$pClass.'">'
-				.$i.'. '.$m.'</p>';
+			echo '<li class="meaning text '.$pClass.'">'.$m.'</li>';
 
 			$i++;
 		}
-		
+		echo '</ol>';
 
 		echo '</div>';
 	}
 
 	?>
-	</div>
-
-	<div class="classes">
-		<h4 class="inline">KATEGORİ:</h4>
-		<span>
-		<?php
-		echo implode(', ',arrays::toArray($w->classes,'name'))
-		?>
-		</span>
 	</div>
 
 	<div class="quotes">
@@ -109,7 +112,8 @@ $w=$o->word;
 		</div>
 		
 	</div>
-	
+
+	<!--
 	<div class="variations">
 		<h4>VARYASYONLAR</h4>
 		<ul class="gray">
@@ -117,7 +121,8 @@ $w=$o->word;
 			<li><i>verb:</i><span>kelimenin fiil hali</span></li>
 		</ul>
 	</div>
-	
+	-->
+
 	<div class="synonyms">
 		<h4 class="inline">EŞ:</h4>
 		<span>
