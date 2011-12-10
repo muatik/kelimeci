@@ -37,6 +37,14 @@ class words
 	private $word;
 
 	/**
+	 * information about the word
+	 * 
+	 * @var array
+	 * @access private
+	 */
+	private $info;
+
+	/**
 	 * language of the word
 	 * 
 	 * @var string
@@ -147,7 +155,15 @@ class words
 
 		if($r!==false){
 			$this->id=$r->id;
-			$this->lang=dictionary::getLangOfWord($r->id);
+
+			$this->info=array();
+			$info=dictionary::getInfoOfWord($r->id);
+			foreach($info as $k=>$i)
+				$this->info[$i->name]=$i;
+			
+			if(isset($this->info['lang']))
+				$this->lang=$this->info['lang']->value;
+
 			$this->word=$r->word;
 			return true;
 		}
@@ -173,6 +189,9 @@ class words
 			}
 			return $this->$var;
 		}
+
+		if($var=='info')
+			return $this->info;
 
 		if($var=='lang')
 			return $this->lang;

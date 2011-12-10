@@ -333,7 +333,19 @@ class dictionary
 		$r=self::$db->fetchFirst($sql);
 		return ($r==false? false : $r->value);
 	}
-	
+
+	/**
+	 * returns information about the word
+	 * @param int $wordId
+	 * @static
+	 * @access public
+	 * @return array
+	 * */
+	public static function getInfoOfWord($wordId){
+		return self::getWordItemsByTable($wordId,'wordInfo');
+	}
+
+
 	/**
 	 * returns meainings of word 
 	 * 

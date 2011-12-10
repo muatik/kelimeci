@@ -1,3 +1,8 @@
+/**
+ * bir kelimeye ait tüm bilgilerin gösterildiği katman için
+ * yazılmıştır.
+ * Her katman sayfası, bu words sınıfından bir nesne türetir.
+ * */
 function words(pageId){
 	this.layer=$('#'+pageId);
 	this.word=$('input[name="word"]',this.layer).val();
@@ -6,12 +11,26 @@ function words(pageId){
 
 words.prototype.bind=function(){
 	var t=this;
-	
+
 	$('.word',t.layer).unbind('click').click(function(e){
 		var word=$(this).text().replace(',','').replace(' ','');
 		t.showWord(word);
 		e.preventDefault();
 	})
+
+
+	/**
+	 * etimoloji bilgisi varsa, hepsi yerine sadece bir kısmı
+	 * gösterilir yapılacak.
+	 * */
+	$('div.etymology',t.layer).each(function(){
+		var text=$(this).text();
+		if(text.length>170)
+			$(this).html(text.substr(0,170)
+			+'<span class="hidden">'+text.substr(170)+'</span>'
+			+'<a href="#" class="more">hepsi...</a>');
+	});
+
 
 	$('a.more',t.layer).unbind('click').click(function(e){
 		var p=$(this).parent();
@@ -28,7 +47,10 @@ words.prototype.bind=function(){
 			$(this).html('hepsi...');
 		}
 		
-		$(this).appendTo(p);
+		if(!$(this).hasClass('dontMove'))
+			$(this).appendTo(p);
+		
+		e.preventDefault();
 	});
 
 	$('.quotes a.add',t.layer).click(function(e){
@@ -67,6 +89,8 @@ words.prototype.bind=function(){
 
 		e.preventDefault();
 	});
+
+
 }
 
 words.prototype.showWord=function(word){

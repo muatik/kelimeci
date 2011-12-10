@@ -16,27 +16,52 @@ $w=$o->word;
 	}
 	?>
 
-	<h1><?php echo $w->word;?></h1>
+	<h1><?php 
+		echo $w->word;
+		if(isset($w->info['pronunciation']))
+			echo ' <span class="pronunciation">/ 
+			'.$w->info['pronunciation']->value
+			.'</span>'; 
+	?></h1>
+	
+	<div class="etymology"><?php 
+		echo (isset($w->info['etymology'])
+			?$w->info['etymology']->value:null);
+	?></div>
 	
 	<div class="meanings">
 	<?php
-	$quotes=array_merge($w->uQuotes,$w->quotes);
-	$i=0;
-	$pClass='';
-	foreach($w->meanings as $m){
-		if($i>3)
-			$pClass='hidden';
-		
-		echo '<p class="text '.$pClass.'">
-			<i class="lang">'.$m->lang.': </i>'
-			.$m->meaning.'</p>';
-
-		$i++;
-	}
 	
-	if(count($w->meanings)>3)
-		echo '<a href="#" class="action more"
-			alt="">hepsi...</a>';
+	// dillere göre gruplanarak yazılıyor
+	$langMeaning=array();
+	foreach($w->meanings as $m){
+		$langMeaining[$m->lang][]=$m->meaning;
+
+	}
+
+	foreach($langMeaining as $lang=>$meanings){
+		echo '<div class="langGroup lang'.$lang.'">
+			<i class="lang">'.$lang.': </i>';
+
+		if(count($meanings)>2)
+			echo '<a href="#" 
+			class="action more dontMove" alt="">hepsi...</a>';
+
+		$pClass='';
+		$i=1;
+		foreach($meanings as $m){
+			if($i==3)
+				$pClass='hidden';
+			
+			echo '<p class="text '.$pClass.'">'
+				.$i.'. '.$m.'</p>';
+
+			$i++;
+		}
+		
+
+		echo '</div>';
+	}
 
 	?>
 	</div>
