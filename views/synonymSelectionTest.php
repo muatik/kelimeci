@@ -27,7 +27,7 @@
 		foreach($item->options as $s){
 			$synonyms.='<span>'.$s.'</span>, ';
 		}
-		$synonyms=substr($synonyms,0,strlen($synonyms)-1);
+		$synonyms=substr($synonyms,0,strlen($synonyms)-2);
 		echo '<li>
 			<input class="wordId" type="hidden" value="'.$item->wordId.'" />
 			<p>

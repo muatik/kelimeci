@@ -1,6 +1,9 @@
 $(document).ready(function(){
 
-	var test=new Test('synonymSelectionTest');
+	var 
+		test=new Test('synonymSelectionTest'),
+		// To show the tooltip once
+		isToolTipShown=false;
 
 	test.bindItems=function(){
 		$('.testPageOl li span.synonyms span').click(function(){
@@ -52,43 +55,42 @@ $(document).ready(function(){
 
 		if(rsp!=null){
 
-			if(rsp.result){
-				var resultSpan=$(
-					'input[class="wordId"][value="'+rsp.wordId+'"]'  
-				).parent().find('span.synonyms span.selected');
+			var $resultSpan=$(
+				'input[class="wordId"][value="'+rsp.wordId+'"]'  
+			).parent().find('span.synonyms');
 
-				$(resultSpan).each(function(){
-					$(this).addClass('correct');
-				});
+		
+			// If correct
+			if(rsp.result){
+				$resultSpan.find('span.selected').addClass('correct');			
 			}
 			else{
-				var resultSpan=$(
-					'input[class="wordId"][value="'+rsp.wordId+'"]'  
-				).parent().find('span.synonyms span');
-				
-				$(resultSpan).each(function(index){
+				$resultSpan.find('span').each(function(){
+					var
+						$t=$(this),
+						val=$t.html();
 
-					// If the synonym in the answer
-					if($.inArray($(this).html(),rsp.correction)!=-1){
-						// If the synonym not selected
-						if(!$(this).hasClass('selected')){
-							$(this).addClass('unselectedCorrect');
-						}
-						// If the synonym selected
-						else{
-							$(this).addClass('correct');
-						}	
-
+					// If the current in the correction
+					if($.inArray(val,rsp.corrections)!=-1){
+						// If not selected
+						if(!$t.hasClass('selected'))
+							$t.addClass('unselectedCorrect');	
+						else
+							$t.addClass('correct');	
 					}
-					// If the synonym not in the answer
+					// If the current is a incorrect answer
 					else{
-						// If the synonym selected
-						if($(this).hasClass('selected')){
-							$(this).addClass('incorrect');
-						}
-					}		
-				
+						// If not selected
+						if($t.hasClass('selected'))
+							$t.addClass('incorrect');	
+					}
 				});
+			}
+			
+			// Show the tooltip once
+			if(!isToolTipShown){
+				isToolTipShown=true;
+				toolTips.show($resultSpan,'result','test');
 			}
 			
 		}
