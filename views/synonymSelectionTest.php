@@ -3,6 +3,7 @@
 
 <script type="text/javascript" src="../js/tests/test.js"></script> 
 <script type="text/javascript" src="../js/tests/synonymSelectionTest.js"></script>
+<script type="text/javascript" src="../js/jquery.scrollTo.js"></script>
 
 <div class="synonymSelectionTest">
 	<div class="testPageHeader">

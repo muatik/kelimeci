@@ -52,7 +52,6 @@ $(document).ready(function(){
 	}
 
 	test.afterChecked=function(rsp){
-
 		if(rsp!=null){
 
 			var $resultSpan=$(
@@ -93,6 +92,7 @@ $(document).ready(function(){
 				toolTips.show($resultSpan,'result','test');
 			}
 			
+			$.scrollTo({top:'+=90px',left:'10px'},900)
 		}
 
 	}
