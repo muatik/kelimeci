@@ -116,11 +116,12 @@ function showFrmAlert(where,msg,type,callBack){
 /**
  * Hide the alert of form
  *
- * @param object alertElem Element object
+ * @param object elem Form element or alert element
  * @param function callBack Function called after alert message disappeared
  */
-function hideFrmAlert(alertElem,callBack){
-	var $e=$(alertElem);
+function hideFrmAlert(elem,callBack){
+	// Get if elem a form element or .frmAlert
+	var $e=($(elem).hasClass('frmAlert')) ? $(elem) : $(elem).find('.frmAlert');
 	if(!$e.is(':hidden'))
 		$e.fadeOut('fast',
 			function(){

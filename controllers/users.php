@@ -5,6 +5,8 @@ class usersController extends ipage {
 	public function initialize(){
 		parent::initialize();
 		$this->users=new \kelimeci\users();
+
+		$this->addLib('mailHandler');
 	}
 
 	public function register(){
@@ -190,8 +192,39 @@ class usersController extends ipage {
 		if(isset($r['comments']) && !empty($r['comments'])){
 			$rtn=$this->users->feedBack($r['email'],$r['comments']);
 			
-			if($rtn===true)
+			// If the feedback's inserted into the db, send email
+			if($rtn===true){
+
+				// Emails to inform for coming new feedback
+				$emails=array(
+					'muatik@gmail.com',
+					'mr.ermangulhan@gmail.com',
+					'alpaycom@gmail.com'
+				);
+				
+				// Configure email
+				$mHandler=new mailHandler();
+				$mHandler->antiflood=false;
+				$mHandler->content_type='text/html; charset=utf-8';
+				$mHandler->from='bilgi@kelimeci.net';
+				$mHandler->to=$emails;
+				$mHandler->subject='Kelimeci - Yeni Geribildirim Var';
+				$mHandler->message=
+				'
+					<table style="border:none;">
+						<tr><th>E-posta:</th><td>'.$r['email'].'</td></tr>
+						<tr><td colspan="2">&nbsp;</td></tr>
+						<tr><th>Görüş:</th><td>'.$r['comments'].'</td></tr>
+					</table>
+				';
+
+				// Send the email(s)
+				$rtn=$mHandler->send();
+
+				//if($rtn!==true) echo $mHandler->error;
+
 				return '1';
+			}
 			else
 				return 'Görüşünüz kayıt edilemedi!';
 		}
