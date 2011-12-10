@@ -179,3 +179,120 @@ function hideTooltip(elem){
 	}
 }
 
+/**
+ * Custom defined tooltips
+ *
+ * 	-result: Shown after the result of question
+ */
+/*
+Tooltips={
+	defs:{
+		tClass:'customTooltip',
+		nameSpaces:['test']
+	},
+	show:function(target,type,nameSpace){
+		if(nameSpace){
+		}
+		else{
+		if(this.types[type])
+			$(target).qtip(this.types[type]);
+		}
+	},
+	types:{
+		nameSpaced:{
+			test:{
+				result:{
+					show:{ready:true},
+					content:
+					'<ul class="'+this.defs.tClass+'">'+
+						'<li><b>Y: </b><span>Doğru seçilen</span></li>'+
+						'<li><b>K: </b><span>Yanlış seçilen</span></li>'+
+						'<li><b>Ü: </b><span>Seçilmeyen doğru</span></li>'+
+					'</ul>',
+					position:{
+						my:'left center',
+						at:'right center'
+					},
+					style:{
+						classes:'ui-tooltip-youtube ui-tooltip-shadow'
+					}
+				}
+			}
+		}
+	}
+}
+*/
+
+/**
+ * Customized tooltips
+ */
+function ToolTips(){}
+
+/**
+ * Defaults
+ */
+ToolTips.prototype.defs={
+	tClass:'customToolTip'
+}
+
+/**
+ * Show the tooltip with the type speficied
+ *
+ * @param string target
+ * @param string type ToolTip type
+ * @param string nameSpace
+ */
+ToolTips.prototype.show=function(target,type,nameSpace){
+	// If no target like this, return
+	if($(target).length==0)
+		return;
+	
+	var tTip=null;
+
+	// If correct namespace and type
+	if(nameSpace && this.types.nameSpaced[nameSpace][type])
+		tTip=this.types.nameSpaced[nameSpace][type];		
+	// If correct type
+	else if(type && this.types[type])
+		tTip=this.types[type];
+	
+	if(tTip!=null)
+		$(target).qtip(tTip);
+}
+	
+/**
+ * Types of tooltips
+ */
+ToolTips.prototype.types={
+	nameSpaced:{
+		test:{
+			result:{
+				show:{ready:true},
+				hide:false,
+				content:{
+					title:{
+						text:'Sonuç İşaretleri',
+						button:true
+					},
+					text:
+					'<ul class="questionResult">'+
+						'<li><b class="c">D</b> - <span>Doğru seçilen</span></li>'+
+						'<li><b class="i">Y</b> - <span>Yanlış seçilen</span></li>'+
+						'<li><b class="l">Ç</b> - <span>Seçilmeyen doğru</span></li>'+
+					'</ul>'
+				},
+				position:{
+					my:'left center',
+					at:'right center'
+				},
+				style:{
+					classes:'ui-tooltip-youtube ui-tooltip-shadow'
+				}
+			}
+		}
+	}
+}
+
+// ToolTips object
+var toolTips=new ToolTips();
+

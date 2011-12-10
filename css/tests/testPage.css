@@ -46,3 +46,27 @@
 .testPageOl ul li{
 	margin:5px 0 5px 0;
 }
+
+/* ToolTips for test pages */
+
+.questionResult li{
+	margin-bottom:2px;
+}
+.questioResult *{
+	padding:2px;
+}
+.questionResult .c{
+	background:#8aeb6d;
+	border:1px solid green;
+	color:black;
+}
+.questionResult .i{
+	background:#ff8787;
+	border:1px solid red;
+	color:black;
+}
+.questionResult .l{
+	text-decoration:line-through;
+}
+
+/* ToolTips for test pages */
