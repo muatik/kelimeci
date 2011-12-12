@@ -32,18 +32,18 @@ $(document).ready(function(){
 	
 		if(rsp!=null){
 
-			var resultInput=$(
+			var $resultInput=$(
 				'input[name="answer"]',
 				$('input[value='+rsp.wordId+']').parent()
 			);
 			
 			// If the answer is correct
 			if(rsp.result){
-				$(resultInput).addClass('correct');
+				$resultInput.addClass('correct');
 			}
 			// If the answer is incorrect
 			else{
-				$(resultInput).addClass('incorrect');
+				$resultInput.addClass('incorrect');
 				
 				var incorrect='';
 				if(rsp.correction){
@@ -57,7 +57,7 @@ $(document).ready(function(){
 					'</p>'
 				);
 
-				$(resultInput).parent().parent().append(correction);
+				$resultInput.parent().parent().append(correction);
 			}
 
 

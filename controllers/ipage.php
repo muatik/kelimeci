@@ -44,7 +44,7 @@ class ipage extends controllers
 	public function run(){
 		if($this->autRequired && !$this->isLogined)
 			header('location:/');
-
+		
 		parent::run();
 	}
 	
