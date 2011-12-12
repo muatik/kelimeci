@@ -54,7 +54,7 @@ $(document).ready(function(){
 		}
 
 	}
-	test.bindItems();
+	
+	test.start();
 
-	test.startTimer();
 });

@@ -94,8 +94,6 @@ $(document).ready(function(){
 	
 	} // end of function afterCheck
 	
-	test.bindItems();
-	
-	test.startTimer();
+	test.start();
 
 });

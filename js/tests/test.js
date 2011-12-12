@@ -140,3 +140,15 @@ Test.prototype.checkAnswers=function(params){
  */
 Test.prototype.afterChecked=function(){}
 
+/**
+ * Start the test
+ *
+ * MUST be invoked after overwritten of the function "afterChecked" and
+ * "bindItems" on the test page
+ */
+Test.prototype.start=function(){
+
+	this.bindItems();
+	this.startTimer();
+
+}
