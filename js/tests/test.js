@@ -12,6 +12,7 @@ function Test(testName){
 	this.testName=testName;
 	this.correctAnswerCounter=0;
 	this.incorrectAnswerCounter=0;
+	this.unansweredQuestionCounter=0;
 
 	// Time to be shown in formatted
 	this.elapsedTime=null;
@@ -60,9 +61,15 @@ Test.prototype.setTimer=function(){
  * Shows the elapsed time
  */
 Test.prototype.showElapsedTime=function(){
-
 	$('.testPageHeader span.spentTime').html(this.elapsedTime);
+}
 
+/**
+ * Decrease the variable unansweredQuestionCounter
+ */
+Test.prototype.decreaseUnansweredCounter=function(){
+	if(this.unansweredQuestionCounter>0)
+		this.unansweredQuestionCounter--;
 }
 
 /**
@@ -110,7 +117,6 @@ Test.prototype.checkAnswers=function(params){
 		'testName='+encodeURI(this.testName)+'&'+paramCloud,
 		{'onSuccess':function(rsp,o){
 
-			//var rsp=eval('('+rsp+')');
 			var rsp=jQuery.parseJSON(rsp);
 
 			// If the answer is correct
@@ -125,6 +131,10 @@ Test.prototype.checkAnswers=function(params){
 				$('.testPageHeader .incorrectAnswers')
 					.html(that.incorrectAnswerCounter);
 			}
+
+			that.decreaseUnansweredCounter();
+			$('.testPageHeader .unansweredQuestions')
+				.html(that.unansweredQuestionCounter);
 	
 			that.afterChecked(rsp,o);
 		}}
@@ -150,5 +160,15 @@ Test.prototype.start=function(){
 
 	this.bindItems();
 	this.startTimer();
+
+	// Get if there is total question information
+	var totQues=parseInt($('.testPageHeader .totalQuestions').html());
+
+	this.unansweredQuestionCounter=(totQues>0) ? totQues : 0;
+	
+	// If there is, update unanswered question information
+	if(this.unansweredQuestionCounter>0)
+		$('.testPageHeader .unansweredQuestions')
+			.html(this.unansweredQuestionCounter);
 
 }
