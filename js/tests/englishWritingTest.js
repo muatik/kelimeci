@@ -24,21 +24,19 @@ $(document).ready(function(){
 
 	test.afterChecked=function(rsp){
 
-		//rsp=eval('('+rsp+')');	
-
 		if(rsp!=null){
 
-			var resultInput=$(
+			var $resultInput=$(
 				'input[class="wordId"][value="'+rsp.wordId+'"]'
 			).parent().find('input[class="answer"]');
 			
 			// If the answer is correct
 			if(rsp.result){
-				$(resultInput).addClass('correct');
+				$resultInput.addClass('correct');
 			}
 			// If the answer is incorrect
 			else{
-				$(resultInput).addClass('incorrect');
+				$resultInput.addClass('incorrect');
 				var incorrect='';
 				if(rsp.correction)
 					incorrect='<strong class="incorrect">Yanlış:</strong>'+
@@ -50,7 +48,7 @@ $(document).ready(function(){
 						+incorrect+
 					'</p>'
 				);
-				$(resultInput).parent().append(correction);
+				$resultInput.parent().append(correction);
 			}
 
 		}

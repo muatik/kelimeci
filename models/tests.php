@@ -139,6 +139,38 @@ class tests
 		$test->created=date('Y-m-d H:i:s');
 		$test->count=count($test->items);
 		$test->estimatedTime=($test->count*30); // in seconds
+
+		/**
+		 * Turkish meaning of the test type for the title of test page
+		 *
+		 * TEMPRORY CODES (HARD CODED) 
+		 * 	- MUST BE DB-MANAGED
+		 */
+		switch($testType){
+			case 'sentenceCompletion':
+				$titleInTr='Cümle Tamamlama Testi';
+				break;
+			case 'synonymSelection':
+				$titleInTr='Eşanlamlıları Seçme Testi';
+				break;
+			case 'variationWriting':
+				$titleInTr='Varyasyonları Yazma Testi';
+				break;
+			case 'categorySelection':
+				$titleInTr='Kategorilerini Seçme Testi';
+				break;
+			case 'englishWriting':
+				$titleInTr='İngilizcesini Yazma Testi';
+				break;
+			case 'turkishWriting':
+				$titleInTr='Türkçesini Yazma Testi';
+				break;
+			case 'voiceTest':
+				$titleInTr='Duyulan Kelimeyi Yazma Testi';
+				break;
+		}
+
+		$test->titleInTr=$titleInTr;
 		
 		return $test;
 	}
@@ -236,7 +268,7 @@ class tests
 				return self::getItemOfSentenceCompletion($word);
 			case 'synonymSelection':
 				return self::getItemOfSynonymSelection($word);
-			case 'writingVariations':
+			case 'variationWritingTest':
 			case 'categorySelection':
 				return self::getItemOfCategorySelection($word);
 			case 'englishWriting':
