@@ -26,8 +26,9 @@ function Test(testName){
 	this.setIntervalObjForTimer=null;
 	
 }
+
 /**
- * Starts timer
+ * Start timer
  */
 Test.prototype.startTimer=function(){
 	// Create initial time
@@ -40,7 +41,7 @@ Test.prototype.startTimer=function(){
 }
 
 /**
- * Sets the timer to be shown
+ * Set the timer to be shown
  * and calls the function showTime that will be overwritten(implemented)
  */
 Test.prototype.setTimer=function(){
@@ -58,7 +59,15 @@ Test.prototype.setTimer=function(){
 }
 
 /**
- * Shows the elapsed time
+ * Stop timer
+ */
+Test.prototype.stopTimer=function(){
+	if(this.setIntervalObjForTimer)
+		clearTimeout(this.setIntervalObjForTimer);
+}
+
+/**
+ * Show the elapsed time
  */
 Test.prototype.showElapsedTime=function(){
 	$('.testPageHeader span.spentTime').html(this.elapsedTime);
@@ -68,8 +77,15 @@ Test.prototype.showElapsedTime=function(){
  * Decrease the variable unansweredQuestionCounter
  */
 Test.prototype.decreaseUnansweredCounter=function(){
-	if(this.unansweredQuestionCounter>0)
+	// If there is any unanswered questions, dec. the counter
+	if(this.unansweredQuestionCounter>0){
 		this.unansweredQuestionCounter--;
+
+		// If there is no unanswered questions, stop the timer
+		if(this.unansweredQuestionCounter==0){
+			this.stopTimer();
+		}
+	}
 }
 
 /**
@@ -132,6 +148,8 @@ Test.prototype.checkAnswers=function(params){
 					.html(that.incorrectAnswerCounter);
 			}
 
+			// Decrease unanswered question counter
+			// and show it
 			that.decreaseUnansweredCounter();
 			$('.testPageHeader .unansweredQuestions')
 				.html(that.unansweredQuestionCounter);
@@ -159,6 +177,7 @@ Test.prototype.afterChecked=function(){}
 Test.prototype.start=function(){
 
 	this.bindItems();
+
 	this.startTimer();
 
 	// Get if there is total question information
@@ -171,4 +190,11 @@ Test.prototype.start=function(){
 		$('.testPageHeader .unansweredQuestions')
 			.html(this.unansweredQuestionCounter);
 
+}
+
+/**
+ * Finish the test
+ */
+Test.prototype.finish=function(){
+	this.stopTimer();
 }
