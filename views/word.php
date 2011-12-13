@@ -50,8 +50,8 @@ $w=$o->word;
 		$langMeaining[$m->lang][]=$m->meaning;
 
 	}
-
-	foreach($langMeaining as $lang=>$meanings){
+	
+	foreach($langMeaning as $lang=>$meanings){
 		echo '<div class="langGroup lang'.$lang.'">
 			<i class="lang '.$lang.'">'.$lang.' : </i>';
 

@@ -91,6 +91,7 @@ class tests
 
 	public function __construct(){
 		self::init();
+		self::$minInterval=0;
 		$this->db=new \db();
 	}
 	
@@ -372,11 +373,29 @@ class tests
 		if(count($meanings)==0)
 			return false;
 		
-		$sel=array_rand($meanings);
+		if(count($meanings)>0)
+			$rndIds[]=0;
+
+		foreach($word->classes as $i)
+			foreach($meanings as $k=>$m)
+				if($m->clsId==$i->id)
+					$rndId[]=$k;
+
+		$rndIds[]=array_rand($meanings);
+		$rndIds[]=array_rand($meanings);
+		$rndIds[]=array_rand($meanings);
+		$rndIds[]=array_rand($meanings);
+		$rndIds=array_unique($rndIds);
+		$rndIds=array_slice($rndIds,0,4);
+		shuffle($rndIds);
+		
 
 		$item=new stdClass();
 		$item->wordId=$word->id;
-		$item->meaning=$meanings[$sel]->meaning;
+		$item->meaning=arrays::concatFields(
+			arrays::toArray($meanings,'meaning'),
+		       	$rndIds,', '
+		);
 		$item->classes=arrays::toArray($word->classes,'name');
 		return $item;
 	}
@@ -651,7 +670,7 @@ class tests
 		$r=new stdClass();
 		$r->wordId=$word->id;
 		
-		if($word->word==trim($answer))
+		if( mb_strtolower($word->word)==mb_strtolower(trim($answer)) )
 			$r->result=true;
 		else{
 			$r->result=false;
@@ -681,10 +700,10 @@ class tests
 		$r->wordId=$word->id;
 		
 		$meanings=dictionary::getMeaningsByLang($word->id,'tr');
-		$answer=trim($answer);
+		$answer=mb_strtolower(trim($answer));
 		$result=false;
 		foreach($meanings as $i)
-			if($i->meaning==$answer){
+			if(mb_strtolower($i->meaning)==$answer){
 				$result=true;
 				break;
 			}
