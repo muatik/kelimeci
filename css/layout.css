@@ -39,7 +39,7 @@
 #userMenu{
 	float:right;
 	margin:0;
-	width:150px;
+	padding:0 5px 0 5px;
 	height:33px;
 	font:normal 14px/33px sans-serif;
 	color:#fff;
