@@ -46,10 +46,10 @@
 		
 		// Set user menu
 		if($o->isLogined){
-			echo '<a href="#" id="userMenu">'.$this->u->email.'</a>';
+			echo '<a href="#" id="userMenu">'.$this->u->email.'<img src="images/downArrow.png" alt="" /></a>';
 		}
 		else{
-			echo '<a href="#" id="userMenu">Giriş yap<img src="images/downArrow.png" /></a>';
+			echo '<a href="#" id="userMenu">Giriş yap<img src="images/downArrow.png" alt="" /></a>';
 		}
 	?>
 	<form id="wordSearch" method="post" action="">
