@@ -44,12 +44,18 @@
 
 		echo '</ul>';
 		
-		// If the user logged in
+		// Set user menu
 		if($o->isLogined){
 			echo '<a href="#" id="userMenu">'.$this->u->email.'</a>';
 		}
+		else{
+			echo '<a href="#" id="userMenu">Giriş yap<img src="images/downArrow.png" /></a>';
+		}
 	?>
-	<input type="text" id="globalSearch" />
+	<form id="wordSearch" method="post" action="">
+		<input type="text" name="word" id="word" placeholder="kelime ara" />
+		<img src="images/search.png" />
+	</form>
 	<a href="#" id="feedbackImg"></a>
 </div>
 
