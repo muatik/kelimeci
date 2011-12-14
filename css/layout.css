@@ -1,36 +1,75 @@
 #banner{
 	margin:0;
 	padding:0;
-	height:50px;
+	height:44px;
 	background:url(../images/bannerBg.png) #fff repeat-x;
-	border-bottom:8px solid #525252;
 	overflow:hidden;
 }
+
 #logo{
 	float:left;
 	background-image:url(../images/logo.png);
 	margin-left:50px;
-	width:131px;
-	height:49px;
+	width:115px;
+	height:44px;
 }
+
 #topMenu{
 	float:left;
 	overflow:hidden;
 	margin:0 0 0 50px;
 	width:500px;
-	height:49px;
+	height:33px;
 	color:#fff;
 }
 #topMenu li{
 	float:left;
-	padding:25px 0 0px 0;
+	padding:7px 0 8px 0;
 }
 #topMenu a{
-	padding:25px 12px 0px 12px;
+	padding:7px 12px 8px 12px;
 	font:normal 18px sans-serif;
 	color:#fff;
 }
 #topMenu a:hover,#topMenu a.active{
-	background:url(../images/topMenuHoverBg.png) repeat-x;
-	text-shadow: 0px  0px 10px #fff;
+	/*background:url(../images/topMenuHoverBg.png) repeat-x;*/
+	text-shadow: 0px  0px 8px #fff;
+}
+
+#userMenu{
+	float:right;
+	margin:0;
+	width:150px;
+	height:33px;
+	font:normal 14px/33px sans-serif;
+	color:#fff;
+	background:#106e8b;
+	overflow:hidden;
+	text-align:center;
+	
+	/* Box Shadow */
+	box-shadow:0px 0px 7px #555;
+	-moz-box-shadow:0px 0px 7px #555;
+	-webkit-box-shadow:0px 0px 7px #555;
+	/* For IE 8 */
+	-ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#555555')";
+	/* For IE 5.5 - 7 */
+	filter:progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#555555');
+
+	/* Gradient */
+	background: -moz-linear-gradient(270deg,#2c9bbd,#106e8b);
+	background: -webkit-linear-gradient(270deg,#2c9bbd,#106e8b);
+	background: -o-linear-gradient(270deg,#2c9bbd,#106e8b);
+	background: -ms-linear-gradient(270deg,#2c9bbd,#106e8b);
+	filter: progid:DXImageTransform.Microsoft.gradient(
+		startColorstr='#2c9bbd',endColorstr='#106e8b',GradientType=0 
+	);
+	background: linear-gradient(270deg,#2c9bbd,#106e8b);
+}
+
+#globalSearch{
+	float:right;
+	margin:5px 20px 5px 20px;
+	width:175px;
+	height:16px;
 }

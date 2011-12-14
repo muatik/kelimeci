@@ -23,8 +23,9 @@
 
 <div id="banner">
 	<a href="/" id="logo"></a>
-	<ul id="topMenu">
-		<?php
+	<?php
+		echo '<ul id="topMenu">';
+
 		$menus=array(
 			'vocabulary'=>'Kelimeler',
 			'tests'=>'Test',
@@ -36,13 +37,19 @@
 			echo '<li><a href="'.$k.'" 
 				'.($this->name==$k?' class="active" ':'').'
 				alt="">'.$i.'</a></li>';
-		?>
-		<?php
-			// Add "log out" link if logged in
-			if($o->isLogined)
-				echo '<li><a href="?_ajax=users/logout" alt="">Çıkış</a></li>';
-		?>
-	</ul>
+		
+		// Add "log out" link if logged in
+		if($o->isLogined)
+			echo '<li><a href="?_ajax=users/logout" alt="">Çıkış</a></li>';
+
+		echo '</ul>';
+		
+		// If the user logged in
+		if($o->isLogined){
+			echo '<a href="#" id="userMenu">'.$this->u->email.'</a>';
+		}
+	?>
+	<input type="text" id="globalSearch" />
 	<a href="#" id="feedbackImg"></a>
 </div>
 

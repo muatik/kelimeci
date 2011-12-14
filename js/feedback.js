@@ -28,8 +28,8 @@ $(function(){
 		show:'click',
 		hide:false,
 		position:{
-			my:'right top',
-			at:'left bottom'
+			my:'right bottom',
+			at:'left top'
 		},
 		style:{
 			classes:'ui-tooltip-youtube ui-tooltip-shadow'
