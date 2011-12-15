@@ -7,7 +7,7 @@
 	margin:10px 20px;
 	float:left;
 	width:500px;
-	font:17px Georgia,Serif;
+	font:14px verdana,sans-serif;
 }
 
 .whatis h1{
@@ -39,6 +39,10 @@
 	padding-left:20px;
 	margin:10px 0 ;
 	list-style-type:disc;
+}
+
+#todos ul li{
+	margin:4px 0;
 }
 
 #todos a{

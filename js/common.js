@@ -15,6 +15,20 @@ $(function(){
 
 	});
 
+	$('input[name="word"]').autocomplete(
+		'vocabulary?_ajax=vocabulary/suggest',{
+			minChars: 1,
+			max: 10,
+			autoFill: true,
+			mustMatch: false,
+			matchContains: true,
+			selectFirst: false,
+			scrollHeight: 220,
+		}
+	).result(function(){
+		$($(this).get(0).form).submit();
+	});
+
 });
 
 // Validate the email

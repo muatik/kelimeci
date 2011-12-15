@@ -73,7 +73,7 @@ $(document).ready(function(){
 
 
 					// If the current in the correction
-					if($.inArray(val,rsp.corrections)!=-1){
+					if($.inArray(val,rsp.correction)!=-1){
 						// If not selected
 						if(!$t.hasClass('selected')){
 							$t.addClass('unselectedCorrect');

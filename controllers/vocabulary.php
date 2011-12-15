@@ -34,7 +34,7 @@ class vocabularyController extends ipage {
 			if($this->vocabulary->getVocabularyByWord($word))
 				return '0Bu kelime zaten ekli.';
 		}
-		return 0;
+		return '0\''.$word.'\' kelimesi bulunamadı.';
 	}
 
 	/**
@@ -91,11 +91,14 @@ class vocabularyController extends ipage {
 		);
 	}
 
-	public function viewword(){
-		if(!isset($this->r['word']))
+	public function viewword($word=null){
+		if(isset($this->r['word']))
+			$word=$this->r['word'];
+
+		if($word==null)
 			return 'The parameter "word" is required.';
 
-		$word=kelimeci\dictionary::getWord($this->r['word']);
+		$word=kelimeci\dictionary::getWord($word);
 
 		if($word===false)
 			return 'word not found!';
