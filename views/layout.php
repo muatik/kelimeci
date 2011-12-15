@@ -8,6 +8,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/layout.js"></script>
 <script type="text/javascript" src="js/feedback.js"></script>
 <script type="text/javascript" src="js/jquery.qtip.min.js"></script>
 <script type="text/javascript" src="js/jquery.autocomplete.js"></script>
@@ -49,18 +50,24 @@
 		// Set the user menu with its sub menu
 		if(!$o->isLogined){
 			$userMenuContent='Giriş yap';
-			$userSubMenuContent=$this->loadView('loginForm.php');
-			//$userSubMenuContent.=$this->loadView('registerForm.php');
+			$o2=new stdClass();
+			$o2->noCss=1;
+			$userSubMenuContent='<div id="userSubMenu">';
+			$userSubMenuContent.=$this->loadView('loginForm.php',$o2);
+			$userSubMenuContent.=$this->loadView('registerForm.php',$o2);
+			$userSubMenuContent.='</div>';
 		}
 		else{
 			$userMenuContent=$this->u->email;
 			$userSubMenuContent='
-				
-			';
+			<ul id="userSubMenu">
+				<li><a href="#">Ayarlar</a></li>	
+				<li><a href="#">Çıkış yap</a></li>	
+			</ul>';
 		}
 		// Print user menu and its sub menu
 		echo '<a href="#" id="userMenu">'.$userMenuContent.'<img src="images/downArrow.png" alt="" /></a>';
-		echo '<div id="userSubMenu">'.$userSubMenuContent.'</div>';
+		echo $userSubMenuContent;
 	?>
 	<form id="wordSearch" method="post" action="search">
 		<input type="text" name="word" id="word" placeholder="kelime ara" />

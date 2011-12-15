@@ -1,5 +1,12 @@
-<link rel="stylesheet" type="text/css" href="../css/registerForm.css" />
-<script type="text/javascript" src="../js/registerForm.js"></script>
+<?php
+	/*
+	 * If not wanted to load css and js file, don't load
+	 */
+	if(!isset($o->noCss))
+		echo '<link rel="stylesheet" type="text/css" href="../css/registerForm.css" />';
+	if(!isset($o->noJs))
+		echo '<script type="text/javascript" src="../js/registerForm.js"></script>';
+?>
 <form class="registerForm" method="post" action="">
 	<h4 class="frmTitle">Kullanıcı Kaydı</h4>
 	<ul class="frmItems">
@@ -38,6 +45,7 @@
 		<li>
 			<div class="fInput">
 				<input type="submit" name="registerFormSubmit" value="Kayıt ol" />
+				<a href="#" class="cancel">Giriş formu!</a>
 			</div>
 		</li>
 	</ul>
