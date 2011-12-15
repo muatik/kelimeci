@@ -29,11 +29,12 @@
 #topMenu a{
 	padding:7px 12px 8px 12px;
 	font:normal 18px sans-serif;
+	text-shadow: 1px 1px black, 1px 1px white;
 	color:#fff;
 }
 #topMenu a:hover,#topMenu a.active{
 	/*background:url(../images/topMenuHoverBg.png) repeat-x;*/
-	text-shadow: 0px  0px 8px #fff;
+	text-shadow: 1px  1px 10px #fff;
 }
 
 

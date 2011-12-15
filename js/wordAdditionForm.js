@@ -13,18 +13,6 @@ wordAdditionForm.bind=function(){
 	});
 
 
-	$('.wordAdditionForm input[name="word"]').autocomplete(
-		'vocabulary?_ajax=vocabulary/suggest',{
-			minChars: 1,
-			max: 10,
-			autoFill: true,
-			mustMatch: false,
-			matchContains: true,
-			selectFirst: false,
-			scrollHeight: 220,
-		}
-	)
-
 }
 
 wordAdditionForm.add=function(f){

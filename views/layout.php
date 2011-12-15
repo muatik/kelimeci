@@ -10,6 +10,7 @@
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/feedback.js"></script>
 <script type="text/javascript" src="js/jquery.qtip.min.js"></script>
+<script type="text/javascript" src="js/jquery.autocomplete.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/reset.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
@@ -17,6 +18,7 @@
 <link rel="stylesheet" type="text/css" href="css/ui-lightness/jquery-ui-1.8.16.custom.css" />
 <link rel="stylesheet" type="text/css" href="css/feedback.css" />
 <link rel="stylesheet" type="text/css" href="css/jquery.qtip.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
 
 </head>
 <body>
@@ -52,7 +54,7 @@
 			echo '<a href="#" id="userMenu">Giriş yap<img src="images/downArrow.png" alt="" /></a>';
 		}
 	?>
-	<form id="wordSearch" method="post" action="">
+	<form id="wordSearch" method="post" action="search">
 		<input type="text" name="word" id="word" placeholder="kelime ara" />
 		<img src="images/search.png" />
 	</form>

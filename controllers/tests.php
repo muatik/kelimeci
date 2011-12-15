@@ -5,8 +5,11 @@ class testsController extends ipage{
 	public function initialize(){
 		$this->title='Testler';
 		parent::initialize();
-		$this->tests=new \kelimeci\tests();
-		$this->tests->userId=$this->u->id;
+		
+		if($this->isLogined){
+			$this->tests=new \kelimeci\tests();
+			$this->tests->userId=$this->u->id;
+		}
 	}
 	
 	public function run(){
