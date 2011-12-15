@@ -9,6 +9,8 @@
 	$hidable=(!isset($o->hidable) || $o->hidable==true) ? 'true' : 'false';
 ?>
 <div class="notification" hidable="<?php echo $hidable; ?>">
+<div class="ntfcontainer">
 	<div class="title"><h4><?php echo $o->title; ?></h4></div>
 	<div class="body"><?php echo $o->message; ?></div>
+</div>
 </div>

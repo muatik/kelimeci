@@ -1,5 +1,8 @@
 .notification{
-	width:300px;
+	text-align:center;
+}
+.ntfcontainer{
+	display:inline-block;
 	margin:20px auto;
 	background:#fff5e0;
 	border:1px solid #ffe1a2;
@@ -29,5 +32,6 @@
 }
 .notification .body{
 	padding:10px 7px 10px 7px;
+	font-size:1.3em;
 }
 
