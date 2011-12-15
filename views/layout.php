@@ -52,18 +52,22 @@
 			$userMenuContent='Giriş yap';
 			$o2=new stdClass();
 			$o2->noCss=1;
-			$userSubMenuContent=$this->loadView('loginForm.php',$o2);
+			$userSubMenuContent='<div id="userSubMenu">';
+			$userSubMenuContent.=$this->loadView('loginForm.php',$o2);
 			$userSubMenuContent.=$this->loadView('registerForm.php',$o2);
+			$userSubMenuContent.='</div>';
 		}
 		else{
 			$userMenuContent=$this->u->email;
 			$userSubMenuContent='
-				
-			';
+			<ul id="userSubMenu">
+				<li><a href="#">Ayarlar</a></li>	
+				<li><a href="#">Çıkış yap</a></li>	
+			</ul>';
 		}
 		// Print user menu and its sub menu
 		echo '<a href="#" id="userMenu">'.$userMenuContent.'<img src="images/downArrow.png" alt="" /></a>';
-		echo '<div id="userSubMenu">'.$userSubMenuContent.'</div>';
+		echo $userSubMenuContent;
 	?>
 	<form id="wordSearch" method="post" action="search">
 		<input type="text" name="word" id="word" placeholder="kelime ara" />

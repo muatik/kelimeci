@@ -75,14 +75,13 @@
 	height:16px;
 	margin-left:4px;
 }
-#userSubMenu{
+div#userSubMenu,ul#userSubMenu{
 	display:none;
 	position:absolute;
 	top:44px;
 	right:0px;
 	margin-top:-10px;
 	padding:10px;
-	width:280px;
 	background:#4aa4c0;
 	overflow:hidden;
 
@@ -91,6 +90,14 @@
 	-moz-border-radius:5px;
 	-khtml-border-radius:5px;
 	-webkit-border-radius:0 0 5px 5px;
+}
+/* For forms */
+div#userSubMenu{
+	width:280px;
+}
+/* For link list */
+ul#userSubMenu{
+	width:180px;
 }
 #userSubMenu form{
 	float:right;
@@ -113,7 +120,8 @@
 #userSubMenu .loginForm .fInput,.registerForm .fInput{
 	width:190px;
 }
-#userSubMenu .loginForm a.register{
+#userSubMenu .loginForm a.register,#userSubMenu .registerForm a.cancel{
+	font-size:13px;
 	color:white;
 	text-decoration:underline;
 }
