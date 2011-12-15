@@ -75,7 +75,24 @@
 	height:16px;
 	margin-left:4px;
 }
-#userMenui #subMenu{
+#userSubMenu{
+	position:absolute;
+	top:44px;
+	right:0px;
+	width:280px;
+}
+#userSubMenu form{
+	float:right;
+	width:280px;
+}
+#userSubMenu .registerForm,#userSubMenu .loginForm{
+	margin-top:-9px;
+}
+#userSubMenu .loginForm .fLabel,#userSubMenu .registerForm .fLabel{
+	width:80px;
+}
+#userSubMenu .loginForm .fInput,.registerForm .fInput{
+	width:190px;
 }
 
 /* END - User Menu On Banner */

@@ -46,13 +46,21 @@
 
 		echo '</ul>';
 		
-		// Set user menu
-		if($o->isLogined){
-			echo '<a href="#" id="userMenu">'.$this->u->email.'<img src="images/downArrow.png" alt="" /></a>';
+		// Set the user menu with its sub menu
+		if(!$o->isLogined){
+			$userMenuContent='Giriş yap';
+			$userSubMenuContent=$this->loadView('loginForm.php');
+			//$userSubMenuContent.=$this->loadView('registerForm.php');
 		}
 		else{
-			echo '<a href="#" id="userMenu">Giriş yap<img src="images/downArrow.png" alt="" /></a>';
+			$userMenuContent=$this->u->email;
+			$userSubMenuContent='
+				
+			';
 		}
+		// Print user menu and its sub menu
+		echo '<a href="#" id="userMenu">'.$userMenuContent.'<img src="images/downArrow.png" alt="" /></a>';
+		echo '<div id="userSubMenu">'.$userSubMenuContent.'</div>';
 	?>
 	<form id="wordSearch" method="post" action="search">
 		<input type="text" name="word" id="word" placeholder="kelime ara" />
