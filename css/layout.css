@@ -76,23 +76,46 @@
 	margin-left:4px;
 }
 #userSubMenu{
+	display:none;
 	position:absolute;
 	top:44px;
 	right:0px;
+	margin-top:-10px;
+	padding:10px;
 	width:280px;
+	background:#4aa4c0;
+	overflow:hidden;
+
+	/*Box Radius*/
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-khtml-border-radius:5px;
+	-webkit-border-radius:0 0 5px 5px;
 }
 #userSubMenu form{
 	float:right;
 	width:280px;
 }
-#userSubMenu .registerForm,#userSubMenu .loginForm{
-	margin-top:-9px;
+#userSubMenu .loginForm input[type=text],
+#userSubMenu .loginForm input[type=password],
+#userSubMenu .registerForm input[type=text],
+#userSubMenu .registerForm input[type=password]{
+	width:150px;
 }
+#userSubMenu .loginForm input[type=submit]{
+	margin-left:0;
+}
+
 #userSubMenu .loginForm .fLabel,#userSubMenu .registerForm .fLabel{
 	width:80px;
+	color:white;
 }
 #userSubMenu .loginForm .fInput,.registerForm .fInput{
 	width:190px;
+}
+#userSubMenu .loginForm a.register{
+	color:white;
+	text-decoration:underline;
 }
 
 /* END - User Menu On Banner */

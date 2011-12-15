@@ -8,6 +8,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/layout.js"></script>
 <script type="text/javascript" src="js/feedback.js"></script>
 <script type="text/javascript" src="js/jquery.qtip.min.js"></script>
 <script type="text/javascript" src="js/jquery.autocomplete.js"></script>
@@ -49,8 +50,10 @@
 		// Set the user menu with its sub menu
 		if(!$o->isLogined){
 			$userMenuContent='Giriş yap';
-			$userSubMenuContent=$this->loadView('loginForm.php');
-			//$userSubMenuContent.=$this->loadView('registerForm.php');
+			$o2=new stdClass();
+			$o2->noCss=1;
+			$userSubMenuContent=$this->loadView('loginForm.php',$o2);
+			$userSubMenuContent.=$this->loadView('registerForm.php',$o2);
 		}
 		else{
 			$userMenuContent=$this->u->email;
