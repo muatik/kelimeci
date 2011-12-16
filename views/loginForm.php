@@ -29,7 +29,6 @@
 		<li>
 			<div class="fInput">
 				<input type="submit" name="loginFormSubmit" value="Giriş yap" />
-				<a href="#" class="register">Hesap oluştur!</a>
 			</div>
 		</li>
 	</ul>

@@ -1,0 +1,92 @@
+#userTopMenu{
+	float:right;
+	margin:0;
+	padding:0 10px 0 10px;
+	height:33px;
+	font:normal 14px/33px sans-serif;
+	color:#fff;
+	background:#106e8b;
+	overflow:hidden;
+	text-align:center;
+	
+	/* Box Shadow */
+	box-shadow:0px 0px 7px #555;
+	-moz-box-shadow:0px 0px 7px #555;
+	-webkit-box-shadow:0px 0px 7px #555;
+	/* For IE 8 */
+	-ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#555555')";
+	/* For IE 5.5 - 7 */
+	filter:progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#555555');
+
+	/* Gradient */
+	background: -moz-linear-gradient(270deg,#2c9bbd,#106e8b);
+	background: -webkit-linear-gradient(270deg,#2c9bbd,#106e8b);
+	background: -o-linear-gradient(270deg,#2c9bbd,#106e8b);
+	background: -ms-linear-gradient(270deg,#2c9bbd,#106e8b);
+	filter: progid:DXImageTransform.Microsoft.gradient(
+		startColorstr='#2c9bbd',endColorstr='#106e8b',GradientType=0 
+	);
+	background: linear-gradient(270deg,#2c9bbd,#106e8b);
+}
+#userTopMenu img{
+	width:16px;
+	height:16px;
+	margin-left:4px;
+}
+div#userSubTopMenu,ul#userSubTopMenu{
+	display:none;
+	position:absolute;
+	top:44px;
+	right:0px;
+	margin-top:-10px;
+	padding:10px;
+	background:#4aa4c0;
+	overflow:hidden;
+
+	/*Box Radius*/
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-khtml-border-radius:5px;
+	-webkit-border-radius:0 0 5px 5px;
+}
+/* For forms */
+div#userSubTopMenu .loginForm,div#userSubTopMenu .registerForm{
+	width:280px;
+	border:none;
+	box-shadow:none;
+	margin:0;
+	padding:0;
+}
+/* For link list */
+ul#userSubTopMenu{
+	width:180px;
+}
+#userSubTopMenu form{
+	float:right;
+	width:280px;
+}
+#userSubTopMenu .loginForm input[type=text],
+#userSubTopMenu .loginForm input[type=password],
+#userSubTopMenu .registerForm input[type=text],
+#userSubTopMenu .registerForm input[type=password]{
+	width:150px;
+}
+#userSubTopMenu .loginForm input[type=submit]{
+	margin-left:0;
+}
+
+#userSubTopMenu .loginForm .fLabel,#userSubTopMenu .registerForm .fLabel{
+	width:80px;
+	color:white;
+}
+#userSubTopMenu .loginForm .fInput,.registerForm .fInput{
+	width:190px;
+}
+#userSubTopMenu .loginForm a.showRegisterForm,
+#userSubTopMenu .registerForm a.showLoginForm{
+	font-size:13px;
+	color:white;
+	text-decoration:underline;
+}
+
+

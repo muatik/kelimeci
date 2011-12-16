@@ -1,42 +1,49 @@
 $(function(){
 
+	var
+		// User top menu
+		$usrMenu=$('#userTopMenu'),
+		// User sub top menu
+		$usrSubMenu=$('#userSubTopMenu');
+
 	// If the user menu clicked, show the sub user menu
-	$('#userMenu').click(function(){
+	$usrMenu.click(function(){
 		var
-			$t=$(this),
-			$subMenu=$('#userSubMenu');
+			$t=$(this);
 
 		// If hidden
-		if($subMenu.is(':hidden')){
+		if($usrSubMenu.is(':hidden')){
 			// If it has any forms - user not logined/registered,
 			// 	toggle forms properly
-			if($subMenu.find('form'))
+			if($usrSubMenu.find('form'))
 				toggleFormsInUserMenu();
 
-			$subMenu.show();
+			$usrSubMenu.show();
 		}
 		else
-			$subMenu.hide();
+			$usrSubMenu.hide();
 
 		return false;
 	});
 
 	// Hide the register form on load
 	toggleFormsInUserMenu();
-	
-	// If the link register clicked,
-	// 	hide the login form and hide the register form
-	$('#userSubMenu .loginForm a.register').click(function(){
-		toggleFormsInUserMenu('registerLink');
-		return false;
-	});
-	
-	// If the button cancel clicked,
-	// 	hide the register form and show the login form
-	$('#userSubMenu .registerForm a.cancel').click(function(){
-		toggleFormsInUserMenu();
-		return false;
-	});
+
+	// Insert a link into the login form to show register form
+	$usrSubMenu.find('.loginForm .fInput:last')
+		.append('<a href="#" class="showRegisterForm">Hesap oluştur!</a>')
+		.find('a.showRegisterForm').click(function(){
+			toggleFormsInUserMenu('registerLink');
+			return false;
+		});
+
+	// Insert a link into the register form to show login form
+	$usrSubMenu.find('.registerForm .fInput:last')
+		.append('<a href="#" class="showLoginForm">Giriş formu!</a>')
+		.find('a.showLoginForm').click(function(){
+			toggleFormsInUserMenu();
+			return false;
+		});
 
 });
 
@@ -48,9 +55,9 @@ $(function(){
 function toggleFormsInUserMenu(where){
 	var
 		// Login form
-		$lFrm=$('#userSubMenu .loginForm');
+		$lFrm=$('#userSubTopMenu .loginForm');
 		// Register form
-		$rFrm=$('#userSubMenu .registerForm');
+		$rFrm=$('#userSubTopMenu .registerForm');
 	
 	if(where=='registerLink'){
 		$lFrm.hide();

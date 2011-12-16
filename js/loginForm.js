@@ -1,8 +1,13 @@
-$(document).ready(function(){
-	var 
-		$f=$('.loginForm');
+/**
+ * Bind a login form
+ *
+ * @param object $frm Explicit login form object
+ */
+function bindLoginForm($frm){
 	
-	$('.loginForm').submit(function(){
+	var $f=$frm;
+	
+	$f.submit(function(){
 		var
 			username=$f.find('input[name="username"]').val(),
 			password=$f.find('input[name="password"]').val();
@@ -40,6 +45,10 @@ $(document).ready(function(){
 		return false;
 	});
 
+
+}
+
+$(document).ready(function(){
 	/* TOOLTIP EXAMPLE */
 	/*
 	var hideLink='<a href="#" class="qtipHide" onclick="return hideTooltip(this);">[Gizle]</a>';
