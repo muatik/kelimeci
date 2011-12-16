@@ -1,5 +1,4 @@
 "DASHBOARD VIEW"
-
 <?php
-print_r($o);
+echo $this->loadElement('userInfo.php',$o);
 ?>

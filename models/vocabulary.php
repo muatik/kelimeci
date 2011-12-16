@@ -232,7 +232,71 @@ class vocabulary
 		
 		return $this->db->fetch($sql);
 	}
+	
 
+	/**
+	 * returns counts of words in user's vocabulary
+	 * 
+	 * @param int $userId 
+	 * @access public
+	 * @static
+	 * @return array tags array
+	 */
+	public static function getCountStats($userId){
+		$db=new db();
+
+		$userId=$db->escape($userId);
+		
+		$sql='select 
+			count(v.wordId) as wCount, c.name 
+		from 
+			vocabulary as v, 
+			wordclasses as wc,
+			classes as c
+		where
+		userId=\''.$userId.'\' and
+		v.wordId=wc.wordId and
+		wc.clsId=c.id
+		group by v.clsId';
+
+		return $db->fetch($sql);
+	}
+
+	
+	/**
+	 * calculate compatibility beetwen two vocabulary
+	 * 
+	 * @param int $withUserId
+	 * @access public
+	 * @return int
+	 */
+	public function calcCompatibility($withUserId){
+		
+		$withUserId=$this->db->escape($withUserId);
+		
+		$sql='select wordId from vocabulary 
+			where 
+			userId=\'%d\' and level>12';
+		
+		$user1=$this->db->fetch(sprintf($sql,$this->userId));
+		$user2=$this->db->fetch(sprintf($sql,$withUserId));
+		
+		$user1=arrays::toArray($user1,'wordId');
+		$user2=arrays::toArray($user2,'wordId');
+		
+		$wIntersect=array_intersect($user1,$user2);
+		
+		// selecting the greater vocabulary
+		$mainSet=( count($user1)>count($user2) ? $user1:$user2 );
+		if(count($mainSet)==0)
+			return 0;
+		
+		$percent=100*count($wIntersect)/count($mainSet);
+		
+		return ceil($perfect);
+	} 
+	
+	
 	/**
 	 * suggests tags which contain the keyword
 	 * 

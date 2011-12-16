@@ -40,11 +40,23 @@ class dashboardController extends ipage {
 	}
 
 	public function getUserInfo($username){
-		return $this->users->getUserInfoByUsername(
+		$o=$this->users->getUserInfoByUsername(
 			$username
 		);
-	}
 
+		if($o==false)
+			return false;
+		
+		$o->vocabularyStats=kelimeci\vocabulary::getCountStats($o->id);
+		
+		if($this->isLogined){
+			$vcb=$this->vocabulary;
+			$o->compatibility=$vcb->calcCompatibility($o->id);
+		}
+		
+		return $o;
+	}
+	
 	
 }
 ?>
