@@ -46,28 +46,12 @@
 			echo '<li><a href="?_ajax=users/logout" alt="">Çıkış</a></li>';
 
 		echo '</ul>';
+
+		// Set the top user menu with its sub menu
+		$o2=new stdClass();
+		$o2->isLogined=$o->isLogined;
+		echo $this->loadView('userTopMenu.php',$o2);
 		
-		// Set the user menu with its sub menu
-		if(!$o->isLogined){
-			$userMenuContent='Giriş yap';
-			$o2=new stdClass();
-			$o2->noCss=1;
-			$userSubMenuContent='<div id="userSubMenu">';
-			$userSubMenuContent.=$this->loadView('loginForm.php',$o2);
-			$userSubMenuContent.=$this->loadView('registerForm.php',$o2);
-			$userSubMenuContent.='</div>';
-		}
-		else{
-			$userMenuContent=$this->u->email;
-			$userSubMenuContent='
-			<ul id="userSubMenu">
-				<li><a href="#">Ayarlar</a></li>	
-				<li><a href="#">Çıkış yap</a></li>	
-			</ul>';
-		}
-		// Print user menu and its sub menu
-		echo '<a href="#" id="userMenu">'.$userMenuContent.'<img src="images/downArrow.png" alt="" /></a>';
-		echo $userSubMenuContent;
 	?>
 	<form id="wordSearch" method="post" action="search">
 		<input type="text" name="word" id="word" placeholder="kelime ara" />

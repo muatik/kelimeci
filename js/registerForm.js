@@ -1,15 +1,20 @@
 resultOfEmailCheck=null;
 resultOfUsernameCheck=null;
 
-$(document).ready(function(){
+/**
+ * Bind a register form
+ *
+ * @param object $frm Explicit register form object
+ */
+function bindRegisterForm($frm){
 
 	// Prepare
 	var 
-		$f=$('.registerForm'),
+		$f=$frm;
 		checkEmailResult=null,
 		checkUsernameResult=null;
 
-	$('.registerForm').submit(function(){
+	$f.submit(function(){
 		// Prepare
 		var
 			email=$f.find('input#email').val(),
@@ -140,7 +145,7 @@ $(document).ready(function(){
 
 	});
 
-});
+}
 
 // Check the usability of the email or the username
 function checkUsability(inputElem){

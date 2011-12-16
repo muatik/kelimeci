@@ -45,7 +45,6 @@
 		<li>
 			<div class="fInput">
 				<input type="submit" name="registerFormSubmit" value="Kayıt ol" />
-				<a href="#" class="cancel">Giriş formu!</a>
 			</div>
 		</li>
 	</ul>
