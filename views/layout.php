@@ -30,10 +30,9 @@
 		echo '<ul id="topMenu">';
 
 		$menus=array(
-			'vocabulary'=>'Kelimeler',
-			'tests'=>'Test',
-			'status'=>'Durum',
-			'profile'=>'Ayarlar'
+			'vocabulary'=>'Kelimelerim',
+			'tests'=>'Testlerim',
+			'status'=>'Durumum',
 		);
 
 		foreach($menus as $k=>$i)
@@ -41,10 +40,6 @@
 				'.($this->name==$k?' class="active" ':'').'
 				alt="">'.$i.'</a></li>';
 		
-		// Add "log out" link if logged in
-		if($o->isLogined)
-			echo '<li><a href="?_ajax=users/logout" alt="">Çıkış</a></li>';
-
 		echo '</ul>';
 
 		// Set the top user menu with its sub menu
