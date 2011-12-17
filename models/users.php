@@ -67,7 +67,24 @@ class users
 		else
 			return false;
 	}
-	
+
+	/**
+	 * returns information of the given user
+	 * 
+	 * @param string $username
+	 * @access public
+	 * @return int
+	 */
+	public function getUserInfoByUsername($username){
+		
+		$username=$this->db->escape($username);
+		$sql='select * from users where 
+			username=\''.$username.'\'
+			limit 1';
+		
+		return $this->db->fetchFirst($sql);
+	}
+
 	/**
 	 * kullanıcı id sine bağlı bilgileri verir.
 	 * 
@@ -77,7 +94,7 @@ class users
 	public function getUserInfo($userId){
 	
 		$sql='select * from users where id=\''.$userId.'\' limit 1';
-		return $this->db->fetchFirstRecord($sql);
+		return $this->db->fetchFirst($sql);
 	}
 	
 	/**
