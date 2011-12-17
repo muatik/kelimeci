@@ -3,7 +3,7 @@
 <?php
 // Set the user menu with its sub menu
 if(!$o->isLogined){
-	$menu='Giriş yap / Hesap oluştur';
+	$menu='Giriş yap';
 
 	$o2=new stdClass();
 	$o2->noCss=1;
