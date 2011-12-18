@@ -1,6 +1,6 @@
 <?php
-	/*
-	 * If not wanted to load css and js file, don't load
+	/**
+	 * If not wanted to load css or js file, don't load
 	 */
 	if(!isset($o->noCss))
 		echo '<link rel="stylesheet" type="text/css" href="../css/loginForm.css" />';

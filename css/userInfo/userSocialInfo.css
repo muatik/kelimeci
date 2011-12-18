@@ -1,0 +1,60 @@
+.userSocialInfo{
+	width:97%;
+	overflow:hidden;
+	font:13px sans-serif,helvetica,verdana;
+	color:#555;
+}
+.userSocialInfo .conformity{
+	overflow:hidden;
+	line-height:25px;
+}
+.userSocialInfo .conformity .status{
+	float:left;
+	display:block;
+	margin-right:15px;
+	width:250px;
+	height:25px;
+	font-family:helvetica;
+	word-spacing:5px;
+	text-align:center;
+	text-transform:uppercase;
+	text-shadow:0 1px 0 #eee;
+	border:1px solid #B8D086;
+
+	/*Box Radius*/
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-khtml-border-radius:5px;
+	-webkit-border-radius:5px;
+
+	/* Gradient */
+	background: -moz-linear-gradient(270deg,#d1ff87,#9cff00);
+	background: -webkit-linear-gradient(270deg,#d1ff87,#9cff00);
+	background: -o-linear-gradient(270deg,#d1ff87,#9cff00);
+	background: -ms-linear-gradient(270deg,#d1ff87,#9cff00);
+	filter: progid:DXImageTransform.Microsoft.gradient(
+		startColorstr='#d1ff87',endColorstr='#9cff00',GradientType=0 
+	);
+	background: linear-gradient(270deg,#d1ff87,#9cff00);
+}
+.userSocialInfo .conformity a.whatIsThis{
+	color:#3B8BAE;
+}
+.userSocialInfo .chat{
+}
+.userSocialInfo .chat a.haveChat{
+	float:left;
+	width:120px;
+	height:25px;
+	line-height:25px;
+	text-align:center;
+}
+.userSocialInfo .info{
+	float:left;
+	margin:5px 0 0 15px;
+	width:120px;
+}
+.userSocialInfo .chat .chatability{
+}
+.userSocialInfo .chat .status{
+}

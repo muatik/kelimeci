@@ -1,0 +1,53 @@
+.userCommonInfo{
+	width:97%;
+	overflow:hidden;
+	font:13px sans-serif,helvetica,verdana;
+	color:#555;
+	padding:5px;
+}
+.userCommonInfo p{
+	margin:0 0 7px 0;
+	padding:0;
+}
+.userCommonInfo img.avatar{
+	float:left;
+	width:100px;
+	height:100px;
+	padding:10px;
+	border:1px solid #f2f2f2;
+
+	/*Box Radius*/
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-khtml-border-radius:5px;
+	-webkit-border-radius:5px;
+
+	background:#fff;
+	
+	/* Box Shadow */
+	box-shadow:0px 0px 7px #555;
+	-moz-box-shadow:0px 0px 7px #555;
+	-webkit-box-shadow:0px 0px 7px #555;
+	/* For IE 8 */
+	-ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#555555')";
+	/* For IE 5.5 - 7 */
+	filter:progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#555555');
+}
+.userCommonInfo .info{
+	float:left;
+	margin-left:15px;
+}
+.userCommonInfo .info *{
+	font:12px sans-serif,helvetica,verdana;
+}
+.userCommonInfo .info .username{
+	font-size:12px;
+	font-weight:bold;
+}
+.userCommonInfo .info .vocabulary{
+	overflow:hidden;
+}
+.userCommonInfo .info .vocabulary *{
+	float:left;
+	width:100%;
+}

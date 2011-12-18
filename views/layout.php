@@ -32,12 +32,12 @@
 		$menus=array(
 			'vocabulary'=>'Kelimelerim',
 			'tests'=>'Testlerim',
-			'status'=>'Durumum',
+			'status'=>'Durumum'
 		);
 
 		foreach($menus as $k=>$i)
 			echo '<li><a href="'.$k.'" 
-				'.($this->name==$k?' class="active" ':'').'
+				'.($this->name==$k ? ' class="active" ' : '').'
 				alt="">'.$i.'</a></li>';
 		
 		echo '</ul>';
@@ -46,7 +46,6 @@
 		$o2=new stdClass();
 		$o2->isLogined=$o->isLogined;
 		echo $this->loadView('userTopMenu.php',$o2);
-		
 	?>
 	<form id="wordSearch" method="post" action="search">
 		<input type="text" name="word" id="word" placeholder="kelime ara" />
@@ -56,7 +55,7 @@
 </div>
 
 <?php
-	/*
+	/**
 	 * If the user logined, 
 	 *	store the email in a global var. for js
 	 * 	to add it into email textbox on feedback form
