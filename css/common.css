@@ -1,5 +1,6 @@
 html{
-	
+	min-width:900px;
+	overflow:auto;
 	font:normal 62.5% verdana,sans-serif,cantarell,"trebuchet ms",arial,"bitstream vera sans";
 	color:#111;
 }
