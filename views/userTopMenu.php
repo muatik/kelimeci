@@ -23,7 +23,7 @@ else{
 	$subMenu='
 	<ul id="userSubTopMenu">
 		<li><a href="profile"><img src="images/settings.png" alt="" />Ayarlar</a></li>	
-		<li><a href="dashboard/?who='.$this->u->username.'"><img src="images/profile.png" alt="" />Pano</a></li>	
+		<li><a href="dashboard?who='.$this->u->username.'"><img src="images/profile.png" alt="" />Pano</a></li>	
 		<li><a href="?_ajax=users/logout"><img src="images/logout.png" alt="" />Çıkış yap</a></li>	
 	</ul>';
 }
