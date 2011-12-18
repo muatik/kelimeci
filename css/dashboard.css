@@ -1,0 +1,21 @@
+.dashboard.centerer{
+	margin-top:15px;
+	width:900px;
+	overflow:hidden;
+}
+.dashboard .commonAndSocialInfo{
+	float:left;
+	overflow:hidden;
+}
+.dashboard .commonAndSocialInfo .userCommonInfo,
+.dashboard .commonAndSocialInfo .userSocialInfo{
+	float:left;	
+	width:400px;
+}
+.dashboard .badgeInfo{
+	float:left;
+	width:100%;
+	overflow:hidden;
+}
+.dashboard .badgeInfo .userBadgeInfo{
+}

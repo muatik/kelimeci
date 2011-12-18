@@ -1,0 +1,66 @@
+.userBadgeInfo{
+	width:97%;
+	font:13px sans-serif,helvetica,verdana;
+	color:#777;
+	overflow:hidden;
+}
+.userBadgeInfo h4{
+	font-size:14px;
+	color:#555;
+	border-bottom:2px solid #4BA5C1;
+}
+.userBadgeInfo .noBadges{
+}
+.userBadgeInfo .userBadges{
+	margin:5px;
+	overflow:hidden;
+	padding:5px;
+}
+.userBadgeInfo .userBadges .badge{
+	float:left;
+	margin:0 15px 15px 0;
+	padding:10px;
+	width:160px;
+	background:#edeeee;
+	
+	/* Box Shadow */
+	box-shadow:0px 0px 4px #555;
+	-moz-box-shadow:0px 0px 4px #555;
+	-webkit-box-shadow:0px 0px 4px #555;
+	/* For IE 8 */
+	-ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#555555')";
+	/* For IE 5.5 - 7 */
+	filter:progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#555555');
+}
+.userBadgeInfo .userBadges .badge p.name,p.image,p.description{
+	margin:0;
+	padding:0;
+	margin-bottom:10px;
+}
+.userBadgeInfo .userBadges .badge p.name,p.description{
+	height:30px;
+	overflow:hidden;
+}
+.userBadgeInfo .userBadges .name{
+	font-size:14px;
+}
+.userBadgeInfo .userBadges p.image{
+	padding:10px;
+	background:#fff;
+	overflow:hidden;
+	
+	/* Box Shadow */
+	box-shadow:inset 0px 0px 8px #ccc;
+	-moz-box-shadow:inset 0px 0px 8px #ccc;
+	-webkit-box-shadow:inset 0px 0px 8px #ccc;
+	/* For IE 8 */
+	-ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#cccccc')";
+	/* For IE 5.5 - 7 */
+	filter:progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#cccccc');
+}
+.userBadgeInfo .userBadges p.image img{
+	display:block;
+	margin:0 auto;
+}
+.userBadgeInfo .userBadges .description{
+}
