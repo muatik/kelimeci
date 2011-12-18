@@ -4,7 +4,7 @@
 <script type="text/javascript" src="../js/tests/test.js"></script> 
 <script type="text/javascript" src="../js/tests/sentenceCompletionTest.js"></script>
 
-<div class="sentenceCompletionTest">	
+<div class="sentenceCompletionTest testPage">	
 	<?php
 	echo  $this->loadView(
 		'testPageHeader.php',

@@ -4,7 +4,7 @@
 <script type="text/javascript" src="../js/tests/test.js"></script> 
 <script type="text/javascript" src="../js/tests/variationWritingTest.js"></script>
 
-<div class="variationWritingTest">
+<div class="variationWritingTest testPage">
 	<?php
 	echo  $this->loadView(
 		'testPageHeader.php',

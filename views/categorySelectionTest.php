@@ -4,7 +4,7 @@
 <script type="text/javascript" src="../js/tests/test.js"></script> 
 <script type="text/javascript" src="../js/tests/categorySelectionTest.js"></script>
 
-<div class="categorySelectionTest">
+<div class="categorySelectionTest testPage">
 	<?php
 	echo  $this->loadView(
 		'testPageHeader.php',

@@ -9,7 +9,7 @@
 #logo{
 	float:left;
 	background-image:url(../images/logo.png);
-	margin-left:50px;
+	margin-left:15px;
 	width:115px;
 	height:44px;
 }
@@ -17,8 +17,7 @@
 #topMenu{
 	float:left;
 	overflow:hidden;
-	margin:0 0 0 50px;
-	width:335px;
+	margin:0 0 0 15px;
 	height:33px;
 	color:#fff;
 }
