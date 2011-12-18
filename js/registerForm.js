@@ -119,9 +119,13 @@ function bindRegisterForm($frm){
 
 		if($t.attr('id')=='email'){
 			if(!validateEmail(val)){
-				alertText='Önce geçerli bir e-posta adresi giriniz!';
+				alertText='Geçerli bir e-posta adresi giriniz!';
+				alertText2='Geçersiz e-posta adresi!';
 				showFrmAlert($f,alertText);
-				$f.find('input#email').focus();
+				$t.parent().find('img')
+					.remove().end()
+					.append('<img src="../images/incorrect.png" alt="'+alertText2+'" title="'+alertText2+'" />');
+
 				return;
 			}
 		}
