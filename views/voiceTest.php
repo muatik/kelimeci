@@ -5,7 +5,7 @@
 <script type="text/javascript" src="../js/tests/voiceTest.js"></script>
 
 
-<div class="voiceTest">
+<div class="voiceTest testPage">
 	<?php
 	echo  $this->loadView(
 		'testPageHeader.php',

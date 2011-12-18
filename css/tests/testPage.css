@@ -1,4 +1,7 @@
 /* STYLE FOR ALL TEST PAGES */
+.testPage{
+	width:98%;
+}
 .testPageHeader{
 	border-bottom:1px solid gray;
 	padding:10px;
