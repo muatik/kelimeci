@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-"DASHBOARD VIEW"
-<?php
-echo $this->loadElement('userInfo.php',$o);
-?>
-=======
 <link rel="stylesheet" type="text/css" href="../css/dashboard.css" />
 
 <div class="dashboard centerer">
