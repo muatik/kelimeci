@@ -6,6 +6,7 @@ function vcbPage(){
 	wordAdditionForm.onAdd=function(rsp,f){
 		t.onAddedWord(rsp,f);
 	}
+
 	// Variable to cancel the ajax requests that made before
 	this.wordDetailAjaxReq=new simpleAjax();
 }
