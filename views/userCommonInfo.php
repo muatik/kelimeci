@@ -1,28 +1,19 @@
 <?php
-	header('content-type:text/html;charset=utf-8');
-	// DUMMY DATA
-	$o=new stdClass();
-	$o->username='egulhan';
-	$o->fname='Erman';
-	$o->lname='Gülhan';
-	$o->birthDate='1988/01/08';
-	$o->sex='erkek';
-	$o->city='İstanbul';
-	$o->crtDate='2011/11/11';
-
 	/**
 	 * If not wanted to load css or js file, don't load
 	 */
 	if(!isset($o->noCss))
 		echo '<link rel="stylesheet" type="text/css" href="../css/userInfo/userCommonInfo.css" />';
-	/*
-	if(!isset($o->noJs))
-		echo '<script type="text/javascript" src="../js/userInfo/userCommonInfo.js"></script>';
-	*/
-	
-	// Determine the avatar of sex
+
+	// Determine the sex and its avatar
 	$sexAvatar='/images/';
-	$sexAvatar.=($o->sex=='erkek') ? 'male.png' : 'female.png';
+	if(!isset($o->sex) || $o->sex==''){
+		$sexAvatar.='missing.png';
+		$o->sex='';
+	}
+	else{
+		$sexAvatar.=($o->sex=='erkek') ? 'male.png' : 'female.png';
+	}
 
 	// Determine the exact age of user
 	$bDateDiff=array(
@@ -34,6 +25,35 @@
 		$age=$bDateDiff['year']--;
 	else
 		$age=$bDateDiff['year'];
+
+	//$o->vocabularyStats=array(array('2','fiil'),array('5','sıfat'));
+
+	// Prepare the vocab. info.
+	$vocabInfo=array('common'=>'0 kelime biliyor.','detail'=>'');
+	
+	// Set the common and detail vocab. info, if there is
+	if($o->vocabularyStats!==false && count($o->vocabularyStats)>0){
+		// Reset the counter
+		$vocabInfo['common']=0;
+
+		foreach($o->vocabularyStats as $v){
+			if(is_array($v)){
+				$vocabInfo['common']+=$v[0];
+				$vocabInfo['detail'].=implode(' ',$v).', ';
+			}
+		}
+
+		// Remove the redundant characters(eg. white space, comma)
+		$vocabInfo['detail']=substr(
+			$vocabInfo['detail'],
+			0,
+			strlen($vocabInfo['detail'])-2
+		);
+		
+		// Prepare the info. to show
+		$vocabInfo['common']=$vocabInfo['common'].' kelime biliyor.';
+		$vocabInfo['detail']='('.$vocabInfo['detail'].')';
+	}
 ?>
 
 <div class="userCommonInfo">
@@ -42,10 +62,10 @@
 		<p class="username"><?php echo $o->username; ?></p>
 		<p class="fullName"><?php echo $o->fname.' '.$o->lname; ?></p>
 		<p class="asl"><?php echo $age.' '.$o->sex.' '.$o->city; ?></p>
-		<p class="registerDate"><?php echo $o->crtDate; ?></p>
+		<p class="registerDate"><?php echo 'Kayıt: '.$o->crtDate; ?></p>
 		<p class="vocabulary">
-			<span class="common"><?php echo '101 tane kelime biliyor.' ?></span>
-			<span class="detail"><?php echo '(50 fiil, 1 zarf, 50 isim)' ?></span>
+			<span class="common"><?php echo $vocabInfo['common']; ?></span>
+			<span class="detail"><?php echo $vocabInfo['detail']; ?></span>
 		</p>
 	</div>
 </div>

@@ -1,5 +1,4 @@
 <?php
-	header('content-type:text/html;charset=utf-8');
 	// DUMMY DATA
 	$o=new stdClass();
 
@@ -15,6 +14,8 @@
 	$o->badges[]=$badge;
 	$o->badges[]=$badge;
 	$o->badges[]=$badge;
+
+	//print_r($o);
 
 	/**
 	 * If not wanted to load css or js file, don't load

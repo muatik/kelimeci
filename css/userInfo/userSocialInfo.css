@@ -4,21 +4,16 @@
 	font:13px sans-serif,helvetica,verdana;
 	color:#555;
 }
-.userSocialInfo .conformity{
+.userSocialInfo .compatibility{
 	overflow:hidden;
 	line-height:25px;
 }
-.userSocialInfo .conformity .status{
+.userSocialInfo .compatibility .status{
 	float:left;
 	display:block;
 	margin-right:15px;
 	width:250px;
 	height:25px;
-	font-family:helvetica;
-	word-spacing:5px;
-	text-align:center;
-	text-transform:uppercase;
-	text-shadow:0 1px 0 #eee;
 	border:1px solid #B8D086;
 
 	/*Box Radius*/
@@ -26,6 +21,11 @@
 	-moz-border-radius:5px;
 	-khtml-border-radius:5px;
 	-webkit-border-radius:5px;
+}
+.userSocialInfo .compatibility .status .chart{
+	position:absolute;
+	width:5px;
+	height:25px;
 
 	/* Gradient */
 	background: -moz-linear-gradient(270deg,#d1ff87,#9cff00);
@@ -37,7 +37,17 @@
 	);
 	background: linear-gradient(270deg,#d1ff87,#9cff00);
 }
-.userSocialInfo .conformity a.whatIsThis{
+.userSocialInfo .compatibility .status .text{
+	position:absolute;
+	margin:0 auto;
+	width:250px;
+	font:13px/25px helvetica,sans-serif,verdana;
+	word-spacing:5px;
+	text-align:center;
+	text-transform:uppercase;
+	text-shadow:0 1px 0 #eee;
+}
+.userSocialInfo .compatibility a.whatIsThis{
 	color:#3B8BAE;
 }
 .userSocialInfo .chat{
