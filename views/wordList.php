@@ -1,11 +1,14 @@
-<link rel="stylesheet" type="text/css" href="css/wordList.css" />
-<script type="text/javascript" src="js/wordList.js"></script>
-
+<?php
+if(!isset($o->noScriptStyle)){
+	echo '<link rel="stylesheet" type="text/css" href="css/wordList.css" />';
+	echo '<script type="text/javascript" src="js/wordList.js"></script>';
+}
+?>
 <div class="wordList">
 	<h2>KELİMELER LİSTELENİYOR</h2>
 	<ul class="words">
 	<?php
-	$words=$o;
+	$words=$o->words;
 	$classList=array(
 		'v'=>'verb',
 		'n'=>'noun',
