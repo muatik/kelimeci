@@ -51,6 +51,7 @@
 	color:#3B8BAE;
 }
 .userSocialInfo .chat{
+	overflow:hidden;
 }
 .userSocialInfo .chat a.haveChat{
 	float:left;
@@ -59,12 +60,43 @@
 	line-height:25px;
 	text-align:center;
 }
-.userSocialInfo .info{
+.userSocialInfo .chat .info{
 	float:left;
+	display:block;
 	margin:5px 0 0 15px;
 	width:120px;
+	overflow:hidden;
 }
-.userSocialInfo .chat .chatability{
+.userSocialInfo .chat .info .status{
+	display:block;
 }
-.userSocialInfo .chat .status{
+.userSocialInfo .chat .info .status{
+	overflow:hidden;
+}
+.userSocialInfo .chat .info .status .graphic,
+.userSocialInfo .chat .info .status .text{
+	float:left;
+	display:block;
+}
+.userSocialInfo .chat .info .status .graphic{
+	margin-right:5px;
+	border:1px solid #555;
+	width:8px;
+	height:8px;
+
+	/*Box Radius*/
+	border-radius:100px;
+	-moz-border-radius:100px;
+	-khtml-border-radius:100px;
+	-webkit-border-radius:100px;
+}
+.userSocialInfo .chat .info .status .graphic.offline{
+	background:gray;
+}
+.userSocialInfo .chat .info .status .graphic.online{
+	background:#9cff00;
+}
+.userSocialInfo .chat .info .status .text{
+	font:13px sans-serif,helvetica,verdana;
+	color:#555;
 }

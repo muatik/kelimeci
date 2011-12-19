@@ -37,9 +37,12 @@
 	</p>
 	<p class="chat">
 		<a href="#" class="haveChat button blue small">Sohbet et</a>
-		<div class="info">
+		<span class="info">
 			<span class="chatability"><?php echo $o->chatability; ?></span>
-			<span class="status"><?php echo $o->chatStatus; ?></span>
-		</div>
+			<span class="status">
+				<span class="graphic online"></span>
+				<span class="text"><?php echo $o->chatStatus; ?></span>
+			</span>
+		</span>
 	</p>
 </div>
