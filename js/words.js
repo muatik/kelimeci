@@ -103,7 +103,7 @@ words.prototype.showWord=function(word){
 			var h=$(rsp);
 			$(h).hide().insertAfter(t.layer)
 			$(t.layer).fadeOut('fast').remove();
-			$(h).slideDown('nomal');
+			$(h).slideDown('fast');
 		}}
 	)
 }

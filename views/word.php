@@ -35,7 +35,17 @@ $w=$o->word;
 		<h4 class="inline">TÜRÜ:</h4>
 		<span>
 		<?php
-		echo implode(', ',arrays::toArray($w->classes,'name'))
+			// Classes to replace from en. to tr.
+			$repClasses=array(
+				'en'=>array('noun','verb','adjective','adverb','preposition'),
+				'tr'=>array('isim','fiil','sıfat','zarf','edat')
+			);
+
+			// The word classes from array into str.
+			$strClasses=implode(', ',arrays::toArray($w->classes,'name'));
+
+			// Replace the classess from en. to tr. and print it
+			echo str_replace($repClasses['en'],$repClasses['tr'],$strClasses);
 		?>
 		</span>
 	</div>
