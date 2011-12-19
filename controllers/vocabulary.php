@@ -83,10 +83,16 @@ class vocabularyController extends ipage {
 			$levelMax,
 			$orderBy
 		);
-		
+
+		$o=new stdClass();
+		$o->words=$words;
+
+		if(isset($this->r['noScriptStyle']))
+			$o->noScriptStyle=true;
+
 		return $this->loadView(
 			'wordList.php',
-			$words,
+			$o,
 			false
 		);
 	}

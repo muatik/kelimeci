@@ -1,5 +1,7 @@
 var vocabulary={};
 
+vocabulary.noScriptStyle=1;
+
 vocabulary.filter={
 	start:0,
 	length:100,
@@ -35,9 +37,13 @@ _vcbp.get=function(filter){
 	if(arguments.length>1)
 		callBack=arguments[1];
 
-	
+	if(this.noScriptStyle)
+		var noScriptStyle='noScriptStyle=1&';
+	else
+		var noScriptStyle=null;
+
 	ajax.send(
-		'vocabulary?_view=wordList&'+params,
+		'vocabulary?_view=wordList&'+noScriptStyle+params,
 		null,
 		{onSuccess:function(rsp,o){
 			if(callBack)

@@ -98,7 +98,6 @@ vcbp.getWords=function(){
 }
 
 vcbp.listWords=function(words){
-	words=$(words)[2];
 	words=$(words).html();
 
 	$('.wordList').replaceWith(
