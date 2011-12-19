@@ -14,7 +14,7 @@
 .wordList .words li span{
 	margin-right:5px;
 }
-.wordList .words li .categories span{
+.wordList .words li .categories abbr{
 	font-family:tahoma,arial,sans-serif;
 	font-size:11px;
 	display:inline-block;

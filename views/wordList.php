@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="css/wordList.css" />
+<script type="text/javascript" src="js/wordList.js"></script>
 
 <div class="wordList">
 	<h2>KELİMELER LİSTELENİYOR</h2>
@@ -10,7 +11,7 @@
 		'n'=>'noun',
 		'aj'=>'adjective',
 		'av'=>'adverb',
-		'pp'=>'prepososition'
+		'pp'=>'preposition'
 	);
 	foreach($words as $i){
 		$classes=arrays::toArray($i->classes,'name');
@@ -25,9 +26,9 @@
 					else
 						$classActive=null;
 
-					echo '<span class="'.$abbr.' '
-						.$classActive.'">'
-						.$abbr.'</span>';
+					echo '<abbr class="'.$abbr.' '
+						.$classActive.'" title="'.$ci.'">'
+						.$abbr.'</abbr>';
 				}
 				echo '
 				</span>

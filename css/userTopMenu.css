@@ -39,7 +39,7 @@
 	height:16px;
 	margin-left:4px;
 }
-div#userSubTopMenu,ul#userSubTopMenu{
+#userSubTopMenu{
 	display:none;
 	position:absolute;
 	top:44px;
@@ -50,9 +50,9 @@ div#userSubTopMenu,ul#userSubTopMenu{
 	overflow:hidden;
 
 	/*Box Radius*/
-	border-radius:5px;
-	-moz-border-radius:5px;
-	-khtml-border-radius:5px;
+	border-radius:0 0 5px 5px;
+	-moz-border-radius:0 0 5px 5px;
+	-khtml-border-radius:0 0 5px 5px;
 	-webkit-border-radius:0 0 5px 5px;
 
 	/* Box Shadow */
