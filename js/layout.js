@@ -16,10 +16,13 @@ $(function(){
 		if($usrSubMenu.is(':hidden')){
 			// If it has any forms - user not logined/registered,
 			// 	toggle forms properly
-			if($usrSubMenu.find('form').length>0)
+			if($usrSubMenu.find('form').length>0){
 				toggleFormsInUserMenu();
+			}
 
-			$usrSubMenu.show();
+			// If the menu contains any forms,
+			// 	focus the first input on the form
+			$usrSubMenu.show().find('form :input:first').focus();
 		}
 		else{
 			$usrSubMenu.hide();
@@ -29,10 +32,10 @@ $(function(){
 		return false;
 	});
 
-	// Hide the user sub menu within 1,25 second when it is leaved
+	// Hide the user sub menu within 1 second when it is leaved
 	$usrSubMenu.mouseleave(function(){
 		timeOutObjForSubMenu=setTimeout(
-			function(){$usrSubMenu.hide();},1250
+			function(){$usrSubMenu.hide();},1000
 		);
 		return false;
 	});
@@ -89,10 +92,10 @@ function toggleFormsInUserMenu(where){
 	
 	if(where=='registerLink'){
 		$lFrm.hide();
-		$rFrm.show();
+		$rFrm.show().find(':input:first').focus();
 	}
 	else{
-		$lFrm.show();
 		$rFrm.hide();
+		$lFrm.show().find(':input:first').focus();
 	}
 }
