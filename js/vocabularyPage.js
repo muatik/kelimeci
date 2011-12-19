@@ -6,6 +6,8 @@ function vcbPage(){
 	wordAdditionForm.onAdd=function(rsp,f){
 		t.onAddedWord(rsp,f);
 	}
+	// Variable to cancel the ajax requests that made before
+	this.wordDetailAjaxReq=new simpleAjax();
 }
 
 var vcbp=vcbPage.prototype;
@@ -116,8 +118,10 @@ vcbp.bindList=function(){
 }
 
 vcbp.showDetail=function(word){
-	var ajax=new simpleAjax();
-	ajax.send(
+	// Cancel old ajax requests
+	this.wordDetailAjaxReq.o.abort();
+
+	this.wordDetailAjaxReq.send(
 		'vocabulary?_view=word&word='+word+'&noScriptStyle=1',
 		null,
 		{onSuccess:function(rsp,o){
