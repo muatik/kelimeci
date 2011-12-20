@@ -5,7 +5,15 @@ $(function(){
 		// User sub top menu
 		$usrSubMenu=$('#userSubTopMenu'),
 		// Object to cancel time out 
-		timeOutObjForSubMenu=null;
+		timeOutObjForSubMenu=null,
+		// Min. width for the user menu and its sub menu
+		usrMenuMinWid=120;
+
+	// Set the min. width for the user and its sub menu if the width smaller than minWid
+	if($usrMenu.outerWidth(true)<usrMenuMinWid){
+		$usrMenu.css('width',usrMenuMinWid+'px');	
+		$usrSubMenu.css('width',$usrMenu.outerWidth()+'px');	
+	}
 
 	// If the user menu clicked, show the sub user menu
 	$usrMenu.click(function(){
