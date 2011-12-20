@@ -35,7 +35,7 @@ $(document).ready(function(){
 
 		if(rsp!=null){
 
-			var resultInput=$(
+			var $resultInput=$(
 				'.testPageOl input[class="wordId"][value="'+rsp.wordId+'"]'
 			);
 			
@@ -44,11 +44,11 @@ $(document).ready(function(){
 			
 			// If the answer is correct
 			if(rsp.result){
-				$(resultInput).parent().append(imgCorrect);
+				$resultInput.parent().append(imgCorrect);
 			}
 			// If the answer is incorrect
 			else{
-				$(resultInput).parent().append(imgIncorrect);
+				$resultInput.parent().append(imgIncorrect);
 				var incorrect='';
 				
 				if(rsp.correction)
@@ -62,7 +62,7 @@ $(document).ready(function(){
 					'</span>'
 				);
 
-				$(resultInput).parent().append(correction);
+				$resultInput.parent().append(correction);
 			}
 
 		}
