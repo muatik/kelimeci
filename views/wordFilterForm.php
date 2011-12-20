@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="css/dropDownChecklist.css" />
 <link rel="stylesheet" href="css/wordFilterForm.css" />
 
-<form class="wordFilterForm" method="post" action="">
+<form class="wordFilterForm frm" method="post" action="">
 	<div class="frow">
 		<div class="felement">
 		<label class="flabel">Tür:</label>

@@ -7,7 +7,7 @@
 	if(!isset($o->noJs))
 		echo '<script type="text/javascript" src="../js/registerForm.js"></script>';
 ?>
-<form class="registerForm" method="post" action="">
+<form class="registerForm frm" method="post" action="">
 	<h4 class="frmTitle">Kullanıcı Kaydı</h4>
 	<ul class="frmItems">
 		<li>
