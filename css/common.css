@@ -105,3 +105,7 @@ form .frmTitle{
 	color:orange;
 }
 /* qtip */
+
+img.usabilityChecker{
+	cursor:pointer;
+}

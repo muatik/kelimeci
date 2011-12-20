@@ -4,7 +4,7 @@ resultOfUsernameCheck=null;
 /**
  * Bind a register form
  *
- * @param object $frm Explicit register form object
+ * @param object $frm Explicit register form object to bind
  */
 function bindRegisterForm($frm){
 
@@ -17,12 +17,12 @@ function bindRegisterForm($frm){
 	$f.submit(function(){
 		// Prepare
 		var
-			email=$f.find('input#email').val(),
-			username=$f.find('input#username').val(),
-			password=$f.find('input#password').val(),
-			password2=$f.find('input#password2').val();
+			$email=$f.find('input#email'),
+			$username=$f.find('input#username'),
+			$password=$f.find('input#password'),
+			$password2=$f.find('input#password2');
 
-		// If there is any empty input elements
+		// If there is any empty input elements, focus the first one
 		if($f.find(':input[value=""]').length>0){
 
 			var alertText='Tüm bilgileri giriniz!';
@@ -34,21 +34,22 @@ function bindRegisterForm($frm){
 		}
 
 		// If not valid email
-		if(!validateEmail(email)){
+		if(!validateEmail($email.val())){
 
 			var alertText='Geçerli bir e-posta adresi giriniz!';
 			showFrmAlert($f,alertText);
-			$f.find('input#email').focus();
+			$email.focus();
 			return false;
 
 		}
 
 		// If the email already in use
 		if(!resultOfEmailCheck){
+
 			var alertText='Bu e-posta adresi kullanılıyor. '+
-				'Başka bir e-posta adresi seçiniz.'
+				'Başka bir e-posta adresi seçiniz.';
 			showFrmAlert($f,alertText);
-			$f.find('input#email').focus();
+			$email.focus();
 			return false;
 
 		}
@@ -57,29 +58,29 @@ function bindRegisterForm($frm){
 		if(!resultOfUsernameCheck){
 
 			var alertText='Bu kullanıcı adı kullanılıyor. '+
-				'Başka bir kullanıcı adı seçiniz.'
+				'Başka bir kullanıcı adı seçiniz.';
 			showFrmAlert($f,alertText);
-			$f.find('input#username').focus();
+			$username.focus();
 			return false;
 
 		}
 
 		// The length of the password must be 5
-		if(password.length<5){
+		if($password.val().length<5){
 
 			var alertText='Şifre en az 5 karakterden oluşmalı!';
 			showFrmAlert($f,alertText);
-			$f.find('input#password').focus();
+			$password.focus();
 			return false;
 
 		}
 
 		// If the passwords are not the same
-		if(password!=password2){
+		if($password.val()!=$password2.val()){
 
 			var alertText='Şifre ve Şifre(tekrar) bilgileri aynı olmalı!';
 			showFrmAlert($f,alertText);
-			$f.find('input#password').focus();
+			$password.focus();
 			return false;
 
 		}
@@ -87,9 +88,9 @@ function bindRegisterForm($frm){
 		var ajax=new simpleAjax();
 		ajax.send(
 			'?_ajax=users/register',
-			'email='+encodeURI(email)+'&'+
-				'username='+encodeURI(username)+'&'+
-				'password='+encodeURI(password),
+			'email='+encodeURI($email.val())+'&'+
+				'username='+encodeURI($username.val())+'&'+
+				'password='+encodeURI($password.val()),
 			{'onSuccess':function(rsp,o){
 				
 				// Register okay
@@ -106,9 +107,9 @@ function bindRegisterForm($frm){
 		);
 		return false;
 	});	
-	
+
 	// If the img checkEmail or checkUsername clicked
-	$f.find('input#email,input#username').blur(function(){
+	$f.find('input#email,input#username').change(function(){
 	
 		var 
 			$t=$(this),
@@ -131,24 +132,6 @@ function bindRegisterForm($frm){
 		}
 		checkUsability($t);
 	});
-
-	// If the email or username focused
-	$f.find('input#email,input#username').focus(function(){
-
-		var 
-			$t=$(this),
-			val=$t.val(),
-			img=$t.parent().find('img'),
-			label='';
-		
-		if(val=='') return;
-		
-		// If has img
-		if(img.length>0)
-			img.remove();	
-
-	});
-
 }
 
 // Check the usability of the email or the username

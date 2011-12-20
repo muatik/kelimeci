@@ -101,6 +101,7 @@
 				<label for="email">E-posta adresi:</label>
 			</div>
 			<div class="fInput">
+				<input type="hidden" id="usrEmailOnProfilePage" value="<?php echo $o->email; ?>" />
 				<input type="text" name="email" id="email" maxlength="50" value="<?php echo $o->email; ?>" />
 			</div>
 		</li>

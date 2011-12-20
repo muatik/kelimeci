@@ -1,20 +1,8 @@
+var setTimeoutObjFrmAlert=null;
+
 $(function(){
 
-	/**
-	 * If the form has "frmAlert" element, hide the form alert element
-	 * on its input change
-	 */
-	$(':input').change(function(){
-
-		var $alert=$(this).parents('form').find('.frmAlert');
-
-		// If the form has "frmAlert" element, hide it
-		if($alert.length>0){
-			hideFrmAlert($alert);
-		}
-
-	});
-
+	// Autocomplete plugin for the general word search input(on the banner)
 	$('input[name="word"]').autocomplete(
 		'vocabulary?_ajax=vocabulary/suggest',{
 			minChars: 1,
@@ -118,8 +106,11 @@ function showFrmAlert(where,msg,type,callBack){
 			// Duration for hiding
 			var hideDur=(type==1) ? 2000 : 2500;
 
+			if(setTimeoutObjFrmAlert)
+				clearTimeout(setTimeoutObjFrmAlert);
+
 			// Hide it in the duration according to the type of message
-			setTimeout(
+			setTimeoutObjFrmAlert=setTimeout(
 				function(){hideFrmAlert($e,callBack);},
 				hideDur
 			);

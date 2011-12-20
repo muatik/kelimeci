@@ -1,7 +1,7 @@
 /**
  * Bind a login form
  *
- * @param object $frm Explicit login form object
+ * @param object $frm Explicit login form object to bind
  */
 function bindLoginForm($frm){
 	

@@ -1,5 +1,3 @@
-resultOfEmailCheck=null;
-
 $(document).ready(function(){
 	// Prepare
 	var 
@@ -82,21 +80,16 @@ $(document).ready(function(){
 			return;
 		}
 
-		// If the email already in use
-		if(!resultOfEmailCheck){
-			var alertText='Bu e-posta adresi kullanılıyor. '+
-				'Başka bir e-posta adresi seçiniz.'
+		if(email==$('input#usrEmailOnProfilePage').val()){
+			alertText='Bu zaten kayıtlı güncel olan e-posta adresiniz.';
 			showFrmAlert($frm,alertText);
 			$f.find('input#email').focus();
 			return false;
-
 		}
-		
-		var 
-			infoObj={'email':email},
-			result=null;				
 
-		updateInformation('email',infoObj,$frm);
+		checkUsability($f.find('input#email'));
+
+		return false;
 
 	});
 
@@ -195,47 +188,6 @@ $(document).ready(function(){
 
 	});
 
-	// If the img checkEmail or checkUsername clicked
-	$f.find('input#email').blur(function(){
-	
-		var 
-			$t=$(this),
-			val=$t.val(),
-			result=null,
-			// Current form
-			$frm=$('.profileForm.email');
-
-		if(val=='') return;
-
-		if($t.attr('id')=='email'){
-			if(!validateEmail(val)){
-				alertText='Önce geçerli bir e-posta adresi giriniz!';
-				showFrmAlert($frm,alertText);
-				$f.find('input#email').focus();
-				return;
-			}
-		}
-		checkUsability($t);
-	});
-
-	// If the email focused
-	$f.find('input#email').focus(function(){
-
-		var 
-			$t=$(this),
-			val=$t.val(),
-			img=$t.parent().find('img'),
-			label='';
-		
-		if(val=='') return;
-		
-		// If has img
-		if(img.length>0)
-			img.remove();	
-
-	});
-
-
 });
 
 // Validate the email
@@ -261,16 +213,23 @@ function checkUsability(inputElem){
 		_ajax,
 		param,
 		{'onSuccess':function(rsp,o){
+			var 
+				$frm=$('form.email'),
+				$email=$frm.find('input#email'),
+				infoObj=null;
+
 			// Okay
 			if(rsp=='1'){
-				resultOfEmailCheck=true;
-
-				$elem.parent().find('img').remove().end()
-					.append('<img src="../images/correct.png" alt="Uygun" title="Uygun" />');
-
+				infoObj={'email':$email.val()};
+				updateInformation('email',infoObj,$frm);
+				$('input#usrEmailOnProfilePage').val($email.val());
 			}
 			else{
-				resultOfEmailCheck=false;
+				// If the email already in use
+				var alertText='Bu e-posta adresi kullanılıyor. '+
+					'Başka bir e-posta adresi seçiniz.'
+				showFrmAlert($frm,alertText);
+				$email.focus();
 
 				$elem.parent().find('img').remove().end()
 					.append('<img src="../images/incorrect.png" alt="Uygun değil!" title="Uygun değil!" />');
@@ -306,8 +265,9 @@ function updateInformation(type,infoObj,$frm){
 
 			if(rsp!='1')
 				showFrmAlert($frm,rsp);
-			else
+			else{
 				showFrmAlert($frm,'Güncelleme başarılı.',1);
+			}
 
 		}}
 	);
