@@ -6,11 +6,12 @@ $(function(){
 		$usrSubMenu=$('#userSubTopMenu'),
 		// Object to cancel time out 
 		timeOutObjForSubMenu=null,
-		// Min. width for the user menu and its sub menu
+		// Min. width for the user menu and its sub menu if the user logined
 		usrMenuMinWid=120;
 
 	// Set the min. width for the user and its sub menu if the width smaller than minWid
-	if($usrMenu.outerWidth(true)<usrMenuMinWid){
+	//	if the user logined
+	if(__usrEmail && $usrMenu.outerWidth(true)<usrMenuMinWid){
 		$usrMenu.css('width',usrMenuMinWid+'px');	
 		$usrSubMenu.css('width',$usrMenu.outerWidth()+'px');	
 	}
