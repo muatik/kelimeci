@@ -32,9 +32,11 @@ $(function(){
 			// If the menu contains any forms,
 			// 	focus the first input on the form
 			$usrSubMenu.show().find('form :input:first').focus();
+
+			$usrSubMenu.trigger('onShow');
 		}
 		else{
-			$usrSubMenu.hide();
+			$usrSubMenu.hide().trigger('onHide');
 			clearTimeout(timeOutObjForSubMenu);
 		}
 
@@ -44,9 +46,47 @@ $(function(){
 	// Hide the user sub menu within 1 second when it is leaved
 	$usrSubMenu.mouseleave(function(){
 		timeOutObjForSubMenu=setTimeout(
-			function(){$usrSubMenu.hide();},1000
+			function(){$usrSubMenu.hide().trigger('onHide');},1000
 		);
 		return false;
+	});
+
+	/**
+	 * Do some operations the browser-specified
+	 *
+	 * Why is this function used?
+	 * Because while showing the menu,
+	 * if the browser ff with version less than 8
+	 * (Safari's some versions as well) the browser shows 
+	 * the horizontal scrollbar because of the menu's box-shadow style.
+	 * To fix this, before showing the menu, 
+	 * the box-shadow style is being changed and while hiding the menu, 
+	 */
+	$usrSubMenu.bind('onShow',function(){
+		var ua=$.browser;
+		
+		// If the browser ff with the version less than 8,
+		// set overflow-x:auto	
+		if(ua.mozilla && ua.version.slice(0,3)<8){
+			$('html,body').css('overflow-x','hidden');
+		}
+	});
+
+	/**
+	 * Do some operations the browser-specified
+	 *
+	 * Why is this function used?
+	 * The answer is shown at the description for 
+	 * the function named userSubTopMenuOnShow
+	 */
+	$usrSubMenu.bind('onHide',function(){
+		var ua=$.browser;
+		
+		// If the browser ff with the version less than 8,
+		// set overflow-x:auto	
+		if(ua.mozilla && ua.version.slice(0,3)<8){
+			$('html,body').css('overflow-x','auto');
+		}
 	});
 
 	// Cancel to hide the sub menu when it is entered
