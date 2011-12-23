@@ -120,7 +120,11 @@ vcbp.bindList=function(){
 			$('.wordsForm button').hide();
 	}
 
-	$('.wordsForm input[name="checkAll"]').change(function(){
+	$('.wordsForm button').unbind('click').bind('click',function(){
+		t.rmWords();
+	});
+
+	$('.wordsForm input[name="checkAll"]').unbind('change').bind('change',function(){
 
 		var wIds=$('ul.words input.wordIds');
 
@@ -138,13 +142,13 @@ vcbp.bindList=function(){
 		toggleRmButton();
 	});
 
-	$('ul.words input.wordIds').change(function(){
+	$('ul.words input.wordIds').unbind('change').bind('change', function(){
 		$(this).parent().toggleClass('selected');
 		$('.wordsForm input[name="checkAll"]').attr('checked',null);
 		toggleRmButton();
 	})
 
-	$('ul.words span.word').click(function(){
+	$('ul.words span.word').bind('click', function(){
 		t.showDetail($(this).text());
 	})
 }
@@ -163,6 +167,25 @@ vcbp.showDetail=function(word){
 	);
 }
 
+vcbp.rmWords=function(){
+
+	var selWords=new Array();
+	var selected=$('ul.words input.wordIds:checked');
+
+	selected.each(function(){
+		selWords.push(
+			$('span.word',$(this).parent()).text()
+		);
+	});
+	
+	vocabulary.rmWord(selWords,function(r){
+		selected.each(function(){
+			$(this).parent().remove();
+		});
+	})
+	
+}
+
 vcbp.onAddedWord=function(rsp,f){
 	
 	$('input[name="word"]').focus();
@@ -177,8 +200,11 @@ vcbp.onAddedWord=function(rsp,f){
 	var word=jQuery.parseJSON(rsp);
 	var classList=['verb','noun','adjective','adverb','preposition'];
 	var abbr=['v','n','aj','av','pp'];
+	var h='';
+
+	h='<input type="checkbox" class="wordIds" name="ids[]" value="'+word.id+'" />';
 	
-	var h='<span class="categories">';
+	h+='<span class="categories">';
 	for(var i in classList){
 
 		var cssClass='';
@@ -188,7 +214,7 @@ vcbp.onAddedWord=function(rsp,f){
 				break;
 			}
 
-		h+='<span class="'+abbr[i]+' '+cssClass+'">'+abbr[i]+'</span>'
+		h+='<abbr class="'+abbr[i]+' '+cssClass+'">'+abbr[i]+'</abbr>'
 	}
 	h+='</span> ';
 
