@@ -1,23 +1,21 @@
 .wordDetails{
 	padding:10px;
+	font:normal 14px 'Overlock',sans-serif,helvetica,verdana;
 }
 .wordDetails h4{
-	font-size:10px;
-	/*color:#B9978F;/*#C7A59E;*/
-	color:#111;
-	text-transform:uppercase;
-	font-weight:bold;
 	margin:5px 0 5px 0;
+	font:bold 13px 'Overlock SC';
+	color:#696969;
+	text-transform:uppercase;
+	margin-right:7px;
 }
 .wordDetails h4.inline{
 	display:inline-block;
 }
 .wordDetails a{
-	font:13px verdana,sans-serif;
-	margin-left:5px;
 	line-height:21px;
 	text-decoration:none;
-
+	font-family:'Overlock',sans-serif,helvetica;
 }
 .wordDetails div.addMore a{
 	text-decoration:none;
@@ -25,7 +23,10 @@
 .wordDetails ul{
 	margin-left:10px;
 	list-style-type:disc;
-	list-style-position:inside;
+	padding-left:20px;
+}
+.wordDetails ul.quotes li blockquote{
+	font:normal 12px helvetica,sans-serif,verdana;
 }
 .wordDetails ul li{
 	margin:3px 0;
@@ -67,13 +68,14 @@
 }
 
 .wordDetails .etymology{
+	font-family:verdana,sans;
 	font-size:1.1em;
 	line-height:16px;
 	color:#555;
 }
 
 .wordDetails div.meanings{
-	font:normal 1.1em verdana,sans-serif,cantarell,"trebuchet ms",arial,"bitstream vera sans";
+	/*font:normal 1.1em verdana,sans-serif,cantarell,"trebuchet ms",arial,"bitstream vera sans";*/
 	margin-bottom:20px;
 }
 
