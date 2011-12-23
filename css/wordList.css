@@ -9,8 +9,21 @@
 	color:#444;
 }
 .wordList .words li{
-	margin-bottom:11px;
+	margin-bottom:6px;
+	padding:2px 0 3px 0;
 }
+.wordList .words li.selected{
+	border-radius:4px;
+	background-color:#fff0c3;
+}
+.wordList .words li .wordIds{
+	visibility:hidden;
+}
+.wordList .words li.selected .wordIds,
+.wordList .words li:hover .wordIds{
+	visibility:visible;
+}
+
 .wordList .words li span{
 	margin-right:5px;
 }
@@ -56,4 +69,9 @@
 	background-color:#FFF7C9;
 	padding:4px 6px;
 	cursor:pointer;
+}
+
+.wordList .wordsForm{
+	margin-bottom:4px;
+	height:25px;
 }

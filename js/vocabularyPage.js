@@ -112,6 +112,38 @@ vcbp.listWords=function(words){
 
 vcbp.bindList=function(){
 	var t=this;
+
+	var toggleRmButton=function(){
+		if($('input.wordIds:checked').get(0))
+			$('.wordsForm button').show();
+		else
+			$('.wordsForm button').hide();
+	}
+
+	$('.wordsForm input[name="checkAll"]').change(function(){
+
+		var wIds=$('ul.words input.wordIds');
+
+			wIds.attr('checked',null)
+			.each(function(){
+				$(this).parent().removeClass('selected');
+			});
+
+		if($(this).attr('checked'))
+			wIds.attr('checked','checked')
+			.each(function(){
+				$(this).parent().toggleClass('selected');
+			});
+
+		toggleRmButton();
+	});
+
+	$('ul.words input.wordIds').change(function(){
+		$(this).parent().toggleClass('selected');
+		$('.wordsForm input[name="checkAll"]').attr('checked',null);
+		toggleRmButton();
+	})
+
 	$('ul.words span.word').click(function(){
 		t.showDetail($(this).text());
 	})

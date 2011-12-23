@@ -193,7 +193,36 @@ class vocabulary
 
 		return false;
 	}
+
+	/**
+	 * removes the words from the user's vocabulary
+	 * 
+	 * @param array $word string array
+	 * @access public
+	 * @return bool
+	 */
+	public function rmWord($words){
+		if(!is_array($words))
+			$words=array($words);
 	
+		$wordIds=array();
+		foreach($words as $word){
+			$word=dictionary::getWord($word);
+			if(!is_object($word))
+				continue;
+
+			$wordIds[]=$word->id;
+		}
+		
+		$sql='delete from vocabulary 
+			where 
+			userId=\''.$this->userId.'\' and
+			wordId in (\''.implode('\',\'',$wordIds).'\')';
+
+		return $this->db->query($sql);
+	}
+
+
 	/**
 	 * adds a quote for a word of the user
 	 * 

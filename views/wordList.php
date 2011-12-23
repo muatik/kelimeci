@@ -6,6 +6,15 @@ if(!isset($o->noScriptStyle)){
 ?>
 <div class="wordList">
 	<h2>KELİMELER LİSTELENİYOR</h2>
+	
+	<div class="wordsForm">
+		
+		<label class="toggle">
+			<input type="checkbox" name="checkAll" />
+			Hepsi / Hiçbiri</label>
+		<button>Seçili olanları sil</button>
+	</div>
+
 	<ul class="words">
 	<?php
 	$words=$o->words;
@@ -22,6 +31,8 @@ if(!isset($o->noScriptStyle)){
 			$classes=array();
 		echo '
 			<li>
+				<input type="checkbox" class="wordIds" name="ids[]" 
+					value="'.$i->id.'" />
 				<span class="categories">';
 				foreach($classList as $abbr=>$ci){
 					if(in_array($ci,$classes))
