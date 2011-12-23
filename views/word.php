@@ -15,7 +15,6 @@ $w=$o->word;
 		<link rel="stylesheet" href="css/word.css" />';
 	}
 	?>
-
 	<h1><?php 
 		echo $w->word;
 		if(isset($w->info['pronunciation']))
@@ -192,7 +191,8 @@ $w=$o->word;
 		</span>
 	</div>
 	<?php
-	if($this->isLogined)
+	// If logined and not popup, show the status info.
+	if($this->isLogined && !isset($o->popup))
 	echo '
 	<div>
 		<h4>DURUM</h4>

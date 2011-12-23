@@ -113,9 +113,15 @@ class vocabularyController extends ipage {
 		// çeker
 		if($this->isLogined)
 			$word=$this->vocabulary->fillUserData($word);
+
 		
 		$o=new stdClass();
 		$o->word=$word;
+
+		// If the parameter popup=1, won't be shown the status of user info.
+		if(isset($this->r['popup']))
+			$o->popup=true;
+
 		if(isset($this->r['noScriptStyle']))
 			$o->noScriptStyle=true;
 

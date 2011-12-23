@@ -4,7 +4,7 @@
 <script src="js/vocabularyPage.js"></script>
 
 <!-- kelime detay kısmı için gerekli betik ve stiller -->
-<script tyoe="text/javascript" src="js/words.js"></script>
+<script type="text/javascript" src="js/words.js"></script>
 <link rel="stylesheet" href="css/word.css" />
 <link rel="stylesheet" href="css/animbuttons.css" />
 

@@ -12,7 +12,7 @@ function showWordOnPopup(word){
 		var ajax=new simpleAjax();
 		ajax.send(
 			'?_ajax=vocabulary/viewword',
-			'word='+encodeURI(word),
+			'popup=1&word='+encodeURI(word),
 			{'onSuccess':function(rsp,o){
 				
 				// If the first letter of word is not "0"
@@ -38,7 +38,8 @@ _popupWordDetail.show=function(html){
 		$popup=$('#popupWordDetail');
 
 	if($popup.length>0){
-		$popup.html(html)
+		$popup
+			.find('.content').html(html).end()
 			.show()
 			// center
 			.css({
@@ -53,12 +54,51 @@ $(function(){
 	var
 		$popup=$('#popupWordDetail');
 
+	// Close button on the popup word detail
+	$popup.find('> .close').click(function(){
+		$popup.hide();
+		return false;
+	});
+
+	/**
+	 * Bind automatically the a.word that is on the database's word
+	 * dictionary on the page.
+	 *
+	 * This is new automatic elements binding mechanism.
+	 * (For more information: http://api.jquery.com/on/)
+	 *
+	 * How to work:
+	 * 	Eg. When wanted to be binded some elements that
+	 * 	inserted into the page by ajax system, must be called a function
+	 * 	that binds the elements.
+	 *
+	 * 	Instead of this elements bind mechanism, by the on function of
+	 * 	jQuery, this binding mechanism is done automatically.
+	 */
+	$popup.find('> .content > .wordDetails a.word').on('click',function(){
+		showWordOnPopup($(this).text());
+		return false;
+	});
+
+	// COMMON WORD SEARCH DOES NOT WORK WITH POPUP - CANCELED
+	/*
+	// Search form on the banner to the popup word detail
+	// on the search button click
 	$('form#wordSearch img').click(function(){
 		var $input=$(this).parent().find('input#word');
 
 		if($input.val()!='')
 			showWordOnPopup($input.val());
 	});
+
+	// Search form on the banner to the popup word detail
+	// on the keypress ("enter")
+	$('form#wordSearch input#word').keyup(function(e){
+		// If pressed the key enter
+		if($(this).val()!='' && e.keyCode==13)
+			showWordOnPopup($input.val());
+	});
+	*/
 
 	showWordOnPopup('dummy1');
 });

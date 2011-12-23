@@ -122,7 +122,7 @@ words.prototype.showAddedQuote=function(quote,rsp){
 			.animate({backgroundColor:'#fff'},1800);
 	}
 	else{
-		$('<p class="erro">Alıntı eklenemedi. '+rsp+'</p>')
+		$('<p class="error">Alıntı eklenemedi. '+rsp+'</p>')
 			.insertBefore('.quotes .addForm')
 			.delay(2200).hide('fast',function(){
 				$(this).remove();

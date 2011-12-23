@@ -1,11 +1,11 @@
 #popupWordDetail{
 	display:none;
 	position:absolute;
-	width:400px;
-	height:300px;
-	overflow-y:scroll;
+	width:450px;
+	height:225px;
+	overflow:auto;
 	border:10px solid rgba(37,129,157,0.3);
-	background:#f2f2f2;
+	background:#f7f7f7;
 	z-index:9999;
 
 	/* Box Shadow */
@@ -26,4 +26,22 @@
 	-moz-border-radius:3px;
 	-khtml-border-radius:3px;
 	-webkit-border-radius:3px;
+}
+#popupWordDetail > .close{
+	position:absolute;
+	top:5px;
+	right:5px;
+	padding:1px 4px;
+	text-align:center;
+	background:white;
+	font:normal 11px helvetica,verdana,sans-serif;
+	color:#aaa;
+	border:1px solid #ccc;
+}
+#popupWordDetail > .close:hover{
+	border:1px solid #aaa;
+	color:#777;
+}
+#popupWordDetail .content > .wordDetails{
+	padding:5;
 }

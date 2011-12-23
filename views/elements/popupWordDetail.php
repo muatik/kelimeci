@@ -8,4 +8,7 @@
 		echo '<script type="text/javascript" src="../../js/popupWordDetail.js"></script>';
 ?>
 
-<div id="popupWordDetail"></div>
+<div id="popupWordDetail">
+	<a href="#" class="close" title="Kapat">X</a>
+	<div class="content"></div>
+</div>
