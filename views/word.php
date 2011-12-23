@@ -93,33 +93,43 @@ $w=$o->word;
 		
 		<ul class="quotes">
 		<?php
-		$quotes=array_merge($w->uQuotes,$w->quotes);
-		$i=0;
-		$liClass='';
-		foreach($quotes as $q){
-			if($i>3)
-				$liClass='hidden';
+		$anyQuotes=false;
+		// If there is any quotes
+		if(count($w->quotes) && count($w->uQuotes)>0){
+			$anyQuotes=true;
+			$quotes=array_merge($w->uQuotes,$w->quotes);
+			$i=0;
+			$liClass='';
+			foreach($quotes as $q){
+				if($i>3)
+					$liClass='hidden';
 
-			echo '<li class="'.$liClass.'">
-				<blockquote>'
-				.$q->quote.'</blockquote></li>';
+				echo '<li class="'.$liClass.'">
+					<blockquote>'
+					.$q->quote.'</blockquote></li>';
 
-			$i++;
+				$i++;
+			}
 		}
 		?>
 		</ul>
 		
-		<a href="#" class="action add">Alıntı ekle</a>
-		<?php
-		if(count($quotes)>4)
-			echo '<a href="#" class="action more seperator"
-				alt="">hepsi...</a>';
-		?>
 		
-		<div class="addForm">
-			<input type="text" />
-			<button>Ekle</button>
-		</div>
+		<?php
+		if($anyQuotes){
+			if($this->isLogined)
+				echo '<a href="#" class="action add">Alıntı ekle</a>';
+			if(count($quotes)>4)
+				echo '<a href="#" class="action more seperator"
+					alt="">hepsi...</a>';
+			
+			if($this->isLogined)
+				echo '<div class="addForm">
+					<input type="text" />
+					<button>Ekle</button>
+				</div>';
+		}
+		?>
 		
 	</div>
 
@@ -181,6 +191,9 @@ $w=$o->word;
 		?>
 		</span>
 	</div>
+	<?php
+	if($this->isLogined)
+	echo '
 	<div>
 		<h4>DURUM</h4>
 		<div class="gray">
@@ -193,9 +206,10 @@ $w=$o->word;
 	</div>
 	<div class="delAndTestLinks">
 		<a href="#" alt="" >Bu kelimeyi sil</a>
-	</div>
+	</div>';
+	?>
 </div>
 
-<script>
+<script type="text/javascript">
 	new words('word<?php echo $w->id;?>');
 </script>
