@@ -80,6 +80,14 @@ $(function(){
 		return false;
 	});
 
+	/**
+	 * Bind the correction words on the test pages
+	 */
+	$('.testPage').on('click','.testPageOl .correction a',function(){
+		showWordOnPopup($(this).text());
+		return false;
+	});
+
 	// COMMON WORD SEARCH DOES NOT WORK WITH POPUP - CANCELED
 	/*
 	// Search form on the banner to the popup word detail
@@ -100,5 +108,5 @@ $(function(){
 	});
 	*/
 
-	showWordOnPopup('dummy1');
+	//showWordOnPopup('dummy1');
 });
