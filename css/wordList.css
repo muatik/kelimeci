@@ -75,3 +75,6 @@
 	margin-bottom:4px;
 	height:25px;
 }
+.wordList button{
+	display:none;
+}

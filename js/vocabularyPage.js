@@ -228,5 +228,6 @@ vcbp.onAddedWord=function(rsp,f){
 		});
 
 	this.bindList();
+	this.showDetail(word.word);
 }
 
