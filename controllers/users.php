@@ -151,7 +151,13 @@ class usersController extends ipage {
 					return 'Şehir güncellenemedi!';
 
 			}
-			
+
+			/**
+			 * the session and user object is updating.
+			 * */
+			$this->u=$this->users->getUserInfo($uId);
+			$this->session->create($this->u);
+
 			return '1';
 			
 		}
