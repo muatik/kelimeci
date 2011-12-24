@@ -19,6 +19,15 @@ words.prototype.bind=function(){
 		e.preventDefault();
 	})
 
+	// Eğer eş ve zıt anlamı bağlantılı kelime "," içeriyorsa onları temizle
+	$('.synonyms span a:last,.antonyms span a:last',t.layer).each(function(){
+		var text=$(this).text();
+
+		if(text.substr(text.length-1,1)==','){
+			$(this).text(text.substr(0,text.length-1));
+		}
+	});
+
 
 	/**
 	 * etimoloji bilgisi varsa, hepsi yerine sadece bir kısmı

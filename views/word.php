@@ -166,7 +166,7 @@ $w=$o->word;
 		?> 
 		</span>
 	</div>
-	<div>
+	<div class="antonyms">
 		<h4 class="inline">ZIT:</h4>
 		<span>
 		<?php
