@@ -1,0 +1,47 @@
+#popupWordDetail{
+	display:none;
+	position:absolute;
+	width:450px;
+	height:225px;
+	overflow:auto;
+	border:10px solid rgba(37,129,157,0.3);
+	background:#f7f7f7;
+	z-index:9999;
+
+	/* Box Shadow */
+	box-shadow:0 0 6px rgba(105,105,105,0.6);
+	-mox-box-shadow:0 0 6px rgba(105,105,105,0.6);
+	-webkit-box-shadow:0 0 6px rgba(105,105,105,0.6);
+	/*
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#777777')";
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#777777');
+	*/
+
+	-webkit-background-clip:padding-box;
+	-moz-background-clip:padding-box;
+	background-clip:padding-box;
+
+	/* BorderRadius */
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-khtml-border-radius:3px;
+	-webkit-border-radius:3px;
+}
+#popupWordDetail > .close{
+	position:absolute;
+	top:5px;
+	right:5px;
+	padding:1px 4px;
+	text-align:center;
+	background:white;
+	font:normal 11px helvetica,verdana,sans-serif;
+	color:#aaa;
+	border:1px solid #ccc;
+}
+#popupWordDetail > .close:hover{
+	border:1px solid #aaa;
+	color:#777;
+}
+#popupWordDetail .content > .wordDetails{
+	padding:5;
+}

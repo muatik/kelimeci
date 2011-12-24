@@ -28,7 +28,6 @@
 
 </head>
 <body>
-
 <div id="banner">
 	<a href="/" id="logo"></a>
 	<?php
@@ -60,6 +59,9 @@
 </div>
 
 <?php
+	// Insert the popup word detail div into the DOM
+	echo $this->loadElement('popupWordDetail.php');
+
 	/**
 	 * If the user logined, 
 	 *	store the email in a global var. for js

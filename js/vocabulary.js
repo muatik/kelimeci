@@ -100,32 +100,4 @@ $(function(){
 	// Close the filter form on the page load
 	$('.wordFilterForm').hide();
 
-	/*
-	var
-		// Defaults for qtip
-		qtipDefs=null,
-		$wFrm=$('.wordAdditionForm'),
-		$fFrm=$('.wordFilterForm');
-
-	// Configuration for tooltip that is shown on the page load
-	qtipDefs={
-		show:{event:false,ready:true},
-		hide:false,
-		style:{
-      			//classes:'ui-tooltip-blue ui-tooltip-shadow'
-			classes:'ui-tooltip-youtube'
-		},
-		position:{my:'top center',at:'bottom center'},
-		content:'Default'
-	};
-
-	var qtipHideBtn='<a href="#" class="qtipHide" onclick="hideTooltip(this)">[Gizle]</a>';
-
-	// Tooltip for word addition form
-	$wFrm.find(':input[name="word"]').qtip(qtipDefs).qtip(
-		'option','content.text',
-		'Kelime dağarcığınıza buradan kelime ekleyebilirsiniz. '+qtipHideBtn
-	);
-	*/
-
 });

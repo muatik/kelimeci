@@ -91,6 +91,9 @@ function showFrmAlert(where,msg,type,callBack){
 	// Fade in the alert icon
 	$e.find('.icon').fadeTo('fast',0.8);
 
+	// If the form alert element is being animated, stop all and the ones in the queue
+	$e.stop(true,true);
+
 	// If visible, hide it
 	if(!$e.is(':hidden')){
 		$e.hide().fadeOut();

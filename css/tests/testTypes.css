@@ -1,0 +1,37 @@
+.testTypes{
+	margin:15px auto;
+	padding:10px;
+	width:360px;
+}
+.testTypes li{
+	margin-bottom:8px;
+}
+.testTypes li a{
+	overflow:hidden;
+	display:inline-block;
+	width:340px;
+	padding:5px 10px 3px 10px;
+}
+.testTypes h3{
+	margin:0;
+	font:normal 18px 'Overlock Sc',verdana;
+	color:#fff;
+	text-shadow:0 1px 1px #999;
+}
+.testTypes p{
+	margin:0;
+	margin-top:10px;
+	color:#ffff98;
+	text-shadow:0 1px 0 #ccc;
+	font:normal 13px 'Overlock',verdana;
+}
+.testTypes li span.container span{
+	margin-left:5px;
+}
+.testTypes li span.container{
+	display:inline-block;
+	float:left;
+}		
+.testTypes img{
+	float:right;
+}

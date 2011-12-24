@@ -15,7 +15,6 @@ $w=$o->word;
 		<link rel="stylesheet" href="css/word.css" />';
 	}
 	?>
-
 	<h1><?php 
 		echo $w->word;
 		if(isset($w->info['pronunciation']))
@@ -93,33 +92,43 @@ $w=$o->word;
 		
 		<ul class="quotes">
 		<?php
-		$quotes=array_merge($w->uQuotes,$w->quotes);
-		$i=0;
-		$liClass='';
-		foreach($quotes as $q){
-			if($i>3)
-				$liClass='hidden';
+		$anyQuotes=false;
+		// If there is any quotes
+		if(count($w->quotes) && count($w->uQuotes)>0){
+			$anyQuotes=true;
+			$quotes=array_merge($w->uQuotes,$w->quotes);
+			$i=0;
+			$liClass='';
+			foreach($quotes as $q){
+				if($i>3)
+					$liClass='hidden';
 
-			echo '<li class="'.$liClass.'">
-				<blockquote>'
-				.$q->quote.'</blockquote></li>';
+				echo '<li class="'.$liClass.'">
+					<blockquote>'
+					.$q->quote.'</blockquote></li>';
 
-			$i++;
+				$i++;
+			}
 		}
 		?>
 		</ul>
 		
-		<a href="#" class="action add">Alıntı ekle</a>
-		<?php
-		if(count($quotes)>4)
-			echo '<a href="#" class="action more seperator"
-				alt="">hepsi...</a>';
-		?>
 		
-		<div class="addForm">
-			<input type="text" />
-			<button>Ekle</button>
-		</div>
+		<?php
+		if($anyQuotes){
+			if($this->isLogined)
+				echo '<a href="#" class="action add">Alıntı ekle</a>';
+			if(count($quotes)>4)
+				echo '<a href="#" class="action more seperator"
+					alt="">hepsi...</a>';
+			
+			if($this->isLogined)
+				echo '<div class="addForm">
+					<input type="text" />
+					<button>Ekle</button>
+				</div>';
+		}
+		?>
 		
 	</div>
 
@@ -142,9 +151,9 @@ $w=$o->word;
 		$synonyms[0]=array_slice($w->synonyms,0,$length);
 		
 		foreach($synonyms[0] as $i)
-			$h.='<a href="#" class="word">'.$i->word.'</a>, ';
+			$h.='<a href="#" class="word">'.$i->word.',</a> ';
 
-		$h=substr($h,0,strlen($h)-2);
+		//$h=substr($h,0,strlen($h)-2);
 
 		if(count($w->synonyms)>$length){
 			$h.='<a href="#" class="action more">hepsi...</a>';
@@ -157,7 +166,7 @@ $w=$o->word;
 		?> 
 		</span>
 	</div>
-	<div>
+	<div class="antonyms">
 		<h4 class="inline">ZIT:</h4>
 		<span>
 		<?php
@@ -166,9 +175,9 @@ $w=$o->word;
 		$antonyms[0]=array_slice($w->antonyms,0,$length);
 		
 		foreach($antonyms[0] as $i)
-			$h.='<a href="" class="word">'.$i->word.'</a>, ';
+			$h.='<a href="" class="word">'.$i->word.',</a> ';
 
-		$h=substr($h,0,strlen($h)-2);
+		//$h=substr($h,0,strlen($h)-2);
 
 		if(count($w->antonyms)>$length){
 			$h.='<a href="#" class="action more">hepsi...</a>';
@@ -181,6 +190,10 @@ $w=$o->word;
 		?>
 		</span>
 	</div>
+	<?php
+	// If logined and not popup, show the status info.
+	if($this->isLogined && !isset($o->popup))
+	echo '
 	<div>
 		<h4>DURUM</h4>
 		<div class="gray">
@@ -193,9 +206,10 @@ $w=$o->word;
 	</div>
 	<div class="delAndTestLinks">
 		<a href="#" alt="" >Bu kelimeyi sil</a>
-	</div>
+	</div>';
+	?>
 </div>
 
-<script>
+<script type="text/javascript">
 	new words('word<?php echo $w->id;?>');
 </script>

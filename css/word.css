@@ -4,7 +4,7 @@
 }
 .wordDetails h4{
 	margin:5px 0 5px 0;
-	font:bold 13px 'Overlock SC';
+	font:bold 12px 'Overlock SC';
 	color:#696969;
 	text-transform:uppercase;
 	margin-right:7px;
@@ -68,8 +68,7 @@
 }
 
 .wordDetails .etymology{
-	font-family:verdana,sans;
-	font-size:1.1em;
+	font:normal 11px verdana,sans,helvetica;
 	line-height:16px;
 	color:#555;
 }

@@ -14,9 +14,19 @@ words.prototype.bind=function(){
 
 	$('.word',t.layer).unbind('click').click(function(e){
 		var word=$(this).text().replace(',','').replace(' ','');
+		//var word=$(this).text();
 		t.showWord(word);
 		e.preventDefault();
 	})
+
+	// Eğer eş ve zıt anlamı bağlantılı kelime "," içeriyorsa onları temizle
+	$('.synonyms span a:last,.antonyms span a:last',t.layer).each(function(){
+		var text=$(this).text();
+
+		if(text.substr(text.length-1,1)==','){
+			$(this).text(text.substr(0,text.length-1));
+		}
+	});
 
 
 	/**
@@ -122,7 +132,7 @@ words.prototype.showAddedQuote=function(quote,rsp){
 			.animate({backgroundColor:'#fff'},1800);
 	}
 	else{
-		$('<p class="erro">Alıntı eklenemedi. '+rsp+'</p>')
+		$('<p class="error">Alıntı eklenemedi. '+rsp+'</p>')
 			.insertBefore('.quotes .addForm')
 			.delay(2200).hide('fast',function(){
 				$(this).remove();

@@ -118,19 +118,26 @@ class vocabularyController extends ipage {
 			$word=$this->r['word'];
 
 		if($word==null)
-			return 'The parameter "word" is required.';
+			return '0The parameter "word" is required.';
 
 		$word=kelimeci\dictionary::getWord($word);
 
 		if($word===false)
-			return 'word not found!';
+			return '0Word not found!';
 
 		// kullanıcının bu kelime için sağladı verileri
 		// çeker
-		$word=$this->vocabulary->fillUserData($word);
+		if($this->isLogined)
+			$word=$this->vocabulary->fillUserData($word);
+
 		
 		$o=new stdClass();
 		$o->word=$word;
+
+		// If the parameter popup=1, won't be shown the status of user info.
+		if(isset($this->r['popup']))
+			$o->popup=true;
+
 		if(isset($this->r['noScriptStyle']))
 			$o->noScriptStyle=true;
 
