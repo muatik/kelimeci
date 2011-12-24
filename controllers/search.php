@@ -4,6 +4,7 @@ class searchController extends ipage {
 	
 	public function initialize(){
 		$this->title='Kelime Arama';
+		$this->autRequired=false;
 		parent::initialize();
 	}
 	
