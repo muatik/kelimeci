@@ -151,9 +151,9 @@ $w=$o->word;
 		$synonyms[0]=array_slice($w->synonyms,0,$length);
 		
 		foreach($synonyms[0] as $i)
-			$h.='<a href="#" class="word">'.$i->word.'</a>, ';
+			$h.='<a href="#" class="word">'.$i->word.',</a> ';
 
-		$h=substr($h,0,strlen($h)-2);
+		//$h=substr($h,0,strlen($h)-2);
 
 		if(count($w->synonyms)>$length){
 			$h.='<a href="#" class="action more">hepsi...</a>';
@@ -175,9 +175,9 @@ $w=$o->word;
 		$antonyms[0]=array_slice($w->antonyms,0,$length);
 		
 		foreach($antonyms[0] as $i)
-			$h.='<a href="" class="word">'.$i->word.'</a>, ';
+			$h.='<a href="" class="word">'.$i->word.',</a> ';
 
-		$h=substr($h,0,strlen($h)-2);
+		//$h=substr($h,0,strlen($h)-2);
 
 		if(count($w->antonyms)>$length){
 			$h.='<a href="#" class="action more">hepsi...</a>';
