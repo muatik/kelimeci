@@ -225,7 +225,8 @@ class tests
 				t.userId=v.UserId
 		where
 		
-		
+		v.userId='.$this->userId.' and
+
 		(
 			(t.id is null or t.result=0) and 
 			v.crtDate<"'.$interval.'"
@@ -237,7 +238,7 @@ class tests
 				'.implode(' or ',$levelConds).'
 			)
 		)';
-
+		
 		$rs=$this->db->fetch($sql);
 		$words=array();
 		foreach($rs as $i)
