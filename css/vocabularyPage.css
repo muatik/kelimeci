@@ -13,6 +13,7 @@
 	*/
 }
 .detailSide{
+	width:650px;
 	margin-left:20px;
 	z-index:-999999;
 }
