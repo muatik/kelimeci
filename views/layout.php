@@ -51,7 +51,7 @@
 		$o2->isLogined=$o->isLogined;
 		echo $this->loadView('userTopMenu.php',$o2);
 	?>
-	<form id="wordSearch" method="post" action="search">
+	<form id="wordSearch" method="get" action="search">
 		<input type="text" name="word" id="word" placeholder="kelime ara" />
 		<img src="images/search.png" />
 	</form>

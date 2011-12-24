@@ -1,10 +1,10 @@
 .wordDetails{
 	padding:10px;
-	font:normal 14px 'Overlock',sans-serif,helvetica,verdana;
+	font:normal 14px verdana,sans-serif;
 }
 .wordDetails h4{
 	margin:5px 0 5px 0;
-	font:bold 12px 'Overlock SC';
+	font:bold 12px verdana,helvetica;
 	color:#696969;
 	text-transform:uppercase;
 	margin-right:7px;
@@ -15,7 +15,6 @@
 .wordDetails a{
 	line-height:21px;
 	text-decoration:none;
-	font-family:'Overlock',sans-serif,helvetica;
 }
 .wordDetails div.addMore a{
 	text-decoration:none;

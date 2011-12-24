@@ -1,3 +1,7 @@
+$(document).ready(function(){
+
+})
+
 $(function(){
 	var
 		// User top menu
@@ -8,6 +12,8 @@ $(function(){
 		timeOutObjForSubMenu=null,
 		// Min. width for the user menu and its sub menu if the user logined
 		usrMenuMinWid=120;
+	
+	
 
 	// Set the min. width for the user and its sub menu if the width smaller than minWid
 	//	if the user logined

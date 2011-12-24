@@ -129,7 +129,7 @@ class tests
 		$test->items=array();
 		$testWords=$this->getWordsForTest($testType);
 		foreach($testWords as $i){
-			$d=self::getTestData($testType,$i);
+			$d=self::getTestData($testType,$i,$this->userId);
 			if($d!=false)
 				$test->items[$i->id]=$d;
 		}
@@ -263,11 +263,11 @@ class tests
 	 * @access public
 	 * @return array
 	 */
-	public static function getTestData($testType,$word){
+	public static function getTestData($testType,$word,$userId){
 		
 		switch($testType){
 			case 'sentenceCompletion':
-				return self::getItemOfSentenceCompletion($word);
+				return self::getItemOfSentenceCompletion($word,$userId);
 			case 'synonymSelection':
 				return self::getItemOfSynonymSelection($word);
 			case 'variationWritingTest':
@@ -290,9 +290,12 @@ class tests
 	 * @access public
 	 * @return array
 	 */
-	public static function getItemOfSentenceCompletion($word){
+	public static function getItemOfSentenceCompletion($word,$userId){
+		$vcb=new vocabulary($userId);
 		$item=new stdClass();
-		$quotes=$word->quotes;
+		$word->uQuotes=$vcb->getUserQuotes($word->id);
+
+		$quotes=array_merge($word->quotes,$word->uQuotes);
 		
 		shuffle($quotes);
 		
@@ -308,7 +311,7 @@ class tests
 		);
 		
 
-		$clues=dictionary::getRandomWords(6);
+		$clues=dictionary::getRandomWords(4);
 		foreach($clues as $k=>$i)
 			$clues[$k]=dictionary::getWord($i);
 

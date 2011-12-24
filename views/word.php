@@ -92,30 +92,29 @@ $w=$o->word;
 		
 		<ul class="quotes">
 		<?php
-		$anyQuotes=false;
 		// If there is any quotes
-		if(count($w->quotes) && count($w->uQuotes)>0){
-			$anyQuotes=true;
+		if(isset($w->uQuotes))
 			$quotes=array_merge($w->uQuotes,$w->quotes);
-			$i=0;
-			$liClass='';
-			foreach($quotes as $q){
-				if($i>3)
-					$liClass='hidden';
+		else
+			$quotes=$w->quotes;
+		
+		$i=0;
+		$liClass='';
+		foreach($quotes as $q){
+			if($i>3)
+				$liClass='hidden';
 
-				echo '<li class="'.$liClass.'">
-					<blockquote>'
-					.$q->quote.'</blockquote></li>';
+			echo '<li class="'.$liClass.'">
+				<blockquote>'
+				.$q->quote.'</blockquote></li>';
 
-				$i++;
-			}
+			$i++;
 		}
 		?>
 		</ul>
 		
 		
 		<?php
-		if($anyQuotes){
 			if($this->isLogined)
 				echo '<a href="#" class="action add">Alıntı ekle</a>';
 			if(count($quotes)>4)
@@ -127,7 +126,6 @@ $w=$o->word;
 					<input type="text" />
 					<button>Ekle</button>
 				</div>';
-		}
 		?>
 		
 	</div>
@@ -190,6 +188,7 @@ $w=$o->word;
 		?>
 		</span>
 	</div>
+
 	<?php
 	// If logined and not popup, show the status info.
 	if($this->isLogined && !isset($o->popup))
@@ -208,6 +207,7 @@ $w=$o->word;
 		<a href="#" alt="" >Bu kelimeyi sil</a>
 	</div>';
 	?>
+
 </div>
 
 <script type="text/javascript">
