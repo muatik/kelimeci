@@ -38,6 +38,22 @@ class vocabularyController extends ipage {
 	}
 
 	/**
+	 * remove the word from the user's vocabulary
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function rmWord($word=null){
+		if($word==null && isset($this->r['word']))
+			$word=$this->r['word'];
+
+		if($word==null)
+			return 'the parameter "word" is required.';
+
+		return $this->vocabulary->rmWord($word);
+	}
+
+	/**
 	 * belirtilen anahtar kelimeyle uyuşan kelimeleri önerir.
 	 * */
 	public function suggest(){

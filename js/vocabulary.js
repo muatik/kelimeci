@@ -71,6 +71,29 @@ _vcbp.addQuote=function(word,quote){
 	);
 }
 
+_vcbp.rmWord=function(words){
+
+	for(var i in words)
+		words[i]=encodeURIComponent(words[i]);
+	
+	var params='word[]='+words.join('&word[]=');
+	
+	if(arguments.length>1)
+		var callBack=arguments[1];
+	else	
+		var callBack=false;
+
+	var sa=new simpleAjax();
+	sa.send(
+		'vocabulary?_ajax=vocabulary/rmWord&'+params,null,
+		{onSuccess:function(rsp,o){
+
+			// if there is a callback function, it's calling
+			if(callBack)
+				callBack(rsp);
+		}}
+	)
+}
 
 $(function(){
 	
