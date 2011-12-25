@@ -73,6 +73,8 @@ vcbp.bind=function(){
 		t.getWords();
 	})
 
+	t.showTooltips();
+
 }
 
 vcbp.getWords=function(){
@@ -229,5 +231,36 @@ vcbp.onAddedWord=function(rsp,f){
 
 	this.bindList();
 	this.showDetail(word.word);
+}
+
+
+vcbp.showTooltips=function(){
+	/*
+	var qtipHideBtn='<a href="#" class="qtipHide" onclick="hideTooltip(this)">[Gizle]</a>';
+
+	// Tooltip for word addition form
+	$wFrm.find(':input[name="word"]').qtip(qtipDefs).qtip(
+		'option','content.text',
+		'Kelime dağarcığınıza buradan kelime ekleyebilirsiniz. '+qtipHideBtn
+	);
+	*/
+	$('.wordAdditionForm :input[name="word"]').qtip({
+		show:{
+			event:false,
+			ready:true
+		},
+		hide:false,
+		style:{
+			classes:'ui-tooltip-youtube'
+		},
+		position:{
+			my:'top center',
+			at:'bottom center'
+		},
+		content:{
+			text:'Kelime dağarcığınıza buradan kelime ekleyebilirsiniz.',
+			title:{text:'Bildirgeç',button:true}
+		}
+	});
 }
 
