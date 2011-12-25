@@ -125,10 +125,14 @@ class vocabularyController extends ipage {
 		if($word===false)
 			return '0Word not found!';
 
-		// kullanıcının bu kelime için sağladı verileri
-		// çeker
-		if($this->isLogined)
+		// kullanıcının bu kelime için sağladı verileri çeker
+		if($this->isLogined){
 			$word=$this->vocabulary->fillUserData($word);
+			$word->isInVocabulary=$this->vocabulary->isExists($word->word);
+		}
+		else{
+			$word->isInVocabulary=false;
+		}
 
 		
 		$o=new stdClass();

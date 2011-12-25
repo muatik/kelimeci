@@ -12,7 +12,10 @@ $w=$o->word;
 	 * */
 	if(!isset($o->noScriptStyle)){
 		echo '<script tyoe="text/javascript" src="js/words.js"></script>
-		<link rel="stylesheet" href="css/word.css" />';
+		<link rel="stylesheet" href="css/word.css" />
+		<link rel="stylesheet" href="css/animbuttons.css" />
+		
+		';
 	}
 	?>
 	<h1><?php 
@@ -191,7 +194,7 @@ $w=$o->word;
 
 	<?php
 	// If logined and not popup, show the status info.
-	if($this->isLogined && !isset($o->popup))
+	if($w->isInVocabulary)
 	echo '
 	<div>
 		<h4>DURUM</h4>
@@ -202,10 +205,15 @@ $w=$o->word;
 		<div class="img">
 			<!-- THIS DIV TAG WILL REPLACE TO IMG TAG -->
 		</div>
-	</div>
-	<div class="delAndTestLinks">
-		<a href="#" alt="" >Bu kelimeyi sil</a>
 	</div>';
+	
+	echo '<div class="delAndTestLinks">'.
+		(!$w->isInVocabulary?
+			'<a href="#" class="toggleInsertForm button green small">
+				Kelime Ekle</a>':
+			'<a href="#" alt="" >Bu kelimeyi sil</a>' )
+	.'</div>';
+
 	?>
 
 </div>

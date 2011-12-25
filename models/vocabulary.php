@@ -224,6 +224,23 @@ class vocabulary
 
 
 	/**
+	 * return true if the word is in the user's vocabulary, 
+	 * otherwise returns false
+	 * 
+	 * @param string $word 
+	 * @access public
+	 * @return bool
+	 */
+	public function isExists($word){
+		$r=$this->getVocabularyByWord($word);
+		if($r!=false)
+			return true;
+
+		return false;
+	}
+
+
+	/**
 	 * adds a quote for a word of the user
 	 * 
 	 * @param string $word word itself or words object
