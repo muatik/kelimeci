@@ -13,31 +13,78 @@ class usersController extends ipage {
 		
 		$r=$this->r;
 
-		if(!isset($r['email']) && !isset($r['username']) 
-			&& !isset($r['password']))
-			return 'Kullanıcı bilgileri eksik ya da hatalı!';
-		
-		$err=$this->checkUsername($r['username']);
-		if($err!==true)
-			return $err;
-		
-		$err=$this->checkEmail($r['email']);
-		if($err!==true)
-			return $err;
-		
-		$c=$this->users->register(
-			$r['email'],
-			$r['username'],
-			$r['password']
-		);
+		if($r['origin']=='facebook'){
 
-		// If register okay
-		if($c>0){
-			// Login for starting the session
-			$this->login($r['username'],$r['password']);
-			return 1;
+			if(!isset($r['accessToken'],$r['userId']) || empty($r['userId']) 
+				|| empty($r['accessToken']) || !is_numeric($r['userId']))
+				return 'Login - Invalid or unspecified parameters with the origin Facebook!';
+
+				$userInfo=$this->getFacebookUserGraph($r['userId'],$r['accessToken']);
+
+				// Return error
+				if(is_string($userInfo) && substr($userInfo,0,1)=='0')
+					return substr($userInfo,1);
+
+				if(!isset($userInfo->email)) 
+					return 'E-posta adresi bilginiz olmadan kayıt olamazsınız!';
+			
+				$err=$this->checkEmail($userInfo->email);
+				if($err!==true)
+					return $err;
+				
+				$c=$this->users->register(
+					$userInfo->email,
+					NULL,
+					NULL,
+					$r['origin'],
+					serialize($userInfo)
+				);
+
+				// If register okay
+				if($c>0){
+					// Login for starting the session
+					//$this->login($r['username'],$r['password']);
+					$this->login();
+					return 1;
+				}
+				return 0;
+
+
+
 		}
-		return 0;
+		elseif($r['origin']=='twitter'){
+			$origin='twitter';	
+
+		}
+		else{
+			$origin='kelimeci';	
+
+			if(!isset($r['email']) && !isset($r['username']) 
+				&& !isset($r['password']))
+				return 'Kullanıcı bilgileri eksik ya da hatalı!';
+			
+			$err=$this->checkUsername($r['username']);
+			if($err!==true)
+				return $err;
+			
+			$err=$this->checkEmail($r['email']);
+			if($err!==true)
+				return $err;
+			
+			$c=$this->users->register(
+				$r['email'],
+				$r['username'],
+				$r['password']
+			);
+
+			// If register okay
+			if($c>0){
+				// Login for starting the session
+				$this->login($r['username'],$r['password']);
+				return 1;
+			}
+			return 0;
+		}
 	}
 	
 	public function checkUserName($username=null){
@@ -166,24 +213,70 @@ class usersController extends ipage {
 	
 	public function login(){
 		$r=$this->r;
-		if (isset($r['username']) && isset($r['password'])){
-			$r=$this->users->validateLogin($r['username'],$r['password']);
-			if ($r!==false){
-				$this->u=$r;
-				$this->session->create($r);
 
-				setcookie(
-					session_name(),session_id(),
-					time()+3600*24*150 // oturum ömrü 150 gün olarak belirleniyor
-				);
+		if(isset($r['origin'])){
 
-				return true;
+			if($r['origin']=='facebook'){
+				
+				if(!isset($r['accessToken'],$r['userId']) 
+					|| empty($r['userId']) || empty($r['accessToken'])
+					|| !is_numeric($r['userId']))
+					return 'Login - Invalid or unspecified parameters with the origin Facebook!';
+
+				$userInfo=$this->getFacebookUserGraph($r['userId'],$r['accessToken']);
+
+				// Return error
+				if(is_string($userInfo) && substr($userInfo,0,1)=='0')
+					return substr($userInfo,1);
+
+				die(print_r($userInfo));
+
+				// Check if the fb. user is registered or not
+				// If registered, create a session
+				if($userInfo->email && $this->checkUserInfo('origin',$r['origin']) 
+					&& $this->checkEmail($userInfo->email)){
+					
+					$this->u=$r;
+					$this->session->create($r);
+
+					setcookie(
+						session_name(),session_id(),
+						time()+3600*24*150 // oturum ömrü 150 gün olarak belirleniyor
+					);
+
+					return true;
+
+				}
+				// If not registered, register
+				else
+					$this->register();
+
 			}
-			else
-				return 'Giriş başarışız!';
+			elseif($r['origin']=='twitter'){
+
+			}
+
 		}
-		
-		return 'Kullanıcı bilgileri eksik yada hatalı!';
+		else{
+			if (isset($r['username']) && isset($r['password'])){
+				$r=$this->users->validateLogin($r['username'],$r['password']);
+				if ($r!==false){
+					$this->u=$r;
+					$this->session->create($r);
+
+					setcookie(
+						session_name(),session_id(),
+						time()+3600*24*150 // oturum ömrü 150 gün olarak belirleniyor
+					);
+
+					return true;
+				}
+				else
+					return 'Giriş başarışız!';
+			}
+			
+			return 'Kullanıcı bilgileri eksik yada hatalı!';
+		}
 	}
 
 	public function logout(){
@@ -238,5 +331,28 @@ class usersController extends ipage {
 		return 'Görüşünüzü yazın!';
 
 	}
+	
+	public function getFacebookUserGraph($userId,$accessToken){
+		$scope='email,user_birthday,user_hometown,user_about_me';
+
+		//$graphUrl='https://graph.facebook.com/me?access_token='.$accessToken;
+		$graphUrl='https://graph.facebook.com/';
+		$graphUrl.=$userId.'?fileds='.$scope.'&access_token='.$accessToken;
+		
+		$userInfoJson=file_get_contents($graphUrl);
+
+		// Return file_get_contents error
+		if($userInfoJson===false)
+			return '0Facebook\'dan bilgileriniz alınamadı!';
+
+		$userInfo=json_decode($userInfoJson);
+
+		// Return json error
+		if($userInfo===NULL)
+			return '0Facebook json bilgileri nesneye çevrilemedi!';
+
+		return $userInfo;
+	}
+
 }
 ?>

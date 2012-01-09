@@ -12,30 +12,62 @@ $(function(){
 		
 		function evalFbLoginStatus(response){
 			$('.fbLogin .fbLoginBtn').on('click',function(){
+				var $f=$(this).parent();
 				// If not connected to the app. or logged out, login 
 				if(!response.authResponse){
 					FB.login(
 						function(response){
 							if(response.authResponse)
-								//window.location.href='/?type=fb&userId='+uId+'&accToken='+accToken;
 								loginViaFb(response);
 						},
 						{scope:'email,user_birthday,user_hometown,user_about_me'}
 					);
 				}
 				else
-					loginViaFb(response);
-					//window.location.href='/?type=fb&userId='+uId+'&accToken='+accToken;
+					loginViaFb(response,$f);
 			
 			});
 		}
 
-		function loginViaFb(response){
+		function loginViaFb(response,$f){
 			var 
 				// Auth. response
 				authRes=response.authResponse,
-				accToken=authRes.accessToken,
-				uId=authRes.userID;
+				accessToken=authRes.accessToken,
+				userId=authRes.userID,
+				origin='facebook';
+
+				if(!accessToken && !userId)
+					return 'Invalid or unspeficied parameters via facebook login!';
+
+				/**
+				 * Login request with ajax to the users' register
+				 * if unregistired user to register.
+				 *
+				 * If the user is registered, login via facebook.
+				 */
+				var ajax=new simpleAjax();
+				ajax.send(
+					'?_ajax=users/login',
+					'origin=facebook&'+
+						'userId='+userId+'&'+
+						'accessToken='+accessToken,
+					{'onSuccess':function(rsp,o){
+						
+						// Login okay
+						if(rsp=='1'){
+							//window.location.href='/vocabulary';
+							alert('Fb login okay and redirect to vocab. page!');
+						}
+						else{
+							// Alert the error
+							//showFrmAlert($f,rsp);
+							alert(rsp);
+						}
+						return false;
+
+					}}
+				);
 
 		}
 

@@ -175,9 +175,12 @@ CREATE  TABLE IF NOT EXISTS `users` (
   `lname` VARCHAR(15) NULL ,
   `birthDate` DATE NULL ,
   `city` VARCHAR(40) NULL ,
+  `sex` VARCHAR(20) NULL ,
   `crtDate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
   `lastLogin` TIMESTAMP NULL ,
   `practice` TINYINT NULL ,
+  `origin` VARCHAR(75) NULL COMMENT 'Kayıt kaynağı (kelimeci, facebook, twitter, vs.)' ,
+  `metadata` TEXT NULL COMMENT 'Fazla bilgiler için (serialize edilerek)' ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
   INDEX `loginbyemail` (`password` ASC, `email` ASC, `active` ASC) )

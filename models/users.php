@@ -33,12 +33,14 @@ class users
 	 * @access public
 	 * @return int
 	 */
-	public function register($email,$username,$password){
-		$sql='insert into users(email,username,password) 
+	public function register($email,$username=null,$password=null,$origin=null,$metadata=null){
+		$sql='insert into users(email,username,password,origin,metadata) 
 			values(
 			\''.$this->db->escape($email).'\',
 			\''.$this->db->escape($username).'\',
-			\''.md5($this->db->escape($password)).'\')';
+			\''.md5($this->db->escape($password)).'\',
+			\''.$this->db->escape($origin).'\',
+			\''.$this->db->escape($metadata).'\')';
 		
 		if ($this->db->query($sql))
 			return true;
