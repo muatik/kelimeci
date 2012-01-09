@@ -12,5 +12,3 @@
 	if(!isset($o->noJs))
 		echo '<script type="text/javascript" src="../js/fbLogin.js"></script>';
 ?>
-
-

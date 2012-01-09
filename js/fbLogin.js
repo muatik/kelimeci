@@ -9,36 +9,39 @@ $(function(){
 			oauth:true
 		});
 
-		$('.fbLogin .fbLoginBtn').on('click',function(){
-			var 
-				$t=$(this);
-				// Auth. response
-				authRes=null;
-
-			// If not connected to the app. or logged out, login 
-			FB.login(
-				function(response){
-					if(reponse.authResponse){
-						authRes=response.authResponse;
-						var 
-							accToken=authRes.accessToken,
-							uId=authRes.userID;
-
-						window.location.href='/?type=fb&userId='+uId+'&accToken='+accToken;
-
-					}
-				},
-				{
-					scope:'email,user_birthday,user_hometown,user_about_me'
+		
+		function evalFbLoginStatus(response){
+			$('.fbLogin .fbLoginBtn').on('click',function(){
+				// If not connected to the app. or logged out, login 
+				if(!response.authResponse){
+					FB.login(
+						function(response){
+							if(response.authResponse)
+								//window.location.href='/?type=fb&userId='+uId+'&accToken='+accToken;
+								loginViaFb(response);
+						},
+						{scope:'email,user_birthday,user_hometown,user_about_me'}
+					);
 				}
-			);
-		});
+				else
+					loginViaFb(response);
+					//window.location.href='/?type=fb&userId='+uId+'&accToken='+accToken;
+			
+			});
+		}
 
-		/*
+		function loginViaFb(response){
+			var 
+				// Auth. response
+				authRes=response.authResponse,
+				accToken=authRes.accessToken,
+				uId=authRes.userID;
+
+		}
+
 		// Run once with current status and whenever the status changes
-		FB.getLoginStatus(doOnStatusChange);
-		FB.Event.subscribe('auth.statusChange',doOnStatusChange);	
-		*/
+		FB.getLoginStatus(evalFbLoginStatus);
+		FB.Event.subscribe('auth.statusChange',evalFbLoginStatus);	
 
 	};
 });
