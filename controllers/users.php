@@ -229,11 +229,9 @@ class usersController extends ipage {
 				if(is_string($userInfo) && substr($userInfo,0,1)=='0')
 					return substr($userInfo,1);
 
-				die(print_r($userInfo));
-
 				// Check if the fb. user is registered or not
 				// If registered, create a session
-				if($userInfo->email && $this->checkUserInfo('origin',$r['origin']) 
+				if($userInfo->email && $this->users->checkUserInfo('origin',$r['origin']) 
 					&& $this->checkEmail($userInfo->email)){
 					
 					$this->u=$r;
@@ -248,8 +246,9 @@ class usersController extends ipage {
 
 				}
 				// If not registered, register
-				else
+				else{
 					$this->register();
+				}
 
 			}
 			elseif($r['origin']=='twitter'){

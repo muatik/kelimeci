@@ -11,7 +11,7 @@ $(function(){
 
 		
 		function evalFbLoginStatus(response){
-			$('.fbLogin .fbLoginBtn').on('click',function(){
+			$('.fbLogin .fbLoginBtn').unbind().on('click',function(){
 				var $f=$(this).parent();
 				// If not connected to the app. or logged out, login 
 				if(!response.authResponse){
