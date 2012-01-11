@@ -43,7 +43,6 @@ class usersController extends ipage {
 				// If register okay
 				if($c>0){
 					// Login for starting the session
-					//$this->login($r['username'],$r['password']);
 					$this->login();
 					return 1;
 				}
@@ -80,7 +79,7 @@ class usersController extends ipage {
 			// If register okay
 			if($c>0){
 				// Login for starting the session
-				$this->login($r['username'],$r['password']);
+				$this->login($origin,$r['username'],$r['password']);
 				return 1;
 			}
 			return 0;
@@ -231,11 +230,12 @@ class usersController extends ipage {
 
 				// Check if the fb. user is registered or not
 				// If registered, create a session
-				if($userInfo->email && $this->users->checkUserInfo('origin',$r['origin']) 
-					&& $this->checkEmail($userInfo->email)){
-					
-					$this->u=$r;
-					$this->session->create($r);
+				$rtn=$this->users->validateLogin('facebook',$userInfo->email);
+				if($rtn!==false){
+
+					$rtn->fbInfo=array('userId'=>$r['userId'],'accessToken'=>$r['accessToken']);
+					$this->u=$rtn;
+					$this->session->create($rtn);
 
 					setcookie(
 						session_name(),session_id(),
@@ -247,7 +247,9 @@ class usersController extends ipage {
 				}
 				// If not registered, register
 				else{
-					$this->register();
+					$r=$this->register();
+					if($r!==true)
+						return $r;
 				}
 
 			}

@@ -11,7 +11,7 @@ $(function(){
 
 		
 		function evalFbLoginStatus(response){
-			$('.fbLogin .fbLoginBtn').unbind().on('click',function(){
+			$('.fbLogin .fbLoginBtn').unbind().click(function(){
 				var $f=$(this).parent();
 				// If not connected to the app. or logged out, login 
 				if(!response.authResponse){
@@ -56,8 +56,7 @@ $(function(){
 						
 						// Login okay
 						if(rsp=='1'){
-							//window.location.href='/vocabulary';
-							alert('Fb login okay and redirect to vocab. page!');
+							window.location.href='/vocabulary';
 						}
 						else{
 							// Alert the error
@@ -72,7 +71,7 @@ $(function(){
 		}
 
 		// Run once with current status and whenever the status changes
-		FB.getLoginStatus(evalFbLoginStatus);
+		//FB.getLoginStatus(evalFbLoginStatus);
 		FB.Event.subscribe('auth.statusChange',evalFbLoginStatus);	
 
 	};

@@ -51,17 +51,33 @@ class users
 	/**
 	*login kontrolü yapar.
 	*
-	*@param string $username
-	*@param string $password
+	*@param string $origin
+	*@param string $field1
+	*@param string $field2
+	*
+	* Giriş kontrolü $origin'e göre değişiklik gösterir;
+	* eğer $origin "kelimeci" ise kullanıcı adı ve şifresi alanları ile kontrol edilir,
+	* eğer $origin "facebook" ise e-posta ve origin alanları ile kontrol edilir,
+	* eğer $origin "twitter" ise e-posta ve origin alanları ile kontrol edilir
 	* 
 	*return bool
 	*/
-	public function validateLogin($username,$password){
+	public function validateLogin($origin='kelimeci',$field1,$field2=null){
 
-		$sql='select * from users 
-			where username=\''.$this->db->escape($username).'\' and 
-			password=\''.md5($this->db->escape($password)).'\'';
+		$sql='select * from users where ';
+
+		if($origin=='kelimeci'){
+			$sql.='username=\''.$this->db->escape($field1).'\' and 
+			password=\''.md5($this->db->escape($field2)).'\'';
+		}
+		elseif($origin=='facebook'){
+			$sql.='email=\''.$this->db->escape($field1).'\' and origin=\'facebook\'';
+		}
+		elseif($origin=='twitter'){
+			$sql='';
+		}
 		
+
 		$r=$this->db->fetchFirst($sql);
 
 		if ($r!==false)
