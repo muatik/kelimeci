@@ -88,11 +88,12 @@ function bindRegisterForm($frm){
 		var ajax=new simpleAjax();
 		ajax.send(
 			'?_ajax=users/register',
-			'email='+encodeURI($email.val())+'&'+
+			'origin=kelimeci&'+
+				'email='+encodeURI($email.val())+'&'+
 				'username='+encodeURI($username.val())+'&'+
 				'password='+encodeURI($password.val()),
 			{'onSuccess':function(rsp,o){
-				
+
 				// Register okay
 				if(rsp=='1'){
 					window.location.href='/profile?newUser=1';

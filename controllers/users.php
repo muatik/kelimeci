@@ -15,10 +15,6 @@ class usersController extends ipage {
 
 		if($r['origin']=='facebook'){
 
-			if(!isset($r['accessToken'],$r['userId']) || empty($r['userId']) 
-				|| empty($r['accessToken']) || !is_numeric($r['userId']))
-				return 'Login - Invalid or unspecified parameters with the origin Facebook!';
-
 				$userInfo=$this->getFacebookUserGraph($r['userId'],$r['accessToken']);
 
 				// Return error
@@ -31,14 +27,11 @@ class usersController extends ipage {
 				$err=$this->checkEmail($userInfo->email);
 				if($err!==true)
 					return $err;
+
+				$userInfo->user_hometown=(isset($userInfo->user_hometown)) ? $userInfo->user_hometown : NULL;
+				$userInfo->user_birthday=(isset($userInfo->user_birthday)) ? $userInfo->user_birthday : NULL;
 				
-				$c=$this->users->register(
-					$userInfo->email,
-					NULL,
-					NULL,
-					$r['origin'],
-					serialize($userInfo)
-				);
+				$c=$this->users->register($r['origin'],	$userInfo);
 
 				// If register okay
 				if($c>0){
@@ -69,18 +62,20 @@ class usersController extends ipage {
 			$err=$this->checkEmail($r['email']);
 			if($err!==true)
 				return $err;
+
+			$userInfo=new stdClass;
+			$userInfo->email=$r['email'];
+			$userInfo->username=$r['username'];
+			$userInfo->password=$r['password'];
 			
-			$c=$this->users->register(
-				$r['email'],
-				$r['username'],
-				$r['password']
-			);
+			$c=$this->users->register($origin,$userInfo);
 
 			// If register okay
 			if($c>0){
 				// Login for starting the session
-				$this->login($origin,$r['username'],$r['password']);
-				return 1;
+				$c=$this->login();
+				if($c) 	return 1;
+				else	return 0;
 			}
 			return 0;
 		}
@@ -213,54 +208,46 @@ class usersController extends ipage {
 	public function login(){
 		$r=$this->r;
 
-		if(isset($r['origin'])){
+		if($r['origin']=='facebook'){
 
-			if($r['origin']=='facebook'){
-				
-				if(!isset($r['accessToken'],$r['userId']) 
-					|| empty($r['userId']) || empty($r['accessToken'])
-					|| !is_numeric($r['userId']))
-					return 'Login - Invalid or unspecified parameters with the origin Facebook!';
+			$userInfo=$this->getFacebookUserGraph($r['userId'],$r['accessToken']);
 
-				$userInfo=$this->getFacebookUserGraph($r['userId'],$r['accessToken']);
+			// Return error
+			if(is_string($userInfo) && substr($userInfo,0,1)=='0')
+				return substr($userInfo,1);
 
-				// Return error
-				if(is_string($userInfo) && substr($userInfo,0,1)=='0')
-					return substr($userInfo,1);
+			// Check if the fb. user is registered or not
+			// If registered, create a session
+			$rtn=$this->users->validateLogin('facebook',$userInfo->email);
+			if($rtn!==false){
 
-				// Check if the fb. user is registered or not
-				// If registered, create a session
-				$rtn=$this->users->validateLogin('facebook',$userInfo->email);
-				if($rtn!==false){
+				$rtn->fbInfo=array('userId'=>$r['userId'],'accessToken'=>$r['accessToken']);
+				$this->u=$rtn;
+				$this->session->create($rtn);
 
-					$rtn->fbInfo=array('userId'=>$r['userId'],'accessToken'=>$r['accessToken']);
-					$this->u=$rtn;
-					$this->session->create($rtn);
+				setcookie(
+					session_name(),session_id(),
+					time()+3600*24*150 // oturum ömrü 150 gün olarak belirleniyor
+				);
 
-					setcookie(
-						session_name(),session_id(),
-						time()+3600*24*150 // oturum ömrü 150 gün olarak belirleniyor
-					);
-
-					return true;
-
-				}
-				// If not registered, register
-				else{
-					$r=$this->register();
-					if($r!==true)
-						return $r;
-				}
+				return true;
 
 			}
-			elseif($r['origin']=='twitter'){
-
+			// If not registered, register
+			else{
+				$r=$this->register();
+				if($r!==true)
+					return $r;
 			}
 
 		}
-		else{
+		elseif($r['origin']=='twitter'){
+
+		}
+		elseif($r['origin']=='kelimeci'){
+
 			if (isset($r['username']) && isset($r['password'])){
-				$r=$this->users->validateLogin($r['username'],$r['password']);
+				$r=$this->users->validateLogin($r['origin'],$r['username'],$r['password']);
 				if ($r!==false){
 					$this->u=$r;
 					$this->session->create($r);
@@ -277,6 +264,7 @@ class usersController extends ipage {
 			}
 			
 			return 'Kullanıcı bilgileri eksik yada hatalı!';
+
 		}
 	}
 
@@ -334,7 +322,13 @@ class usersController extends ipage {
 	}
 	
 	public function getFacebookUserGraph($userId,$accessToken){
-		$scope='email,user_birthday,user_hometown,user_about_me';
+		
+		if(!isset($accessToken,$userId) 
+			|| empty($userId) || empty($accessToken)
+			|| !is_numeric($userId))
+			return 'OFacebook girişi için geçersiz parametreler!';
+
+		$scope='email,user_birthday,user_hometown';
 
 		//$graphUrl='https://graph.facebook.com/me?access_token='.$accessToken;
 		$graphUrl='https://graph.facebook.com/';

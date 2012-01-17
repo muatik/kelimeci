@@ -26,7 +26,8 @@ function bindLoginForm($frm){
 		var ajax=new simpleAjax();
 		ajax.send(
 			'?_ajax=users/login',
-			'username='+encodeURI(username)+'&'+
+			'origin=kelimeci&'+
+				'username='+encodeURI(username)+'&'+
 				'password='+encodeURI(password),
 			{'onSuccess':function(rsp,o){
 				

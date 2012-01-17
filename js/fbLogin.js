@@ -20,7 +20,7 @@ $(function(){
 							if(response.authResponse)
 								loginViaFb(response);
 						},
-						{scope:'email,user_birthday,user_hometown,user_about_me'}
+						{scope:'email,user_birthday,user_hometown'}
 					);
 				}
 				else

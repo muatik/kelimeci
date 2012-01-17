@@ -27,20 +27,36 @@ class users
 	/**
 	 * kullanıcı tanımlama işlemini yapar.
 	 * 
-	 * @param string $email
-	 * @param string $username
-	 * @param string $password
+	 * @param string $origin
+	 * @param object $fields
 	 * @access public
 	 * @return int
 	 */
-	public function register($email,$username=null,$password=null,$origin=null,$metadata=null){
-		$sql='insert into users(email,username,password,origin,metadata) 
-			values(
-			\''.$this->db->escape($email).'\',
-			\''.$this->db->escape($username).'\',
-			\''.md5($this->db->escape($password)).'\',
-			\''.$this->db->escape($origin).'\',
-			\''.$this->db->escape($metadata).'\')';
+	public function register($origin,$fields){
+		if($origin=='facebook'){
+
+			$sql='insert into users(email,city,birthDate,origin,metadata) 
+				values(
+				\''.$this->db->escape($fields->email).'\',
+				\''.$this->db->escape($fields->user_hometown).'\',
+				\''.$this->db->escape($fields->user_birthday).'\',
+				\''.$this->db->escape($origin).'\',
+				\''.$this->db->escape(serialize($fields)).'\')';
+
+		}
+		elseif($origin=='twitter'){
+			$sql='';
+		}
+		else{
+
+			$sql='insert into users(email,username,password,origin) 
+				values(
+				\''.$this->db->escape($fields->email).'\',
+				\''.$this->db->escape($fields->username).'\',
+				\''.md5($this->db->escape($fields->password)).'\',
+				\''.$this->db->escape($origin).'\')';
+
+		}
 		
 		if ($this->db->query($sql))
 			return true;
@@ -62,13 +78,13 @@ class users
 	* 
 	*return bool
 	*/
-	public function validateLogin($origin='kelimeci',$field1,$field2=null){
+	public function validateLogin($origin,$field1,$field2=null){
 
 		$sql='select * from users where ';
 
 		if($origin=='kelimeci'){
 			$sql.='username=\''.$this->db->escape($field1).'\' and 
-			password=\''.md5($this->db->escape($field2)).'\'';
+			password=\''.md5($this->db->escape($field2)).'\' and origin=\'kelimeci\'';
 		}
 		elseif($origin=='facebook'){
 			$sql.='email=\''.$this->db->escape($field1).'\' and origin=\'facebook\'';
