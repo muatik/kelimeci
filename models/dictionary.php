@@ -367,9 +367,29 @@ class dictionary
 	 * @return array
 	 */
 	public static function getQuotesOfWord($wordId){
-		return self::getWordItemsByTable($wordId,'quotes');
+		$qs=self::getWordItemsByTable($wordId,'wordQuotes');
+		foreach($qs as $k=>$i){
+			$q=self::getQuoteById($i->quoteId);
+			$qs[$k]->quote=$q->quote;
+		}
+		return $qs;
 	}
 	
+	/**
+	 * returns quotes of a word
+	 * 
+	 * @param int $wordId 
+	 * @static
+	 * @access public
+	 * @return array
+	 */
+	public static function getQuoteById($quoteId){
+		$sql='select * from quotes 
+		where id=\''.self::$db->escape($quoteId).'\' limit 1';
+		return self::$db->fetchFirst($sql);
+	}
+
+
 	/**
 	 * returns synonyms of a word 
 	 * 

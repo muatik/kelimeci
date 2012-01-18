@@ -1,9 +1,13 @@
+#vcbContainer{
+	min-width:950px;
+	overflow:auto;
+}
 .listSide,.detailSide{
 	margin:20px 10px 10px 20px;
 	float:left;
 }
 .listSide{
-	width:380px;
+	width:320px;
 	padding-right:30px;
 	border-right:1px solid #d0d0d0;
 	/*
@@ -13,7 +17,7 @@
 	*/
 }
 .detailSide{
-	width:650px;
+	width:450px;
 	margin-left:20px;
 	z-index:-999999;
 }
