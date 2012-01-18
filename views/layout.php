@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="tr" lang="tr">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="tr" lang="tr" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
-<link 
+<!--<link 
 	href="http://fonts.googleapis.com/css?family=Overlock+SC|Overlock&subset=latin-ext"
 	rel="stylesheet" type="text/css" 
-/>
+/>-->
 
 <title><?php echo $this->title;?></title>
 <meta http-equiv="content-type" charset="text/html;charset=utf-8" />

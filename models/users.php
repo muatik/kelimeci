@@ -27,18 +27,36 @@ class users
 	/**
 	 * kullanıcı tanımlama işlemini yapar.
 	 * 
-	 * @param string $email
-	 * @param string $username
-	 * @param string $password
+	 * @param string $origin
+	 * @param object $fields
 	 * @access public
 	 * @return int
 	 */
-	public function register($email,$username,$password){
-		$sql='insert into users(email,username,password) 
-			values(
-			\''.$this->db->escape($email).'\',
-			\''.$this->db->escape($username).'\',
-			\''.md5($this->db->escape($password)).'\')';
+	public function register($origin,$fields){
+		if($origin=='facebook'){
+
+			$sql='insert into users(email,city,birthDate,origin,metadata) 
+				values(
+				\''.$this->db->escape($fields->email).'\',
+				\''.$this->db->escape($fields->user_hometown).'\',
+				\''.$this->db->escape($fields->user_birthday).'\',
+				\''.$this->db->escape($origin).'\',
+				\''.$this->db->escape(serialize($fields)).'\')';
+
+		}
+		elseif($origin=='twitter'){
+			$sql='';
+		}
+		else{
+
+			$sql='insert into users(email,username,password,origin) 
+				values(
+				\''.$this->db->escape($fields->email).'\',
+				\''.$this->db->escape($fields->username).'\',
+				\''.md5($this->db->escape($fields->password)).'\',
+				\''.$this->db->escape($origin).'\')';
+
+		}
 		
 		if ($this->db->query($sql))
 			return true;
@@ -49,17 +67,33 @@ class users
 	/**
 	*login kontrolü yapar.
 	*
-	*@param string $username
-	*@param string $password
+	*@param string $origin
+	*@param string $field1
+	*@param string $field2
+	*
+	* Giriş kontrolü $origin'e göre değişiklik gösterir;
+	* eğer $origin "kelimeci" ise kullanıcı adı ve şifresi alanları ile kontrol edilir,
+	* eğer $origin "facebook" ise e-posta ve origin alanları ile kontrol edilir,
+	* eğer $origin "twitter" ise e-posta ve origin alanları ile kontrol edilir
 	* 
 	*return bool
 	*/
-	public function validateLogin($username,$password){
+	public function validateLogin($origin,$field1,$field2=null){
 
-		$sql='select * from users 
-			where username=\''.$this->db->escape($username).'\' and 
-			password=\''.md5($this->db->escape($password)).'\'';
+		$sql='select * from users where ';
+
+		if($origin=='kelimeci'){
+			$sql.='username=\''.$this->db->escape($field1).'\' and 
+			password=\''.md5($this->db->escape($field2)).'\' and origin=\'kelimeci\'';
+		}
+		elseif($origin=='facebook'){
+			$sql.='email=\''.$this->db->escape($field1).'\' and origin=\'facebook\'';
+		}
+		elseif($origin=='twitter'){
+			$sql='';
+		}
 		
+
 		$r=$this->db->fetchFirst($sql);
 
 		if ($r!==false)

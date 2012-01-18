@@ -1,7 +1,3 @@
-$(document).ready(function(){
-
-})
-
 $(function(){
 	var
 		// User top menu
@@ -108,7 +104,7 @@ $(function(){
 	toggleFormsInUserMenu();
 
 	// Insert a link into the login form to show register form
-	$usrSubMenu.find('.loginForm .fInput:last')
+	$usrSubMenu.find('.loginForm .fInput :input[name="loginFormSubmit"]').parent()
 		.append('<a href="#" class="showRegisterForm">&#187; Hesap oluştur</a>')
 		.find('a.showRegisterForm').click(function(){
 			toggleFormsInUserMenu('registerLink');

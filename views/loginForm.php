@@ -31,6 +31,11 @@
 				<input type="submit" name="loginFormSubmit" value="Giriş yap" />
 			</div>
 		</li>
+		<li>
+			<div class="fInput">
+				<?php echo $this->loadElement('fbLogin.php'); ?>
+			</div>
+		</li>
 	</ul>
 </form>
 
