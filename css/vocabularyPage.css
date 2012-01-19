@@ -22,5 +22,6 @@
 	z-index:-999999;
 }
 
-.wordAdditionForm{margin:14px 5px;}
-.wordFilterForm{margin:14px 5px;}
+.wordAdditionForm, .wordFilterForm{margin:14px 5px;}
+
+.wordAdditionForm input[name="tag"]{width:68px}

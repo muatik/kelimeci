@@ -8,24 +8,24 @@
 .wordFilterForm .felement{
 	margin-right:8px;
 	float:left;
-	width:175px;
+	width:145px;
 }
 .wordFilterForm .felement .flabel{
 	float:left;
-	width:44px;
+	width:40px;
 	margin-right:4px;
 	margin-top:5px;
 	text-align:right;
 }
 .ui-dropdownchecklist {
 	z-index:2000000!important;
-	width:120px;
+	width:95px;
 }
 .levelRange{
 	margin:4px 0 0 4px;
-	width:120px;
+	width:90px;
 	display:inline-block;
 }
 .wordFilterForm .keyword{
-	width:95px;
+	width:85px;
 }

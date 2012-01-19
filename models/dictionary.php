@@ -103,14 +103,15 @@ class dictionary
 	 * 
 	 * @param int $wordId
 	 * @param string $table 
+	 * @param string $sqlSuffix default is null
 	 * @static
 	 * @access public
 	 * @return array
 	 */
-	private static function getWordItemsByTable($wordId,$table){
+	private static function getWordItemsByTable($wordId,$table,$sqlSuffix=''){
 		$sql='select * from '.self::$db->escape($table).'
 			where
-			wId='.self::$db->escape($wordId);
+			wId='.self::$db->escape($wordId). ' '.$sqlSuffix;
 		
 		return self::$db->fetch($sql);
 	}
@@ -355,7 +356,10 @@ class dictionary
 	 * @return array
 	 */
 	public static function getMeaningsOfWord($wordId){
-		return self::getWordItemsByTable($wordId,'meanings');
+		return self::getWordItemsByTable(
+			$wordId,'meanings',
+			' order by lang' // dictionary, google, seslisozluk
+		);
 	}
 
 	/**

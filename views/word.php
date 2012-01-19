@@ -59,10 +59,9 @@ $w=$o->word;
 	// dillere göre gruplanarak yazılıyor
 	$langMeaning=array();
 	foreach($w->meanings as $m){
-		$langMeaining[$m->lang][]=$m->meaning;
-
+		$langMeaning[$m->lang][]=$m->meaning;
 	}
-	
+
 	foreach($langMeaning as $lang=>$meanings){
 		echo '<div class="langGroup lang'.$lang.'">
 			<i class="lang '.$lang.'">'.$lang.' : </i>';
