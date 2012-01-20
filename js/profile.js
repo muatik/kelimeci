@@ -12,6 +12,8 @@ $(document).ready(function(){
 
 	// Set jquery datepicker for the #birthDate input
 	$f.find('input#birthDate').datepicker({
+		dateFormat:'dd/mm/yy',
+		defaultDate:'-20y',
 		changeMonth:true,
 		changeYear:true
 	});
