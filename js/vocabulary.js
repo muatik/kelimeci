@@ -95,9 +95,22 @@ _vcbp.rmWord=function(words){
 	)
 }
 
-$(function(){
-	
-	// Close the filter form on the page load
-	$('.wordFilterForm').hide();
+_vcbp.saveWordPackages=function(selPackages){
 
-});
+	var params='packages[]='+selPackages.join('&packages[]=');
+	
+	if(arguments.length>1)	var callBack=arguments[1]; else	var callBack=false;
+
+	var sa=new simpleAjax();
+	sa.send(
+		'vocabulary?_ajax=vocabulary/saveWordPackages&'+params,null,
+		{onSuccess:function(rsp,o){
+
+			// if there is a callback function, it's calling
+			if(callBack)
+				callBack(rsp);
+		}}
+	);
+
+}
+

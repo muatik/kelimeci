@@ -54,6 +54,19 @@ class vocabularyController extends ipage {
 	}
 
 	/**
+	 * insert given packages into the user's vocabulary
+	 * */
+	public function saveWordPackages(){
+		if(!isset($this->r['packages']) || !is_array($this->r['packages']) ){
+			echo 'The parameter "packages" is missing.';
+			return false;
+		}
+
+		return $this->vocabulary->saveWordPackages($this->r['packages']);
+	}
+
+
+	/**
 	 * belirtilen anahtar kelimeyle uyuşan kelimeleri önerir.
 	 * */
 	public function suggest(){
@@ -61,7 +74,7 @@ class vocabularyController extends ipage {
 		$words=kelimeci\dictionary::suggest($r['q']);
 		return arrays::makeCloud($words,'word',"\n");
 	}
-
+	
 	public function viewwordList(){
 		$r=$this->r;
 		
@@ -125,10 +138,14 @@ class vocabularyController extends ipage {
 		if($word===false)
 			return '0Word not found!';
 
-		// kullanıcının bu kelime için sağladı verileri
-		// çeker
-		if($this->isLogined)
+		// kullanıcının bu kelime için sağladı verileri çeker
+		if($this->isLogined){
 			$word=$this->vocabulary->fillUserData($word);
+			$word->isInVocabulary=$this->vocabulary->isExists($word->word);
+		}
+		else{
+			$word->isInVocabulary=false;
+		}
 
 		
 		$o=new stdClass();
@@ -147,6 +164,17 @@ class vocabularyController extends ipage {
 			false
 		);
 
+	}
+	
+	public function viewwordPackages(){
+		$o=new stdClass();
+		$o->packages=$this->vocabulary->getWordPackages($isAll=true);
+		
+		return $this->loadElement(
+			'wordPackages.php',
+			$o,
+			false
+		);
 	}
 
 	public function addQuote(){

@@ -1,3 +1,9 @@
+$(function(){
+	// Close the filter form on the page load
+	$('.wordFilterForm').hide();
+
+});
+
 function vcbPage(){
 	this.list=$('.ul');
 	this.bind();

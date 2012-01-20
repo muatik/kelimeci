@@ -137,7 +137,32 @@ class vocabulary
 
 		return $this->db->fetchFirst($sql);
 	}
+
+	/**
+	 * returns the word packages list and indicates packages 
+	 * which are in the user's vocabulary
+	 * @param bool $isAll
+	 * @access public
+	 * @return array
+	 * */
+	public function getWordPackages($isAll){
+		$sql='select wp.*,userId as isInUserVcb from 
+			wordPackages as wp left join userWordPackages as uwp
+				on wp.label=uwp.label and
+				uwp.userId=\''.$this->userId.'\' 
+			group by wp.label
+			order by isInUserVcb desc';
+		
+		return $this->db->fetch($sql);
+	}
 	
+	/**
+	 *
+	 * */
+	public function saveWordPackages($packages){
+		
+	}
+
 	/**
 	 * fills data which is provided by the user into the object word
 	 * for example: user quotes
@@ -220,6 +245,23 @@ class vocabulary
 			wordId in (\''.implode('\',\'',$wordIds).'\')';
 
 		return $this->db->query($sql);
+	}
+
+
+	/**
+	 * return true if the word is in the user's vocabulary, 
+	 * otherwise returns false
+	 * 
+	 * @param string $word 
+	 * @access public
+	 * @return bool
+	 */
+	public function isExists($word){
+		$r=$this->getVocabularyByWord($word);
+		if($r!=false)
+			return true;
+
+		return false;
 	}
 
 

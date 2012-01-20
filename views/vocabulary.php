@@ -8,8 +8,11 @@
 <link rel="stylesheet" href="css/word.css" />
 <link rel="stylesheet" href="css/animbuttons.css" />
 
+<div id="vcbContainer">
+
 <div class="listSide">
 <a href="#" class="toggleInsertForm button green small">Kelime Ekle</a>
+<a href="#" class="button green small">Paket Ekle</a>
 <a href="#" class="toggleFilterForm button blue small">Kelimeleri Süz</a>
 <?php
 echo $this->loadView('wordAdditionForm.php');
@@ -19,6 +22,8 @@ echo $this->loadView('wordList.php');
 </div>
 
 <div class="detailSide"></div> 
+
+</div>
 
 <script>
 var x=new vcbPage();

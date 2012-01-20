@@ -103,14 +103,15 @@ class dictionary
 	 * 
 	 * @param int $wordId
 	 * @param string $table 
+	 * @param string $sqlSuffix default is null
 	 * @static
 	 * @access public
 	 * @return array
 	 */
-	private static function getWordItemsByTable($wordId,$table){
+	private static function getWordItemsByTable($wordId,$table,$sqlSuffix=''){
 		$sql='select * from '.self::$db->escape($table).'
 			where
-			wId='.self::$db->escape($wordId);
+			wId='.self::$db->escape($wordId). ' '.$sqlSuffix;
 		
 		return self::$db->fetch($sql);
 	}
@@ -355,7 +356,10 @@ class dictionary
 	 * @return array
 	 */
 	public static function getMeaningsOfWord($wordId){
-		return self::getWordItemsByTable($wordId,'meanings');
+		return self::getWordItemsByTable(
+			$wordId,'meanings',
+			' order by lang' // dictionary, google, seslisozluk
+		);
 	}
 
 	/**
@@ -367,9 +371,29 @@ class dictionary
 	 * @return array
 	 */
 	public static function getQuotesOfWord($wordId){
-		return self::getWordItemsByTable($wordId,'quotes');
+		$qs=self::getWordItemsByTable($wordId,'wordQuotes');
+		foreach($qs as $k=>$i){
+			$q=self::getQuoteById($i->quoteId);
+			$qs[$k]->quote=$q->quote;
+		}
+		return $qs;
 	}
 	
+	/**
+	 * returns quotes of a word
+	 * 
+	 * @param int $wordId 
+	 * @static
+	 * @access public
+	 * @return array
+	 */
+	public static function getQuoteById($quoteId){
+		$sql='select * from quotes 
+		where id=\''.self::$db->escape($quoteId).'\' limit 1';
+		return self::$db->fetchFirst($sql);
+	}
+
+
 	/**
 	 * returns synonyms of a word 
 	 * 
