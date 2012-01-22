@@ -11,13 +11,16 @@ $w=$o->word;
 	 * sayfadan gelen çağrılarda tekrar yüklenmesi istenmeyebilir.
 	 * */
 	if(!isset($o->noScriptStyle)){
-		echo '<script tyoe="text/javascript" src="js/words.js"></script>
+		echo '
+		<script tyoe="text/javascript" src="js/words.js"></script>
+		<script tyoe="text/javascript" src="js/vocabulary.js"></script>
 		<link rel="stylesheet" href="css/word.css" />
 		<link rel="stylesheet" href="css/animbuttons.css" />
 		
 		';
 	}
 	?>
+
 	<h1><?php 
 		echo $w->word;
 		if(isset($w->info['pronunciation']))
@@ -25,7 +28,16 @@ $w=$o->word;
 			title="fonetik alfabede telaffuzu">/ 
 			'.$w->info['pronunciation']->value
 			.'</span>'; 
-	?></h1>
+
+		echo (!$w->isInVocabulary?
+			'<a href="#" class="button green small addRemove add"
+				title="Kelimeyi kelime dağarcığınıza ekler."
+				>Sözlüğüne ekle</a>':
+			'<a href="#" class="button gray small addRemove del"
+				title="Kelimeyi kelime dağarcığından çıkartır."
+				>Sözlüğünden çıkart</a>' );
+	?>
+	</h1>
 	
 	<div class="etymology"><?php 
 		echo (isset($w->info['etymology'])
@@ -206,12 +218,6 @@ $w=$o->word;
 		</div>
 	</div>';
 	
-	echo '<div class="delAndTestLinks">'.
-		(!$w->isInVocabulary?
-			'<a href="#" class="toggleInsertForm button green small">
-				Kelime Ekle</a>':
-			'<a href="#" alt="" >Bu kelimeyi sil</a>' )
-	.'</div>';
 
 	?>
 

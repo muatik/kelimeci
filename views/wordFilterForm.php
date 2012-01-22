@@ -13,6 +13,7 @@
 			<option value="adjective">Adjective</option>
 			<option value="adverb">Adverb</option>
 			<option value="preposition">Preposition</option>
+			<option value="unknown">Unknown</option>
 		</select>
 		</div>
 

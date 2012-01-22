@@ -27,6 +27,11 @@
 .wordList .words li span{
 	margin-right:5px;
 }
+.wordList .words li span.removed{
+	text-decoration:line-through;
+	color:#ff0000;
+}
+
 .wordList .words li .categories abbr{
 	font-family:tahoma,arial,sans-serif;
 	font-size:11px;
