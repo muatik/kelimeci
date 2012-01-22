@@ -9,25 +9,17 @@ $(function(){
 			oauth:true
 		});
 
-		
-		function evalFbLoginStatus(response){
-			$('.fbLogin .fbLoginBtn').unbind().click(function(){
-				var $f=$(this).parent();
-				// If not connected to the app. or logged out, login 
-				if(!response.authResponse){
-					FB.login(
-						function(response){
-							if(response.authResponse)
-								loginViaFb(response);
-						},
-						{scope:'email,user_birthday,user_hometown'}
-					);
-				}
-				else
-					loginViaFb(response,$f);
-			
-			});
-		}
+		$('.fbLogin .fbLoginBtn').click(function(){
+			var $f=$(this).parent();
+			// Login via facebook
+			FB.login(
+				function(response){
+					if(response.authResponse)
+						loginViaFb(response);
+				},
+				{scope:'email,user_birthday,user_hometown'}
+			);
+		});
 
 		function loginViaFb(response,$f){
 			var 
@@ -53,7 +45,7 @@ $(function(){
 						'userId='+userId+'&'+
 						'accessToken='+accessToken,
 					{'onSuccess':function(rsp,o){
-						
+
 						// Login okay
 						if(rsp=='1'){
 							window.location.href='/vocabulary';
@@ -72,7 +64,7 @@ $(function(){
 
 		// Run once with current status and whenever the status changes
 		//FB.getLoginStatus(evalFbLoginStatus);
-		FB.Event.subscribe('auth.statusChange',evalFbLoginStatus);	
+		//FB.Event.subscribe('auth.statusChange',evalFbLoginStatus);	
 
 	};
 });

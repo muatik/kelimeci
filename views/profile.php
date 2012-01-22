@@ -47,7 +47,9 @@
 				<label for="birthDate">Doğum tarihi:</label>
 			</div>
 			<div class="fInput">
-				<input type="text" name="birthDate" id="birthDate" maxlength="20" value="<?php echo date('d/m/Y',strtotime($o->birthDate)); ?>" /><img src="images/calendar.png" alt="" class="calendar" />
+				<input type="text" name="birthDate" id="birthDate" maxlength="20" 
+					value="<?php if($o->birthDate) echo date('d/m/Y',strtotime($o->birthDate)); ?>" />
+				<img src="images/calendar.png" alt="" class="calendar" />
 			</div>
 		</li>
 		<li>

@@ -2,9 +2,9 @@
 	// FACEBOOK LOGIN
 ?>
 <div class="fbLogin" style="display:inline-block;">
-	<fb:login-button show-faces="false" width="400" 
-		max-rows="1" class="fbLoginBtn" scope="email,user_hometown,user_birthday">
-	</fb:login-button>
+	<a href="#" class="fbLoginBtn">
+		<img src="../images/fbLoginBtn.png" />
+	</a>	
 </div>
 <?php
 	/**
