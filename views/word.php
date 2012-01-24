@@ -78,7 +78,7 @@ $w=$o->word;
 		echo '<div class="langGroup lang'.$lang.'">
 			<i class="lang '.$lang.'">'.$lang.' : </i>';
 
-		if(count($meanings)>2)
+		if(count($meanings)>3)
 			echo '<a href="#" 
 			class="action more dontMove" alt="">hepsi...</a>';
 
@@ -86,7 +86,7 @@ $w=$o->word;
 		$i=1;
 		echo '<ol class="meanings">';
 		foreach($meanings as $m){
-			if($i==3)
+			if($i==4)
 				$pClass='hidden';
 			
 			echo '<li class="meaning text '.$pClass.'">'.$m.'</li>';
@@ -114,16 +114,20 @@ $w=$o->word;
 		
 		$i=0;
 		$liClass='';
+		$h='';
 		foreach($quotes as $q){
 			if($i>3)
 				$liClass='hidden';
 
-			echo '<li class="'.$liClass.'">
+			$h.='<li class="'.$liClass.'">
 				<blockquote>'
 				.$q->quote.'</blockquote></li>';
 
 			$i++;
 		}
+		
+		echo str_replace($w->word,'<b>'.$w->word.'</b>',$h);
+
 		?>
 		</ul>
 		

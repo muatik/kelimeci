@@ -29,7 +29,7 @@ ul.wordPackages li:hover{
 }
 ul.wordPackages label{
 	display:block;
-	font:normal 12px verdana,helvetica,sans-serif;
+	font:normal 11px helvetica,sans-serif;
 }
 ul.wordPackages li.in label{
 	font-weight:bold;
