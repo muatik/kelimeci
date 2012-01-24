@@ -68,8 +68,7 @@ form#wordSearch input{
 	width:160px;
 	height:16px;
 	padding:1px 1px 1px 2px;
-	font:italic 13px inherit;
-	font-style:italic;
+	font:normal 1.4em verdana,sans-serif,cantarell,"trebuchet ms",arial,"bitstream vera sans";
 	border:none;
 	background:none;
 	outline:none;

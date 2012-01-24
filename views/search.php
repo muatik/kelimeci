@@ -1,7 +1,11 @@
+<script type="text/javascript" src="js/search.js"></script>
 <link rel="stylesheet" type="text/css" href="css/search.css" />
 
 <div id="search">
-	
+
+	<input type="hidden" id="keyword" 
+		value="<?php echo $o->word;?>" />
+
 	<div class="leftSide">
 
 	<!-- showing search history -->
