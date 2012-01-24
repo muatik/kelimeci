@@ -4,10 +4,10 @@
  * */
 $h='';
 foreach($o->packages as $i)
-	$h.='<li><label>
+	$h.='<li class="'.($i->isInUserVcb?'in':'').'"><label>
 		<input type="checkbox" value="'.$i->label.'"
 		'.($i->isInUserVcb?'checked="checked"':'').'/>
-		'.$i->label.'</label></li>';
+		'.$i->label.'('.$i->wordCount.') </label></li>';
 
 if(!isset($o->noScriptStyle))
 	echo '<script type="text/javascript" src="js/wordPackages.js"></script>
@@ -15,7 +15,8 @@ if(!isset($o->noScriptStyle))
 
 ?>
 
-<form class="wordPackages" method="post">
+<form class="frm wordPackages" method="post">
+	<h4 class="frmTitle">Kelime Paketleri</h4>
 	<ul class="wordPackages"><?php echo $h;?></ul>
 	<button type="submit">Kaydet</button>
 	<button type="reset">Geri Al</button>	

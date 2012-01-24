@@ -1,0 +1,50 @@
+#search{
+    margin:10px 20px;
+}
+
+#search{
+    margin:15px 20px 20px 30px;
+}
+
+
+#search .leftSide{
+    float:left;
+    margin-right:30px;
+    padding-right:30px;
+    width:200px;
+    border-right:1px solid #D0D0D0;
+}
+
+#result{
+    float:left;
+	max-width:650px;
+}
+
+.leftSide .box{
+	margin-bottom:50px;
+}
+.leftSide h4{
+    font:bold 1.6em verdana,sans-serif,cantarell,"trebuchet ms",arial,"bitstream vera sans";
+	color:#555;
+}
+
+ul.wordList{
+   
+    list-style-position:inside;
+    list-style-type:disc;
+    height:190px;
+    overflow:auto;
+}
+
+ul.wordList li{
+	float:left;
+    padding:5px 0 5px 10px;
+	margin-left:5px;
+    border-bottom:1px solid #f0f0f0;
+}
+ul.wordList li:hover{
+    background-color:#f6f6f0;
+}
+ul.wordList li a{
+    font:normal 1.3em verdana,sans-serif,cantarell,"trebuchet ms",arial,"bitstream vera sans";
+}

@@ -19,12 +19,13 @@ if(!isset($o->noScriptStyle)){
 	<?php
 	$words=$o->words;
 	$classList=array(
-		'v'=>'verb',
-		'n'=>'noun',
-		'aj'=>'adjective',
-		'av'=>'adverb',
-		'pp'=>'preposition'
+		'v'=>array('f','Fiil','verb'),
+		'n'=>array('i','İsim','noun'),
+		'aj'=>array('s','Sıfat','adjective'),
+		'av'=>array('z','Zarf','adverb'),
+		'pp'=>array('e','Edat','preposition')
 	);
+
 	foreach($words as $i){
 		$classes=arrays::toArray($i->classes,'name');
 		if(!is_array($classes))
@@ -35,14 +36,14 @@ if(!isset($o->noScriptStyle)){
 					value="'.$i->id.'" />
 				<span class="categories">';
 				foreach($classList as $abbr=>$ci){
-					if(in_array($ci,$classes))
+					if(in_array($ci[2],$classes))
 						$classActive='active';
 					else
 						$classActive=null;
 
 					echo '<abbr class="'.$abbr.' '
-						.$classActive.'" title="'.$ci.'">'
-						.$abbr.'</abbr>';
+						.$classActive.'" title="'.$ci[1].'">'
+						.$ci[0].'</abbr>';
 				}
 				echo '
 				</span>

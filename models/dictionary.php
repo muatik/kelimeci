@@ -356,10 +356,18 @@ class dictionary
 	 * @return array
 	 */
 	public static function getMeaningsOfWord($wordId){
-		return self::getWordItemsByTable(
+		
+		$set1=self::getWordItemsByTable(
 			$wordId,'meanings',
-			' order by lang' // dictionary, google, seslisozluk
+			' and page=\'google\''
 		);
+
+		$set2=self::getWordItemsByTable(
+			$wordId,'meanings',
+			' and page<>\'google\''
+		);
+
+		return array_merge($set1,$set2);
 	}
 
 	/**
@@ -371,12 +379,10 @@ class dictionary
 	 * @return array
 	 */
 	public static function getQuotesOfWord($wordId){
-		$qs=self::getWordItemsByTable($wordId,'wordQuotes');
-		foreach($qs as $k=>$i){
-			$q=self::getQuoteById($i->quoteId);
-			$qs[$k]->quote=$q->quote;
-		}
-		return $qs;
+		$sql='select q.* from wordQuotes as wq,quotes as q
+			where wq.wId=\''.$wordId.'\' and wq.quoteId=q.id
+			order by length(quote)';
+		return self::$db->fetch($sql);
 	}
 	
 	/**
@@ -403,7 +409,9 @@ class dictionary
 	 * @return array
 	 */
 	public static function getSynonymsOfWord($wordId){
-		$rs=self::getWordItemsByTable($wordId,'synonyms');
+		$rs=self::getWordItemsByTable(
+			$wordId,'synonyms',' and page=\'seslisozluk\''
+		);
 		foreach($rs as $k=>$i){
 			$i=self::getWord($i->synId);
 			$rs[$k]=$i;
