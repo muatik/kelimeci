@@ -35,12 +35,16 @@ class users
 	public function register($origin,$fields){
 		if($origin=='facebook'){
 
+			$first_name=($fields->first_name===NULL) ? 'null' : '\''.$fields->first_name.'\'';
+			$last_name=($fields->last_name===NULL) ? 'null' : '\''.$fields->last_name.'\'';
 			$hometown=($fields->user_hometown===NULL) ? 'null' : '\''.$fields->user_hometown.'\'';
 			$birthday=($fields->user_birthday===NULL) ? 'null' : '\''.$fields->user_hometown.'\'';
 
-			$sql='insert into users(email,city,birthDate,origin,metadata) 
+			$sql='insert into users(email,fname,lname,city,birthDate,origin,metadata) 
 				values(
 				\''.$this->db->escape($fields->email).'\',
+				'.$first_name.',	
+				'.$last_name.',	
 				'.$hometown.',	
 				'.$birthday.',	
 				\''.$this->db->escape($origin).'\',

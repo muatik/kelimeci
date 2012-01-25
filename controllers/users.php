@@ -28,6 +28,8 @@ class usersController extends ipage {
 				if($err!==true)
 					return $err;
 
+				$userInfo->first_name=(isset($userInfo->first_name)) ? $userInfo->first_name : NULL;
+				$userInfo->last_name=(isset($userInfo->last_name)) ? $userInfo->last_name : NULL;
 				$userInfo->user_hometown=(isset($userInfo->user_hometown)) ? $userInfo->user_hometown : NULL;
 				$userInfo->user_birthday=(isset($userInfo->user_birthday)) ? $userInfo->user_birthday : NULL;
 				
