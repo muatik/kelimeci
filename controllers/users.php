@@ -289,6 +289,9 @@ class usersController extends ipage {
 					'mr.ermangulhan@gmail.com',
 					'alpaycom@gmail.com'
 				);
+
+				// \r\n to <br>
+				$r['comments']=nl2br($r['comments']);
 				
 				// Configure email
 				$mHandler=new mailHandler();
