@@ -14,6 +14,7 @@ $w=$o->word;
 		echo '
 		<script tyoe="text/javascript" src="js/words.js"></script>
 		<script tyoe="text/javascript" src="js/vocabulary.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/clsBoxes.css" />
 		<link rel="stylesheet" href="css/word.css" />
 		<link rel="stylesheet" href="css/animbuttons.css" />
 		
@@ -29,7 +30,27 @@ $w=$o->word;
 			'.$w->info['pronunciation']->value
 			.'</span>'; 
 
-		echo (!$w->isInVocabulary?
+		// showing classes of the word
+		echo '<span class="clsBoxes">';
+			$classList=array(
+				'v'=>array('f','Fiil','verb'),
+				'n'=>array('i','İsim','noun'),
+				'aj'=>array('s','Sıfat','adjective'),
+				'av'=>array('z','Zarf','adverb'),
+				'pp'=>array('e','Edat','preposition')
+			);
+			$wClasses=arrays::toArray($w->classes,'name');
+			
+			foreach($classList as $abbr=>$ci){
+				$classActive=(in_array($ci[2],$wClasses)?'active':null);
+
+				echo '<abbr class="'.$abbr.' '.$classActive
+					.'" title="'.$ci[1].'">'.$ci[0].'</abbr>';
+			}
+		echo '</span>';
+		
+
+		echo (!$w->isInVocabulary || $w->status==0?
 			'<a href="#" class="button green small addRemove add"
 				title="Kelimeyi kelime dağarcığınıza ekler."
 				>Sözlüğüne ekle</a>':
@@ -43,26 +64,6 @@ $w=$o->word;
 		echo (isset($w->info['etymology'])
 			?$w->info['etymology']->value:null);
 	?></div>
-
-
-	<div class="classes">
-		<h4 class="inline">TÜRÜ:</h4>
-		<span>
-		<?php
-			// Classes to replace from en. to tr.
-			$repClasses=array(
-				'en'=>array('noun','verb','adjective','adverb','preposition'),
-				'tr'=>array('isim','fiil','sıfat','zarf','edat')
-			);
-
-			// The word classes from array into str.
-			$strClasses=implode(', ',arrays::toArray($w->classes,'name'));
-
-			// Replace the classess from en. to tr. and print it
-			echo str_replace($repClasses['en'],$repClasses['tr'],$strClasses);
-		?>
-		</span>
-	</div>
 
 
 	<div class="meanings">

@@ -103,6 +103,10 @@ vcbp.bind=function(){
 
 	t.showTooltips();
 
+	$('form.wordAdditionForm').submit(function(){
+		toggleAjaxIndicator($('.toggleFilterForm'),'','after');
+	})
+
 }
 
 vcbp.getWords=function(){
@@ -117,6 +121,8 @@ vcbp.getWords=function(){
 	var keyword=$('.wordFilterForm .keyword').val();
 	var orderBy=$('.wordFilterForm .orderBy option:selected').val();
 	
+	toggleAjaxIndicator($('.toggleFilterForm'),'','after');
+
 	vocabulary.get({
 			levelMax:levelRange[1],
 			levelMin:levelRange[0],
@@ -124,6 +130,7 @@ vcbp.getWords=function(){
 			classes:classes,
 			orderBy:orderBy
 		}, function(rsp){
+			toggleAjaxIndicator($('.toggleFilterForm').parent());
 			t.listWords(rsp);
 		}
 	);
@@ -200,6 +207,8 @@ vcbp.showDetail=function(word){
 
 vcbp.rmWords=function(){
 
+	toggleAjaxIndicator($('div.wordsForm button'),'','after');
+
 	var selWords=new Array();
 	var selected=$('ul.words input.wordIds:checked');
 
@@ -212,6 +221,7 @@ vcbp.rmWords=function(){
 	vocabulary.rmWord(selWords,function(r){
 		selected.each(function(){
 			$(this).parent().remove();
+			toggleAjaxIndicator($('div.wordsForm'));
 		});
 	})
 	
@@ -240,6 +250,8 @@ vcbp.showingWordRemoved=function(word){
 
 vcbp.onAddedWord=function(rsp,f){
 	
+	toggleAjaxIndicator($('.toggleFilterForm').parent());
+
 	$('input[name="word"]').focus();
 
 	if(rsp.substr(0,1)==0){
@@ -252,6 +264,7 @@ vcbp.onAddedWord=function(rsp,f){
 	var word=jQuery.parseJSON(rsp);
 	var classList=['verb','noun','adjective','adverb','preposition'];
 	var abbr=['v','n','aj','av','pp'];
+	var abbrTr=['f','i','s','z','e'];
 	var h='';
 
 	h='<input type="checkbox" class="wordIds" name="ids[]" value="'+word.id+'" />';
@@ -266,7 +279,7 @@ vcbp.onAddedWord=function(rsp,f){
 				break;
 			}
 
-		h+='<abbr class="'+abbr[i]+' '+cssClass+'">'+abbr[i]+'</abbr>'
+		h+='<abbr class="'+abbr[i]+' '+cssClass+'">'+abbrTr[i]+'</abbr>'
 	}
 	h+='</span> ';
 
