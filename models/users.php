@@ -35,11 +35,14 @@ class users
 	public function register($origin,$fields){
 		if($origin=='facebook'){
 
+			$hometown=($fields->user_hometown===NULL) ? 'null' : '\''.$fields->user_hometown.'\'';
+			$birthday=($fields->user_birthday===NULL) ? 'null' : '\''.$fields->user_hometown.'\'';
+
 			$sql='insert into users(email,city,birthDate,origin,metadata) 
 				values(
 				\''.$this->db->escape($fields->email).'\',
-				\''.$this->db->escape($fields->user_hometown).'\',
-				\''.$this->db->escape($fields->user_birthday).'\',
+				'.$hometown.',	
+				'.$birthday.',	
 				\''.$this->db->escape($origin).'\',
 				\''.$this->db->escape(serialize($fields)).'\')';
 
@@ -57,7 +60,7 @@ class users
 				\''.$this->db->escape($origin).'\')';
 
 		}
-		
+
 		if ($this->db->query($sql))
 			return true;
 		else
