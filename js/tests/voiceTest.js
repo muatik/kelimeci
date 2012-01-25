@@ -3,7 +3,7 @@ $(document).ready(function(){
 	var 
 		test=new Test('voiceTest'),
 		// jPlayer used on the voice test page
-		$jplayer=$('.voiceTest voiceTest.jPlayer');
+		$jplayer=$('#voiceTestJplayer');
 
 	// Attach only one jPlayer to the page
 	$jplayer.jPlayer(voiceTestPage.jPlayer.ops);
@@ -30,11 +30,21 @@ $(document).ready(function(){
 		
 		$('.testPageOl li img.voiceStatusImg').click(function(){
 			var
+				$t=$(this),
 				$item=$(this).parent(),
-				$voiceFile=$item.find('input.voiceFile');
+				$voiceFile=$item.find('input.voiceFile'),
+				// Status of jplayer
+				jpStatus=null;
 
-			// Set the voice file to the jplayer for the current question word
-			$jplayer.jPlayer('setMedia',{mp3:$voiceFile.val()});
+			// If not playing, play
+			if($t.attr('src').indexOf('Play')!=-1){
+				// Set the voice file to the jplayer to play
+				$jplayer.jPlayer('setMedia',{mp3:$voiceFile.val()}).jPlayer('play');
+			}
+			// If playing or in progress(downloading to play), stop
+			else{
+				$jplayer.jPlayer('stop');
+			}
 		});
 
 	}
@@ -85,15 +95,14 @@ $(document).ready(function(){
 var voiceTestPage={};
 
 voiceTestPage.pageOps={
-	voiceFilesDir:'../audio/',
-	$items:$('.voiceTest .testPageOl li'),
-	$voiceStatusImgs:$('.voiceTest .testPageOl li img.voiceStatusImg'),
+	voiceFilesDir:'../audio/words/normal/',
+	$items:null,
+	$voiceStatusImgs:null,
 	voiceStatusImg:{
-		dir:'../images/',
 		types:{
-			progress:dir+'voiceImgProgress.png',
-			play:dir+'voiceImgPlay.png',
-			stop:dir+'voiceImgStop.png'
+			progress:'../images/buttonProgress.png',
+			play:'../images/buttonPlay.png',
+			stop:'../images/buttonStop.png',
 		}
 	}
 };
@@ -102,35 +111,53 @@ voiceTestPage.pageOps={
 voiceTestPage.jPlayer={
 	// Init. options of jplayer
 	ops:{
-		swfPath:'jPlayer/jPlayer.swf',
+		swfPath:'../js/jplayer/jplayer.swf',
 		supplied:'mp3',
 		solution:'flash,html',
-		progress:function(e){
-			voiceTestPage.jPlayer.methods.updateVoiceStatusImg(e,'progress');
+		ready:function(){
+			voiceTestPage.pageOps.$items=$('.voiceTest .testPageOl li');
+			voiceTestPage.pageOps.$voiceStatusImgs=$('.voiceTest .testPageOl li img.voiceStatusImg');
 		},
 		play:function(e){
 			voiceTestPage.jPlayer.methods.updateVoiceStatusImg(e,'play');
 		},
+		/*
+		progress:function(e){
+			voiceTestPage.jPlayer.methods.updateVoiceStatusImg(e,'progress');
+		},
+		*/
+		pause:function(e){
+			voiceTestPage.jPlayer.methods.updateVoiceStatusImg(e,'pause');
+		},
 		ended:function(e){
 			voiceTestPage.jPlayer.methods.updateVoiceStatusImg(e,'ended');
 		}
+		,errorAlerts:true
+		//,warningAlerts:true
 	},
 	// Custom methods for jplayer
 	methods:{
 		updateVoiceStatusImg:function(e,status){
 			var 
 				curVoiceFile=e.jPlayer.status.src,
-				$curVoiceImg=$voiceStatusImgs.filter('[src="'+curVoiceFile+'"]'),
+				pageOps=voiceTestPage.pageOps,
+				$curVoiceImg=pageOps.$items.find('input.voiceFile[value="'+curVoiceFile+'"]').parent().find('img'),
 				newStatusImgTypeSrc=null;
 
-			if(status=='progress') 
-				newStatusImgTypeSrc=voiceTestPage.pageOps.voiceStatusImg.types.progress;
-			else if(status=='play') 
-				newStatusImgTypeSrc=voiceTestPage.pageOps.voiceStatusImg.types.stop;
+			if(status=='play')
+				newStatusImgTypeSrc=pageOps.voiceStatusImg.types.stop;
+			/*
+			else if(status=='progress') 
+				newStatusImgTypeSrc=pageOps.voiceStatusImg.types.progress;
 			else if(status=='ended') 
-				newStatusImgTypeSrc=voiceTestPage.pageOps.voiceStatusImg.types.play;
+				newStatusImgTypeSrc=pageOps.voiceStatusImg.types.play;
+			*/
+			else{
+				newStatusImgTypeSrc=pageOps.voiceStatusImg.types.play;
+				$(this).jPlayer('stop');	
+			}
 
-			$curVoiceImg.attr('src',newStatusTypeSrc);
+			$curVoiceImg.attr('src',newStatusImgTypeSrc);
 		}
 	}
 };
