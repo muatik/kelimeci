@@ -11,7 +11,7 @@ class googleC extends dictionaryCrawler{
 		/**
 		 * ingilizce kelimeleri sorgulama adresi
 		 * */
-		$this->enUrl='http://translate.google.com/translate_a/t?client=t&hl=en&sl=en&tl=tr&text=';
+		$this->enUrl='http://translate.google.com/translate_a/t?client=t&hl=tr&sl=en&tl=tr&text=';
 		
 		/**
 		 * türkçe kelimeleri sorgulama adresi
@@ -19,10 +19,15 @@ class googleC extends dictionaryCrawler{
 		$this->trUrl='http://translate.google.com/translate_a/t?client=t&hl=en&sl=tr&tl=en&text=';
 	}
 	
-	public function fetch($word){
+	public function fetch($word,$content=null){
 
 		$this->word=$word;
 		
+		if ($content!=null){
+			$this->content=$content;
+			return $content;
+		}
+
 		$content=$this->lookFor($word,'tr');
 		if($content===false)
 			$content=$this->lookFor($word,'en');
@@ -104,24 +109,22 @@ class googleC extends dictionaryCrawler{
 	
 	
 	public function getWords(){	
-		
-		$this->content=strip_tags(
-			mb_substr(
-				$this->content,
-				0,
-				strpos($this->content,',"'.$this->langSearched.'"')-2
-			).']'
-		);
+		$this->langSearched='tr';
+
+		preg_match('/([\w\r\s\S\t\[\],"]*?)(,"en")/im',$this->content,$m);
+
+		if (isset($m[1]))
+			$this->content=$m[1].']';
 		
 		$words=json_decode($this->content);
-		
+
 		$o=new \stdClass();
 		$o->lang=$this->langSearched;
 		
 		if (isset($words[1]))
 			$o->means=$words[1];
 		else 	
-			$o->means=$words[1];	
+			$o->means=array();	
 		return $o;
 	}
 	

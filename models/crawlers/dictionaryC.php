@@ -16,12 +16,17 @@ class dictionaryC extends dictionaryCrawler{
 		$this->domDoc=new \DOMDocument();
 	}
 	
-	public function fetch($word){
+	public function fetch($word,$content=null){
 		
 		$this->word=$word;
 		 		
 			$this->word=$word;
-			$this->content = file_get_contents($this->crwlUrl.urlencode($word));
+			
+			if ($content==null)
+				$this->content = file_get_contents($this->crwlUrl.urlencode($word));
+			else 
+				$this->content=$content;
+				
 			if ($this->content!=false){
 				
 				$badChars=array('“','”','–');
@@ -47,17 +52,11 @@ class dictionaryC extends dictionaryCrawler{
 		$o->lang='en';
 
 		$o->content=$this->content;
-		$o->content='';
-
+		
 		$o->pronunciation=$this->getPronunciation();
 
-		//$synAnt=$this->getSynAnt();
-		//$synonyms=$synAnt[0];
-		//$antonyms=$synAnt[1];	
-		//$o->synonyms=$synonyms;
-		//$o->antonyms=$antonyms;
-		$o->synonyms=array();		
-		$o->antonyms=array();
+		$o->synonyms=array($this->getSynonyms());		
+		$o->antonyms=array($this->getAntonyms());
 
 		$o->nearbyWords=array();
 
@@ -88,88 +87,65 @@ class dictionaryC extends dictionaryCrawler{
 	}
 	
 	/**
-	 * eşanlamlı ve zıt anlamlı kelimeleri verir.
+	 * eşanlamlı kelimeleri verir.
 	 * 
 	 * @return array
 	 * */
-	public function getSynAnt(){
+	public function getSynonyms(){
 		
 		$synonyms=array();
-		$antonyms=array();
-		$content=file_get_contents($this->synUrl.$this->word);		
-
-		if ($content!=false){
-			$domDoc=new \DOMDocument();
-			@$domDoc->loadHTML($content);
-			@$domXPath = new \DOMXPath($domDoc);
-			
-			$tables=$domXPath->query("//*[@class='the_content']");			
-			
-			foreach($tables as $table){
-				
-				$tbody=$table->childNodes;
-				$continue=false;
-				$trCount=0;
-				$oSyn=new \stdClass;
-				$oAnt=new \stdClass;
-				foreach($tbody as $tr){
-					$trCount++;
-					$td=$tr->childNodes;
-					if (!isset($td)) break;
-					$tdCount=0;
-
-					foreach($td as $node){
-						$tdCount++; // kolon kontrolü için kullanılıyor.
-						
-						// aranan kelime ile eşanamlılar tablosu 
-						//içindeki kelime eşleştiriliyor
-						if (trim($node->nodeValue)==$this->word && 
-							$tdCount==3 && $trCount==1){
-							$continue=true;
-						}
-						/**
-						 * kelime benzeri bulundu ise sonraki satırlar alınıyor
-						 * pos,synonyms,antonyms
-						 * */
-						if ($continue) {
-							
-							if ($tdCount==3 && $trCount==2){
-								$oSyn->pos=trim($node->nodeValue);
-								$oAnt->pos=trim($node->nodeValue);
-							}
-							
-							if ($tdCount==3 && $trCount==3){
-								$oSyn->definition=trim($node->nodeValue);
-								$oAnt->definition=trim($node->nodeValue);
-							}
-							
-							if ($tdCount==3 && $trCount==4)
-								$oSyn->synonyms=explode(",",$node->nodeValue);
-							
-							if ($tdCount==3 && $trCount==5)
-								$oAnt->antonyms=explode(",",$node->nodeValue);
-						}
-					}
-				}
-				
-				if ($continue){
-					
-					if (isset($oSyn->synonyms))
-						foreach($oSyn->synonyms as $k=>$i)
-							$oSyn->synonyms[$k]=trim($i);
-					
-					if (isset($oSyn->antonyms))
-						foreach($oAnt->antonyms as $k=>$i)
-							$oAnt->antonyms[$k]=trim($i);
-							
-					$synonyms[]=$oSyn;
-					$antonyms[]=$oAnt;
-					
-				}
-			}
-		}		
 		
-		return array($synonyms,$antonyms);
+		preg_match('/Synonyms <\/span><br \/>([\w\s\S\t\r .,?\']*?)<br \/><br \/><\/div>/',$this->content,$m);
+		$sr=array('/(\d\.)|(\-)|(\d)|(see\s)*|(etc\.)*/ism','/[.;]/');
+		$rp=array('',',');
+
+		if (!isset($m[1]))return false;
+		
+		$getSyn=preg_replace($sr,$rp,strip_tags($m[1]));
+		$exSyn=explode(',',$getSyn);
+
+		foreach($exSyn as $k=>$i){
+			$count=count(explode(' ',trim($i)));
+			if ($count>2) {
+				unset($exSyn[$k]);
+			}else {$exSyn[$k]=trim($i);}
+		}
+		
+		$o=new \stdClass;
+		$o->synonyms=$exSyn;
+		
+		return $o;
+	}
+	
+	/**
+	 * eşanlamlı kelimeleri verir.
+	 * 
+	 * @return array
+	 * */
+	public function getAntonyms(){
+		
+		$antonyms=array();
+		
+		preg_match('/Antonyms <\/span><br \/>([\w\s\S\t\r .,?\']*?)<br \/><br \/><\/div>/',$this->content,$m);
+		$sr=array('/(\d\.)|(\-)|(\d)|(see\s)*|(etc\.)*/ism','/[.;]/');
+		$rp=array('',',');
+		
+		if (!isset($m[1]))return false;
+		
+		$getAnt=preg_replace($sr,$rp,strip_tags($m[1]));
+		$exAnt=explode(',',$getAnt);
+
+		foreach($exAnt as $k=>$i){
+			$count=count(explode(' ',trim($i)));
+			if ($count>2) {
+				unset($exAnt[$k]);
+			}else {$exAnt[$k]=trim($i);}
+		}
+		
+		$o=new \stdClass;
+		$o->antonyms=$exAnt;
+		
+		return $o;
 	}
 	
 	/**
