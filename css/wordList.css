@@ -47,11 +47,11 @@
 	background:#D72A02;
 }
 
-.wordList .categories .active.v{background:#D72A02;}
+.wordList .categories .active.v{background:#FF0000;}
 .wordList .categories .active.n{background:#2A8805;}
 .wordList .categories .active.aj{background:#17A4ED;}
-.wordList .categories .active.av{background:#D72A02;}
-.wordList .categories .active.pp{background:#FFA500;}
+.wordList .categories .active.av{background:#FFA500}
+.wordList .categories .active.pp{background:#CE2CB5;}
 
 .wordList .words li .level{
 	display:inline-block;
@@ -83,3 +83,31 @@
 .wordList button{
 	display:none;
 }
+/* Begin - ToolTips */
+
+.wordCategories li{
+	margin-bottom:1px;
+}
+.wordCategories *{
+}
+.wordCategories abbr{
+	font-family:tahoma,arial,sans-serif;
+	font-size:11px;
+	display:inline-block;
+	padding:1px;
+	width:13px;
+	margin-right:1px;
+	background:#C3C3C3;
+	color:white;
+	text-align:center;
+}
+.wordCategories .v{
+	background:#D72A02;
+}
+
+.wordCategories .active.v{background:#FF0000;}
+.wordCategories .active.n{background:#2A8805;}
+.wordCategories .active.aj{background:#17A4ED;}
+.wordCategories .active.av{background:#FFA500;}
+.wordCategories .active.pp{background:#CE2CB5;}
+/* End - ToolTips */

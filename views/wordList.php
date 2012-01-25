@@ -42,7 +42,7 @@ if(!isset($o->noScriptStyle)){
 						$classActive=null;
 
 					echo '<abbr class="'.$abbr.' '
-						.$classActive.'" title="'.$ci[1].'">'
+						.$classActive.'">'
 						.$ci[0].'</abbr>';
 				}
 				echo '
