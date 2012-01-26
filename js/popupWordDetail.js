@@ -1,3 +1,8 @@
+/**
+ * Show a word detail on the popup
+ *
+ * @param string word 
+ */
 function showWordOnPopup(word){
 
 	if(!word) return;
@@ -6,12 +11,13 @@ function showWordOnPopup(word){
 		_popupWordDetail.$elem=$('#popupWordDetail');
 
 	if(_popupWordDetail.$elem.length>0){
-		/*
-		if(!$popup.is(':hidden'))
-			$popup.hide();
-		*/
 
-		_popupWordDetail.setAI('s');
+		var $popup=_popupWordDetail.$elem;
+		
+		// Show AI (ajax indicator)
+		toggleAjaxIndicator($popup.find('.content'),'','before');
+
+		// Show the popup
 		_popupWordDetail.show();
 
 		var ajax=new simpleAjax();
@@ -20,7 +26,8 @@ function showWordOnPopup(word){
 			'popup=1&word='+encodeURI(word),
 			{'onSuccess':function(rsp,o){
 				
-				_popupWordDetail.setAI('h');
+				// Remove AI
+				toggleAjaxIndicator($popup);
 				
 				// If the first letter of word is not "0"
 				// that means it is a error
@@ -30,7 +37,6 @@ function showWordOnPopup(word){
 				// If it is a error
 				else{
 					// Alert the error
-					//alert(rsp.substr(1,rsp.length-1));
 					_popupWordDetail.showContent(rsp.substr(1,rsp.length-1));
 				}
 			}}
@@ -39,10 +45,19 @@ function showWordOnPopup(word){
 
 }
 
+/**
+ * The object of popup
+ */
 var _popupWordDetail={};
 
+/**
+ * The element of popup word detail div
+ */
 _popupWordDetail.$elem=$popup=$('#popupWordDetail');
 
+/**
+ * Show the popup
+ */
 _popupWordDetail.show=function(){
 	var
 		$popup=this.$elem;
@@ -60,10 +75,16 @@ _popupWordDetail.show=function(){
 	}
 }
 
+/**
+ * Hide the popup
+ */
 _popupWordDetail.hide=function(){
 	this.$elem.hide();	
 }
 
+/**
+ * Show the content of popup
+ */
 _popupWordDetail.showContent=function(html){
 	$content=this.$elem.find('.content');
 
@@ -72,36 +93,15 @@ _popupWordDetail.showContent=function(html){
 	}
 }
 
-/**
- * Set AI(Ajax Indicator)
- *
- * @param string status ('s' || 'h')
- * 	default 'h'
- */
-_popupWordDetail.setAI=function(status){
-	var
-		$ai=this.$elem.find('.ai');
-	
-	if($ai.length>0){
-		// Show AI
-		if(status=='s')
-			$ai.show();
-		// Hide AI
-		else
-			$ai.hide();
-	}
-	else
-		console.log('No ajax indicator in the popup word detail!');
-}
-
 $(function(){
 
+	// If not catched the element of popup, catch it
 	if(_popupWordDetail.$elem.length==0)
 		_popupWordDetail.$elem=$('#popupWordDetail');
 	
 	var $elem=_popupWordDetail.$elem;
 
-	// Hide
+	// Hide the popup
 	$elem.hide();
 
 	// Close button on the popup word detail
@@ -110,40 +110,18 @@ $(function(){
 		return false;
 	});
 
-	/**
-	 * Bind automatically the a.word that is on the database's word
-	 * dictionary on the page.
-	 *
-	 * This is new automatic elements binding mechanism.
-	 * (For more information: http://api.jquery.com/on/)
-	 *
-	 * How to work:
-	 * 	Eg. When wanted to be binded some elements that
-	 * 	inserted into the page by ajax system, must be called a function
-	 * 	that binds the elements.
-	 *
-	 * 	Instead of this elements bind mechanism, by the on function of
-	 * 	jQuery, this binding mechanism is done automatically.
-	 */
-	/*
-	$elem.find('> .content > .wordDetails').on('click','a.word',function(){
-		showWordOnPopup($(this).text());
-		return false;
-	});
-	*/
-	
 	// Show the word details of selected text via double click
 	$(document)
 		.on(
 			'dblclick',
-				// Allowed places to double click
+				// Allowed places for double click to select texts
 				'.wordDetails .langGroup.langen *,'+
 				'.wordDetails div.quotes ul.quotes li *,'+
 				'.wordDetails .synonyms a.word,'+
 				'.wordDetails .antonyms a.word'
 			,
 			function(e){
-				// Selected text
+				// Get selected text
 				var selText=getSelected();
 
 				if(selText!=''){
@@ -161,23 +139,4 @@ $(function(){
 		return false;
 	});
 
-	// COMMON WORD SEARCH DOES NOT WORK WITH POPUP - CANCELED
-	/*
-	// Search form on the banner to the popup word detail
-	// on the search button click
-	$('form#wordSearch img').click(function(){
-		var $input=$(this).parent().find('input#word');
-
-		if($input.val()!='')
-			showWordOnPopup($input.val());
-	});
-
-	// Search form on the banner to the popup word detail
-	// on the keypress ("enter")
-	$('form#wordSearch input#word').keyup(function(e){
-		// If pressed the key enter
-		if($(this).val()!='' && e.keyCode==13)
-			showWordOnPopup($input.val());
-	});
-	*/
 });
