@@ -65,12 +65,7 @@ _popupWordDetail.show=function(){
 	if($popup.length>0){
 		$popup
 			.find('.content').html('').end()
-			// center
-			.css({
-				top:'50%',
-				left:'50%',
-				margin:'-'+($popup.height() / 2)+'px 0 0 -'+($popup.width() / 2)+'px'
-			})
+			.center()
 			.show();
 	}
 }
