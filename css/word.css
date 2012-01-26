@@ -119,3 +119,7 @@ h1 .addRemove{
 	font:11px helvetica,arial!important;
 	border-radius:2px;
 }
+
+.wordDetails h1 .clsBoxes{
+	margin:0 5px 0 10px;
+}

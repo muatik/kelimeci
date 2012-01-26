@@ -161,3 +161,35 @@ function getSelected(){
 	
 	return t;
 }
+
+function toggleAjaxIndicator(){
+	if(arguments.length<1)
+		return false;
+
+	var target=arguments[0];
+	var msg='';
+	var pos='append';
+
+	if(arguments.length>1)
+		msg=arguments[1];
+	
+	if(arguments.length>2)
+		pos=arguments[2];
+	
+	if($('.ajaxIndicator',$(target).parent()).length>0){
+		$('.ajaxIndicator',$(target).parent())
+			.fadeOut(750,function(){$(this).remove()});
+		return true;
+	}
+
+	var h='<span class="ajaxIndicator">'+msg+'<img src="images/loading.gif" '
+		+'alt="Yükleniyor..." /></span>';
+
+	switch(pos){
+		case 'after': $(h).insertAfter(target);break;
+		case 'before': $(h).insertBefore(target);break;
+		case 'prepend': $(target).prepend(h);break;
+		case 'append': $(target).append(h);break;
+	}
+
+}

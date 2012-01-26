@@ -107,8 +107,11 @@ words.prototype.bind=function(){
 	 * when add/remove button is clicked, adds or removes the word from vocabulary
 	 * */
 	$('a.addRemove').click(function(){
+		
+		toggleAjaxIndicator($('.wordDetails a.addRemove'),'','after');
+
 		if($(this).hasClass('del')){
-			t.remove();
+			t.remove(t.word);
 			$(this).removeClass('del gray')
 			.addClass('add green')
 			.attr('title','Kelimeyi kelime dağarcığından çıkartır.')
@@ -129,18 +132,27 @@ words.prototype.bind=function(){
  * adds the word into vocabulary
  * */
 words.prototype.add=function(word,tags){
-	vocabulary.add(word,tags)
-	if(words.addCallback)
-		words.addCallback(word,tags);
+
+	vocabulary.add(word,tags,function(){
+
+		if(words.addCallback)
+			words.addCallback(word,tags);
+
+		toggleAjaxIndicator($('.wordDetails'));
+	})
 }
 
 /**
  * removes the showing word from vocabulary
  * */
 words.prototype.remove=function(word){
-	vocabulary.rmWord([this.word]);
-	if(words.removeCallback)
-		words.removeCallback(this.word);
+	vocabulary.rmWord([this.word],function(){
+		
+		if(words.removeCallback)
+			words.removeCallback(word);
+
+		toggleAjaxIndicator($('.wordDetails'));
+	});
 }
 
 words.prototype.showWord=function(word){

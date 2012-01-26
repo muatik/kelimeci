@@ -1,6 +1,7 @@
 <?php
 if(!isset($o->noScriptStyle)){
 	echo '<link rel="stylesheet" type="text/css" href="css/wordList.css" />';
+	echo '<link rel="stylesheet" type="text/css" href="css/clsBoxes.css" />';
 	echo '<script type="text/javascript" src="js/wordList.js"></script>';
 }
 ?>
@@ -34,16 +35,12 @@ if(!isset($o->noScriptStyle)){
 			<li>
 				<input type="checkbox" class="wordIds" name="ids[]" 
 					value="'.$i->id.'" />
-				<span class="categories">';
+				<span class="clsBoxes">';
 				foreach($classList as $abbr=>$ci){
-					if(in_array($ci[2],$classes))
-						$classActive='active';
-					else
-						$classActive=null;
+					$classActive=(in_array($ci[2],$classes)?'active':null);
 
-					echo '<abbr class="'.$abbr.' '
-						.$classActive.'">'
-						.$ci[0].'</abbr>';
+					echo '<abbr class="'.$abbr.' '.$classActive
+						.'">'.$ci[0].'</abbr>';
 				}
 				echo '
 				</span>

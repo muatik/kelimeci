@@ -8,12 +8,12 @@
 		<label class="flabel">Tür:</label>
 		<select class="classesCheckList" multiple="6">
 			<option value="Hepsi" selected="selected">Hepsi</option>
-			<option value="verb">Verb</option>
-			<option value="noun">Noun</option>
-			<option value="adjective">Adjective</option>
-			<option value="adverb">Adverb</option>
-			<option value="preposition">Preposition</option>
-			<option value="unknown">Unknown</option>
+			<option value="verb">Fiil</option>
+			<option value="noun">İsim</option>
+			<option value="adjective">Sıfat</option>
+			<option value="adverb">Zarf</option>
+			<option value="preposition">Edat</option>
+			<option value="unknown">Diğer</option>
 		</select>
 		</div>
 

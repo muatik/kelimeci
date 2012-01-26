@@ -16,6 +16,8 @@ wordPackages.init=function(){
 			if(!c) return false;
 		}
 
+		toggleAjaxIndicator($('form.wordPackages'),'','append');
+
 		var ids=new Array();
 		$('input:checked',this).each(function(){
 			ids.push($(this).val());
@@ -30,6 +32,7 @@ wordPackages.init=function(){
 }
 
 wordPackages.afterSave=function(){
+	toggleAjaxIndicator($('form.wordPackages'),'','append');
 	wordPackages.markSelectedsAsSaved();
 	if(wordPackages.onSaveCallback)
 		wordPackages.onSaveCallback();

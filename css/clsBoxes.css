@@ -1,0 +1,20 @@
+/**
+ * boxes of word classes
+ * */
+.clsBoxes abbr{
+    font-family:tahoma,arial,sans-serif;
+    font-size:11px;
+    display:inline-block;
+    padding:1px;
+    width:13px;
+    margin-right:1px;
+    background:#C3C3C3;
+    color:white;
+    text-align:center;
+}
+.clsBoxes .active .clsBoxes .v{background:#D72A02;}
+.clsBoxes .active.v{background:#D72A02;}
+.clsBoxes .active.n{background:#2A8805;}
+.clsBoxes .active.aj{background:#17A4ED;}
+.clsBoxes .active.av{background:#D72A02;}
+.clsBoxes .active.pp{background:#CE2CB5;}

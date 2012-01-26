@@ -247,6 +247,11 @@ class vocabulary
 	 * @return object the object word
 	 */
 	public function fillUserData($word){
+		$v=$this->getVocabularyByWord($word->word);
+		if($v!=false){
+			$word->level=$v->level;
+			$word->status=$v->status;
+		}
 		$word->uQuotes=$this->getUserQuotes($word->id);
 		return $word;
 	}
