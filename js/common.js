@@ -157,5 +157,7 @@ function getSelected(){
 	else if(document.selection)
 		t=document.selection.createRange().text;
 	
+	t=$.trim(t);
+	
 	return t;
 }
