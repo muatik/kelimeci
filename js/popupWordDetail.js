@@ -75,10 +75,33 @@ $(function(){
 	 * 	Instead of this elements bind mechanism, by the on function of
 	 * 	jQuery, this binding mechanism is done automatically.
 	 */
-	$popup.find('> .content > .wordDetails a.word').on('click',function(){
+	/*
+	$popup.find('> .content > .wordDetails').on('click','a.word',function(){
 		showWordOnPopup($(this).text());
 		return false;
 	});
+	*/
+	
+	// Show the word details of selected text via double click
+	$(document)
+		.on(
+			'dblclick',
+				// Allowed places to double click
+				'.wordDetails .langGroup.langen *,'+
+				'.wordDetails div.quotes ul.quotes li *,'+
+				'.wordDetails .synonyms a.word,'+
+				'.wordDetails .antonyms a.word'
+			,
+			function(e){
+				// Selected text
+				var selText=getSelected();
+
+				if(selText!=''){
+					showWordOnPopup(selText);
+				}
+				return false;
+			}
+		);
 
 	/**
 	 * Bind the correction words on the test pages
@@ -107,6 +130,4 @@ $(function(){
 			showWordOnPopup($input.val());
 	});
 	*/
-
-	//showWordOnPopup('dummy1');
 });
