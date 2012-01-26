@@ -248,8 +248,10 @@ class vocabulary
 	 */
 	public function fillUserData($word){
 		$v=$this->getVocabularyByWord($word->word);
-		$word->level=$v->level;
-		$word->status=$v->status;
+		if($v!=false){
+			$word->level=$v->level;
+			$word->status=$v->status;
+		}
 		$word->uQuotes=$this->getUserQuotes($word->id);
 		return $word;
 	}

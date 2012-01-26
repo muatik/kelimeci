@@ -269,7 +269,7 @@ vcbp.onAddedWord=function(rsp,f){
 
 	h='<input type="checkbox" class="wordIds" name="ids[]" value="'+word.id+'" />';
 	
-	h+='<span class="categories">';
+	h+='<span class="clsBoxes">';
 	for(var i in classList){
 
 		var cssClass='';
