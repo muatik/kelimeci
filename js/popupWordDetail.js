@@ -2,12 +2,17 @@ function showWordOnPopup(word){
 
 	if(!word) return;
 
-	var
-		$popup=$('#popupWordDetail');
+	if(_popupWordDetail.$elem.length==0)
+		_popupWordDetail.$elem=$('#popupWordDetail');
 
-	if($popup.length>0){
+	if(_popupWordDetail.$elem.length>0){
+		/*
 		if(!$popup.is(':hidden'))
 			$popup.hide();
+		*/
+
+		_popupWordDetail.setAI('s');
+		_popupWordDetail.show();
 
 		var ajax=new simpleAjax();
 		ajax.send(
@@ -15,15 +20,18 @@ function showWordOnPopup(word){
 			'popup=1&word='+encodeURI(word),
 			{'onSuccess':function(rsp,o){
 				
+				_popupWordDetail.setAI('h');
+				
 				// If the first letter of word is not "0"
 				// that means it is a error
 				if(rsp.substr(0,1)!='0'){
-					_popupWordDetail.show(rsp);
+					_popupWordDetail.showContent(rsp);
 				}
 				// If it is a error
 				else{
 					// Alert the error
-					alert(rsp.substr(1,rsp.length-1));
+					//alert(rsp.substr(1,rsp.length-1));
+					_popupWordDetail.showContent(rsp.substr(1,rsp.length-1));
 				}
 			}}
 		);
@@ -33,30 +41,72 @@ function showWordOnPopup(word){
 
 var _popupWordDetail={};
 
-_popupWordDetail.show=function(html){
+_popupWordDetail.$elem=$popup=$('#popupWordDetail');
+
+_popupWordDetail.show=function(){
 	var
-		$popup=$('#popupWordDetail');
+		$popup=this.$elem;
 
 	if($popup.length>0){
 		$popup
-			.find('.content').html(html).end()
-			.show()
+			.find('.content').html('').end()
 			// center
 			.css({
 				top:'50%',
 				left:'50%',
 				margin:'-'+($popup.height() / 2)+'px 0 0 -'+($popup.width() / 2)+'px'
-			});
+			})
+			.show();
 	}
 }
 
-$(function(){
+_popupWordDetail.hide=function(){
+	this.$elem.hide();	
+}
+
+_popupWordDetail.showContent=function(html){
+	$content=this.$elem.find('.content');
+
+	if($content.length>0){
+		$content.html(html);
+	}
+}
+
+/**
+ * Set AI(Ajax Indicator)
+ *
+ * @param string status ('s' || 'h')
+ * 	default 'h'
+ */
+_popupWordDetail.setAI=function(status){
 	var
-		$popup=$('#popupWordDetail');
+		$ai=this.$elem.find('.ai');
+	
+	if($ai.length>0){
+		// Show AI
+		if(status=='s')
+			$ai.show();
+		// Hide AI
+		else
+			$ai.hide();
+	}
+	else
+		console.log('No ajax indicator in the popup word detail!');
+}
+
+$(function(){
+
+	if(_popupWordDetail.$elem.length==0)
+		_popupWordDetail.$elem=$('#popupWordDetail');
+	
+	var $elem=_popupWordDetail.$elem;
+
+	// Hide
+	$elem.hide();
 
 	// Close button on the popup word detail
-	$popup.find('> .close').click(function(){
-		$popup.hide();
+	$elem.find('> .close').click(function(){
+		_popupWordDetail.hide();
 		return false;
 	});
 
@@ -76,7 +126,7 @@ $(function(){
 	 * 	jQuery, this binding mechanism is done automatically.
 	 */
 	/*
-	$popup.find('> .content > .wordDetails').on('click','a.word',function(){
+	$elem.find('> .content > .wordDetails').on('click','a.word',function(){
 		showWordOnPopup($(this).text());
 		return false;
 	});

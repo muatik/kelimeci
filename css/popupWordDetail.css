@@ -1,10 +1,10 @@
 #popupWordDetail{
 	display:none;
 	position:absolute;
-	width:450px;
-	height:225px;
-	overflow:auto;
-	border:10px solid rgba(37,129,157,0.3);
+	padding:5px;
+	width:550px;
+	height:315px;
+	border:10px solid rgba(119,119,119,0.7);
 	background:#f7f7f7;
 	z-index:9999;
 
@@ -42,6 +42,11 @@
 	border:1px solid #aaa;
 	color:#777;
 }
+#popupWordDetail .content{
+	margin:25px 0 10px 0;
+	overflow:auto;
+	height:275px;
+}
 #popupWordDetail .content > .wordDetails{
-	padding:5;
+	padding:5px;
 }
