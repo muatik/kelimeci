@@ -27,7 +27,7 @@ function showWordOnPopup(word){
 			{'onSuccess':function(rsp,o){
 				
 				// Remove AI
-				toggleAjaxIndicator($popup);
+				toggleAjaxIndicator($popup,null,null,false);
 				
 				// If the first letter of word is not "0"
 				// that means it is a error

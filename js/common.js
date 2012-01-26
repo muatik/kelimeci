@@ -169,6 +169,7 @@ function toggleAjaxIndicator(){
 	var target=arguments[0];
 	var msg='';
 	var pos='append';
+	var fadeOnHide=true;
 
 	if(arguments.length>1)
 		msg=arguments[1];
@@ -176,9 +177,15 @@ function toggleAjaxIndicator(){
 	if(arguments.length>2)
 		pos=arguments[2];
 	
+	if(arguments.length>3)
+		fadeOnHide=arguments[3];
+	
 	if($('.ajaxIndicator',$(target).parent()).length>0){
 		$('.ajaxIndicator',$(target).parent())
-			.fadeOut(750,function(){$(this).remove()});
+			.fadeOut(
+				(fadeOnHide) ? 750 : 0,
+				function(){$(this).remove()}
+			);
 		return true;
 	}
 
