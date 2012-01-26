@@ -16,7 +16,7 @@
 ?>
 <div class="profilePage">
 
-<form class="profileForm personel" method="post" action="">
+<form class="frm profileForm personel" method="post" action="">
 	<h4 class="frmTitle">Kişisel Bilgilerini Güncelle</h4>
 	<ul class="frmItems">
 		<li>
@@ -60,7 +60,7 @@
 	</ul>
 </form>
 
-<form class="profileForm password" method="post" action="">
+<form class="frm profileForm password" method="post" action="">
 	<h4 class="frmTitle">Şifreni Güncelle</h4>
 	<ul class="frmItems">
 		<li>
@@ -95,7 +95,7 @@
 	</ul>
 </form>
 
-<form class="profileForm email" method="post" action="">
+<form class="frm profileForm email" method="post" action="">
 	<h4 class="frmTitle">E-posta Adresini Güncelle</h4>
 	<ul class="frmItems">
 		<li>
@@ -115,7 +115,7 @@
 	</ul>
 </form>
 
-<form class="profileForm practice" method="post" action="">
+<form class="frm profileForm practice" method="post" action="">
 	<h4 class="frmTitle">Pratik</h4>
 	<ul class="frmItems">
 		<li>
