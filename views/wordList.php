@@ -1,6 +1,7 @@
 <?php
 if(!isset($o->noScriptStyle)){
 	echo '<link rel="stylesheet" type="text/css" href="css/wordList.css" />';
+	echo '<link rel="stylesheet" type="text/css" href="css/clsBoxes.css" />';
 	echo '<script type="text/javascript" src="js/wordList.js"></script>';
 }
 ?>
@@ -19,12 +20,13 @@ if(!isset($o->noScriptStyle)){
 	<?php
 	$words=$o->words;
 	$classList=array(
-		'v'=>'verb',
-		'n'=>'noun',
-		'aj'=>'adjective',
-		'av'=>'adverb',
-		'pp'=>'preposition'
+		'v'=>array('f','Fiil','verb'),
+		'n'=>array('i','İsim','noun'),
+		'aj'=>array('s','Sıfat','adjective'),
+		'av'=>array('z','Zarf','adverb'),
+		'pp'=>array('e','Edat','preposition')
 	);
+
 	foreach($words as $i){
 		$classes=arrays::toArray($i->classes,'name');
 		if(!is_array($classes))
@@ -33,16 +35,12 @@ if(!isset($o->noScriptStyle)){
 			<li>
 				<input type="checkbox" class="wordIds" name="ids[]" 
 					value="'.$i->id.'" />
-				<span class="categories">';
+				<span class="clsBoxes">';
 				foreach($classList as $abbr=>$ci){
-					if(in_array($ci,$classes))
-						$classActive='active';
-					else
-						$classActive=null;
+					$classActive=(in_array($ci[2],$classes)?'active':null);
 
-					echo '<abbr class="'.$abbr.' '
-						.$classActive.'" title="'.$ci.'">'
-						.$abbr.'</abbr>';
+					echo '<abbr class="'.$abbr.' '.$classActive
+						.'" title="'.$ci[1].'">'.$ci[0].'</abbr>';
 				}
 				echo '
 				</span>

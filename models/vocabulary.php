@@ -50,18 +50,29 @@ class vocabulary
 	public function getWords($start=0, $length=100, $classes=null
 		,$keyword=null,$levelMin=null,$levelMax=null,$orderBy=null){
 		
-		
+		$classesq=null;
 		if($classes!=null){
-			$classes=dictionary::getClasses($classes);
-			$classes=arrays::toArray($classes,'id');
-			if(is_array($classes) && count($classes)>0)
-				$classes=' and wc.clsId in (\''.
-					implode('\',\'',$classes)
+			$classesq=dictionary::getClasses($classes);
+			$classesq=arrays::toArray($classesq,'id');
+			
+			if(is_array($classesq) && count($classesq)>0) {
+				$classesq=' wc.clsId in (\''.
+					implode('\',\'',$classesq)
 					.'\')';
+
+				if(in_array('unknown',$classes))
+					$classesq='('.$classesq.' or wc.clsId is null )';
+
+				$classesq=' and '.$classesq;
+			}
+
 		}
-		if(!is_string($classes))
-			$classe=null;
 		
+		if(!is_string($classesq))
+			$classes=null;
+		else
+			$classes=$classesq;
+
 		if($keyword!=null)
 			$keyword=' and w.word like \'%'
 				.$this->db->escape($keyword).'%\'';
@@ -93,6 +104,7 @@ class vocabulary
 			left join classes as cls on wc.clsId=cls.id
 			where
 			v.userId='.$this->userId.' and
+			v.status=1 and
 			v.wordId=w.id
 			'.$keyword.'
 			'.$level.'
@@ -146,8 +158,11 @@ class vocabulary
 	 * @return array
 	 * */
 	public function getWordPackages($isAll){
-		$sql='select wp.*,userId as isInUserVcb from 
-			wordPackages as wp left join userWordPackages as uwp
+		
+		$sql='select 
+				wp.*,userId as isInUserVcb, count(wp.wordId) as wordCount 
+			from 
+				wordPackages as wp left join userWordPackages as uwp
 				on wp.label=uwp.label and
 				uwp.userId=\''.$this->userId.'\' 
 			group by wp.label
@@ -157,10 +172,70 @@ class vocabulary
 	}
 	
 	/**
-	 *
+	 * save given packages into the user's package list
 	 * */
 	public function saveWordPackages($packages){
+
+		foreach($packages as $k=>$i)
+			$packages[$k]=$this->db->escape($i);
+
+		$packagesi=implode('\',\'',$packages);
+
+		// fetching omitted packages
+		$sql='select * from userWordPackages 
+			where userId=\''.$this->userId.'\' and
+			label not in (\''.$packagesi.'\')';
+
+		$omitteds=$this->db->fetch($sql);
+		$omitteds=arrays::toArray($omitteds,'label');
+
+
+		// inserts words of selected packages into the user's vocabulary.
+		$sql='insert ignore into vocabulary (userId,wordId,tags) 
+			select '.$this->userId.' as userId, wordId, label as tags 
+			from wordPackages as wp
+			where wp.label in (\''.$packagesi.'\')';
+		$this->db->query($sql);
+		// marks words of selected packages as inuse
+		$sql='update vocabulary as v, wordPackages as wp 
+				set status=1 
+			where
+				wp.label in (\''.$packagesi.'\') and
+				wp.wordId=v.wordId';
+		$this->db->query($sql);
+
+
+		// inserting selected packages into the user's package list
+		$sql='insert ignore into userWordPackages (userId,label) 
+			values (\''.$this->userId.'\',\''.
+				implode('\'),(\''.$this->userId.'\',\'',$packages).'\')';
+		$this->db->query($sql);
 		
+		// deleting words of the omitted packages's from the users's vocabulary.
+		if(count($omitteds)>0){
+			
+			$sql='delete from userWordPackages
+				where userId=\''.$this->userId.'\' and 
+				label in (\''.implode('\',\'',$omitteds).'\')';
+			$this->db->query($sql);
+			
+			// marks words as removed in vocabulary
+			$sql='update 
+					vocabulary as vcb, wordPackages as owp
+				set
+					vcb.status=0
+				where 
+					vcb.wordId=owp.wordId and 
+					owp.label in (\''.implode('\',\'',$omitteds).'\') and
+					owp.wordId not in (
+						select wordId from wordPackages as iwp 
+						where iwp.label in (\''.$packagesi.'\')
+					)';
+			$this->db->query($sql);
+		}
+		
+		return true;
+			
 	}
 
 	/**
@@ -172,6 +247,11 @@ class vocabulary
 	 * @return object the object word
 	 */
 	public function fillUserData($word){
+		$v=$this->getVocabularyByWord($word->word);
+		if($v!=false){
+			$word->level=$v->level;
+			$word->status=$v->status;
+		}
 		$word->uQuotes=$this->getUserQuotes($word->id);
 		return $word;
 	}
@@ -200,8 +280,11 @@ class vocabulary
 			limit 1';
 
 		// if the word is already in the user's vocabulary
-		if($this->getVocabularyByWord($word->word)!==false)
-			return false;
+		if($this->getVocabularyByWord($word->word)!==false){
+			// if the word is already exists in vocabulary as removed word,
+			// the word is going to be marked as inuse
+			return $this->markWordAsInuse($word->word);
+		}
 
 		$sql='insert into vocabulary (userId,wordId,level,tags)
 			values(
@@ -217,6 +300,20 @@ class vocabulary
 			return true;
 
 		return false;
+	}
+
+	/**
+	 * mark the removed word as inuse in vocabulary
+	 * @param string $word
+	 * @access public
+	 * @return bool
+	 * */
+	public function markWordAsInuse($word){
+			$sql='update vocabulary as v, words as w set v.status=1
+				where v.userId=\''.$this->userId.'\' and
+				v.wordId=w.id and w.word=\''.$word.'\'';
+			$this->db->query($sql);
+			return $this->db->affectedRows;
 	}
 
 	/**
@@ -238,9 +335,9 @@ class vocabulary
 
 			$wordIds[]=$word->id;
 		}
-		
-		$sql='delete from vocabulary 
-			where 
+
+		//0=removed, 1=inuse for status
+		$sql='update vocabulary set	status=0 where 
 			userId=\''.$this->userId.'\' and
 			wordId in (\''.implode('\',\'',$wordIds).'\')';
 

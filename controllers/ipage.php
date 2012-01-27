@@ -12,9 +12,18 @@ class ipage extends controllers
 		}
 		else{
 			$this->isLogined=false;
+			$this->openDummySession();
 		}
 	}
 	
+	/**
+	 * opening a session for whom is not authorized(not logined). 
+	 * A session is required for every user to save search history etc.
+	 * */
+	public function openDummySession(){
+		$this->session->open();
+	}
+
 	public function initialize(){
 		parent::initialize();
 		$this->addLib('db');

@@ -1,5 +1,6 @@
 var vocabulary={};
 
+vocabulary.onAddCallback=null;
 vocabulary.noScriptStyle=1;
 
 vocabulary.filter={
@@ -15,7 +16,25 @@ var _vcbp=vocabulary;
 
 
 _vcbp.add=function(word,tags){
+	var ajax=new simpleAjax();
+	
+	if(arguments.length>2)
+		callback=arguments[2];
+	else
+		callback=this.onAddCallback;
 
+	ajax.send(
+		'vocabulary?_ajax=vocabulary/addWord&word='
+		+word+'&tag='+tags,
+		null,
+		{onSuccess:function(rsp){
+			/**
+			 * is there a callback function, call it.
+			 * */
+			if(callback)
+				callback(rsp)
+		}}
+	);
 }
 
 _vcbp.get=function(filter){

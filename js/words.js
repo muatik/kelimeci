@@ -7,6 +7,8 @@ function words(pageId){
 	this.layer=$('#'+pageId);
 	this.word=$('input[name="word"]',this.layer).val();
 	this.bind();
+	this.removeCallback;
+	this.addCallback;
 }
 
 words.prototype.bind=function(){
@@ -99,8 +101,58 @@ words.prototype.bind=function(){
 
 		e.preventDefault();
 	});
+	
 
+	/**
+	 * when add/remove button is clicked, adds or removes the word from vocabulary
+	 * */
+	$('a.addRemove').click(function(){
+		
+		toggleAjaxIndicator($('.wordDetails a.addRemove'),'','after');
 
+		if($(this).hasClass('del')){
+			t.remove(t.word);
+			$(this).removeClass('del gray')
+			.addClass('add green')
+			.attr('title','Kelimeyi kelime dağarcığından çıkartır.')
+			.html('Sözlüğüne ekle');
+		}
+		else{
+			t.add(t.word,null);
+			$(this).removeClass('add geen')
+			.addClass('del gray')
+			.attr('title','Kelimeyi kelime dağarcığınıza ekler.')
+			.html('Sözlüğünden çıkart');
+		}
+	});
+
+}
+
+/**
+ * adds the word into vocabulary
+ * */
+words.prototype.add=function(word,tags){
+
+	vocabulary.add(word,tags,function(){
+
+		if(words.addCallback)
+			words.addCallback(word,tags);
+
+		toggleAjaxIndicator($('.wordDetails'));
+	})
+}
+
+/**
+ * removes the showing word from vocabulary
+ * */
+words.prototype.remove=function(word){
+	vocabulary.rmWord([this.word],function(){
+		
+		if(words.removeCallback)
+			words.removeCallback(word);
+
+		toggleAjaxIndicator($('.wordDetails'));
+	});
 }
 
 words.prototype.showWord=function(word){

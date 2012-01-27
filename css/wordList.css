@@ -1,6 +1,6 @@
 .wordList{
 	padding:10px;
-	width:250px;
+	width:310px;
 }
 .wordList h2{
 	font-family:"cantarell","Trebuchet MS" , Arial, "Bitstream Vera Sans" , sans-serif;
@@ -27,26 +27,10 @@
 .wordList .words li span{
 	margin-right:5px;
 }
-.wordList .words li .categories abbr{
-	font-family:tahoma,arial,sans-serif;
-	font-size:11px;
-	display:inline-block;
-	padding:1px;
-	width:13px;
-	margin-right:1px;
-	background:#C3C3C3;
-	color:white;
-	text-align:center;
+.wordList .words li span.removed{
+	text-decoration:line-through;
+	color:#ff0000;
 }
-.wordList .categories .active .wordList .categories .v{
-	background:#D72A02;
-}
-
-.wordList .categories .active.v{background:#D72A02;}
-.wordList .categories .active.n{background:#2A8805;}
-.wordList .categories .active.aj{background:#17A4ED;}
-.wordList .categories .active.av{background:#D72A02;}
-.wordList .categories .active.pp{background:#FFA500;}
 
 .wordList .words li .level{
 	display:inline-block;
