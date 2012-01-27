@@ -6,7 +6,10 @@ class vocabularyController extends ipage {
 		$this->title='Kelime dağarcığı';
 		parent::initialize();
 	}
-
+	public function run(){
+		kelimeci\dictionary::learn('fuck');
+		die('fuck');
+	}
 	public function addWord(){
 		$r=$this->r;
 

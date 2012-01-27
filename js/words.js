@@ -106,9 +106,9 @@ words.prototype.bind=function(){
 	/**
 	 * when add/remove button is clicked, adds or removes the word from vocabulary
 	 * */
-	$('a.addRemove').click(function(){
+	$('a.addRemove',t.layer).click(function(){
 		
-		toggleAjaxIndicator($('.wordDetails a.addRemove'),'','after');
+		toggleAjaxIndicator($('a.addRemove',t.layer),'','after');
 
 		if($(this).hasClass('del')){
 			t.remove(t.word);
@@ -124,6 +124,8 @@ words.prototype.bind=function(){
 			.attr('title','Kelimeyi kelime dağarcığınıza ekler.')
 			.html('Sözlüğünden çıkart');
 		}
+		
+		return false;
 	});
 
 }
@@ -132,13 +134,13 @@ words.prototype.bind=function(){
  * adds the word into vocabulary
  * */
 words.prototype.add=function(word,tags){
-
+	var t=this;
 	vocabulary.add(word,tags,function(){
 
 		if(words.addCallback)
 			words.addCallback(word,tags);
 
-		toggleAjaxIndicator($('.wordDetails'));
+		toggleAjaxIndicator(t.layer);
 	})
 }
 
@@ -146,22 +148,38 @@ words.prototype.add=function(word,tags){
  * removes the showing word from vocabulary
  * */
 words.prototype.remove=function(word){
+	var t=this;
 	vocabulary.rmWord([this.word],function(){
 		
 		if(words.removeCallback)
 			words.removeCallback(word);
-
-		toggleAjaxIndicator($('.wordDetails'));
+		
+		toggleAjaxIndicator(t.layer);
 	});
 }
 
 words.prototype.showWord=function(word){
 	var t=this;
 	var ajax=new simpleAjax();
+
+	var indc=toggleAjaxIndicator(
+		//$('.wordList .words li span.word:contains('+word+')'),
+		$(t.layer).html(''),
+		'"'+word+'" yükleniyor... <a href="#" class="abort">iptal et</a>',
+		'before',
+		'wordShowingIndc'
+	);
+	
+	$('a.abort',indc).click(function(){		
+		ajax.o.abort();
+		$(indc).remove();
+	});
+
 	ajax.send(
-		'vocabulary?_view=word&word='+word,
+		'vocabulary?_view=word&word='+word+'&noScriptStyle=1',
 		null,
 		{onSuccess:function(rsp){
+			$(indc).remove();
 			var h=$(rsp);
 			$(h).hide().insertAfter(t.layer)
 			$(t.layer).fadeOut('fast').remove();

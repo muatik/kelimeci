@@ -170,6 +170,7 @@ function toggleAjaxIndicator(){
 	var msg='';
 	var pos='append';
 	var fadeOnHide=true;
+	var classSuffix='';
 
 	if(arguments.length>1)
 		msg=arguments[1];
@@ -178,7 +179,10 @@ function toggleAjaxIndicator(){
 		pos=arguments[2];
 	
 	if(arguments.length>3)
-		fadeOnHide=arguments[3];
+		classSuffix=arguments[3];
+
+	if(arguments.length>4)
+		fadeOnHide=arguments[4];
 	
 	if($('.ajaxIndicator',$(target).parent()).length>0){
 		$('.ajaxIndicator',$(target).parent())
@@ -189,8 +193,11 @@ function toggleAjaxIndicator(){
 		return true;
 	}
 
-	var h='<span class="ajaxIndicator">'+msg+'<img src="images/loading.gif" '
+	var h='<span class="ajaxIndicator '+classSuffix+'">'
+		+msg+'<img src="images/loading.gif" '
 		+'alt="Yükleniyor..." /></span>';
+	
+	h=$(h);
 
 	switch(pos){
 		case 'after': $(h).insertAfter(target);break;
@@ -199,4 +206,5 @@ function toggleAjaxIndicator(){
 		case 'append': $(target).append(h);break;
 	}
 
+	return h;
 }

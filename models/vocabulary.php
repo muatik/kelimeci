@@ -49,22 +49,26 @@ class vocabulary
 	 */
 	public function getWords($start=0, $length=100, $classes=null
 		,$keyword=null,$levelMin=null,$levelMax=null,$orderBy=null){
-		
+
 		$classesq=null;
 		if($classes!=null){
 			$classesq=dictionary::getClasses($classes);
 			$classesq=arrays::toArray($classesq,'id');
 			
 			if(is_array($classesq) && count($classesq)>0) {
-				$classesq=' wc.clsId in (\''.
+				$classesq2=' wc.clsId in (\''.
 					implode('\',\'',$classesq)
 					.'\')';
 
-				if(in_array('unknown',$classes))
-					$classesq='('.$classesq.' or wc.clsId is null )';
 
-				$classesq=' and '.$classesq;
 			}
+
+			if(in_array('unknown',$classes))
+				$classesq='('.(isset($classesq2)?$classesq2.' or ':'')
+					.' wc.clsId is null )';
+
+			if($classesq!=null)
+				$classesq=' and '.$classesq;
 
 		}
 		
@@ -72,7 +76,7 @@ class vocabulary
 			$classes=null;
 		else
 			$classes=$classesq;
-
+		
 		if($keyword!=null)
 			$keyword=' and w.word like \'%'
 				.$this->db->escape($keyword).'%\'';

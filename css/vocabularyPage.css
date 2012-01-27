@@ -17,11 +17,20 @@
 	*/
 }
 .detailSide{
-	width:450px;
+	width:550px;
 	margin-left:20px;
 	z-index:-999999;
 }
 
+.detailSide .wordShowingIndc{
+	font:1.3em verdana,helvetica;
+	margin-top:50px;
+	display:block;
+	text-align:center;
+}
+.detailSide .wordShowingIndc img{
+	margin:0 10px;
+}
 .wordAdditionForm, .wordFilterForm{margin:14px 5px;}
 
 .wordAdditionForm input[name="tag"]{width:68px}
