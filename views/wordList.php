@@ -40,7 +40,7 @@ if(!isset($o->noScriptStyle)){
 					$classActive=(in_array($ci[2],$classes)?'active':null);
 
 					echo '<abbr class="'.$abbr.' '.$classActive
-						.'" title="'.$ci[1].'">'.$ci[0].'</abbr>';
+						.'">'.$ci[0].'</abbr>';
 				}
 				echo '
 				</span>

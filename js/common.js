@@ -143,166 +143,24 @@ function hideFrmAlert(elem,callBack){
 }
 
 /**
- * Create a tooltip
+ * Get selected (text) on the page
  *
- * @param array || object tooltip
- * 	1) array:
- * 		[
- *			{'target':'','options':''},
- *			{'target':'','options':''},
- *			...
- * 		]
- *
- * 	2) object:
- *		{'target':'','options':''}
+ * @return string
  */
-function createTooltip(tooltip){
-	// If array, call self in a loop
-	if($.isArray(tooltip)){
-		for(var i in tooltip)
-			createTooltip(tooltip[i]);
-	}
-	// If not array
-	else{
-		// If there is target element
-		if($(tooltip.target).length>0){
-			// Create tooltip
-			$(tooltip.target).qtip(tooltip.options);
-		}
-	}
-}
+function getSelected(){
+	var t='';
 
-/**
- * Hide the tooltip 
- * 	by clicking the hide link inside the tooltip
- */
-function hideTooltip(elem){
-	var $e=$(elem);
-
-	// If invoked by a qtip hide link inside a tooltip
-	if($e.hasClass('qtipHide')){
-		var qtipId=$e.parents('.ui-tooltip').attr('id');
-		$('#'+qtipId).qtip('api').hide();
-		return false;
-	}
-}
-
-/**
- * Custom defined tooltips
- *
- * 	-result: Shown after the result of question
- */
-/*
-Tooltips={
-	defs:{
-		tClass:'customTooltip',
-		nameSpaces:['test']
-	},
-	show:function(target,type,nameSpace){
-		if(nameSpace){
-		}
-		else{
-		if(this.types[type])
-			$(target).qtip(this.types[type]);
-		}
-	},
-	types:{
-		nameSpaced:{
-			test:{
-				result:{
-					show:{ready:true},
-					content:
-					'<ul class="'+this.defs.tClass+'">'+
-						'<li><b>Y: </b><span>Doğru seçilen</span></li>'+
-						'<li><b>K: </b><span>Yanlış seçilen</span></li>'+
-						'<li><b>Ü: </b><span>Seçilmeyen doğru</span></li>'+
-					'</ul>',
-					position:{
-						my:'left center',
-						at:'right center'
-					},
-					style:{
-						classes:'ui-tooltip-youtube ui-tooltip-shadow'
-					}
-				}
-			}
-		}
-	}
-}
-*/
-
-/**
- * Customized tooltips
- */
-function ToolTips(){}
-
-/**
- * Defaults
- */
-ToolTips.prototype.defs={
-	tClass:'customToolTip'
-}
-
-/**
- * Show the tooltip with the type speficied
- *
- * @param string target
- * @param string type ToolTip type
- * @param string nameSpace
- */
-ToolTips.prototype.show=function(target,type,nameSpace){
-	// If no target like this, return
-	if($(target).length==0)
-		return;
+	if(window.getSelection)
+		t=window.getSelection();
+	else if(document.getSelection)
+		t=document.getSelection();
+	else if(document.selection)
+		t=document.selection.createRange().text;
 	
-	var tTip=null;
-
-	// If correct namespace and type
-	if(nameSpace && this.types.nameSpaced[nameSpace][type])
-		tTip=this.types.nameSpaced[nameSpace][type];		
-	// If correct type
-	else if(type && this.types[type])
-		tTip=this.types[type];
+	t=$.trim(t);
 	
-	if(tTip!=null)
-		$(target).qtip(tTip);
+	return t;
 }
-	
-/**
- * Types of tooltips
- */
-ToolTips.prototype.types={
-	nameSpaced:{
-		test:{
-			result:{
-				show:{ready:true},
-				hide:false,
-				content:{
-					title:{
-						text:'Sonuç İşaretleri',
-						button:true
-					},
-					text:
-					'<ul class="questionResult">'+
-						'<li><b class="c">D</b> - <span>Doğru seçilen</span></li>'+
-						'<li><b class="i">Y</b> - <span>Yanlış seçilen</span></li>'+
-						'<li><b class="l">Ç</b> - <span>Seçilmeyen doğru</span></li>'+
-					'</ul>'
-				},
-				position:{
-					my:'left center',
-					at:'right center'
-				},
-				style:{
-					classes:'ui-tooltip-youtube ui-tooltip-shadow'
-				}
-			}
-		}
-	}
-}
-
-// ToolTips object
-var toolTips=new ToolTips();
 
 function toggleAjaxIndicator(){
 	if(arguments.length<1)
@@ -311,6 +169,7 @@ function toggleAjaxIndicator(){
 	var target=arguments[0];
 	var msg='';
 	var pos='append';
+	var fadeOnHide=true;
 
 	if(arguments.length>1)
 		msg=arguments[1];
@@ -318,9 +177,15 @@ function toggleAjaxIndicator(){
 	if(arguments.length>2)
 		pos=arguments[2];
 	
+	if(arguments.length>3)
+		fadeOnHide=arguments[3];
+	
 	if($('.ajaxIndicator',$(target).parent()).length>0){
 		$('.ajaxIndicator',$(target).parent())
-			.fadeOut(750,function(){$(this).remove()});
+			.fadeOut(
+				(fadeOnHide) ? 750 : 0,
+				function(){$(this).remove()}
+			);
 		return true;
 	}
 

@@ -1,0 +1,26 @@
+/* Begin - ToolTips */
+
+.ui-tooltip.qtip .wordClasses li{
+	margin-bottom:1px;
+}
+.ui-tooltip.qtip .wordClasses *{
+}
+.ui-tooltip.qtip .wordClasses abbr{
+	font-family:tahoma,arial,sans-serif;
+	font-size:11px;
+	display:inline-block;
+	padding:1px;
+	width:13px;
+	margin-right:1px;
+	background:#C3C3C3;
+	color:white;
+	text-align:center;
+}
+
+.ui-tooltip.qtip .wordClasses .v{background:#FF0000;}
+.ui-tooltip.qtip .wordClasses .n{background:#2A8805;}
+.ui-tooltip.qtip .wordClasses .aj{background:#17A4ED;}
+.ui-tooltip.qtip .wordClasses .av{background:#FFA500;}
+.ui-tooltip.qtip .wordClasses .pp{background:#CE2CB5;}
+
+/* End - ToolTips */

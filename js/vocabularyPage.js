@@ -186,6 +186,18 @@ vcbp.bindList=function(){
 	})
 
 	$('ul.words span.word').bind('click', function(){
+		/*
+		toggleAjaxIndicator(
+			//$('.wordList .words li span.word:contains('+word+')'),
+			$('.wordList .words li span.word')
+				.filter(function(){
+					return $(this).text()==word
+				}),
+			'',
+			'after'
+		);
+		*/
+
 		t.showDetail($(this).text());
 	})
 }
@@ -198,6 +210,15 @@ vcbp.showDetail=function(word){
 		'vocabulary?_view=word&word='+word+'&noScriptStyle=1',
 		null,
 		{onSuccess:function(rsp,o){
+			/*
+			toggleAjaxIndicator(
+				//$('.wordList .words li span.word:contains('+word+')'),
+				$('.wordList .words li span.word')
+					.filter(function(){
+						return $(this).text()==word 
+					})
+			);
+			*/
 			$('.detailSide').html(rsp)
 				.hide().toggle('slide',{},450);
 		}}

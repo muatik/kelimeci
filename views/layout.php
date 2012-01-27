@@ -12,10 +12,12 @@
 <script type="text/javascript" src="js/createXHR.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery.qtip.min.js"></script>
+<script type="text/javascript" src="js/jquery.center.js"></script>
+<script type="text/javascript" src="js/tooltip.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/layout.js"></script>
 <script type="text/javascript" src="js/feedback.js"></script>
-<script type="text/javascript" src="js/jquery.qtip.min.js"></script>
 <script type="text/javascript" src="js/jquery.autocomplete.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/reset.css" />
@@ -25,6 +27,7 @@
 <link rel="stylesheet" type="text/css" href="css/feedback.css" />
 <link rel="stylesheet" type="text/css" href="css/jquery.qtip.css" />
 <link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
+<link rel="stylesheet" type="text/css" href="css/tooltip.css" />
 
 </head>
 <body>

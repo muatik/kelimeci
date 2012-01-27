@@ -1,3 +1,5 @@
+var _tooltips=new ToolTips();
+
 $(function(){
 	var
 		// User top menu
@@ -9,7 +11,10 @@ $(function(){
 		// Min. width for the user menu and its sub menu if the user logined
 		usrMenuMinWid=120;
 	
-	
+	// Show tooltips for class boxes (word classes)	
+	$(document).on('mouseenter','.clsBoxes',function(e){
+		$(this).qtip(_tooltips.types.nameSpaced.word.classes);
+	});
 
 	// Set the min. width for the user and its sub menu if the width smaller than minWid
 	//	if the user logined
@@ -118,7 +123,6 @@ $(function(){
 			toggleFormsInUserMenu();
 			return false;
 		});
-
 });
 
 /**
