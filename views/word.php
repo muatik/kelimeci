@@ -23,6 +23,13 @@ $w=$o->word;
 	?>
 
 	<h1><?php 
+
+		// The options of speaker
+		$o=new stdClass();
+		$o->mediaFile='../audio/1.mp3';
+		// Insert the speaker
+		echo $this->loadElement('speaker.php',$o);
+		
 		echo $w->word;
 		if(isset($w->info['pronunciation']))
 			echo ' <span class="pronunciation" 
