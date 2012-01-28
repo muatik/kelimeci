@@ -65,13 +65,6 @@
 	// Insert the popup word detail div into the DOM
 	echo $this->loadElement('popupWordDetail.php');
 
-	// The options of jplayer
-	$o=new stdClass();
-	$o->jplayer=new stdClass();
-	$o->jplayer->id='jplayer';
-	// Insert only one jplayer into the DOM
-	echo $this->loadElement('jplayer.php',$jplayer);
-
 	/**
 	 * If the user logined, 
 	 *	store the email in a global var. for js
