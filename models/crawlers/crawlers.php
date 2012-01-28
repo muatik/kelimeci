@@ -7,8 +7,6 @@ class crawlers
 	public $wordId;
 
 	public function __construct(){
-		require_once('_config.php');
-		require_once('db.php');
 		$this->db=new \db();
 	}	
 
@@ -20,11 +18,17 @@ class crawlers
 	 * @return bool
 	 * */
 	public function learn($word){
+		if(mb_strlen($word)<2)
+			return false;
 		
-		require_once("crawlers/googleC.php");
-		require_once("crawlers/urbanC.php");
-		require_once("crawlers/seslisozlukC.php");
-		require_once("crawlers/dictionaryC.php");
+		require_once("googleC.php");
+		require_once("urbanC.php");
+		require_once("seslisozlukC.php");
+		require_once("dictionaryC.php");
+		
+		header('content-type:text/html;charset=utf-8');
+		
+		$this->queriedWord=$word;
 
 		$this->wordId=$this->insertWord($word);
 		
@@ -67,6 +71,8 @@ class crawlers
 		
 		if ($data) $this->save($data);
 		
+		$this->findQuotesInDb($data);
+
 		/*
 		if (!$this->isWebPageCrawled($this->wordId,'urban')){
 		
@@ -108,6 +114,7 @@ class crawlers
 			$o->partOfSpeech,
 			$o->webPageName
 		);
+
 	}
 	
 	/**
@@ -193,7 +200,7 @@ class crawlers
 	 * @return bool
 	 * */
 	public function insertWordOfClass($wordId,$clsName){
-				
+		
 		$clsId=$this->insertClass($clsName);
 		
 		$sql='select * from wordClasses where wId=\''.$wordId.
@@ -384,5 +391,31 @@ class crawlers
 		else 
 			return false;		
 	}
+
+
+	/**
+	 * findQuotesInDb 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function findQuotesInDb($word){
+		$flacs='';
+		
+		switch($word->class){
+			case 'noun': $flacs='(isim|ist|ment|tion|er|or|s|es)?'; break;
+			case 'verb': 
+			default:$flacs='(s|ing|ed|d)?'; 
+		}
+		
+		$sql='insert into wordQuotes select '.$this->wordId.' as wId, id as quoteId 
+			from quotes where
+			quote regexp \'(^| )'.$this->queriedWord.''.$flacs.'($| )\'
+			order by length(quote) asc
+			limit 100';
+
+		return $this->db->query($sql);
+	}
+
 }
 ?>
