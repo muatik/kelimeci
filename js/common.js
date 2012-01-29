@@ -208,3 +208,44 @@ function toggleAjaxIndicator(){
 
 	return h;
 }
+
+/**
+ * Set a cookie
+ * 
+ * @param string name
+ * @param string value
+ * @param string exDays Experation days (ex: 5)
+ */
+function setCookie(name,value,exDays){
+	var 
+		cVal='',
+		exDate=new Date();
+
+	exDate.setDate(exDate.getDate() + exDays);
+	cVal=escape(value)+((exDays==null) ? '' : '; expires='+exDate.toUTCString());
+	document.cookie=name+'='+cVal;
+}
+
+/**
+ * Get cookie
+ * 
+ * @param string name
+ * @return string If the cookie exists, return string;
+ * 	otherwise return null
+ */
+function getCookie(name){
+	var 
+		cookies=document.cookie.split(';'),
+		c,cName,cValue;
+
+	for(var i in cookies){
+		c=cookies[i];
+		cName=c.substr(0,c.indexOf('='));
+		cValue=c.substr(c.indexOf('=')+1);
+		cName=cName.replace(/^\s+|\s+$/g,'');
+		if(cName==name)
+			return unescape(cValue);
+	}
+	return null;
+}
+

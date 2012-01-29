@@ -356,6 +356,26 @@ vcbp.showTooltips=function(){
 		content:{
 			text:'Kelime dağarcığınıza buradan kelime ekleyebilirsiniz.',
 			title:{text:'Bildirgeç',button:true}
+		},
+		events:{
+			show:function(){
+				var 
+					cookieName='tooltips.wordAdditionForm.addWord',
+					cookie=getCookie(cookieName);
+
+				// If the cookie exists for the tooltip and
+				// value of it "0", don't show the tooltip;
+				// otherwise show it
+				if(cookie && cookie=='0')
+					return false;
+			},
+			hide:function(e,api){
+				var 
+					cookieName='tooltips.wordAdditionForm.addWord';
+
+				// Set a cookie with value "0" for the tooltip
+				setCookie(cookieName,'0');	
+			}
 		}
 	});
 }
