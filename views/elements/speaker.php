@@ -7,17 +7,30 @@
 		';
 	}
 
+	// Generate a unique number for id
+	$uniqueId=time();
+	$contId='speaker'.$uniqueId;
+	$jPlayerId='jplayer'.$uniqueId;
+
 	// If there is the media file to play, show the html
 	if($o->mediaFile){
 		$autoPlay=(isset($o->autoPlay) && $o->autoPlay) ? 'true' : 'false';
 
 		echo '
-		<span class="speaker">
+		<span id="'.$contId.'">
 			<a href="#" class="speaker">
-				<img src="../images/speaker/speakerOn.png" alt="" />
+				<img src="../images/speaker/speakerPlay.png" 
+					style="width:21px;height:21px;" alt="" />
 			</a>
+			<span id="'.$jPlayerId.'" class="speakerJPlayer"></span>
 			<input type="hidden" name="mediaFile" value="'.$o->mediaFile.'" />
 			<input type="hidden" name="autoPlay" value="'.$autoPlay.'" />
 		</span>';
+
+		echo '
+			<script type="text/javascript">
+				new Speaker(\''.$contId.'\');
+			</script>
+		';
 	}
 ?>

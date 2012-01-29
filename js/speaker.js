@@ -1,67 +1,27 @@
-(function(){
+/**
+ * Speaker class
+ *
+ * @date 29.01.2012 02:26
+ */
+function Speaker(speakerContId){
 
-	var $jp;
-	
-	if($('jplayer').length==0){
-		$('<div id="jplayer"></div>').prependTo('body');
-		$jp=$('#jplayer');
-	}
+	this.speakerContId=speakerContId;
+	// Container speaker
+	this.$cont=$('#'+speakerContId);
+	// jplayer container for the speaker
+	this.$jp=this.$cont.find('.speakerJPlayer');
 
-	if(!$jp.jPlayer.event.ready){
-		var ops=getJPlayerOps('audio');		
-		$jp.jPlayer(ops);
-	}
+	this.setJPlayer();
+	this.bindElements();
 
-	$('span.speaker:not(:hasClass(binded)) a.speaker').click(function(){
-		var
-			$t=$(this),
-			$mediaFile=$t.parent().find(':input[name="mediaFile"]'),
-			$autoPlay=$t.parent().find(':input[name="autoPlay"]');
-
-		$jp.jPlayer('setMedia',{mp3:$mediaFile.val()});
-
-		if($autoPlay.val()==='true')
-			$jp.jPlayer('play');
-
-		// Set as binded
-		$t.parent().addClass('binded');
-	});
-
-	/**
-	 * On play
-	 */
-	$jp.bind($.jPlayer.event.play,function(e){
-		setSpeakerImg(e,'play');
-	});
-
-	/**
-	 * On ended
-	 */
-	$jp.bind($.jPlayer.event.ended,function(e){
-		setSpeakerImg(e,'ended');
-	});
-});
-
-function setSpeakerImg(e,status){
-	var
-		// The current media file in progress
-		curMediaFile=e.jPlayer.status.src,
-		// The current image assosioted with the current media file
-		$curSpeakerImg=
-			$('span.speaker :input[name="mediaFile"][value="'+curMediaFile+'"]')
-			.parent().find('img');
-
-	if(status=='play')
-		$curSpeakerImg.attr('src','../images/speaker/speakerPlaying.png');
-	else
-		$curSpeakerImg.attr('src','../images/speaker/speakerPlay.png');
 }
 
-function getJPlayerOps(type){
+Speaker.prototype.setJPlayer=function(){
 
-	var jpInitOps={
-		swfPath:'jplayer/jplayer.swf',
-		solution:'flash,html',
+	this.$jp.jPlayer({
+		swfPath:'../js/jplayer/jplayer.swf',
+		solution:'html,flash',
+		supplied:'mp3'
 		// ADD IF BROWSER FF <= 3.6, wmode:window
 		/*
 		ready:function(){},
@@ -70,14 +30,54 @@ function getJPlayerOps(type){
 		pause:function(e){},
 		ended:function(e){}
 		*/
-		,errorAlerts:true
-	};
+		//,errorAlerts:true
+	});
 
-	if(type=='video')
-		jpInitOps.supplied='mp4';
+}
+
+Speaker.prototype.bindElements=function(){
+
+	var t=this;
+
+	this.$cont.find('a.speaker').click(function(){
+		var
+			$t=$(this),
+			$mediaFile=t.$cont.find(':input[name="mediaFile"]'),
+			$autoPlay=t.$cont.find(':input[name="autoPlay"]');
+
+		t.$jp.jPlayer('setMedia',{mp3:$mediaFile.val()});
+
+		if($autoPlay.val()==='true')
+			t.$jp.jPlayer('play');
+
+		return false;
+	});
+
+	/**
+	 * On play
+	 */
+	t.$jp.bind($.jPlayer.event.play,function(e){
+		t.updateSpeakerImg(e,'play');
+	});
+
+	/**
+	 * On ended
+	 */
+	t.$jp.bind($.jPlayer.event.ended,function(e){
+		t.updateSpeakerImg(e,'ended');
+	});
+
+}
+
+Speaker.prototype.updateSpeakerImg=function(e,status){
+	var
+		// The current media file in progress
+		curMediaFile=e.jPlayer.status.src,
+		// The current image assosioted with the current media file
+		$curSpeakerImg=this.$cont.find('img');
+
+	if(status=='play')
+		$curSpeakerImg.attr('src','../images/speaker/speakerPlaying.png');
 	else
-		jpInitOps.supplied='mp3';
-
-	return jpInitOps;
-
+		$curSpeakerImg.attr('src','../images/speaker/speakerPlay.png');
 }

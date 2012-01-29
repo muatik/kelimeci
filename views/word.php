@@ -23,12 +23,6 @@ $w=$o->word;
 	?>
 
 	<h1><?php 
-
-		// The options of speaker
-		$o=new stdClass();
-		$o->mediaFile='../audio/1.mp3';
-		// Insert the speaker
-		echo $this->loadElement('speaker.php',$o);
 		
 		echo $w->word;
 		if(isset($w->info['pronunciation']))
@@ -55,7 +49,12 @@ $w=$o->word;
 					.'" title="'.$ci[1].'">'.$ci[0].'</abbr>';
 			}
 		echo '</span>';
-		
+
+		// Speaker
+		$o2=new stdClass();
+		$o2->mediaFile='../audio/words/1.mp3';
+		$o2->autoPlay='false';
+		echo $this->loadElement('speaker.php',$o2);
 
 		echo (!$w->isInVocabulary || $w->status==0?
 			'<a href="#" class="button green small addRemove add"
