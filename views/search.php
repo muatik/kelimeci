@@ -1,6 +1,14 @@
 <script type="text/javascript" src="js/search.js"></script>
 <link rel="stylesheet" type="text/css" href="css/search.css" />
 
+<!-- word page -->
+<script tyoe="text/javascript" src="js/words.js"></script>
+<script tyoe="text/javascript" src="js/vocabulary.js"></script>
+<link rel="stylesheet" type="text/css" href="css/clsBoxes.css" />
+<link rel="stylesheet" href="css/word.css" />
+<link rel="stylesheet" href="css/animbuttons.css" />
+<!-- word page -->
+
 <div id="search">
 
 	<input type="hidden" id="keyword" 

@@ -7,8 +7,6 @@ class crawlers
 	public $wordId;
 
 	public function __construct(){
-		require_once('_config.php');
-		require_once('db.php');
 		$this->db=new \db();
 	}	
 
@@ -20,33 +18,61 @@ class crawlers
 	 * @return bool
 	 * */
 	public function learn($word){
+		if(mb_strlen($word)<2)
+			return false;
 		
-		require_once("crawlers/googleC.php");
-		require_once("crawlers/urbanC.php");
-		require_once("crawlers/seslisozlukC.php");
-		require_once("crawlers/dictionaryC.php");
+		require_once("googleC.php");
+		require_once("urbanC.php");
+		require_once("seslisozlukC.php");
+		require_once("dictionaryC.php");
 		
+		header('content-type:text/html;charset=utf-8');
+		
+		$this->queriedWord=$word;
+
 		$this->wordId=$this->insertWord($word);
 		
-		if (!$this->isWebPageCrawled($this->wordId,'dictionary')){
-			
-			$dctn=new dictionaryC();
-			$data=$dctn->get($word);
-			if ($data) $this->save($data);
-		}
-		/*
-		if (!$this->isWebPageCrawled($this->wordId,'google')){
+		$content=false;	
+		$content=$this->isWebPageCrawled($this->wordId,'dictionary');
 		
-			$ggle=new googleC();
+		$dctn=new dictionaryC();
+		// eğer content var ise o content gönderiliyor.
+		if ($content) 
+			$data=$dctn->get($word,$content);
+		else 
+			$data=$dctn->get($word);
+		
+		if ($data) $this->save($data);
+		
+		
+		$content=false;	
+		$content=$this->isWebPageCrawled($this->wordId,'google');
+		$ggle=new googleC();
+		
+		// eger content var ise o content gönderiliyor.
+		if ($content)
+			$data=$ggle->get($word,$content);
+		else
 			$data=$ggle->get($word);
-			if($data) $this->save($data);			
-		}		
-		*/
-		if (!$this->isWebPageCrawled($this->wordId,'seslisozluk')){
-			$ssli=new seslisozlukC();
+		
+		if($data) $this->save($data);			
+		
+
+		$content=false;	
+		$content=$this->isWebPageCrawled($this->wordId,'seslisozluk');
+		
+		$ssli=new seslisozlukC();
+
+		// eğer content var ise o content gönderiliyor.
+		if ($content)
+			$data=$ssli->get($word,$content);
+		else 
 			$data=$ssli->get($word);
-			if ($data) $this->save($data);
-		}
+		
+		if ($data) $this->save($data);
+		
+		$this->findQuotesInDb($data);
+
 		/*
 		if (!$this->isWebPageCrawled($this->wordId,'urban')){
 		
@@ -70,7 +96,6 @@ class crawlers
 		
 		if (isset($o->class))
 			$this->insertWordOfClass($wordId,$o->class);
-
 		$this->insertWordInfo($wordId,'lang',$o->lang);
 
 		$this->insertWordInfo($wordId,'pronunciation',
@@ -79,18 +104,17 @@ class crawlers
 		$this->insertWordInfo($wordId,'etymology',
 			$o->etymology);
 
+
 		$this->insertContent($wordId,$o->webPageName,$o->content);
+		$this->insertSynonyms($wordId,$o->synonyms,$o->webPageName);
+		$this->insertAntonyms($wordId,$o->antonyms,$o->webPageName);
 		
-		$this->insertSynonyms($wordId,$o->synonyms);		
-
-		$this->insertAntonyms($wordId,$o->antonyms);
-
 		$this->insertMeans(
 			$wordId,
 			$o->partOfSpeech,
 			$o->webPageName
-		);		
-		
+		);
+
 	}
 	
 	/**
@@ -151,13 +175,19 @@ class crawlers
 	 * */
 	public function insertContent($wordId,$webPageName,$content){
 		
-		$sql='insert into wordContents(wId,webPageName,content) 
-			values(\''.$wordId.'\',
-			\''.$webPageName.'\',
-			\''.$this->db->escape($content).'\')';
-			
-		$this->db->query($sql);
-		return true;
+		$sql='select * from wordContents where wId=\''.$wordId.
+			'\' and webPageName=\''.$webPageName.'\'';
+		$contentHave=$this->db->fetchFirst($sql);
+		
+		if (!$contentHave){	
+			$sql='insert into wordContents(wId,webPageName,content) 
+				values(\''.$wordId.'\',
+				\''.$webPageName.'\',
+				\''.$this->db->escape($content).'\')';
+			return $this->db->query($sql);
+		}
+		
+		return false;
 	}
 	
 	
@@ -170,7 +200,7 @@ class crawlers
 	 * @return bool
 	 * */
 	public function insertWordOfClass($wordId,$clsName){
-				
+		
 		$clsId=$this->insertClass($clsName);
 		
 		$sql='select * from wordClasses where wId=\''.$wordId.
@@ -221,7 +251,7 @@ class crawlers
 	 * 
 	 * @return bool
 	 * */
-	public function insertSynonyms($wordId,$synonyms){
+	public function insertSynonyms($wordId,$synonyms,$page){
 		
 		if (count($synonyms)==0) return false;
 		
@@ -231,18 +261,22 @@ class crawlers
 				continue;
 
 			foreach($in->synonyms as $syn){
-				
+					
+					if (empty($syn)) continue;
+					
 					$synId=$this->insertWord($syn);
 					
-					$sql='select id from synonyms where wId=\''.
+					$sql='select wid from synonyms where wId=\''.
 						$wordId.'\' and synId=\''.$synId.'\' limit 1';
+				
 					$r=$this->db->fetchFirst($sql);
 					
 					if (!$r){
-						$sql='insert into synonyms(wId,synId) 
+						$sql='insert into synonyms(wId,synId,page) 
 							values(
 								\''.$wordId.'\',
-								\''.$synId.'\')';
+								\''.$synId.'\',
+								\''.$page.'\')';
 						$this->db->query($sql);
 					} else continue;
 			}
@@ -259,7 +293,7 @@ class crawlers
 	 * 
 	 * @return bool
 	 * */
-	public function insertAntonyms($wordId,$antonyms){
+	public function insertAntonyms($wordId,$antonyms,$page){
 		
 		if (count($antonyms)==0) return false;
 		
@@ -270,16 +304,22 @@ class crawlers
 				
 			foreach($in->antonyms as $ant){
 				
+					if (empty($ant)) continue;
+					
 					$antId=$this->insertWord($ant);
 						
-					$sql='select id from antonyms where wId=\''.
+					$sql='select wid from antonyms where wId=\''.
 						$wordId.'\' and antId=\''.$antId.'\' limit 1';
 					$r=$this->db->fetchFirst($sql);
 					
 					if (!$r){
-						$sql='insert into antonyms(wId,antId) 
-							values(\''.$wordId.'\',\''.$antId.'\')';
+						$sql='insert into antonyms(wId,antId,page) 
+							values(
+							\''.$wordId.'\',
+							\''.$antId.'\',
+							\''.$page.'\')';
 						$this->db->query($sql);
+
 					} else continue;
 			}
 		}
@@ -296,7 +336,6 @@ class crawlers
 	 * @return bool
 	 * */
 	public function insertMeans($wordId,$partOfSpeech,$webPageName){		
-		
 		if (count($partOfSpeech)==0) return true;
 		
 		foreach($partOfSpeech as $in){
@@ -312,7 +351,6 @@ class crawlers
 						wId=\''.$wordId.'\',lang=\''.$in->lang.
 						'\',clsId=\''.$clsId.'\',meaning=\''.
 						$this->db->escape(trim($k)).'\'';						
-							
 					if (!$this->db->fetchFirst($sql)){
 						$sql='
 							insert into 
@@ -335,22 +373,49 @@ class crawlers
 	/**
 	 * gönderilen kelime id'sine ait kelime 
 	 * google,urban,dictionary,seslisozluk sayfalarında tarandımı kontrol eder.
+	 * eğer tarandı ise contenti gönderir.
 	 * 
 	 * @param int $wordId
 	 * @param string $pageName
 	 * 
-	 * @return bool
+	 * @return string
 	 * */
 	public function isWebPageCrawled($wordId,$pageName){
 
-		$sql='select id from wordContents where wId=\''.$wordId.'\' 
+		$sql='select id,content from wordContents where wId=\''.$wordId.'\' 
 			and webPageName=\''.$pageName.'\' limit 1';
 		$r=$this->db->fetchFirst($sql);
 		
 		if ($r) 
-			return true;
+			return $r->content;
 		else 
 			return false;		
 	}
+
+
+	/**
+	 * findQuotesInDb 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function findQuotesInDb($word){
+		$flacs='';
+		
+		switch($word->class){
+			case 'noun': $flacs='(isim|ist|ment|tion|er|or|s|es)?'; break;
+			case 'verb': 
+			default:$flacs='(s|ing|ed|d)?'; 
+		}
+		
+		$sql='insert into wordQuotes select '.$this->wordId.' as wId, id as quoteId 
+			from quotes where
+			quote regexp \'(^| )'.$this->queriedWord.''.$flacs.'($| )\'
+			order by length(quote) asc
+			limit 100';
+
+		return $this->db->query($sql);
+	}
+
 }
 ?>

@@ -204,21 +204,28 @@ vcbp.bindList=function(){
 
 vcbp.showDetail=function(word){
 	// Cancel old ajax requests
+	var t=this;
 	this.wordDetailAjaxReq.o.abort();
+
+	var indc=toggleAjaxIndicator(
+		//$('.wordList .words li span.word:contains('+word+')'),
+		$('.detailSide').html(''),
+		'"'+word+'" yükleniyor... <a href="#" class="abort">iptal et</a>',
+		'prepend',
+		'wordShowingIndc'
+	);
+	
+	$('a.abort',indc).click(function(){		
+		t.wordDetailAjaxReq.o.abort();
+		$(indc).remove();
+	});
 
 	this.wordDetailAjaxReq.send(
 		'vocabulary?_view=word&word='+word+'&noScriptStyle=1',
 		null,
 		{onSuccess:function(rsp,o){
-			/*
-			toggleAjaxIndicator(
-				//$('.wordList .words li span.word:contains('+word+')'),
-				$('.wordList .words li span.word')
-					.filter(function(){
-						return $(this).text()==word 
-					})
-			);
-			*/
+			
+			$(indc).remove();
 			$('.detailSide').html(rsp)
 				.hide().toggle('slide',{},450);
 		}}

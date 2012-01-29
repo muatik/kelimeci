@@ -133,10 +133,25 @@ class vocabularyController extends ipage {
 		if($word==null)
 			return '0The parameter "word" is required.';
 
-		$word=kelimeci\dictionary::getWord($word);
+		$wordo=kelimeci\dictionary::getWord($word);
 
-		if($word===false)
-			return '0Word not found!';
+		if($wordo===false){
+			/**
+			 * if the word is not there in dictionary, start to crawl the word on
+			 * dictionary sites.
+			 * */
+			$this->addModel('crawlers');
+			$crw=new crawlers\crawlers();
+			$crw->learn($word);
+			
+			$wordo=kelimeci\dictionary::getWord($word);
+			
+			if($wordo===false)
+				return '0Word not found!';
+
+		}
+
+		$word=$wordo;
 
 		// kullanıcının bu kelime için sağladı verileri çeker
 		if($this->isLogined){

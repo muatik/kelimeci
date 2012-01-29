@@ -9,13 +9,17 @@ class seslisozlukC extends dictionaryCrawler{
 		$this->crwlUrl='http://www.seslisozluk.com/?word=';
 	}
 	
-	public function fetch($word){
+	public function fetch($word,$content=null){
 
 		$this->word=$word;
 
-		$this->content=$this->getContents(urlencode($word));
+		if ($content==null)
+			$this->content=$this->getContents(urlencode($word));
+		else 
+			$this->content=$content;
+			
 		if ($this->content!=false){
-
+		
 			$rx='/(<div id="translations">)([\s\S\f\t\r\w.*?]+)(<!-- id=translations -->)/im';
 			preg_match($rx,$this->content,$content);			
 			$this->content=$content[0];
@@ -41,10 +45,9 @@ class seslisozlukC extends dictionaryCrawler{
 		$o->content=$this->content;
 		
 		$o->pronunciation='';
-		
+			
 		$o->synonyms=array($this->getSynonyms());
 		$o->antonyms=array($this->getAntonyms());
-		
 		$o->nearbyWords=array();
 		
 		$o->etymology=$this->getEtymology();
@@ -57,8 +60,10 @@ class seslisozlukC extends dictionaryCrawler{
 	}
 
 	public function getClass($s){
-		preg_match('/\(.*?\)/i',$s,$m);
-		return str_replace(array('.','(',')',''),'',$m[0]);
+		preg_match('/(\([\s\r\t\w]*\.\))/i',$s,$m);
+		if (isset($m[0]))
+			return str_replace(array('.','(',')',''),'',$m[0]);
+		else return '';
 	}
 
 	public function getEtymology(){
@@ -144,6 +149,7 @@ class seslisozlukC extends dictionaryCrawler{
 												$kind=$this->trConvert($nodeC->nodeValue);
 												
 											} 
+											 
 											if ($nodeC->nodeName=='#text'){	
 												$value=$nodeC->nodeValue;
 											} 
@@ -162,6 +168,7 @@ class seslisozlukC extends dictionaryCrawler{
 				}
 			}
 		}
+		
 		/**
 		 * tür ve anlamlardan oluşan words dizisi nesneye çevriliyor ve geri
 		 * döndürülüyor.
@@ -218,4 +225,3 @@ class seslisozlukC extends dictionaryCrawler{
 		return $kk;
 	}
 }
-?>
