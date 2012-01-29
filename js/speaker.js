@@ -21,8 +21,10 @@ Speaker.prototype.setJPlayer=function(){
 	this.$jp.jPlayer({
 		swfPath:'../js/jplayer/jplayer.swf',
 		solution:'html,flash',
-		supplied:'mp3'
-		// ADD IF BROWSER FF <= 3.6, wmode:window
+		supplied:'mp3',
+		// If ua is ff with vers. 3.6, set the wmode "window" (required)
+		wmode:($.browser.mozilla && $.browser.version.slice(0,3)=='3.6')
+			? 'window' : 'opaque'
 		/*
 		ready:function(){},
 		play:function(e){},
