@@ -1,5 +1,16 @@
 $(function(){
-
+	// Scroll to fixed for both vcbForms
+	$('#vcbContainer .listSide .vcbForms').scrollToFixed();
+	
+	// Scroll to fixed for both detailSide
+	$('#vcbContainer .detailSide').scrollToFixed({
+		preFixed:function(){
+			$(this).css('margin-left','0px');
+		},
+		postFixed:function(){
+			$(this).css('margin-left','20px');
+		}
+	});
 });
 
 function vcbPage(){
@@ -12,7 +23,7 @@ function vcbPage(){
 		t.onAddedWord(rsp,f);
 	}
 
-	// Variable to cancel the ajax requests that made before
+	// Variable to cancel the ajax requests that was made before
 	this.wordDetailAjaxReq=new simpleAjax();
 
 
@@ -46,10 +57,12 @@ vcbp.bind=function(){
 
 	$('.toggleInsertForm').click(function(){
 		$('.wordAdditionForm').toggle('fast');
+		return false;
 	})
 
 	$('.toggleFilterForm').click(function(){
 		$('.wordFilterForm').toggle('fast');
+		return false;
 	})
 
 	

@@ -3,18 +3,21 @@
 	overflow:auto;
 }
 .listSide,.detailSide{
-	margin:20px 10px 10px 20px;
+	margin:0px 10px 10px 20px;
 	float:left;
 }
 .listSide{
 	width:335px;
-	padding-right:30px;
+	padding-right:21px;
 	border-right:1px solid #d0d0d0;
 	/*
 	box-shadow:0px 0px 12px #333;
 	-moz-box-shadow:0px 0px 12px #333;
 	-webkit-box-shadow:0px 0px 16px #333;
 	*/
+}
+.listSide .vcbForms{
+	background:#fff;
 }
 .detailSide{
 	width:550px;
@@ -34,3 +37,10 @@
 .wordAdditionForm, .wordFilterForm{margin:14px 5px;}
 
 .wordAdditionForm input[name="tag"]{width:68px}
+
+.listSide .vcbForms{
+	/*overflow:hidden;*/
+	background-color:#fff;
+	padding-top:20px;
+	padding-right:9px;
+}
