@@ -34,13 +34,12 @@
 .detailSide .wordShowingIndc img{
 	margin:0 10px;
 }
-.wordAdditionForm, .wordFilterForm{margin:14px 5px;}
+.wordAdditionForm, .wordFilterForm{margin:14px 5px 0 5px;}
 
 .wordAdditionForm input[name="tag"]{width:68px}
 
 .listSide .vcbForms{
 	/*overflow:hidden;*/
 	background-color:#fff;
-	padding-top:20px;
-	padding-right:9px;
+	padding:15px 9px 15px 0;
 }
