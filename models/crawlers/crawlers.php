@@ -18,6 +18,7 @@ class crawlers
 	 * @return bool
 	 * */
 	public function learn($word){
+		
 		if(mb_strlen($word)<2)
 			return false;
 		
@@ -32,56 +33,54 @@ class crawlers
 
 		$this->wordId=$this->insertWord($word);
 		
-		$content=false;	
-		$content=$this->isWebPageCrawled($this->wordId,'dictionary');
+		$crwl1=$this-getContent('dictionary');
+		$crwl2=$this-getContent('google');
+		$crwl3=$this-getContent('seslisozluk');
 		
-		$dctn=new dictionaryC();
+		// eğer kelime için herhangi bir anlam bulundu ise
+		// alıntı alım fonksiyonuna gönderiliyor. Yok ise siliniyor.
+		if ($crwl1 || $crwl2 || $crwl3){
+			$this->findQuotesInDb($data);
+			
+			// aranan kelimenin kendisinin statusu değiştiriliyor.
+			// yeni eklenen kelimeler için tekrar crawl edilecektir.
+			$sql='update words set status=\'1\' where 
+				id=\''.$this->wordId.'\')';
+			$this->db->query($sql);
+		}
+		else {
+			$sql='delete from words where id=\''.$this->wordId.'\')';
+			$this->db->query($sql);
+		}		
+	}
+	
+	public function getContent($page){
+		
+		$content=false;	
+		$content=$this->isWebPageCrawled($this->wordId,$page);
+		
+		switch($page){
+			case 'dictionary': $pageC=new dictionaryC(); break;
+			case 'google':  $pageC=new googleC(); break;
+			case 'seslisozluk': $pageC=new seslisozlukC(); break;			
+		}
+			
 		// eğer content var ise o content gönderiliyor.
 		if ($content) 
-			$data=$dctn->get($word,$content);
+			$data=$pageC->get($word,$content);
 		else 
-			$data=$dctn->get($word);
+			$data=$pageC->get($word);
 		
-		if ($data) $this->save($data);
-		
-		
-		$content=false;	
-		$content=$this->isWebPageCrawled($this->wordId,'google');
-		$ggle=new googleC();
-		
-		// eger content var ise o content gönderiliyor.
-		if ($content)
-			$data=$ggle->get($word,$content);
-		else
-			$data=$ggle->get($word);
-		
-		if($data) $this->save($data);			
-		
-
-		$content=false;	
-		$content=$this->isWebPageCrawled($this->wordId,'seslisozluk');
-		
-		$ssli=new seslisozlukC();
-
-		// eğer content var ise o content gönderiliyor.
-		if ($content)
-			$data=$ssli->get($word,$content);
-		else 
-			$data=$ssli->get($word);
-		
-		if ($data) $this->save($data);
-		
-		$this->findQuotesInDb($data);
-
-		/*
-		if (!$this->isWebPageCrawled($this->wordId,'urban')){
-		
-			$urbn=new urbanC();
-			$data=$urbn->get($word);
-			if ($data) $this->save($data);
+		if ($data && (count($data->partOfSpeech[0]->means)>0 ||
+			count($data->partOfSpeech[1]->means)>0)){
+			$this->save($data);
+			return true;
 		}
-		*/
+		else 
+			return false;
+
 	}
+	
 	
 	/**
 	 * gelen word objesi içindeki verileri uygun 
