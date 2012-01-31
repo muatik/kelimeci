@@ -40,16 +40,17 @@ class crawlers
 		// eğer kelime için herhangi bir anlam bulundu ise
 		// alıntı alım fonksiyonuna gönderiliyor. Yok ise siliniyor.
 		if ($crwl1 || $crwl2 || $crwl3){
-			$this->findQuotesInDb($data);
+			
+			$this->findQuotesInDb($crwl3);
 			
 			// aranan kelimenin kendisinin statusu değiştiriliyor.
 			// yeni eklenen kelimeler için tekrar crawl edilecektir.
 			$sql='update words set status=\'1\' where 
-				id=\''.$this->wordId.'\')';
+				id=\''.$this->wordId.'\'';
 			$this->db->query($sql);
 		}
 		else {
-			$sql='delete from words where id=\''.$this->wordId.'\')';
+			$sql='delete from words where id=\''.$this->wordId.'\'';			
 			$this->db->query($sql);
 		}		
 	}
@@ -67,14 +68,13 @@ class crawlers
 			
 		// eğer content var ise o content gönderiliyor.
 		if ($content) 
-			$data=$pageC->get($word,$content);
+			$data=$pageC->get($this->queriedWord,$content);
 		else 
-			$data=$pageC->get($word);
+			$data=$pageC->get($this->queriedWord);
 		
-		if ($data && (count($data->partOfSpeech[0]->means)>0 ||
-			count($data->partOfSpeech[1]->means)>0)){
+		if ($data && count($data->partOfSpeech[0]->means)>0){
 			$this->save($data);
-			return true;
+			return $data;
 		}
 		else 
 			return false;
