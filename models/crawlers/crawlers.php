@@ -33,9 +33,9 @@ class crawlers
 
 		$this->wordId=$this->insertWord($word);
 		
-		$crwl1=$this-getContent('dictionary');
-		$crwl2=$this-getContent('google');
-		$crwl3=$this-getContent('seslisozluk');
+		$crwl1=$this->getContent('dictionary');
+		$crwl2=$this->getContent('google');
+		$crwl3=$this->getContent('seslisozluk');
 		
 		// eğer kelime için herhangi bir anlam bulundu ise
 		// alıntı alım fonksiyonuna gönderiliyor. Yok ise siliniyor.
