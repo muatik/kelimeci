@@ -260,36 +260,23 @@ vcbp.bindList=function(){
 		toggleRmButton();
 	});
 
-	$('ul.words input.wordIds').unbind('change').bind('change', function(){
+	$('ul.words').on('change','li input.wordIds',function(){
 		$(this).parent().toggleClass('selected');
 		$('.wordsForm input[name="checkAll"]').attr('checked',null);
 		toggleRmButton();
-	})
+	});
 
-	$('ul.words span.word').bind('click', function(){
-		/*
-		toggleAjaxIndicator(
-			//$('.wordList .words li span.word:contains('+word+')'),
-			$('.wordList .words li span.word')
-				.filter(function(){
-					return $(this).text()==word
-				}),
-			'',
-			'after'
-		);
-		*/
-
+	$('ul.words').on('click','li span.word',function(){
 		t.showDetail($(this).text());
-	})
+	});
 }
 
 vcbp.showDetail=function(word){
-	// Cancel old ajax requests
 	var t=this;
+	// Cancel old ajax requests
 	this.wordDetailAjaxReq.o.abort();
 
 	var indc=toggleAjaxIndicator(
-		//$('.wordList .words li span.word:contains('+word+')'),
 		$('.detailSide').html(''),
 		'"'+word+'" yükleniyor... <a href="#" class="abort">iptal et</a>',
 		'prepend',
