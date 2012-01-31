@@ -63,3 +63,9 @@
 	display:none;
 }
 
+/* For Infinite scroll loading div */
+.wordList .infSclIndicator > div,.wordList .infSclIndicator img{
+	display:inline;
+	margin-left:20px;
+}
+

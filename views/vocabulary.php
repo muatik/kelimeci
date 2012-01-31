@@ -3,6 +3,7 @@
 <script type="text/javascript" src="js/vocabulary.js"></script>
 <script type="text/javascript" src="js/vocabularyPage.js"></script>
 <script type="text/javascript" src="js/jquery-scrolltofixed-min.js"></script>
+<script type="text/javascript" src="js/jquery.infinitescroll.js"></script>
 
 <!-- kelime detay kısmı için gerekli betik ve stiller -->
 <script type="text/javascript" src="js/words.js"></script>

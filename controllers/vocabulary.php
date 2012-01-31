@@ -80,7 +80,7 @@ class vocabularyController extends ipage {
 		
 		// default assaignments for the word list
 		$start=0;
-		$length=100;
+		$length=15;
 		$levelMin=-20;
 		$levelMax=20;
 		$keyword=null;
@@ -118,6 +118,9 @@ class vocabularyController extends ipage {
 
 		if(isset($this->r['noScriptStyle']))
 			$o->noScriptStyle=true;
+
+		if(isset($this->r['noAllInterface']))
+			$o->noAllInterface=true;
 
 		return $this->loadView(
 			'wordList.php',

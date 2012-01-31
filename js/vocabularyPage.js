@@ -1,8 +1,8 @@
 $(function(){
-	// Scroll to fixed for both vcbForms
+	// Scroll to fixed for vcbForms
 	$('#vcbContainer .listSide .vcbForms').scrollToFixed();
 	
-	// Scroll to fixed for both detailSide
+	// Scroll to fixed for detailSide
 	$('#vcbContainer .detailSide').scrollToFixed({
 		preFixed:function(){
 			$(this).css('margin-left','0px');
@@ -11,6 +11,29 @@ $(function(){
 			$(this).css('margin-left','20px');
 		}
 	});
+
+	// Infinite-scrolling for word list
+	$('.wordList ul.words').infinitescroll({
+		navSelector:'.wordList div.wordListNav',
+		nextSelector:'.wordList div.wordListNav a:first',
+		itemSelector:'li',
+		//contentSelector:'.wordList ul.words',
+		debug:true,
+		dataType:'html',
+		extraScrollPx:200,
+		loading:{
+			finishedMsg:'<em>Tüm kelimeler yüklendi.</em>',
+			img:'../images/loading.gif',
+			msgText:'<em>Kelimeler yükleniyor...</em>',
+			speed:'slow',
+			class:'infSclIndicator'
+		},
+		pathParse:function(){
+			return ['?_ajax=vocabulary/viewwordList',''];
+		},
+		setDestUrl:vcbp.getInfSclReqUrl,
+	});
+	
 });
 
 function vcbPage(){
@@ -37,6 +60,62 @@ function vcbPage(){
 }
 
 var vcbp=vcbPage.prototype;
+
+/**
+ * Return a object of the parameters that is used
+ * with the url "?_ajax=vocabulary/viewwordList" for ajax requests
+ *
+ * @return object
+ */
+vcbp.getRequestParams=function(){
+	var classes=new Array()
+	try{
+		classes=$('.classesCheckList').val().toString().split(',');
+		if(classes[0]=='Hepsi')
+			classes.shift();
+	}catch(e){}
+	var levelRange=$('.levelRangeInput').val().split(':');
+	var keyword=$('.wordFilterForm .keyword').val();
+	var orderBy=$('.wordFilterForm .orderBy option:selected').val();
+
+	return {
+		levelMax:levelRange[1],
+		levelMin:levelRange[0],
+		keyword:keyword,
+		classes:classes,
+		orderBy:orderBy
+	};
+}
+
+/**
+ * Update the href information of anchor for infinite scrolling
+ */
+vcbp.getInfSclReqUrl=function(){
+	var 
+		url='?_ajax=vocabulary/viewwordList',
+		start=$('.wordList ul.words li').length,
+		length=5,
+		reqParams=vcbp.getRequestParams(),
+		params='&';
+
+	for(var i in reqParams){
+		if(!$.isArray(reqParams[i]))
+			params+=i+'='+reqParams[i]+'&';
+		else
+			for(var j in reqParams[i])
+				params+=i+'[]='+reqParams[i][j]+'&';
+	}
+
+	params+=
+		'start='+start+
+		'&length='+length+
+		'&noScriptStyle=true'+
+		'&noAllInterface=true';
+
+	// Update the anchor href information for infinite scrolling
+	//$('.wordList div.wordListNav a:first').attr('href',url+params);
+	return url+params;
+}
 
 vcbp.bind=function(){
 	var t=this;
@@ -124,25 +203,14 @@ vcbp.bind=function(){
 
 vcbp.getWords=function(){
 	var t=this;
-	var classes=new Array()
-	try{
-		classes=$('.classesCheckList').val().toString().split(',');
-		if(classes[0]=='Hepsi')
-			classes.shift();
-	}catch(e){}
-	var levelRange=$('.levelRangeInput').val().split(':');
-	var keyword=$('.wordFilterForm .keyword').val();
-	var orderBy=$('.wordFilterForm .orderBy option:selected').val();
+
+	var reqParams=t.getRequestParams();
 	
 	toggleAjaxIndicator($('.toggleFilterForm'),'','after');
 
-	vocabulary.get({
-			levelMax:levelRange[1],
-			levelMin:levelRange[0],
-			keyword:keyword,
-			classes:classes,
-			orderBy:orderBy
-		}, function(rsp){
+	vocabulary.get(
+		reqParams,
+		function(rsp){
 			toggleAjaxIndicator($('.toggleFilterForm').parent());
 			t.listWords(rsp);
 		}
