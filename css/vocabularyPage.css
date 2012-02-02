@@ -1,3 +1,7 @@
+/* Disable the scrollbar of window */
+html{
+	overflow-y:hidden;
+}
 #vcbContainer{
 	min-width:950px;
 	overflow:auto;
@@ -34,12 +38,28 @@
 .detailSide .wordShowingIndc img{
 	margin:0 10px;
 }
-.wordAdditionForm, .wordFilterForm{margin:14px 5px 0 5px;}
-
-.wordAdditionForm input[name="tag"]{width:68px}
 
 .listSide .vcbForms{
 	/*overflow:hidden;*/
 	background-color:#fff;
 	padding:15px 9px 15px 0;
 }
+.wordList .words,.detailSide{
+	height:200px;
+	overflow:auto;
+	height:80%;
+}
+.detailSide{
+	height:300px;
+}
+
+.wordAdditionForm, .wordFilterForm{
+	display:none;
+	margin:14px 5px 0 5px;
+	position:absolute;
+	background-color:#fff;
+	z-index:999999;
+	width:325px;
+}
+
+.wordAdditionForm input[name="tag"]{width:68px}

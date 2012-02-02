@@ -1,4 +1,19 @@
 $(function(){
+	$(window).resize(function(){
+		var 
+			$t=$(this),
+			$detSide=$('.detailSide');
+
+		winHgt=parseInt($t.height());
+		winWid=parseInt($t.width());
+		detSideHgt=parseInt($detSide.height());
+		$detSide.height(winHgt-75);
+		$detSide.width(winWid-420);
+	});
+
+	$(window).trigger('resize');
+
+	/*
 	// Scroll to fixed for vcbForms
 	$('#vcbContainer .listSide .vcbForms').scrollToFixed();
 	
@@ -11,9 +26,10 @@ $(function(){
 			$(this).css('margin-left','20px');
 		}
 	});
-
+	*/
 	// Infinite-scrolling for word list
 	$('.wordList ul.words').infinitescroll({
+		binder:$('.wordList .words'),
 		navSelector:'.wordList div.wordListNav',
 		nextSelector:'.wordList div.wordListNav a:first',
 		itemSelector:'li',
