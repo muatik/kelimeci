@@ -16,6 +16,11 @@ function getAllInterface($words){
 
 	$wList=getWordList($words);
 
+	// If there is any errors, return the error messages
+	if(substr($wList,0,1)=='0'){
+		return $wList;	
+	}
+
 	return '
 	<div class="wordList">
 		<h2>KELİMELER LİSTELENİYOR</h2>
@@ -45,8 +50,9 @@ function getAllInterface($words){
 function getWordList($words){
 
 	// If not array, return the error message
-	if(!is_array($words));
-		echo $words;
+	if(!is_array($words)){
+		return '0'.$words;
+	}
 
 	$classList=array(
 		'v'=>array('f','Fiil','verb'),
