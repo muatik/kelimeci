@@ -80,7 +80,7 @@ $w=$o->word;
 	foreach($w->meanings as $m){
 		$langMeaning[$m->lang][]=$m;
 	}
-	print_r($langMeaning);
+	
 	foreach($langMeaning as $lang=>$meanings){
 		echo '<div class="langGroup lang'.$lang.'">
 			<i class="lang '.$lang.'">'.$lang.' : </i>';
@@ -131,14 +131,16 @@ $w=$o->word;
 			if($i>3)
 				$liClass='hidden';
 
+			$q->quote=str_replace($w->word,'<b>'.$w->word.'</b>',$q->quote);
+
 			$h.='<li class="'.$liClass.'">
 				<blockquote>'
 				.$q->quote.'</blockquote></li>';
 
 			$i++;
 		}
-		
-		echo str_replace($w->word,'<b>'.$w->word.'</b>',$h);
+
+		echo $h;
 
 		?>
 		</ul>
