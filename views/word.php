@@ -78,9 +78,9 @@ $w=$o->word;
 	// dillere göre gruplanarak yazılıyor
 	$langMeaning=array();
 	foreach($w->meanings as $m){
-		$langMeaning[$m->lang][]=$m->meaning;
+		$langMeaning[$m->lang][]=$m;
 	}
-
+	print_r($langMeaning);
 	foreach($langMeaning as $lang=>$meanings){
 		echo '<div class="langGroup lang'.$lang.'">
 			<i class="lang '.$lang.'">'.$lang.' : </i>';
@@ -96,7 +96,12 @@ $w=$o->word;
 			if($i==4)
 				$pClass='hidden';
 			
-			echo '<li class="meaning text '.$pClass.'">'.$m.'</li>';
+			echo '<li class="meaning text '.$pClass.'">';
+			if(is_numeric($m->clsId)){
+				$mClass=kelimeci\dictionary::getClassById($m->clsId);
+				echo '<span class="clsName">'.$mClass->name.' - </span> ';
+			}
+			echo $m->meaning.'</li>';
 
 			$i++;
 		}
