@@ -21,7 +21,14 @@ class ipage extends controllers
 	 * A session is required for every user to save search history etc.
 	 * */
 	public function openDummySession(){
-		$this->session->open();
+
+		if(!isset($this->u->sessionType)){
+			$u=new stdClass();
+			$u->sessionType='dummy';
+			$this->session->create($u);
+		}
+
+		$this->u=$this->session->open();
 	}
 
 	public function initialize(){
