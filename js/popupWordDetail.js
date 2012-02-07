@@ -116,10 +116,14 @@ $(function(){
 				'.wordDetails .antonyms a.word'
 			,
 			function(e){
-				// Get selected text
-				var selText=getSelected();
+				var
+					// Get selected text
+					selText=getSelected(),
+					// Pattern for the selected text            
+					patt=/^[a-zA-Z]+( [a-zA-Z]+)*$/gi;  
 
-				if(selText!=''){
+				// If not empty and consists of only characters
+				if(selText!='' && patt.test(selText)){
 					showWordOnPopup(selText);
 				}
 				return false;
