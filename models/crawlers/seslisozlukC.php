@@ -146,7 +146,11 @@ class seslisozlukC extends dictionaryCrawler{
 										foreach($cChildNodes as $nodeC)	{
 										$value='';										
 											if ($nodeC->nodeName!='#text'){
-												$kind=$this->trConvert($nodeC->nodeValue);
+												$kind=trim(
+													$this->trConvert(
+														$nodeC->nodeValue
+													)
+												);
 												
 											} 
 											 
@@ -159,6 +163,13 @@ class seslisozlukC extends dictionaryCrawler{
 										}
 										$value=trim(str_replace($kind,'',$this->trConvert($value)));
 										$value=str_replace('  ','',$value);
+										
+										if ($lang=='en') {												
+											if ($kind!='genel')
+											$value.=' '.$kind;
+											
+											$kind='genel';
+										}
 										@$words[$kind].=$this->trConvert($value).'|';
 									}
 								}
