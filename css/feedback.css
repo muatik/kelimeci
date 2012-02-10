@@ -1,11 +1,21 @@
 #feedbackImg{
 	position:fixed;
-	bottom:5px;
-	right:5px;
+	bottom:0px;
+	right:0px;
+	padding:3px 7px 3px 7px;
+	font:normal 13px helvetica,sans-serif,arial;
+	text-align:center;
+	border:1px solid #ccc;
+	border-bottom:none;
+	border-right:none;
+	color:#777;
+	background:#f9f9f9;
+	/*
+	margin:0px 5px 0 0;
 	background-image:url(../images/feedback2.png);
 	width:126px;
 	height:37px;
-	margin:0px 5px 0 0;
+	*/
 }
 
 #feedbackForm{
