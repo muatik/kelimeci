@@ -46,7 +46,7 @@ $(function(){
 		nextSelector:'.wordList div.wordListNav a:first',
 		itemSelector:'li',
 		//contentSelector:'.wordList ul.words',
-		debug:true,
+		//debug:true,
 		dataType:'html',
 		extraScrollPx:200,
 		loading:{
