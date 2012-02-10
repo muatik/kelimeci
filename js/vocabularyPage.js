@@ -218,6 +218,8 @@ vcbp.getInfSclReqUrl=function(){
 
 vcbp.bind=function(){
 	var t=this;
+
+	t.showTooltips();
 	
 	// when user submit word package form, refresh word list
 	wordPackages.onSaveCallback=function(){
@@ -234,7 +236,15 @@ vcbp.bind=function(){
 	}
 
 	$('.toggleInsertForm').click(function(){
-		$('.wordAdditionForm').toggle('fast');
+		$('.wordAdditionForm').toggle('fast',function(){
+			var qtip=$(this).find(':input[name="word"]').qtip('api');
+	
+			// If the form is visible, show the tooltip
+			if($(this).is(':visible'))
+				qtip.show();
+			else
+				qtip.hide();
+		});
 		return false;
 	})
 
@@ -261,6 +271,24 @@ vcbp.bind=function(){
 		} 
 	}
 	);
+
+	// When one form will show, hide the others
+	$('.toggleInsertForm,.toggleFilterForm,.selectPackages').click(function(){
+		var btns=[
+			{name:'toggleInsertForm',target:'form.wordAdditionForm'},
+			{name:'toggleFilterForm',target:'form.wordFilterForm'},
+			{name:'selectPackages',target:'form.wordPackages'}
+		],
+		$t=$(this),
+		btn=null;
+
+		for(var i in btns){
+			btn=btns[i];
+
+			if(!$t.hasClass(btn.name))
+				$(btn.target).hide();	
+		}
+	});
 
 
 	$(".levelRange").slider({
@@ -291,8 +319,6 @@ vcbp.bind=function(){
 	$('.wordFilterForm .orderBy').change(function(){
 		t.getWords();
 	})
-
-	t.showTooltips();
 
 	$('form.wordAdditionForm').submit(function(){
 		toggleAjaxIndicator($('.toggleFilterForm'),'','after');
@@ -507,19 +533,10 @@ vcbp.onWordPackageSaved=function(rsp){
 }
 
 vcbp.showTooltips=function(){
-	/*
-	var qtipHideBtn='<a href="#" class="qtipHide" onclick="hideTooltip(this)">[Gizle]</a>';
-
-	// Tooltip for word addition form
-	$wFrm.find(':input[name="word"]').qtip(qtipDefs).qtip(
-		'option','content.text',
-		'Kelime dağarcığınıza buradan kelime ekleyebilirsiniz. '+qtipHideBtn
-	);
-	*/
 	$('.wordAdditionForm :input[name="word"]').qtip({
 		show:{
-			event:false,
-			ready:true
+			//event:false
+			//,ready:true
 		},
 		hide:false,
 		style:{
