@@ -1,19 +1,47 @@
 $(function(){
-	// Scroll to fixed for vcbForms
-	$('#vcbContainer .listSide .vcbForms').scrollToFixed();
-	
-	// Scroll to fixed for detailSide
-	$('#vcbContainer .detailSide').scrollToFixed({
-		preFixed:function(){
-			$(this).css('margin-left','0px');
-		},
-		postFixed:function(){
-			$(this).css('margin-left','20px');
+
+	// Create the cus. scl.bar for the wordsCont.
+	$('.wordsCont')
+	// Bind 'jsp-scroll-y' event handler to inf. scl.
+	.bind(
+		'jsp-scroll-y',
+		function(event, scrollPositionY, isAtLeft, isAtRight)
+		{
+			// Prevent incorrect inf. scl. operation on the fist cus. scl. bar. init.
+			if(scrollPositionY==0) return;
+			
+			// Prepare
+			var
+				infscl=$('.wordList ul.words').data('infinitescroll'),
+				jsp={
+					$elem:$('.wordsCont'),
+					api:$('.wordsCont').data('jsp')
+				},
+				perSclY=jsp.api.getPercentScrolledY();
+
+			// If inf. scl. is not during ajax, and not done and
+			// cus. scl. bar is scrolled percent y == 100%,
+			// get new words into wordList
+			if(
+				!infscl.options.state.isDuringAjax && 
+				!infscl.options.state.isDone && 
+				perSclY==1){
+
+				//infscl.scroll();
+				infscl.retrieve();
+			}
 		}
-	});
+	)
+	.jScrollPane();
+
+	// Attach a event handler for win. resize and trigger it once after page load
+	$(window).resize(function(e){
+		vcbp.onWinResize(e);
+	}).trigger('resize');
 
 	// Infinite-scrolling for word list
-	$('.wordList ul.words').infinitescroll({
+	$('.wordList .wordsCont ul.words').infinitescroll({
+		binder:$('.wordList .wordsCont'),
 		navSelector:'.wordList div.wordListNav',
 		nextSelector:'.wordList div.wordListNav a:first',
 		itemSelector:'li',
@@ -26,14 +54,35 @@ $(function(){
 			img:'../images/loading.gif',
 			msgText:'<em>Kelimeler yükleniyor...</em>',
 			speed:'slow',
-			class:'infSclIndicator'
+			class:'infSclIndicator',
+			// Bind a event hander for each words that will load with ajax
+			// After words load, reinit. the cus. scl. bar for the wordsCont.
+			finished:function(){
+				var
+			
+					infscl=$('.wordList ul.words').data('infinitescroll'),
+					jsp={
+						$elem:$('.wordsCont'),
+						api:$('.wordsCont').data('jsp')
+					};
+
+				if(jsp.api){
+					jsp.api.reinitialise();
+					$('.'+infscl.options.loading.class).hide();
+				}
+			}
 		},
 		pathParse:function(){
 			return ['?_ajax=vocabulary/viewwordList',''];
 		},
-		setDestUrl:vcbp.getInfSclReqUrl,
+		setDestUrl:vcbp.getInfSclReqUrl
 	});
-	
+
+	// Set the scrollbar of wordDetails on the link "a.more"(such as etymology more) click
+	$('.detailSide').on('click','.wordDetails a.more',function(){
+		vcbp.setSclBar('.detailSide .wordDetails','ri');	
+	});
+
 });
 
 function vcbPage(){
@@ -60,6 +109,56 @@ function vcbPage(){
 }
 
 var vcbp=vcbPage.prototype;
+
+/**
+ * Do do the following operations on the window resize:
+ *	- Set the size of detailSide
+ *	- Reinitialise the customized scrollbar for the detailSide
+ */
+vcbp.onWinResize=function(e){
+	// Prepare
+	var 
+		$t=$(window),
+		$detSide=$('.detailSide'),
+		winHgt=parseInt($t.height()),
+		winWid=parseInt($t.width()),
+		detSideHgt=parseInt($detSide.height()),
+		wordContSclBar=$('.wordsCont').data('jsp');
+
+	// Set the size of detailSide
+	$detSide.height(winHgt-75);
+	$detSide.width(winWid-420);
+
+	// Set the new scrollbar for the wordDetails
+	this.setSclBar('.detailSide .wordDetails','i');
+	
+	// If the customized scrollbar initialised, reinitialise;
+	// otherwise initialise
+	this.setSclBar('.wordsCont','ri');
+};
+
+/**
+ * Set the customized scrollbars for this page
+ *
+ * @param string selector Selector for element
+ * @param string op Operation for the scrollbar
+ * 	op==i  (i: initialise)
+ * 	op==ri (ri: reinitialise)
+ */
+vcbp.setSclBar=function(selector,op){
+	var sclBar=$(selector).data('jsp');
+
+	if(sclBar!=null){
+		if(typeof(op)!='undefined'){
+			if(op=='ri')
+				sclBar.reinitialise();
+			else
+				$(selector).jScrollPane();
+		}
+	}
+	else
+		$(selector).jScrollPane();
+};
 
 /**
  * Return a object of the parameters that is used
@@ -119,6 +218,8 @@ vcbp.getInfSclReqUrl=function(){
 
 vcbp.bind=function(){
 	var t=this;
+
+	t.showTooltips();
 	
 	// when user submit word package form, refresh word list
 	wordPackages.onSaveCallback=function(){
@@ -135,7 +236,15 @@ vcbp.bind=function(){
 	}
 
 	$('.toggleInsertForm').click(function(){
-		$('.wordAdditionForm').toggle('fast');
+		$('.wordAdditionForm').toggle('fast',function(){
+			var qtip=$(this).find(':input[name="word"]').qtip('api');
+	
+			// If the form is visible, show the tooltip
+			if($(this).is(':visible'))
+				qtip.show();
+			else
+				qtip.hide();
+		});
 		return false;
 	})
 
@@ -162,6 +271,24 @@ vcbp.bind=function(){
 		} 
 	}
 	);
+
+	// When one form will show, hide the others
+	$('.toggleInsertForm,.toggleFilterForm,.selectPackages').click(function(){
+		var btns=[
+			{name:'toggleInsertForm',target:'form.wordAdditionForm'},
+			{name:'toggleFilterForm',target:'form.wordFilterForm'},
+			{name:'selectPackages',target:'form.wordPackages'}
+		],
+		$t=$(this),
+		btn=null;
+
+		for(var i in btns){
+			btn=btns[i];
+
+			if(!$t.hasClass(btn.name))
+				$(btn.target).hide();	
+		}
+	});
 
 
 	$(".levelRange").slider({
@@ -192,8 +319,6 @@ vcbp.bind=function(){
 	$('.wordFilterForm .orderBy').change(function(){
 		t.getWords();
 	})
-
-	t.showTooltips();
 
 	$('form.wordAdditionForm').submit(function(){
 		toggleAjaxIndicator($('.toggleFilterForm'),'','after');
@@ -296,6 +421,15 @@ vcbp.showDetail=function(word){
 			$(indc).remove();
 			$('.detailSide').html(rsp)
 				.hide().toggle('slide',{},450);
+
+
+			var detSideSclBar=$('.detailSide .wordDetails').data('jsp');
+
+				//detSideSclBar.reinitialise();
+
+				$('.detailSide .wordDetails').jScrollPane();
+				
+
 		}}
 	);
 
@@ -399,19 +533,10 @@ vcbp.onWordPackageSaved=function(rsp){
 }
 
 vcbp.showTooltips=function(){
-	/*
-	var qtipHideBtn='<a href="#" class="qtipHide" onclick="hideTooltip(this)">[Gizle]</a>';
-
-	// Tooltip for word addition form
-	$wFrm.find(':input[name="word"]').qtip(qtipDefs).qtip(
-		'option','content.text',
-		'Kelime dağarcığınıza buradan kelime ekleyebilirsiniz. '+qtipHideBtn
-	);
-	*/
 	$('.wordAdditionForm :input[name="word"]').qtip({
 		show:{
-			event:false,
-			ready:true
+			//event:false
+			//,ready:true
 		},
 		hide:false,
 		style:{

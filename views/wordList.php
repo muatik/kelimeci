@@ -33,15 +33,17 @@ function getAllInterface($words){
 			<button>Seçili olanları sil</button>
 		</div>
 
-		<ul class="words">'.$wList.'</ul>
+		<div class="wordsCont">
+			<ul class="words">'.$wList.'</ul>
 
-		<div class="infSclIndicator" style="display:none;">
-			<img src="../images/loading.gif" alt="" />
-			KELİMELER YÜKLENİYOR...
-		</div>
+			<div class="infSclIndicator" style="display:none;">
+				<img src="../images/loading.gif" alt="" />
+				KELİMELER YÜKLENİYOR...
+			</div>
 
-		<div class="wordListNav">
-			<a href="?_ajax=vocabular/viewwordList"></a>
+			<div class="wordListNav">
+				<a href="?_ajax=vocabular/viewwordList"></a>
+			</div>
 		</div>
 	</div>';
 
