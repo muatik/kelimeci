@@ -21,7 +21,9 @@ class crawlers
 		
 		if(mb_strlen($word)<2)
 			return false;
-		
+			
+		$word=str_replace('ı','i',mb_strtolower($word));
+				
 		require_once("googleC.php");
 		require_once("urbanC.php");
 		require_once("seslisozlukC.php");
@@ -33,9 +35,9 @@ class crawlers
 
 		$this->wordId=$this->insertWord($word);
 		
+		$crwl3=$this->getContent('seslisozluk');
 		$crwl1=$this->getContent('dictionary');
 		$crwl2=$this->getContent('google');
-		$crwl3=$this->getContent('seslisozluk');
 		
 		// eğer kelime için herhangi bir anlam bulundu ise
 		// alıntı alım fonksiyonuna gönderiliyor. Yok ise siliniyor.
@@ -45,7 +47,7 @@ class crawlers
 			
 			// aranan kelimenin kendisinin statusu değiştiriliyor.
 			// yeni eklenen kelimeler için tekrar crawl edilecektir.
-			$sql='update words set status=\'1\' where 
+			$sql='update words set status=\'2\' where 
 				id=\''.$this->wordId.'\'';
 			$this->db->query($sql);
 		}
@@ -63,7 +65,7 @@ class crawlers
 		switch($page){
 			case 'dictionary': $pageC=new dictionaryC(); break;
 			case 'google':  $pageC=new googleC(); break;
-			case 'seslisozluk': $pageC=new seslisozlukC(); break;			
+			case 'seslisozluk': $pageC=new seslisozlukC(); break;		
 		}
 			
 		// eğer content var ise o content gönderiliyor.
@@ -127,7 +129,7 @@ class crawlers
 	public function insertWord($word){
 
 		$word=$this->db->escape(trim($word));
-
+				
 		$sql='select id from words where word=\''.$word.'\'';		
 		$r=$this->db->fetchFirst($sql);
 		
@@ -344,6 +346,10 @@ class crawlers
 			foreach($in->means as $mean){
 
 				$clsId=$this->insertClass($mean[0]);
+				
+				$clsName=trim($mean[0]);				
+				if ($clsName=='genel') $clsId='0';
+				
 				foreach ($mean[1] as $k){
 					
 					$sql='select id from meanings where  
