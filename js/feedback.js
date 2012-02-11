@@ -55,12 +55,15 @@ $(function(){
 
 				// Enable the form button
 				$fbForm.find(':submit').removeAttr('disabled');
+
 			},
 			hide:function(e,api){
 				// Hide the form alert, if there is
 				hideFrmAlert($('#feedbackForm'));
 			}
 		}
+	}).click(function(){
+		return false;
 	});
 });
 

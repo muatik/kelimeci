@@ -1,82 +1,9 @@
 $(function(){
 
-	// Create the cus. scl.bar for the wordsCont.
-	$('.wordsCont')
-	// Bind 'jsp-scroll-y' event handler to inf. scl.
-	.bind(
-		'jsp-scroll-y',
-		function(event, scrollPositionY, isAtLeft, isAtRight)
-		{
-			// Prevent incorrect inf. scl. operation on the fist cus. scl. bar. init.
-			if(scrollPositionY==0) return;
-			
-			// Prepare
-			var
-				infscl=$('.wordList ul.words').data('infinitescroll'),
-				jsp={
-					$elem:$('.wordsCont'),
-					api:$('.wordsCont').data('jsp')
-				},
-				perSclY=jsp.api.getPercentScrolledY();
-
-			// If inf. scl. is not during ajax, and not done and
-			// cus. scl. bar is scrolled percent y == 100%,
-			// get new words into wordList
-			if(
-				!infscl.options.state.isDuringAjax && 
-				!infscl.options.state.isDone && 
-				perSclY==1){
-
-				//infscl.scroll();
-				infscl.retrieve();
-			}
-		}
-	)
-	.jScrollPane();
-
 	// Attach a event handler for win. resize and trigger it once after page load
 	$(window).resize(function(e){
 		vcbp.onWinResize(e);
 	}).trigger('resize');
-
-	// Infinite-scrolling for word list
-	$('.wordList .wordsCont ul.words').infinitescroll({
-		binder:$('.wordList .wordsCont'),
-		navSelector:'.wordList div.wordListNav',
-		nextSelector:'.wordList div.wordListNav a:first',
-		itemSelector:'li',
-		//contentSelector:'.wordList ul.words',
-		//debug:true,
-		dataType:'html',
-		extraScrollPx:200,
-		loading:{
-			finishedMsg:'<em>Tüm kelimeler yüklendi.</em>',
-			img:'../images/loading.gif',
-			msgText:'<em>Kelimeler yükleniyor...</em>',
-			speed:'slow',
-			class:'infSclIndicator',
-			// Bind a event hander for each words that will load with ajax
-			// After words load, reinit. the cus. scl. bar for the wordsCont.
-			finished:function(){
-				var
-			
-					infscl=$('.wordList ul.words').data('infinitescroll'),
-					jsp={
-						$elem:$('.wordsCont'),
-						api:$('.wordsCont').data('jsp')
-					};
-
-				if(jsp.api){
-					jsp.api.reinitialise();
-					$('.'+infscl.options.loading.class).hide();
-				}
-			}
-		},
-		pathParse:function(){
-			return ['?_ajax=vocabulary/viewwordList',''];
-		},
-		setDestUrl:vcbp.getInfSclReqUrl
-	});
 
 	// Set the scrollbar of wordDetails on the link "a.more"(such as etymology more) click
 	$('.detailSide').on('click','.wordDetails a.more',function(){
@@ -394,6 +321,86 @@ vcbp.bindList=function(){
 	$('ul.words').on('click','li span.word',function(){
 		t.showDetail($(this).text());
 	});
+
+	this.bindScrolling();
+}
+
+vcbp.bindScrolling=function(){
+
+	// Create the cus. scl.bar for the wordsCont.
+	$('.wordsCont')
+	// Bind 'jsp-scroll-y' event handler to inf. scl.
+	.bind(
+		'jsp-scroll-y',
+		function(event, scrollPositionY, isAtLeft, isAtRight)
+		{
+			// Prevent incorrect inf. scl. operation on the fist cus. scl. bar. init.
+			if(scrollPositionY==0) return;
+			
+			// Prepare
+			var
+				infscl=$('.wordList ul.words').data('infinitescroll'),
+				jsp={
+					$elem:$('.wordsCont'),
+					api:$('.wordsCont').data('jsp')
+				},
+				perSclY=jsp.api.getPercentScrolledY();
+
+			// If inf. scl. is not during ajax, and not done and
+			// cus. scl. bar is scrolled percent y == 100%,
+			// get new words into wordList
+			if(
+				!infscl.options.state.isDuringAjax && 
+				!infscl.options.state.isDone && 
+				perSclY==1){
+
+				//infscl.scroll();
+				infscl.retrieve();
+			}
+		}
+	)
+	.jScrollPane();
+
+	
+	// Infinite-scrolling for word list
+	$('.wordList .wordsCont ul.words').infinitescroll({
+		binder:$('.wordList .wordsCont'),
+		navSelector:'.wordList div.wordListNav',
+		nextSelector:'.wordList div.wordListNav a:first',
+		itemSelector:'li',
+		//contentSelector:'.wordList ul.words',
+		//debug:true,
+		dataType:'html',
+		extraScrollPx:200,
+		loading:{
+			finishedMsg:'<em>Tüm kelimeler yüklendi.</em>',
+			img:'../images/loading.gif',
+			msgText:'<em>Kelimeler yükleniyor...</em>',
+			speed:'slow',
+			class:'infSclIndicator',
+			// Bind a event hander for each words that will load with ajax
+			// After words load, reinit. the cus. scl. bar for the wordsCont.
+			finished:function(){
+				var
+			
+					infscl=$('.wordList ul.words').data('infinitescroll'),
+					jsp={
+						$elem:$('.wordsCont'),
+						api:$('.wordsCont').data('jsp')
+					};
+
+				if(jsp.api){
+					jsp.api.reinitialise();
+					$('.'+infscl.options.loading.class).hide();
+				}
+			}
+		},
+		pathParse:function(){
+			return ['?_ajax=vocabulary/viewwordList',''];
+		},
+		setDestUrl:vcbp.getInfSclReqUrl
+	});
+
 }
 
 vcbp.showDetail=function(word){
