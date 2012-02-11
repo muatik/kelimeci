@@ -1,6 +1,7 @@
 /* Disable the scrollbar of window */
 html{
 	overflow:hidden;
+	overflow-x:auto;
 }
 #vcbContainer{
 	min-width:950px;
@@ -24,7 +25,7 @@ html{
 	background:#fff;
 }
 .detailSide{
-	width:550px;
+	min-width:500px;
 	height:85%;
 	margin-left:20px;
 	z-index:-999999;
@@ -74,14 +75,27 @@ html{
 }
 
 .wordList .wordsCont .jspVerticalBar,.detailSide .wordDetails .jspVerticalBar{
-	width:12px;
+	width:9px;
+	background:none;
 }
 
-.wordsCont .jspVerticalBar{
+.wordList .wordsCont .jspVerticalBar .jspTrack,
+.detailSide .wordDetails .jspVerticalBar .jspTrack{
+	border-radius:3px;
+	background:#efefef;
+}
+
+.wordList .wordsCont .jspVerticalBar .jspDrag,
+.detailSide .wordDetails .jspVerticalBar .jspDrag{
+	border-radius:3px;
+	background:#cacaca;
+}
+
+.wordsCont .jspVerticalBar,.detailSide .wordDetails .jspVerticalBar{
 	visibility:hidden;
 }
 
-.wordsCont:hover .jspVerticalBar{
+.wordsCont:hover .jspVerticalBar,.detailSide:hover .wordDetails .jspVerticalBar{
 	visibility:visible;
 }
 

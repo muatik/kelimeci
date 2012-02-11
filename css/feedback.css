@@ -5,11 +5,11 @@
 	padding:3px 7px 3px 7px;
 	font:normal 13px helvetica,sans-serif,arial;
 	text-align:center;
-	border:1px solid #ccc;
+	border:2px solid #d00000;
 	border-bottom:none;
 	border-right:none;
-	color:#777;
-	background:#f9f9f9;
+	color:white;
+	background:red;
 	/*
 	margin:0px 5px 0 0;
 	background-image:url(../images/feedback2.png);

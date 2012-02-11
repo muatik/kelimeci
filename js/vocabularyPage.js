@@ -126,8 +126,8 @@ vcbp.onWinResize=function(e){
 		wordContSclBar=$('.wordsCont').data('jsp');
 
 	// Set the size of detailSide
-	$detSide.height(winHgt-75);
-	$detSide.width(winWid-420);
+	$detSide.height(winHgt-90);
+	$detSide.width(winWid-418);
 
 	// Set the new scrollbar for the wordDetails
 	this.setSclBar('.detailSide .wordDetails','i');
