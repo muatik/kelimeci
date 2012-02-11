@@ -17,6 +17,10 @@ $(function(){
 		$($(this).get(0).form).submit();
 	});
 
+	$('#wordSearch .searchBtn').click(function(){
+		$(this).parent().submit();
+	});
+
 });
 
 // Validate the email
