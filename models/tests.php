@@ -140,7 +140,7 @@ class tests
 		$test->created=date('Y-m-d H:i:s');
 		$test->count=count($test->items);
 		$test->estimatedTime=($test->count*30); // in seconds
-
+		
 		/**
 		 * Turkish meaning of the test type for the title of test page
 		 *
@@ -166,7 +166,7 @@ class tests
 			case 'turkishWriting':
 				$titleInTr='Türkçesini Yazma Testi';
 				break;
-			case 'voiceTest':
+			case 'voice':
 				$titleInTr='Duyulan Kelimeyi Yazma Testi';
 				break;
 		}
