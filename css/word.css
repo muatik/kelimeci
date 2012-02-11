@@ -87,6 +87,11 @@
 	margin:6px 0;
 }
 
+.wordDetails div.meanings .clsName{
+	font:italic 0.8em sans-serif,helvetica;
+	color:#444;
+}
+
 .meanings .lang{
 	/* image-text replacement */
 	text-indent:-999px;

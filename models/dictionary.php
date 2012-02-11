@@ -488,7 +488,7 @@ class dictionary
 	 * @return void
 	 */
 	public static function getClassById($clsId){
-		$sql='select * from wordClasses
+		$sql='select * from classes
 			where
 			id=\''.self::$db->escape($clsId).'\'
 			limit 1';
