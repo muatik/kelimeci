@@ -459,9 +459,12 @@ class tests
 	 * @return void
 	 */
 	public static function getItemOfVoiceTest($word){
+		if($word->pronunciation===false)
+			return false;
+
 		$item=new stdClass();
 		$item->wordId=$word->id;
-		$item->mediaFile=$word->word;
+		$item->pronunciationFile=$word->pronunciation->file;
 		return $item;
 	}
 
