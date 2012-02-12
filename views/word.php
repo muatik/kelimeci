@@ -53,7 +53,7 @@ $w=$o->word;
 		// Speaker
 		$o2=new stdClass();
 		$o2->mediaFile='../audio/words/1.mp3';
-		$o2->autoPlay='false';
+		$o2->autoPlay=false;
 		echo $this->loadElement('speaker.php',$o2);
 
 		echo (!$w->isInVocabulary || $w->status==0?
