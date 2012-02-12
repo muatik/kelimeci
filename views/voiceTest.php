@@ -3,7 +3,9 @@
 
 <script type="text/javascript" src="../js/tests/test.js"></script> 
 <script type="text/javascript" src="../js/tests/voiceTest.js"></script>
-<script type="text/javascript" src="../js/jplayer/jquery.jplayer.min.js"></script> 
+<script type="text/javascript" src="../js/jplayer/jquery.jplayer.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/speaker.css" />
+<script type="text/javascript" src="../js/speaker.js"></script>
 
 
 <div class="voiceTest testPage">
@@ -16,10 +18,21 @@
 	);
 	echo '<ol class="testPageOl">';
 	foreach($o->items as $item){
+
+		// Speaker
+		$o2=new stdClass();
+		$o2->mediaFile='../audio/words/1.mp3';
+		$o2->autoPlay='false';
+		$o2->noScriptStyle=true;
+		$speaker=$this->loadElement('speaker.php',$o2);
+
 		echo '<li>
 			<input class="wordId" type="hidden" value="'.$item->wordId.'" />
+			<!--
 			<input class="voiceFile" type="hidden" value="'.$item->voiceFile.'" />
 			<img class="voiceStatusImg" src="../images/speaker.png" />
+			-->
+			'.$speaker.'
 			<input type="text" />
 		</li>';	
 	}
