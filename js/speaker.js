@@ -41,7 +41,7 @@ Speaker.prototype.bindElements=function(){
 
 	var t=this;
 
-	this.$cont.find('a.speaker').click(function(){
+	this.$cont.find('a.player').click(function(){
 		var
 			$t=$(this),
 			$mediaFile=t.$cont.find(':input[name="mediaFile"]'),

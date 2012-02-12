@@ -28,10 +28,6 @@
 
 		echo '<li>
 			<input class="wordId" type="hidden" value="'.$item->wordId.'" />
-			<!--
-			<input class="voiceFile" type="hidden" value="'.$item->voiceFile.'" />
-			<img class="voiceStatusImg" src="../images/speaker.png" />
-			-->
 			'.$speaker.'
 			<input type="text" />
 		</li>';	

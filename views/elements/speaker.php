@@ -18,7 +18,7 @@
 
 		echo '
 		<span id="'.$contId.'" class="speaker">
-			<a href="#" class="speaker">
+			<a href="#" class="player">
 				<img src="../images/speaker/speakerPlay.png" alt="" />
 			</a>
 			<span id="'.$jPlayerId.'" class="speakerJPlayer"></span>
