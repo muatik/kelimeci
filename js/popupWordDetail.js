@@ -37,7 +37,8 @@ function showWordOnPopup(word){
 				// If it is a error
 				else{
 					// Alert the error
-					_popupWordDetail.showContent(rsp.substr(1,rsp.length-1));
+					//_popupWordDetail.showContent(rsp.substr(1,rsp.length-1));
+					_popupWordDetail.showContent('"'+word+'" kelimesi bulunamadı');
 				}
 			}}
 		);
