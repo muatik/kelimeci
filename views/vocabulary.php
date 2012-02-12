@@ -12,6 +12,9 @@
 <script type="text/javascript" src="js/words.js"></script>
 <link rel="stylesheet" href="css/word.css" />
 <link rel="stylesheet" href="css/animbuttons.css" />
+<script type="text/javascript" src="../js/jplayer/jquery.jplayer.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/speaker.css" />
+<script type="text/javascript" src="../js/speaker.js"></script>
 
 <div id="vcbContainer">
 

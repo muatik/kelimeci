@@ -52,6 +52,7 @@ $w=$o->word;
 
 		// Speaker
 		$o2=new stdClass();
+		$o2->noScriptStyle=true;
 		$o2->mediaFile='../audio/words/1.mp3';
 		$o2->autoPlay=false;
 		echo $this->loadElement('speaker.php',$o2);
