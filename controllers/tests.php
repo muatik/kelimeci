@@ -114,10 +114,8 @@ class testsController extends ipage{
 
 			$o2=new stdClass();
 			$o2->title='Duyuru';
-			$o2->message='
-				Testin uygulanabilmesi için, eklenen en az 1 kelimenizin
-				üzerinden 8 saat geçmelidir.
-			';
+			$o2->message='Yetersiz veri yüzünden test hazırlanamadı.<br />
+				Bu muhtemelen bizim kusurumuzdan kaynaklanıyordur.';
 			$o2->hidable=false;
 			echo $this->loadElement('notification.php',$o2);
 
