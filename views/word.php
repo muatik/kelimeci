@@ -53,7 +53,10 @@ $w=$o->word;
 		// Speaker
 		if($w->pronunciation!==false){
 			$o2=new stdClass();
-			$o2->noScriptStyle=true;
+
+			if(isset($o->noScriptStyle) && $o->noScriptStyle)
+				$o2->noScriptStyle=true;
+
 			$o2->mediaFile=$w->pronunciation->file;
 			$o2->autoPlay=false;
 			echo $this->loadElement('speaker.php',$o2);
