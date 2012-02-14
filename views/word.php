@@ -51,11 +51,13 @@ $w=$o->word;
 		echo '</span>';
 
 		// Speaker
-		$o2=new stdClass();
-		$o2->noScriptStyle=true;
-		$o2->mediaFile='../audio/words/1.mp3';
-		$o2->autoPlay=false;
-		echo $this->loadElement('speaker.php',$o2);
+		if($w->pronunciation!==false){
+			$o2=new stdClass();
+			$o2->noScriptStyle=true;
+			$o2->mediaFile=$w->pronunciation->file;
+			$o2->autoPlay=false;
+			echo $this->loadElement('speaker.php',$o2);
+		}
 
 		echo (!$w->isInVocabulary || $w->status==0?
 			'<a href="#" class="button green small addRemove add"
@@ -98,7 +100,7 @@ $w=$o->word;
 				$pClass='hidden';
 			
 			echo '<li class="meaning text '.$pClass.'">';
-			if(is_numeric($m->clsId)){
+			if((int)$m->clsId!==0){
 				$mClass=kelimeci\dictionary::getClassById($m->clsId);
 				echo '<span class="clsName">'.$mClass->name.' - </span> ';
 			}

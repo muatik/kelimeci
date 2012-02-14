@@ -435,7 +435,28 @@ class dictionary
 		}
 		return $rs;
 	}
-	
+
+
+	/**
+	 * returns a object that contains pronunciation infos of the word
+	 * 
+	 * @param int $wordId 
+	 * @static
+	 * @access public
+	 * @return object
+	 */
+	public static function getPronunciationByWordId($wordId){
+		$pronunciation=new \stdClass();
+
+		$file='audios/words/'.$wordId.'.mp3';
+		if(!file_exists($file))
+			return false;
+	 
+		$pronunciation->file=$file;
+
+		return $pronunciation;
+	}
+
 	/**
 	 * return the word object which is corresponded to word
 	 * 

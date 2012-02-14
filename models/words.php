@@ -91,7 +91,15 @@ class words
 	 * @access private
 	 */
 	private $antonyms;
-	
+
+	/**
+	 * pronunciation file of the word
+	 * 
+	 * @var object
+	 * @access private
+	 */
+	private $pronunciation;
+
 	/**
 	 * database object 
 	 * 
@@ -120,6 +128,7 @@ class words
 			'meanings'=>'getMeaningsOfWord',
 			'synonyms'=>'getSynonymsOfWord',
 			'antonyms'=>'getAntonymsOfWord',
+			'pronunciation'=>'getPronunciationByWordId',
 		);
 	}
 
