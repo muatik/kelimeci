@@ -17,22 +17,34 @@ function Speaker(speakerContId){
 }
 
 Speaker.prototype.setJPlayer=function(){
+	var t=this;
 
 	this.$jp.jPlayer({
-		swfPath:'../js/jplayer/jplayer.swf',
-		solution:'html,flash',
 		supplied:'mp3',
+		swfPath:'js/jplayer/jplayer.swf',
+		solution:'flash,html',
 		// If ua is ff with vers. 3.6, set the wmode "window" (required)
 		wmode:($.browser.mozilla && $.browser.version.slice(0,3)=='3.6')
-			? 'window' : 'opaque'
+			? 'window' : 'opaque',
+		ready:function(){
+			var 
+				$mediaFile=t.$cont.find(':input[name="mediaFile"]'),
+				$autoPlay=t.$cont.find(':input[name="autoPlay"]');
+
+			// Set the media file
+			$(this).jPlayer('setMedia',{mp3:$mediaFile.val()});
+
+			// Play if the auto play is true
+			if($autoPlay.val()==='true')
+				$(this).jPlayer('play');
+		}
 		/*
-		ready:function(){},
 		play:function(e){},
 		progress:function(e){},
 		pause:function(e){},
 		ended:function(e){}
+		,errorAlerts:true
 		*/
-		//,errorAlerts:true
 	});
 
 }
@@ -42,15 +54,7 @@ Speaker.prototype.bindElements=function(){
 	var t=this;
 
 	this.$cont.find('a.player').click(function(){
-		var
-			$t=$(this),
-			$mediaFile=t.$cont.find(':input[name="mediaFile"]'),
-			$autoPlay=t.$cont.find(':input[name="autoPlay"]');
-
-		t.$jp.jPlayer('setMedia',{mp3:$mediaFile.val()});
-
-		if($autoPlay.val()==='true')
-			t.$jp.jPlayer('play');
+		t.$jp.jPlayer('play');
 
 		return false;
 	});

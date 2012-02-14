@@ -6,5 +6,5 @@
 	height:20px;
 }
 .speaker .speakerJPlayer{
-	display:none;
+	visibility:hidden;
 }
