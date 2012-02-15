@@ -8,7 +8,7 @@
 .wordFilterForm .felement{
 	margin-right:8px;
 	float:left;
-	width:145px;
+	width:165px;
 }
 .wordFilterForm .felement .flabel{
 	float:left;
@@ -17,9 +17,8 @@
 	margin-top:5px;
 	text-align:right;
 }
-.ui-dropdownchecklist {
-	z-index:2000000!important;
-	width:95px;
+.ui-multiselect-checkboxes{
+	overflow-y:hidden;
 }
 .levelRange{
 	margin:4px 0 0 4px;

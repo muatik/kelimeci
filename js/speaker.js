@@ -50,7 +50,6 @@ Speaker.prototype.setJPlayer=function(){
 }
 
 Speaker.prototype.bindElements=function(){
-
 	var t=this;
 
 	this.$cont.find('a.player').click(function(){
@@ -63,6 +62,9 @@ Speaker.prototype.bindElements=function(){
 	 * On play
 	 */
 	t.$jp.bind($.jPlayer.event.play,function(e){
+		// Pause all intances except this one before playing
+		$(this).jPlayer('pauseOthers');
+
 		t.updateSpeakerImg(e,'play');
 	});
 
@@ -73,6 +75,14 @@ Speaker.prototype.bindElements=function(){
 		t.updateSpeakerImg(e,'ended');
 	});
 
+	/**
+	 * On pause(STOPPED AFTER PAUSED)
+	 */
+	t.$jp.bind($.jPlayer.event.pause,function(e){
+		// Stop after paused
+		$(this).jPlayer('stop');
+		t.updateSpeakerImg(e,'pause');
+	});
 }
 
 Speaker.prototype.updateSpeakerImg=function(e,status){

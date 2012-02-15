@@ -9,6 +9,14 @@
 
 	// Generate a unique number for id
 	$uniqueId=time();
+
+	// If incContIdBy is set, increment cont. id by this value
+	//	- Why is it needed?
+	//	- Because, prevent generating a same (unique) id for speaker
+	//		element container
+	if(isset($o->incContIdBy) && is_numeric($o->incContIdBy))
+		$uniqueId+=$o->incContIdBy;
+
 	$contId='speaker'.$uniqueId;
 	$jPlayerId='jplayer'.$uniqueId;
 
@@ -26,10 +34,6 @@
 			<input type="hidden" name="autoPlay" value="'.$autoPlay.'" />
 		</span>';
 
-		echo '
-			<script type="text/javascript">
-				new Speaker(\''.$contId.'\');
-			</script>
-		';
+		echo '<script type="text/javascript">new Speaker(\''.$contId.'\');</script>';
 	}
 ?>

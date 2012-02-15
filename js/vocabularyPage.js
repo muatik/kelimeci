@@ -180,24 +180,24 @@ vcbp.bind=function(){
 		return false;
 	})
 
-	
-	$('.classesCheckList').dropdownchecklist(
-	{firstItemChecksAll: true},
-	{
-		forceMultiple: true, onComplete: function(selector) {
-			var values = "";
-			for( i=0; i < selector.options.length; i++ ) {
-				if (selector.options[i].selected 
-					&& (selector.options[i].value != "")) {
-					if ( values != "" ) values += ",";
-					values += selector.options[i].value;
-				}
-			}
+	$('.classesCheckList').multiselect({
+		height:'auto',
+		minWidth:120,
+		checkAllText:'Hepsini seç',
+		uncheckAllText:'Hepsini kaldır',
+		noneSelectedText:'Seçiniz',
+		selectedList:6,
+		create:function(e,ui){
+			var $widget=$('.classesCheckList');
 
-			t.getWords();
-		} 
-	}
-	);
+			// Check all items on create
+			$widget.multiselect('checkAll');
+		}
+	}).change(function(){
+		t.getWords();
+	});
+
+	
 
 	// When one form will show, hide the others
 	$('.toggleInsertForm,.toggleFilterForm,.selectPackages').click(function(){

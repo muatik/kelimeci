@@ -63,7 +63,7 @@ html{
 	position:absolute;
 	background-color:#fff;
 	z-index:999;
-	width:325px;
+	width:350px;
 }
 
 .wordAdditionForm input[name="tag"]{width:68px}

@@ -20,6 +20,12 @@ $(document).ready(function(){
 
 			}
 
+		}).focusin(function(){
+			
+			var $jp=$(this).closest('li').find('.speakerJPlayer');
+
+			$jp.jPlayer('play');
+
 		});
 		
 	}
