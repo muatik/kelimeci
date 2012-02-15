@@ -54,7 +54,7 @@ $w=$o->word;
 		if($w->pronunciation!==false){
 			$o2=new stdClass();
 			$o2->noScriptStyle=true;
-			$o2->mediaFile=$w->pronunciation->file;
+			$o2->mediaFile='../'.$w->pronunciation->file;
 			$o2->autoPlay=false;
 			echo $this->loadElement('speaker.php',$o2);
 		}
