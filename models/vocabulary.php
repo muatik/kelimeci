@@ -68,7 +68,7 @@ class vocabulary
 					.' wc.clsId is null )';
 
 			if($classesq!=null)
-				$classesq=' and '.$classesq;
+				$classesq=' and '.$classesq2;
 
 		}
 		
