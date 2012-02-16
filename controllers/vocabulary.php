@@ -80,7 +80,7 @@ class vocabularyController extends ipage {
 		
 		// default assaignments for the word list
 		$start=0;
-		$length=100;
+		$length=15;
 		$levelMin=-20;
 		$levelMax=20;
 		$keyword=null;
@@ -119,6 +119,9 @@ class vocabularyController extends ipage {
 		if(isset($this->r['noScriptStyle']))
 			$o->noScriptStyle=true;
 
+		if(isset($this->r['noAllInterface']))
+			$o->noAllInterface=true;
+
 		return $this->loadView(
 			'wordList.php',
 			$o,
@@ -133,10 +136,25 @@ class vocabularyController extends ipage {
 		if($word==null)
 			return '0The parameter "word" is required.';
 
-		$word=kelimeci\dictionary::getWord($word);
+		$wordo=kelimeci\dictionary::getWord($word);
 
-		if($word===false)
-			return '0Word not found!';
+		if($wordo===false){
+			/**
+			 * if the word is not there in dictionary, start to crawl the word on
+			 * dictionary sites.
+			 * */
+			$this->addModel('crawlers');
+			$crw=new crawlers\crawlers();
+			$crw->learn($word);
+			
+			$wordo=kelimeci\dictionary::getWord($word);
+			
+			if($wordo===false)
+				return '0Word not found!';
+
+		}
+
+		$word=$wordo;
 
 		// kullanıcının bu kelime için sağladı verileri çeker
 		if($this->isLogined){

@@ -56,9 +56,9 @@
 	?>
 	<form id="wordSearch" method="get" action="search">
 		<input type="text" name="word" id="word" placeholder="kelime ara" />
-		<img src="images/search.png" />
+		<img src="images/search.png" class="searchBtn" alt="" />
 	</form>
-	<a href="#" id="feedbackImg"></a>
+	<a href="#" id="feedbackImg">Görüş bildir</a>
 </div>
 
 <?php

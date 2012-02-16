@@ -23,6 +23,7 @@ $w=$o->word;
 	?>
 
 	<h1><?php 
+		
 		echo $w->word;
 		if(isset($w->info['pronunciation']))
 			echo ' <span class="pronunciation" 
@@ -48,7 +49,15 @@ $w=$o->word;
 					.'" title="'.$ci[1].'">'.$ci[0].'</abbr>';
 			}
 		echo '</span>';
-		
+
+		// Speaker
+		if($w->pronunciation!==false){
+			$o2=new stdClass();
+			$o2->noScriptStyle=true;
+			$o2->mediaFile='../'.$w->pronunciation->file;
+			$o2->autoPlay=false;
+			echo $this->loadElement('speaker.php',$o2);
+		}
 
 		echo (!$w->isInVocabulary || $w->status==0?
 			'<a href="#" class="button green small addRemove add"
@@ -72,9 +81,9 @@ $w=$o->word;
 	// dillere göre gruplanarak yazılıyor
 	$langMeaning=array();
 	foreach($w->meanings as $m){
-		$langMeaning[$m->lang][]=$m->meaning;
+		$langMeaning[$m->lang][]=$m;
 	}
-
+	
 	foreach($langMeaning as $lang=>$meanings){
 		echo '<div class="langGroup lang'.$lang.'">
 			<i class="lang '.$lang.'">'.$lang.' : </i>';
@@ -90,7 +99,12 @@ $w=$o->word;
 			if($i==4)
 				$pClass='hidden';
 			
-			echo '<li class="meaning text '.$pClass.'">'.$m.'</li>';
+			echo '<li class="meaning text '.$pClass.'">';
+			if((int)$m->clsId!==0){
+				$mClass=kelimeci\dictionary::getClassById($m->clsId);
+				echo '<span class="clsName">'.$mClass->name.' - </span> ';
+			}
+			echo $m->meaning.'</li>';
 
 			$i++;
 		}
@@ -120,14 +134,16 @@ $w=$o->word;
 			if($i>3)
 				$liClass='hidden';
 
+			$q->quote=str_replace($w->word,'<b>'.$w->word.'</b>',$q->quote);
+
 			$h.='<li class="'.$liClass.'">
 				<blockquote>'
 				.$q->quote.'</blockquote></li>';
 
 			$i++;
 		}
-		
-		echo str_replace($w->word,'<b>'.$w->word.'</b>',$h);
+
+		echo $h;
 
 		?>
 		</ul>

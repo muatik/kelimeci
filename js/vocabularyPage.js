@@ -1,5 +1,15 @@
 $(function(){
 
+	// Attach a event handler for win. resize and trigger it once after page load
+	$(window).resize(function(e){
+		vcbp.onWinResize(e);
+	}).trigger('resize');
+
+	// Set the scrollbar of wordDetails on the link "a.more"(such as etymology more) click
+	$('.detailSide').on('click','.wordDetails a.more',function(){
+		vcbp.setSclBar('.detailSide .wordDetails','ri');	
+	});
+
 });
 
 function vcbPage(){
@@ -12,7 +22,7 @@ function vcbPage(){
 		t.onAddedWord(rsp,f);
 	}
 
-	// Variable to cancel the ajax requests that made before
+	// Variable to cancel the ajax requests that was made before
 	this.wordDetailAjaxReq=new simpleAjax();
 
 
@@ -27,8 +37,116 @@ function vcbPage(){
 
 var vcbp=vcbPage.prototype;
 
+/**
+ * Do do the following operations on the window resize:
+ *	- Set the size of detailSide
+ *	- Reinitialise the customized scrollbar for the detailSide
+ */
+vcbp.onWinResize=function(e){
+	// Prepare
+	var 
+		$t=$(window),
+		$detSide=$('.detailSide'),
+		winHgt=parseInt($t.height()),
+		winWid=parseInt($t.width()),
+		detSideHgt=parseInt($detSide.height()),
+		wordContSclBar=$('.wordsCont').data('jsp');
+
+	// Set the size of detailSide
+	$detSide.height(winHgt-90);
+	$detSide.width(winWid-418);
+
+	// Set the new scrollbar for the wordDetails
+	this.setSclBar('.detailSide .wordDetails','i');
+	
+	// If the customized scrollbar initialised, reinitialise;
+	// otherwise initialise
+	this.setSclBar('.wordsCont','ri');
+};
+
+/**
+ * Set the customized scrollbars for this page
+ *
+ * @param string selector Selector for element
+ * @param string op Operation for the scrollbar
+ * 	op==i  (i: initialise)
+ * 	op==ri (ri: reinitialise)
+ */
+vcbp.setSclBar=function(selector,op){
+	var sclBar=$(selector).data('jsp');
+
+	if(sclBar!=null){
+		if(typeof(op)!='undefined'){
+			if(op=='ri')
+				sclBar.reinitialise();
+			else
+				$(selector).jScrollPane();
+		}
+	}
+	else
+		$(selector).jScrollPane();
+};
+
+/**
+ * Return a object of the parameters that is used
+ * with the url "?_ajax=vocabulary/viewwordList" for ajax requests
+ *
+ * @return object
+ */
+vcbp.getRequestParams=function(){
+	var classes=new Array()
+	try{
+		classes=$('.classesCheckList').val().toString().split(',');
+		if(classes[0]=='Hepsi')
+			classes.shift();
+	}catch(e){}
+	var levelRange=$('.levelRangeInput').val().split(':');
+	var keyword=$('.wordFilterForm .keyword').val();
+	var orderBy=$('.wordFilterForm .orderBy option:selected').val();
+
+	return {
+		levelMax:levelRange[1],
+		levelMin:levelRange[0],
+		keyword:keyword,
+		classes:classes,
+		orderBy:orderBy
+	};
+}
+
+/**
+ * Update the href information of anchor for infinite scrolling
+ */
+vcbp.getInfSclReqUrl=function(){
+	var 
+		url='?_ajax=vocabulary/viewwordList',
+		start=$('.wordList ul.words li').length,
+		length=5,
+		reqParams=vcbp.getRequestParams(),
+		params='&';
+
+	for(var i in reqParams){
+		if(!$.isArray(reqParams[i]))
+			params+=i+'='+reqParams[i]+'&';
+		else
+			for(var j in reqParams[i])
+				params+=i+'[]='+reqParams[i][j]+'&';
+	}
+
+	params+=
+		'start='+start+
+		'&length='+length+
+		'&noScriptStyle=true'+
+		'&noAllInterface=true';
+
+	// Update the anchor href information for infinite scrolling
+	//$('.wordList div.wordListNav a:first').attr('href',url+params);
+	return url+params;
+}
+
 vcbp.bind=function(){
 	var t=this;
+
+	t.showTooltips();
 	
 	// when user submit word package form, refresh word list
 	wordPackages.onSaveCallback=function(){
@@ -45,11 +163,21 @@ vcbp.bind=function(){
 	}
 
 	$('.toggleInsertForm').click(function(){
-		$('.wordAdditionForm').toggle('fast');
+		$('.wordAdditionForm').toggle('fast',function(){
+			var qtip=$(this).find(':input[name="word"]').qtip('api');
+	
+			// If the form is visible, show the tooltip
+			if($(this).is(':visible'))
+				qtip.show();
+			else
+				qtip.hide();
+		});
+		return false;
 	})
 
 	$('.toggleFilterForm').click(function(){
 		$('.wordFilterForm').toggle('fast');
+		return false;
 	})
 
 	
@@ -70,6 +198,24 @@ vcbp.bind=function(){
 		} 
 	}
 	);
+
+	// When one form will show, hide the others
+	$('.toggleInsertForm,.toggleFilterForm,.selectPackages').click(function(){
+		var btns=[
+			{name:'toggleInsertForm',target:'form.wordAdditionForm'},
+			{name:'toggleFilterForm',target:'form.wordFilterForm'},
+			{name:'selectPackages',target:'form.wordPackages'}
+		],
+		$t=$(this),
+		btn=null;
+
+		for(var i in btns){
+			btn=btns[i];
+
+			if(!$t.hasClass(btn.name))
+				$(btn.target).hide();	
+		}
+	});
 
 
 	$(".levelRange").slider({
@@ -101,8 +247,6 @@ vcbp.bind=function(){
 		t.getWords();
 	})
 
-	t.showTooltips();
-
 	$('form.wordAdditionForm').submit(function(){
 		toggleAjaxIndicator($('.toggleFilterForm'),'','after');
 	})
@@ -111,25 +255,14 @@ vcbp.bind=function(){
 
 vcbp.getWords=function(){
 	var t=this;
-	var classes=new Array()
-	try{
-		classes=$('.classesCheckList').val().toString().split(',');
-		if(classes[0]=='Hepsi')
-			classes.shift();
-	}catch(e){}
-	var levelRange=$('.levelRangeInput').val().split(':');
-	var keyword=$('.wordFilterForm .keyword').val();
-	var orderBy=$('.wordFilterForm .orderBy option:selected').val();
+
+	var reqParams=t.getRequestParams();
 	
 	toggleAjaxIndicator($('.toggleFilterForm'),'','after');
 
-	vocabulary.get({
-			levelMax:levelRange[1],
-			levelMin:levelRange[0],
-			keyword:keyword,
-			classes:classes,
-			orderBy:orderBy
-		}, function(rsp){
+	vocabulary.get(
+		reqParams,
+		function(rsp){
 			toggleAjaxIndicator($('.toggleFilterForm').parent());
 			t.listWords(rsp);
 		}
@@ -179,48 +312,131 @@ vcbp.bindList=function(){
 		toggleRmButton();
 	});
 
-	$('ul.words input.wordIds').unbind('change').bind('change', function(){
+	$('ul.words').on('change','li input.wordIds',function(){
 		$(this).parent().toggleClass('selected');
 		$('.wordsForm input[name="checkAll"]').attr('checked',null);
 		toggleRmButton();
-	})
+	});
 
-	$('ul.words span.word').bind('click', function(){
-		/*
-		toggleAjaxIndicator(
-			//$('.wordList .words li span.word:contains('+word+')'),
-			$('.wordList .words li span.word')
-				.filter(function(){
-					return $(this).text()==word
-				}),
-			'',
-			'after'
-		);
-		*/
-
+	$('ul.words').on('click','li span.word',function(){
 		t.showDetail($(this).text());
-	})
+	});
+
+	this.bindScrolling();
+}
+
+vcbp.bindScrolling=function(){
+
+	// Create the cus. scl.bar for the wordsCont.
+	$('.wordsCont')
+	// Bind 'jsp-scroll-y' event handler to inf. scl.
+	.bind(
+		'jsp-scroll-y',
+		function(event, scrollPositionY, isAtLeft, isAtRight)
+		{
+			// Prevent incorrect inf. scl. operation on the fist cus. scl. bar. init.
+			if(scrollPositionY==0) return;
+			
+			// Prepare
+			var
+				infscl=$('.wordList ul.words').data('infinitescroll'),
+				jsp={
+					$elem:$('.wordsCont'),
+					api:$('.wordsCont').data('jsp')
+				},
+				perSclY=jsp.api.getPercentScrolledY();
+
+			// If inf. scl. is not during ajax, and not done and
+			// cus. scl. bar is scrolled percent y == 100%,
+			// get new words into wordList
+			if(
+				!infscl.options.state.isDuringAjax && 
+				!infscl.options.state.isDone && 
+				perSclY==1){
+
+				//infscl.scroll();
+				infscl.retrieve();
+			}
+		}
+	)
+	.jScrollPane();
+
+	
+	// Infinite-scrolling for word list
+	$('.wordList .wordsCont ul.words').infinitescroll({
+		binder:$('.wordList .wordsCont'),
+		navSelector:'.wordList div.wordListNav',
+		nextSelector:'.wordList div.wordListNav a:first',
+		itemSelector:'li',
+		//contentSelector:'.wordList ul.words',
+		//debug:true,
+		dataType:'html',
+		extraScrollPx:200,
+		loading:{
+			finishedMsg:'<em>Tüm kelimeler yüklendi.</em>',
+			img:'../images/loading.gif',
+			msgText:'<em>Kelimeler yükleniyor...</em>',
+			speed:'slow',
+			class:'infSclIndicator',
+			// Bind a event hander for each words that will load with ajax
+			// After words load, reinit. the cus. scl. bar for the wordsCont.
+			finished:function(){
+				var
+			
+					infscl=$('.wordList ul.words').data('infinitescroll'),
+					jsp={
+						$elem:$('.wordsCont'),
+						api:$('.wordsCont').data('jsp')
+					};
+
+				if(jsp.api){
+					jsp.api.reinitialise();
+					$('.'+infscl.options.loading.class).hide();
+				}
+			}
+		},
+		pathParse:function(){
+			return ['?_ajax=vocabulary/viewwordList',''];
+		},
+		setDestUrl:vcbp.getInfSclReqUrl
+	});
+
 }
 
 vcbp.showDetail=function(word){
+	var t=this;
 	// Cancel old ajax requests
 	this.wordDetailAjaxReq.o.abort();
+
+	var indc=toggleAjaxIndicator(
+		$('.detailSide').html(''),
+		'"'+word+'" yükleniyor... <a href="#" class="abort">iptal et</a>',
+		'prepend',
+		'wordShowingIndc'
+	);
+	
+	$('a.abort',indc).click(function(){		
+		t.wordDetailAjaxReq.o.abort();
+		$(indc).remove();
+	});
 
 	this.wordDetailAjaxReq.send(
 		'vocabulary?_view=word&word='+word+'&noScriptStyle=1',
 		null,
 		{onSuccess:function(rsp,o){
-			/*
-			toggleAjaxIndicator(
-				//$('.wordList .words li span.word:contains('+word+')'),
-				$('.wordList .words li span.word')
-					.filter(function(){
-						return $(this).text()==word 
-					})
-			);
-			*/
+			
+			$(indc).remove();
 			$('.detailSide').html(rsp)
 				.hide().toggle('slide',{},450);
+
+
+			var detSideSclBar=$('.detailSide .wordDetails').data('jsp');
+
+				//detSideSclBar.reinitialise();
+
+				$('.detailSide .wordDetails').jScrollPane();
+				
+
 		}}
 	);
 
@@ -324,19 +540,10 @@ vcbp.onWordPackageSaved=function(rsp){
 }
 
 vcbp.showTooltips=function(){
-	/*
-	var qtipHideBtn='<a href="#" class="qtipHide" onclick="hideTooltip(this)">[Gizle]</a>';
-
-	// Tooltip for word addition form
-	$wFrm.find(':input[name="word"]').qtip(qtipDefs).qtip(
-		'option','content.text',
-		'Kelime dağarcığınıza buradan kelime ekleyebilirsiniz. '+qtipHideBtn
-	);
-	*/
 	$('.wordAdditionForm :input[name="word"]').qtip({
 		show:{
-			event:false,
-			ready:true
+			//event:false
+			//,ready:true
 		},
 		hide:false,
 		style:{
@@ -349,6 +556,26 @@ vcbp.showTooltips=function(){
 		content:{
 			text:'Kelime dağarcığınıza buradan kelime ekleyebilirsiniz.',
 			title:{text:'Bildirgeç',button:true}
+		},
+		events:{
+			show:function(){
+				var 
+					cookieName='tooltips.wordAdditionForm.addWord',
+					cookie=getCookie(cookieName);
+
+				// If the cookie exists for the tooltip and
+				// value of it "0", don't show the tooltip;
+				// otherwise show it
+				if(cookie && cookie=='0')
+					return false;
+			},
+			hide:function(e,api){
+				var 
+					cookieName='tooltips.wordAdditionForm.addWord';
+
+				// Set a cookie with value "0" for the tooltip
+				setCookie(cookieName,'0');	
+			}
 		}
 	});
 }

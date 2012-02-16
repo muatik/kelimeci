@@ -27,7 +27,7 @@ function showWordOnPopup(word){
 			{'onSuccess':function(rsp,o){
 				
 				// Remove AI
-				toggleAjaxIndicator($popup,null,null,false);
+				toggleAjaxIndicator($popup,null,null,'',false);
 				
 				// If the first letter of word is not "0"
 				// that means it is a error
@@ -37,7 +37,8 @@ function showWordOnPopup(word){
 				// If it is a error
 				else{
 					// Alert the error
-					_popupWordDetail.showContent(rsp.substr(1,rsp.length-1));
+					//_popupWordDetail.showContent(rsp.substr(1,rsp.length-1));
+					_popupWordDetail.showContent('"'+word+'" kelimesi bulunamadı');
 				}
 			}}
 		);
@@ -116,10 +117,14 @@ $(function(){
 				'.wordDetails .antonyms a.word'
 			,
 			function(e){
-				// Get selected text
-				var selText=getSelected();
+				var
+					// Get selected text
+					selText=getSelected(),
+					// Pattern for the selected text            
+					patt=/^[a-zA-Z]+( [a-zA-Z]+)*$/gi;  
 
-				if(selText!=''){
+				// If not empty and consists of only characters
+				if(selText!='' && patt.test(selText)){
 					showWordOnPopup(selText);
 				}
 				return false;

@@ -17,6 +17,10 @@ $(function(){
 		$($(this).get(0).form).submit();
 	});
 
+	$('#wordSearch .searchBtn').click(function(){
+		$(this).parent().submit();
+	});
+
 });
 
 // Validate the email
@@ -170,6 +174,7 @@ function toggleAjaxIndicator(){
 	var msg='';
 	var pos='append';
 	var fadeOnHide=true;
+	var classSuffix='';
 
 	if(arguments.length>1)
 		msg=arguments[1];
@@ -178,7 +183,10 @@ function toggleAjaxIndicator(){
 		pos=arguments[2];
 	
 	if(arguments.length>3)
-		fadeOnHide=arguments[3];
+		classSuffix=arguments[3];
+
+	if(arguments.length>4)
+		fadeOnHide=arguments[4];
 	
 	if($('.ajaxIndicator',$(target).parent()).length>0){
 		$('.ajaxIndicator',$(target).parent())
@@ -189,8 +197,11 @@ function toggleAjaxIndicator(){
 		return true;
 	}
 
-	var h='<span class="ajaxIndicator">'+msg+'<img src="images/loading.gif" '
+	var h='<span class="ajaxIndicator '+classSuffix+'">'
+		+msg+'<img src="images/loading.gif" '
 		+'alt="Yükleniyor..." /></span>';
+	
+	h=$(h);
 
 	switch(pos){
 		case 'after': $(h).insertAfter(target);break;
@@ -199,4 +210,46 @@ function toggleAjaxIndicator(){
 		case 'append': $(target).append(h);break;
 	}
 
+	return h;
 }
+
+/**
+ * Set a cookie
+ * 
+ * @param string name
+ * @param string value
+ * @param string exDays Experation days (ex: 5)
+ */
+function setCookie(name,value,exDays){
+	var 
+		cVal='',
+		exDate=new Date();
+
+	exDate.setDate(exDate.getDate() + exDays);
+	cVal=escape(value)+((exDays==null) ? '' : '; expires='+exDate.toUTCString());
+	document.cookie=name+'='+cVal;
+}
+
+/**
+ * Get cookie
+ * 
+ * @param string name
+ * @return string If the cookie exists, return string;
+ * 	otherwise return null
+ */
+function getCookie(name){
+	var 
+		cookies=document.cookie.split(';'),
+		c,cName,cValue;
+
+	for(var i in cookies){
+		c=cookies[i];
+		cName=c.substr(0,c.indexOf('='));
+		cValue=c.substr(c.indexOf('=')+1);
+		cName=cName.replace(/^\s+|\s+$/g,'');
+		if(cName==name)
+			return unescape(cValue);
+	}
+	return null;
+}
+

@@ -11,6 +11,14 @@ class searchController extends ipage {
 	public function run(){
 		
 		if(isset($this->r['word'])){
+
+			$word=$this->r['word'];
+			$word=preg_replace('/([a-z]+)([_]+)([a-z]+)/ui','\1\3',$word);
+			$word=preg_replace('/[^\w ]/ui','',$word);
+			$word=preg_replace('/(^\s+)|(\s+$)/us','',$word); // trimming
+			
+			$this->keyword=$word;
+
 			$this->title='Kelimeci sözlük: '.stripslashes($this->r['word']);
 			$this->searchResult=$this->search($this->r['word']);
 
@@ -28,7 +36,7 @@ class searchController extends ipage {
 		$o->word=null;
 
 		if(isset($this->searchResult)){
-			$o->word=stripslashes($this->r['word']);
+			$o->word=stripslashes($this->keyword);
 			$o->result=$this->searchResult;
 			$o->relatedSearchs=$this->getRelatedSearchs($this->r['word']);
 		}

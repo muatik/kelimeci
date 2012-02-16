@@ -140,7 +140,7 @@ class tests
 		$test->created=date('Y-m-d H:i:s');
 		$test->count=count($test->items);
 		$test->estimatedTime=($test->count*30); // in seconds
-
+		
 		/**
 		 * Turkish meaning of the test type for the title of test page
 		 *
@@ -166,7 +166,7 @@ class tests
 			case 'turkishWriting':
 				$titleInTr='Türkçesini Yazma Testi';
 				break;
-			case 'voiceTest':
+			case 'voice':
 				$titleInTr='Duyulan Kelimeyi Yazma Testi';
 				break;
 		}
@@ -277,6 +277,8 @@ class tests
 				return self::getItemOfEnglishWriting($word);
 			case 'turkishWriting':
 				return self::getItemOfTurkishWriting($word);
+			case 'voice':
+				return self::getItemOfVoiceTest($word);
 		}
 		return false;
 	}
@@ -294,12 +296,17 @@ class tests
 		$vcb=new vocabulary($userId);
 		$item=new stdClass();
 		$word->uQuotes=$vcb->getUserQuotes($word->id);
-
-		$quotes=array_merge($word->quotes,$word->uQuotes);
+		
+		// just the first 10 quotes of the word because the quotes are 
+		// ordered by length asc, and shorter is better.
+		$quotes=array_merge(
+			array_slice($word->quotes,0,10), 
+			$word->uQuotes
+		);
 		
 		shuffle($quotes);
 		
-		if(count($quotes)==0)
+		if(!is_array($quotes) || count($quotes)==0)
 			return false;
 		
 
@@ -340,7 +347,7 @@ class tests
 			return false;
 		
 		shuffle($synonyms);
-		$synonyms=array_slice($synonyms,0,8);
+		$synonyms=array_slice($synonyms,0,4);
 	
 		$item=new stdClass();
 		$item->wordId=$word->id;
@@ -442,7 +449,26 @@ class tests
 		$item->word=$word->word;
 		return $item;
 	}
-		
+	
+	/**
+	 * getItemOfVoiceTest
+	 * 
+	 * @param mixed $word 
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function getItemOfVoiceTest($word){
+		if($word->pronunciation===false)
+			return false;
+
+		$item=new stdClass();
+		$item->wordId=$word->id;
+		$item->pronunciationFile=$word->pronunciation->file;
+		return $item;
+	}
+
+
 	### END OF TEST DATA METHODS ###
 	
 

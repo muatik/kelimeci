@@ -1,0 +1,10 @@
+.speaker a.player{
+	text-decoration:none;
+}
+.speaker a.player img{
+	width:20px;
+	height:20px;
+}
+.speaker .speakerJPlayer{
+	display:none;
+}

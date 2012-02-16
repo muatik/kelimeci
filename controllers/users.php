@@ -210,6 +210,12 @@ class usersController extends ipage {
 	public function login(){
 		$r=$this->r;
 
+		// if nonauthorized user has search history, 
+		// preserve this and transfer into new session
+		$searchHistory=array();
+		if(isset($this->u->searchHistory))
+			$searchHistory=$this->u->searchHistory;
+
 		if($r['origin']=='facebook'){
 
 			$userInfo=$this->getFacebookUserGraph($r['userId'],$r['accessToken']);
@@ -225,6 +231,7 @@ class usersController extends ipage {
 
 				$rtn->fbInfo=array('userId'=>$r['userId'],'accessToken'=>$r['accessToken']);
 				$this->u=$rtn;
+				$this->u->searchHistory=$searchHistory;
 				$this->session->create($rtn);
 
 				setcookie(
@@ -252,6 +259,7 @@ class usersController extends ipage {
 				$r=$this->users->validateLogin($r['origin'],$r['username'],$r['password']);
 				if ($r!==false){
 					$this->u=$r;
+					$this->u->searchHistory=$searchHistory;
 					$this->session->create($r);
 
 					setcookie(

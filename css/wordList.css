@@ -1,6 +1,10 @@
 .wordList{
+    	position:fixed;
+    	top:100px;
+    	bottom:10px;
 	padding:10px;
-	width:310px;
+	width:336px;
+	border-right:1px solid #D0D0D0;
 }
 .wordList h2{
 	font-family:"cantarell","Trebuchet MS" , Arial, "Bitstream Vera Sans" , sans-serif;
@@ -61,5 +65,11 @@
 }
 .wordList button{
 	display:none;
+}
+
+/* For Infinite scroll loading div */
+.wordList .infSclIndicator > div,.wordList .infSclIndicator img{
+	display:inline;
+	margin-left:20px;
 }
 
