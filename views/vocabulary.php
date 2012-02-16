@@ -24,7 +24,7 @@
 		<a href="#" class="selectPackages button green small">Paket Ekle</a>
 		<a href="#" class="toggleFilterForm button blue small">Kelimeleri Süz</a>
 		<?php
-		echo $this->loadView('wordPackages.php');
+		echo $this->loadView('wordPackageGroups.php');
 		echo $this->loadView('wordAdditionForm.php');
 		echo $this->loadView('wordFilterForm.php');
 		?>

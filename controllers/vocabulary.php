@@ -55,14 +55,21 @@ class vocabularyController extends ipage {
 
 	/**
 	 * insert given packages into the user's vocabulary
+	 * @access public
+	 * @return bool
 	 * */
 	public function saveWordPackages(){
-		if(!isset($this->r['packages']) || !is_array($this->r['packages']) ){
-			echo 'The parameter "packages" is missing.';
+		$r=$this->r;
+		if(!isset($r['sel']) || !is_array($r['sel']) 
+		|| !isset($r['usel']) || !is_array($r['usel']) 
+		){
+			echo 'The parameter "sel" or "usel" is missing.';
 			return false;
 		}
 
-		return $this->vocabulary->saveWordPackages($this->r['packages']);
+		return $this->vocabulary->saveWordPackages(
+			$r['sel'],$r['usel']
+		);
 	}
 
 
@@ -130,12 +137,12 @@ class vocabularyController extends ipage {
 	}
 
 	public function viewword($word=null){
-		if(isset($this->r['word']))
+		if($word==null && isset($this->r['word']))
 			$word=$this->r['word'];
 
 		if($word==null)
 			return '0The parameter "word" is required.';
-
+		
 		$wordo=kelimeci\dictionary::getWord($word);
 
 		if($wordo===false){
@@ -184,15 +191,29 @@ class vocabularyController extends ipage {
 
 	}
 	
-	public function viewwordPackages(){
+	public function viewwordPackageGroups(){
 		$o=new stdClass();
-		$o->packages=$this->vocabulary->getWordPackages($isAll=true);
-		
+		$o->wpGroups=$this->vocabulary->getWordPackageGroups();
+
 		return $this->loadElement(
-			'wordPackages.php',
+			'wordPackageGroups.php',
 			$o,
 			false
 		);
+	}
+
+	public function viewwordPackages(){
+		if(!isset($this->r['wpgId']))
+			return 'The parameter "wpgId" is missed.';
+		
+		$packages=$this->vocabulary->getWordPackages($this->r['wpgId']);
+		
+		return $this->loadElement(
+			'wordPackages.php',
+			$packages,
+			false
+		);
+		
 	}
 
 	public function addQuote(){

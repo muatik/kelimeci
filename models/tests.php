@@ -224,7 +224,7 @@ class tests
 				t.wordId=v.wordId and
 				t.userId=v.UserId
 		where
-		
+		v.status=1 and 
 		v.userId='.$this->userId.' and
 
 		(

@@ -5,7 +5,7 @@ $(function(){
 	// Autocomplete plugin for the general word search input(on the banner)
 	$('input[name="word"]').autocomplete(
 		'vocabulary?_ajax=vocabulary/suggest',{
-			minChars: 1,
+			minChars: 0,
 			max: 10,
 			autoFill: true,
 			mustMatch: false,

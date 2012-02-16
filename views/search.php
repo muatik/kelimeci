@@ -30,16 +30,17 @@
 
 
 	<!-- showing related searchs -->
+	<?php if(isset($o->relatedSearchs)) { ?>
 	<div class="box">
 	<h4><?php echo $o->word;?> kelimesinden sonra en sık arananlar</h4>
 	<ul class="wordList">
 	<?php 
-	foreach($o->relatedSearchs as $i)
-		echo '<li>'.$i->keyword.'</li>';
+		foreach($o->relatedSearchs as $i)
+			echo '<li><a href="search?word='.$i->keyword.'">'.$i->keyword.'</a></li>';
 	?>
 	</ul>
 	</div>
-
+	<?php } ?>
 
 	</div> <!-- end of left panel -->
 

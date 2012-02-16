@@ -4,8 +4,20 @@ var wordPackages={
 
 wordPackages.init=function(){
 	var t=this;
+	
+	$('img.togglePack').live('click',function(){
+		t.togglePackageList($(this).closest('li'));
+	})
 
-	$('form.wordPackages').live('submit',function(e){
+	$('.packages input.package').live('click',function(){
+		t.refreshSelectedList(this);
+	});
+
+	$('.wordPackageGroups input.groups').live('click',function(){
+		t.toggleSelect($(this).closest('li.group'));
+	});
+
+	$('form.wordPackageGroups').live('submit',function(e){
 
 		// if there will be a removed package, confirm before action.
 		if($('li.in input:not(:checked)').length>0){
@@ -18,13 +30,18 @@ wordPackages.init=function(){
 
 		toggleAjaxIndicator($('form.wordPackages'),'','append');
 
+		var uids=new Array(); // unselected ids
 		var ids=new Array();
-		$('input:checked',this).each(function(){
-			ids.push($(this).val());
-		})
 
-		e.preventDefault();
-		vocabulary.saveWordPackages(ids,wordPackages.afterSave);
+		$('input.package:checked',this).each(function(){
+			ids.push($(this).val());
+		});
+		
+		$('input.package',this).not(':checked').each(function(){
+			uids.push($(this).val());
+		});
+
+		vocabulary.saveWordPackages(ids,uids,wordPackages.afterSave);
 
 		e.preventDefault();
 	})
@@ -45,6 +62,52 @@ wordPackages.markSelectedsAsSaved=function(){
 		// adding the class "in" to LIs.
 		$(this).parent().parent().addClass('in');
 	})
+}
+
+wordPackages.togglePackageList=function(group){
+	// group is the element LI
+	
+	if($('ul.packages',group).get(0))
+		return $('ul.packages',group).toggle('fast');
+
+	
+	var groupId=$('input.groups',group).val();
+	
+	vocabulary.getWordPackagesByGroup(groupId,function(rsp){
+		$(rsp).hide().appendTo(group).show('fast');
+	});
+
+}
+
+
+wordPackages.refreshSelectedList=function(i){
+	var group=$(i).closest('li.group');
+	if($('input.package:checked',group).get(0))
+		group.find('input.groups').attr('checked','checked');
+	else
+		group.find('input.groups').removeAttr('checked');
+
+}
+
+wordPackages.toggleSelect=function(group){
+	
+	var toggleCheckboxes=function(){
+		if($('input.groups:checked',group).get(0))
+			$('input.package',group).attr('checked','checked');
+		else
+			$('input.package',group).removeAttr('checked');
+	}
+
+	if($('ul.packages',group).get(0))
+		toggleCheckboxes();
+	else{
+		var groupId=$('input.groups',group).val();
+		vocabulary.getWordPackagesByGroup(groupId,function(rsp){
+			$(rsp).hide().appendTo(group);
+			toggleCheckboxes();
+		});
+	}
+	
 }
 
 wordPackages.init();

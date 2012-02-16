@@ -11,7 +11,7 @@
     float:left;
     margin-right:30px;
     padding-right:30px;
-    width:200px;
+    width:215px;
     border-right:1px solid #D0D0D0;
 }
 
@@ -29,11 +29,11 @@
 }
 
 ul.wordList{
-   
-    list-style-position:inside;
-    list-style-type:disc;
+	list-style-position:inside;
+	list-style-type:disc;
     height:190px;
     overflow:auto;
+	padding-right:5px;
 }
 
 ul.wordList li{

@@ -30,7 +30,7 @@ function vcbPage(){
 	$('.wordFilterForm').hide();
 
 	$('.selectPackages').click(function(){	
-		$('form.wordPackages').toggle('fast');
+		$('form.wordPackageGroups').toggle('fast');
 	});
 
 }
@@ -120,7 +120,7 @@ vcbp.getInfSclReqUrl=function(){
 	var 
 		url='?_ajax=vocabulary/viewwordList',
 		start=$('.wordList ul.words li').length,
-		length=5,
+		length=15,
 		reqParams=vcbp.getRequestParams(),
 		params='&';
 
@@ -535,7 +535,7 @@ vcbp.onAddedWord=function(rsp,f){
 
 
 vcbp.onWordPackageSaved=function(rsp){
-	$('form.wordPackages').toggle('normal');
+	$('form.wordPackageGroups').toggle('normal');
 	this.getWords();
 }
 

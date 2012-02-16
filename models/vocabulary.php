@@ -157,28 +157,59 @@ class vocabulary
 	/**
 	 * returns the word packages list and indicates packages 
 	 * which are in the user's vocabulary
-	 * @param bool $isAll
+	 * @param int groupId
 	 * @access public
 	 * @return array
 	 * */
-	public function getWordPackages($isAll){
+	public function getWordPackages($groupId){
 		
 		$sql='select 
-				wp.*,userId as isInUserVcb, count(wp.wordId) as wordCount 
+				wp.*,userId as isInUserVcb, 
+				count(wpw.wordId) as wordCount 
 			from 
-				wordPackages as wp left join userWordPackages as uwp
-				on wp.label=uwp.label and
-				uwp.userId=\''.$this->userId.'\' 
-			group by wp.label
-			order by isInUserVcb desc';
-		
+				wordPackages as wp 
+				left join userWordPackages as uwp
+				on wp.id=uwp.packageId and
+				uwp.userId=\''.$this->userId.'\' ,
+				wordPackagesw as wpw
+			where
+				wp.groupId=\''.$this->db->escape($groupId).'\'  and
+				wpw.packageId=wp.id
+			group by wpw.packageId
+			order by isInUserVcb desc, wp.orderNumber desc';
+
 		return $this->db->fetch($sql);
 	}
 	
 	/**
+	 * returns list of the word packages
+	 * 
+	 * @access public
+	 * @return array
+	 */
+	public function getWordPackageGroups(){
+		$sql='select * from (
+			select wpg.*, uwp.userId as isInUserVcb
+			from 
+			wordPackageGroups as wpg, 
+			wordPackages as wp
+			left join userWordPackages as uwp
+			on wp.id=uwp.packageId
+			where
+			wpg.status=1 and
+			wpg.id=wp.groupId
+			order by isInUserVcb desc
+			) as wpg
+			group by wpg.id
+			order by orderNumber';
+
+		return $this->db->fetch($sql);
+	}	
+
+	/**
 	 * save given packages into the user's package list
 	 * */
-	public function saveWordPackages($packages){
+	public function saveWordPackages($packages,$omitteds){
 
 		foreach($packages as $k=>$i)
 			$packages[$k]=$this->db->escape($i);
@@ -188,29 +219,23 @@ class vocabulary
 		// fetching omitted packages
 		$sql='select * from userWordPackages 
 			where userId=\''.$this->userId.'\' and
-			label not in (\''.$packagesi.'\')';
-
-		$omitteds=$this->db->fetch($sql);
-		$omitteds=arrays::toArray($omitteds,'label');
+			packageId not in (\''.$packagesi.'\')';
 
 
 		// inserts words of selected packages into the user's vocabulary.
 		$sql='insert ignore into vocabulary (userId,wordId,tags) 
-			select '.$this->userId.' as userId, wordId, label as tags 
-			from wordPackages as wp
-			where wp.label in (\''.$packagesi.'\')';
-		$this->db->query($sql);
-		// marks words of selected packages as inuse
-		$sql='update vocabulary as v, wordPackages as wp 
-				set status=1 
-			where
-				wp.label in (\''.$packagesi.'\') and
-				wp.wordId=v.wordId';
+			select 
+			'.$this->userId.' as userId, wordId, wp.name as tags 
+			from wordPackagesw as wpw,wordPackages as wp
+			where 
+			wpw.packageId in (\''.$packagesi.'\') and
+			wpw.packageId=wp.id';
+
 		$this->db->query($sql);
 
 
 		// inserting selected packages into the user's package list
-		$sql='insert ignore into userWordPackages (userId,label) 
+		$sql='insert ignore into userWordPackages (userId,packageId)
 			values (\''.$this->userId.'\',\''.
 				implode('\'),(\''.$this->userId.'\',\'',$packages).'\')';
 		$this->db->query($sql);
@@ -220,23 +245,35 @@ class vocabulary
 			
 			$sql='delete from userWordPackages
 				where userId=\''.$this->userId.'\' and 
-				label in (\''.implode('\',\'',$omitteds).'\')';
+				packageId in (\''.implode('\',\'',$omitteds).'\')';
 			$this->db->query($sql);
 			
 			// marks words as removed in vocabulary
 			$sql='update 
-					vocabulary as vcb, wordPackages as owp
+					vocabulary as vcb, wordPackagesw as owp
 				set
 					vcb.status=0
 				where 
 					vcb.wordId=owp.wordId and 
-					owp.label in (\''.implode('\',\'',$omitteds).'\') and
+					owp.packageId in (\''.implode('\',\'',$omitteds).'\') and
 					owp.wordId not in (
-						select wordId from wordPackages as iwp 
-						where iwp.label in (\''.$packagesi.'\')
+						select wordId from wordPackagesw as iwp 
+						where iwp.packageId in (\''.$packagesi.'\')
 					)';
 			$this->db->query($sql);
 		}
+
+
+		// some words in the vocabulary may be inserted earlier than this
+		// package inserting, and these words may also be deleted(marked as unuse).
+		// marks words of selected packages as inuse
+		$sql='update vocabulary as v, wordPackagesw as wpw 
+				set status=1 
+			where
+				wpw.packageId in (\''.$packagesi.'\') and
+				wpw.wordId=v.wordId';
+		$this->db->query($sql);
+
 		
 		return true;
 			
