@@ -22,7 +22,7 @@
 
 		// Speaker
 		$o2=new stdClass();
-		$o2->mediaFile=$item->pronunciationFile;
+		$o2->mediaFile='../'.$item->pronunciationFile;
 		$o2->autoPlay=false;
 		$o2->noScriptStyle=true;
 		$o2->incContIdBy=$counter++;
