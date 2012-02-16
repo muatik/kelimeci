@@ -194,7 +194,7 @@ class vocabulary
 			wordPackageGroups as wpg, 
 			wordPackages as wp
 			left join userWordPackages as uwp
-			on wp.id=uwp.packageId
+			on uwp.userId=\''.$this->userId.'\' and wp.id=uwp.packageId
 			where
 			wpg.status=1 and
 			wpg.id=wp.groupId
