@@ -1,5 +1,5 @@
-<script src="js/ui.dropdownchecklist-1.4-min.js"></script>
-<link rel="stylesheet" href="css/dropDownChecklist.css" />
+<script src="js/jquery.multiselect.min.js"></script>
+<link rel="stylesheet" href="css/jquery.multiselect.css" />
 <link rel="stylesheet" href="css/wordFilterForm.css" />
 
 <form class="wordFilterForm frm" method="post" action="">
@@ -7,7 +7,6 @@
 		<div class="felement">
 		<label class="flabel">Tür:</label>
 		<select class="classesCheckList" multiple="6">
-			<option value="Hepsi" selected="selected">Hepsi</option>
 			<option value="verb">Fiil</option>
 			<option value="noun">İsim</option>
 			<option value="adjective">Sıfat</option>

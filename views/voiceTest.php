@@ -17,6 +17,7 @@
 		false
 	);
 	echo '<ol class="testPageOl">';
+	$counter=1;
 	foreach($o->items as $item){
 
 		// Speaker
@@ -24,12 +25,13 @@
 		$o2->mediaFile='../'.$item->pronunciationFile;
 		$o2->autoPlay=false;
 		$o2->noScriptStyle=true;
+		$o2->incContIdBy=$counter++;
 		$speaker=$this->loadElement('speaker.php',$o2);
 
 		echo '<li>
 			<input class="wordId" type="hidden" value="'.$item->wordId.'" />
 			'.$speaker.'
-			<input type="text" />
+			<input type="text" tabindex="'.$counter.'" />
 		</li>';	
 	}
 	echo '</ol>';
