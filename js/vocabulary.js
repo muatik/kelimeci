@@ -114,11 +114,12 @@ _vcbp.rmWord=function(words){
 	)
 }
 
-_vcbp.saveWordPackages=function(selPackages){
+_vcbp.saveWordPackages=function(selPackages,uselPackages){
 
-	var params='packages[]='+selPackages.join('&packages[]=');
+	var params='sel[]='+selPackages.join('&sel[]=')
+		+'&usel[]='+uselPackages.join('&usel[]=');
 	
-	if(arguments.length>1)	var callBack=arguments[1]; else	var callBack=false;
+	if(arguments.length>2)	var callBack=arguments[2]; else	var callBack=false;
 
 	var sa=new simpleAjax();
 	sa.send(
@@ -133,3 +134,17 @@ _vcbp.saveWordPackages=function(selPackages){
 
 }
 
+_vcbp.getWordPackagesByGroup=function(groupId){
+	
+	if(arguments.length>1)	var callBack=arguments[1]; else	var callBack=false;
+
+	var params='vocabulary?_view=wordPackages&wpgId='+groupId;
+
+	var ajax=new simpleAjax();
+	ajax.send(
+		params,null,{'onSuccess':function(rsp){
+			if(callBack)
+				callBack(rsp);
+		}}
+	);
+}

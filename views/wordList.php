@@ -17,10 +17,9 @@ function getAllInterface($words){
 	$wList=getWordList($words);
 
 	// If there is any errors, return the error messages
-	if(substr($wList,0,1)=='0'){
+	if(mb_substr($wList,0,1)=='0'){
 		return $wList;	
 	}
-
 	return '
 	<div class="wordList">
 		<h2>KELİMELER LİSTELENİYOR</h2>

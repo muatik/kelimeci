@@ -1,4 +1,4 @@
-form.wordPackages{
+form.wordPackageGroups{
 	display:none;
 	width:350px;
 	position:absolute;
@@ -6,31 +6,40 @@ form.wordPackages{
 	margin:-2px 0 0 50px;
 	z-index:999999;
 } 
-form.wordPackages .frmTitle{
+form.wordPackageGroups .frmTitle{
 	margin-bottom:0;
 }
-ul.wordPackages{
-	height:180px;
+.wordPackageGroups ul.groups{
+	height:350px;
 	overflow:auto;
 	margin-bottom:5px;
 	border-bottom:1px solid #E9E9E9
-
 }
 
-ul.wordPackages li{
-	margin:2px 0;
+.wordPackageGroups label.g{
+	font:1.4em helvetica,sans-serif;
+	color:#000;
+}
+
+.wordPackageGroups img.togglePack{
+	vertical-align:top;
+}
+
+.wordPackageGroups .groupItem{
+	display:block;
+	margin:1px 0;
 	padding:2px 0;
 	border:1px solid #fff;
 }
-ul.wordPackages li:hover{
+.wordPackageGroups .groupItem:hover{
 	border-radius:5px;
 	background-color:#FFF7C9;
 	border:1px solid #DCD089;
 }
-ul.wordPackages label{
-	display:block;
-	font:normal 11px helvetica,sans-serif;
+
+.wordPackageGroups ul.packages{
+	margin-left:21px;
 }
-ul.wordPackages li.in label{
-	font-weight:bold;
+.wordPackageGroups .packages label{
+	font-weight:normal;
 }

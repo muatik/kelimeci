@@ -14,13 +14,13 @@ class searchController extends ipage {
 
 			$word=$this->r['word'];
 			$word=preg_replace('/([a-z]+)([_]+)([a-z]+)/ui','\1\3',$word);
+			$word=preg_replace('/ +/ui',' ',$word);
 			$word=preg_replace('/[^\w ]/ui','',$word);
 			$word=preg_replace('/(^\s+)|(\s+$)/us','',$word); // trimming
 			
 			$this->keyword=$word;
-
-			$this->title='Kelimeci sözlük: '.stripslashes($this->r['word']);
-			$this->searchResult=$this->search($this->r['word']);
+			$this->title='Kelimeci sözlük: '.stripslashes($word);
+			$this->searchResult=$this->search($word);
 
 			if(!isset($this->u->searchHistory))
 				$this->u->searchHistory=array();
@@ -39,6 +39,12 @@ class searchController extends ipage {
 			$o->word=stripslashes($this->keyword);
 			$o->result=$this->searchResult;
 			$o->relatedSearchs=$this->getRelatedSearchs($this->r['word']);
+		}else{
+			$o->result='Aranacak kelimeyi belirtmediğini düşünüyoruz. 
+				Bu kutuya yazarak arayabilirsin: '.
+				$this->loadElement(
+					'searchBox.php',null,false
+				);
 		}
 
 		$o->history=$this->getSearchHistory();
@@ -50,7 +56,7 @@ class searchController extends ipage {
 	}
 	
 	public function search($word){
-		
+
 		main::loadcontroller('vocabulary');
 		$vc=new vocabularyController();
 		$r=$vc->viewword($word);
