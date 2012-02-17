@@ -163,7 +163,6 @@ words.prototype.showWord=function(word){
 	var ajax=new simpleAjax();
 
 	var indc=toggleAjaxIndicator(
-		//$('.wordList .words li span.word:contains('+word+')'),
 		$(t.layer).html(''),
 		'"'+word+'" yükleniyor... <a href="#" class="abort">iptal et</a>',
 		'before',
@@ -183,7 +182,11 @@ words.prototype.showWord=function(word){
 			var h=$(rsp);
 			$(h).hide().insertAfter(t.layer)
 			$(t.layer).fadeOut('fast').remove();
-			$(h).slideDown('fast');
+
+			$(window).trigger('resize');
+			$(h).slideDown('fast',function(){
+				vcbp.setSclBar('.detailSide .wordDetails','i');	
+			});
 		}}
 	)
 }
