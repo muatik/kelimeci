@@ -56,6 +56,7 @@ $w=$o->word;
 			$o2->noScriptStyle=true;
 			$o2->mediaFile='../'.$w->pronunciation->file;
 			$o2->autoPlay=false;
+			$o2->autoBuffering=false;
 			echo $this->loadElement('speaker.php',$o2);
 		}
 

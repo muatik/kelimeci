@@ -3,10 +3,10 @@
 
 <script type="text/javascript" src="../js/tests/test.js"></script> 
 <script type="text/javascript" src="../js/tests/voiceTest.js"></script>
-<script type="text/javascript" src="../js/jplayer/jquery.jplayer.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/speaker.css" />
-<script type="text/javascript" src="../js/speaker.js"></script>
 
+<script type="text/javascript" src="js/flowplayer/flowplayer-3.2.6.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/speaker.css" />
+<script type="text/javascript" src="js/speaker.js"></script>
 
 <div class="voiceTest testPage">
 	<div id="voiceTest.jPlayer"></div>

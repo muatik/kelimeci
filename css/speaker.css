@@ -1,10 +1,12 @@
-.speaker a.player{
+.speaker a.speakerBtn{
 	text-decoration:none;
 }
-.speaker a.player img{
+.speaker a.speakerBtn img{
 	width:20px;
 	height:20px;
 }
-.speaker .speakerJPlayer{
-	visibility:hidden;
+.speaker .speakerPlayer{
+	display:inline-block;
+	width:0;
+	height:0;
 }

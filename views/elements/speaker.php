@@ -1,9 +1,9 @@
 <?php
 	if(!isset($o->noScriptStyle)){
 		echo '
-		<script type="text/javascript" src="../js/jplayer/jquery.jplayer.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="../css/speaker.css" />
-		<script type="text/javascript" src="../js/speaker.js"></script>
+		<script type="text/javascript" src="js/flowplayer/flowplayer-3.2.6.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/speaker.css" />
+		<script type="text/javascript" src="js/speaker.js"></script>
 		';
 	}
 
@@ -18,20 +18,22 @@
 		$uniqueId+=$o->incContIdBy;
 
 	$contId='speaker'.$uniqueId;
-	$jPlayerId='jplayer'.$uniqueId;
+	$playerId='player'.$uniqueId;
 
 	// If there is the media file to play, show the html
 	if($o->mediaFile){
 		$autoPlay=(isset($o->autoPlay) && $o->autoPlay) ? 'true' : 'false';
+		$autoBuffering=(isset($o->autoBuffering) && $o->autoBuffering) ? 'true' : 'false';
 
 		echo '
 		<span id="'.$contId.'" class="speaker">
-			<a href="#" class="player">
+			<a href="#" class="speakerBtn">
 				<img src="../images/speaker/speakerPlay.png" alt="" />
 			</a>
-			<span id="'.$jPlayerId.'" class="speakerJPlayer"></span>
+			<span id="'.$playerId.'" class="speakerPlayer"></span>
 			<input type="hidden" name="mediaFile" value="'.$o->mediaFile.'" />
 			<input type="hidden" name="autoPlay" value="'.$autoPlay.'" />
+			<input type="hidden" name="autoBuffering" value="'.$autoBuffering.'" />
 		</span>';
 
 		echo '<script type="text/javascript">new Speaker(\''.$contId.'\');</script>';

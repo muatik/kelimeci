@@ -12,9 +12,12 @@
 <script type="text/javascript" src="js/words.js"></script>
 <link rel="stylesheet" href="css/word.css" />
 <link rel="stylesheet" href="css/animbuttons.css" />
-<script type="text/javascript" src="../js/jplayer/jquery.jplayer.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/speaker.css" />
-<script type="text/javascript" src="../js/speaker.js"></script>
+
+<!-- speaker -->
+<script type="text/javascript" src="js/flowplayer/flowplayer-3.2.6.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/speaker.css" />
+<script type="text/javascript" src="js/speaker.js"></script>
+<!-- /speaker -->
 
 <div id="vcbContainer">
 

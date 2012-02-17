@@ -8,87 +8,84 @@ function Speaker(speakerContId){
 	this.speakerContId=speakerContId;
 	// Container speaker
 	this.$cont=$('#'+speakerContId);
-	// jplayer container for the speaker
-	this.$jp=this.$cont.find('.speakerJPlayer');
+	// Player container for the speaker
+	this.$player=this.$cont.find('.speakerPlayer');
+	// Player object
+	this.player=null;
 
-	this.setJPlayer();
-	this.bindElements();
-
+	this.setPlayer();
 }
 
-Speaker.prototype.setJPlayer=function(){
-	var t=this;
+Speaker.prototype.setPlayer=function(){
+	var 
+		t=this,
+		$mediaFile=t.$cont.find(':input[name="mediaFile"]'),
+		$autoPlay=t.$cont.find(':input[name="autoPlay"]'),
+		$autoBuffering=t.$cont.find(':input[name="autoBuffering"]'),
+		autoPlay=null,
+		autoBuffering=null;
 
-	this.$jp.jPlayer({
-		supplied:'mp3',
-		swfPath:'js/jplayer/jplayer.swf',
-		solution:'flash,html',
-		// If ua is ff with vers. 3.6, set the wmode "window" (required)
-		wmode:($.browser.mozilla && $.browser.version.slice(0,3)=='3.6')
-			? 'window' : 'opaque',
-		ready:function(){
-			var 
-				$mediaFile=t.$cont.find(':input[name="mediaFile"]'),
-				$autoPlay=t.$cont.find(':input[name="autoPlay"]');
+	// Determine whether auto-play or not
+	if($autoPlay.val()=='false')
+		autoPlay=false;
+	else
+		autoPlay=true;
 
-			// Set the media file
-			$(this).jPlayer('setMedia',{mp3:$mediaFile.val()});
+	// Determine whether auto-buffering or not
+	if($autoBuffering.val()=='false')
+		autoBuffering=false;
+	else
+		autoBuffering=true;
 
-			// Play if the auto play is true
-			if($autoPlay.val()==='true')
-				$(this).jPlayer('play');
+	this.player=flowplayer(
+		this.$player.attr('id'),
+		{
+			src:'../js/flowplayer/flowplayer-3.2.7.swf',
+			onFail:function(){
+				console.log('Speaker: The flash player could not loaded!');	
+			}
+		},
+		{
+			debug:false,
+			clip:{
+				url:$mediaFile.val(),
+				autoPlay:autoPlay,
+				autoBuffering:autoBuffering,
+				// Clip events
+				onBegin:function(){
+					t.updateSpeakerImg('begin');
+				},
+				onStart:function(){
+					t.updateSpeakerImg('play');
+				},
+				onPause:function(){
+					t.updateSpeakerImg('pause');
+				},
+				onStop:function(){
+					t.updateSpeakerImg('stop');
+				},
+				onFinish:function(){
+					t.updateSpeakerImg('finish');
+				},
+				onResume:function(){
+					t.updateSpeakerImg('resume');
+				}
+			},
+			// Player events
+			onLoad:function(){
+				var _player=this;
+				// Bind speakerBtn to play
+				t.$cont.find('a.speakerBtn').click(function(){
+					_player.play();
+					return false;
+				});
+			}
 		}
-		/*
-		play:function(e){},
-		progress:function(e){},
-		pause:function(e){},
-		ended:function(e){}
-		,errorAlerts:true
-		*/
-	});
-
+	);
 }
 
-Speaker.prototype.bindElements=function(){
-	var t=this;
-
-	this.$cont.find('a.player').click(function(){
-		t.$jp.jPlayer('play');
-
-		return false;
-	});
-
-	/**
-	 * On play
-	 */
-	t.$jp.bind($.jPlayer.event.play,function(e){
-		// Pause all intances except this one before playing
-		$(this).jPlayer('pauseOthers');
-
-		t.updateSpeakerImg(e,'play');
-	});
-
-	/**
-	 * On ended
-	 */
-	t.$jp.bind($.jPlayer.event.ended,function(e){
-		t.updateSpeakerImg(e,'ended');
-	});
-
-	/**
-	 * On pause(STOPPED AFTER PAUSED)
-	 */
-	t.$jp.bind($.jPlayer.event.pause,function(e){
-		// Stop after paused
-		$(this).jPlayer('stop');
-		t.updateSpeakerImg(e,'pause');
-	});
-}
-
-Speaker.prototype.updateSpeakerImg=function(e,status){
+Speaker.prototype.updateSpeakerImg=function(status){
 	var
-		// The current media file in progress
-		curMediaFile=e.jPlayer.status.src,
 		// The current image assosioted with the current media file
 		$curSpeakerImg=this.$cont.find('img');
 
