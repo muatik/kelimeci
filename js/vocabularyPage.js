@@ -38,7 +38,7 @@ function vcbPage(){
 var vcbp=vcbPage.prototype;
 
 /**
- * Do do the following operations on the window resize:
+ * Do the following operations on the window resize:
  *	- Set the size of detailSide
  *	- Reinitialise the customized scrollbar for the detailSide
  */
@@ -62,7 +62,7 @@ vcbp.onWinResize=function(e){
 	// If the customized scrollbar initialised, reinitialise;
 	// otherwise initialise
 	this.setSclBar('.wordsCont','ri');
-};
+}
 
 /**
  * Set the customized scrollbars for this page
@@ -75,17 +75,11 @@ vcbp.onWinResize=function(e){
 vcbp.setSclBar=function(selector,op){
 	var sclBar=$(selector).data('jsp');
 
-	if(sclBar!=null){
-		if(typeof(op)!='undefined'){
-			if(op=='ri')
-				sclBar.reinitialise();
-			else
-				$(selector).jScrollPane();
-		}
-	}
+	if(typeof(op)!='undefined' && op=='ri' && sclBar!=null)
+		sclBar.reinitialise();
 	else
 		$(selector).jScrollPane();
-};
+}
 
 /**
  * Return a object of the parameters that is used
