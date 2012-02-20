@@ -183,10 +183,17 @@ words.prototype.showWord=function(word){
 			$(h).hide().insertAfter(t.layer)
 			$(t.layer).fadeOut('fast').remove();
 
-			$(window).trigger('resize');
-			$(h).slideDown('fast',function(){
-				vcbp.setSclBar('.detailSide .wordDetails','i');	
-			});
+			/**
+			 * Temprory solution
+			 */
+			if(typeof vcbp!=='undefined'){
+				$(window).trigger('resize');
+				$(h).slideDown('fast',function(){
+					vcbp.setSclBar('.detailSide .wordDetails','i');	
+				});
+			}
+			else	
+				$(h).slideDown('fast');
 		}}
 	)
 }

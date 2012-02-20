@@ -421,7 +421,7 @@ vcbp.showDetail=function(word){
 	});
 
 	this.wordDetailAjaxReq.send(
-		'vocabulary?_view=word&word='+word+'&noScriptStyle=1',
+		'vocabulary?_view=word&word='+word+'&noScriptStyle=1&noSpeakerScriptStyle=1',
 		null,
 		{onSuccess:function(rsp,o){
 			
@@ -429,14 +429,7 @@ vcbp.showDetail=function(word){
 			$('.detailSide').html(rsp)
 				.hide().toggle('slide',{},450);
 
-
-			var detSideSclBar=$('.detailSide .wordDetails').data('jsp');
-
-				//detSideSclBar.reinitialise();
-
 				$('.detailSide .wordDetails').jScrollPane();
-				
-
 		}}
 	);
 
