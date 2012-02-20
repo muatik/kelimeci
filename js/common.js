@@ -253,3 +253,10 @@ function getCookie(name){
 	return null;
 }
 
+/**
+ * Trim function
+ */
+String.prototype.trim=function(){
+	return this.valueOf().replace(/^\s\s*/,'').replace(/\s\s*$/,'');
+}
+

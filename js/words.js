@@ -15,7 +15,7 @@ words.prototype.bind=function(){
 	var t=this;
 
 	$('.word',t.layer).unbind('click').click(function(e){
-		var word=$(this).text().replace(',','').replace(' ','');
+		var word=$(this).text().replace(',','').trim();
 		//var word=$(this).text();
 		t.showWord(word);
 		e.preventDefault();
