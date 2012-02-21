@@ -155,6 +155,10 @@ vcbp.bind=function(){
 	words.addCallback=function(word,tags){
 		t.showingWordAdded(word,tags);
 	}
+	
+	words.showCallback=function(word){
+		t.setHistory(word);
+	}
 
 	$('.toggleInsertForm').click(function(){
 		$('.wordAdditionForm').toggle('fast',function(){
@@ -399,6 +403,9 @@ vcbp.bindScrolling=function(){
 
 vcbp.showDetail=function(word){
 	var t=this;
+
+	vcbp.setHistory(word);
+
 	// Cancel old ajax requests
 	this.wordDetailAjaxReq.o.abort();
 
@@ -526,6 +533,33 @@ vcbp.onWordPackageSaved=function(rsp){
 	this.getWords();
 }
 
+
+vcbp.setHistory=function(word){
+	
+	var wli=$('.wordList ul.words span.word').filter(function(){
+		return ($(this).text()==word);
+	});
+	
+	if(!wli.get(0))
+		return false;
+	
+	wli=wli.closest('li');
+	var nexts=new Array();
+	var prevs=new Array();
+	var ili=wli;
+
+	for(var i=0; i<10 && (ili=$(ili).prev()).get(0); i++)
+		prevs.push($('span.word',ili).text());
+	
+	
+	ili=wli;
+	for(var i=0; i<10 && (ili=$(ili).next()).get(0); i++)
+		nexts.push($('span.word',ili).text());
+	
+	vcbHistory.set(prevs,nexts);
+}
+
+
 vcbp.showTooltips=function(){
 	$('.wordAdditionForm :input[name="word"]').qtip({
 		show:{
@@ -566,4 +600,6 @@ vcbp.showTooltips=function(){
 		}
 	});
 }
+
+
 

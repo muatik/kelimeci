@@ -2,6 +2,7 @@
 
 <script type="text/javascript" src="js/vocabulary.js"></script>
 <script type="text/javascript" src="js/vocabularyPage.js"></script>
+<script type="text/javascript" src="js/wordHistory.js"></script>
 <script type="text/javascript" src="js/jquery-scrolltofixed-min.js"></script>
 <script type="text/javascript" src="js/jquery.infinitescroll.js"></script>
 <script type="text/javascript" src="js/jquery.jscrollpane.min.js"></script>

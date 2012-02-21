@@ -9,6 +9,7 @@ function words(pageId){
 	this.bind();
 	this.removeCallback;
 	this.addCallback;
+	this.showCallback;
 }
 
 words.prototype.bind=function(){
@@ -178,10 +179,16 @@ words.prototype.showWord=function(word){
 		'vocabulary?_view=word&word='+word+'&noScriptStyle=1',
 		null,
 		{onSuccess:function(rsp){
+
 			$(indc).remove();
 			var h=$(rsp);
 			$(h).hide().insertAfter(t.layer)
 			$(t.layer).fadeOut('fast').remove();
+			
+
+			if(words.showCallback)
+				words.showCallback(word);
+			
 
 			/**
 			 * Temprory solution
