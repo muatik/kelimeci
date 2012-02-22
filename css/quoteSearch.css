@@ -1,0 +1,60 @@
+#quoteContainer{
+	margin:20px auto;
+	width:800px;
+	font-size:1.2em;
+}
+
+#quoteContainer h6{
+	margin-top:15px;
+	font-size:1.2em;
+}
+.quoteForm{
+	padding-bottom:5px;
+	border-bottom:1px solid #c0c0c0;
+}
+.quoteForm .field{
+	float:left;
+	width:240px;
+	margin-right:15px;
+}
+
+.quoteForm .field input{
+
+	padding:2px;
+}
+
+input.submit{
+	margin-top:14px;
+	padding:3px 8px;
+}
+.quoteForm .field input{
+	width:99%;
+}
+.quotes{
+    margin-top:14px;
+    list-style-type:decimal;
+    font-size:1.2em;
+}
+.quotes li{
+    padding:2px 7px;
+    border-bottom:1px solid #dfdfdf;
+}
+.quotes li p{
+    margin:12px 0;
+	font: 16px 'verdana',sans-serif;
+	color:#333;
+
+}
+
+.quotes p img{
+	width:16px;height:16px;
+	margin-right:10px;
+}
+
+.quotes p.tr img{
+    background:url('../images/flags/turkey.png') no-repeat;
+}
+.quotes p.eng img{
+    background:url('../images/flags/usa.png') no-repeat;
+}
+
