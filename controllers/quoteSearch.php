@@ -29,6 +29,8 @@ class quoteSearchController extends ipage {
 			$o->showEng=1;
 			$o->showTr=1;
 		}
+		
+		$o->packages=$this->getPackages();
 
 		return $this->loadView(
 			'quoteSearch.php',
@@ -37,30 +39,49 @@ class quoteSearchController extends ipage {
 		);
 	}
 	
+	public function getPackages(){
+		$db=new \db();
+		return $db->fetch('select * from wordPackages');
+	}
+
 	public function search(){
-		
-		if(!isset($this->r['keywordTr'],$this->r['keywordEng']))
-			return false;
 
 		$db=new \db();
 		$r=$this->r;
-		$kTr=stripslashes($db->escape($r['keywordTr']));
-		$kEng=stripslashes($db->escape($r['keywordEng']));
-
 		$engField='';
 		$trField='';
 		
-		if($kTr!='')
-			$trField='and turkish regexp \''.$kTr.'\'';
+		if(isset($r['package']) && is_numeric($r['package'])){
+			$sql='select w.word from wordPackagesw as wpw, words as w
+				where 
+				packageId=\''.$db->escape($r['package']).'\' and
+				wpw.wordId=w.id';
+			
+			$words=arrays::toArray($db->fetch($sql),'word');
 
-		if($kEng!='')
-			$engField='and english regexp \''.$kEng.'\'';
+			$engField='and english regexp \'(^| )'.implode('|( |$)',$words).'\'';
+
+		}
+		elseif(isset($r['keywordTr'],$r['keywordEng'])){
+			$kTr=stripslashes($db->escape($r['keywordTr']));
+			$kEng=stripslashes($db->escape($r['keywordEng']));
+
+			if($kTr!='')
+				$trField='and turkish regexp \''.$kTr.'\'';
+
+			if($kEng!='')
+				$engField='and english regexp \''.$kEng.'\'';
+			
+		}
+		else
+			return false;
 		
 		$sql='select * from quotesEng2Tr where 1
 			'.$trField.' '.$engField.'
 			limit 300';
 		
 		$rs=$db->fetch($sql);
+		echo mysqli_error($db->connection);
 		$this->result=$rs;
 
 		return $rs;

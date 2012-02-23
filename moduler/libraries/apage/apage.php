@@ -212,21 +212,15 @@ abstract class apage{
 	
 	
 	/**
-	 * detects ajax request and invokes the corresponded action(method)
-	 * */
-	final public function invokeAjaxAction(){
+	 * extract (if there is a) controller name and method name
+	 * 
+	 * @param string $s 
+	 * @access public
+	 * @return array
+	 */
+	public function extractControllerAndMethod($s){
 
-		// the parameter _ajax indicates that there is an request and
-		// contains the action which should be executed.
-		
-		if(!isset($this->r['_ajax']))
-			return false;
-		
-		// a controller(class) name isn't required but if there is, 
-		// the controller and the action are separated by a slash.
-		// exp: nameOfController/nameOfAction
-		$action=explode('/',$this->r['_ajax'],2);
-		
+		$action=explode('/',$s,2);
 		if(count($action)==2){
 			$className=$action[0].'Controller';
 			main::loadController(self::stripView($action[0]));
@@ -237,16 +231,13 @@ abstract class apage{
 			$methodName=$action[0];
 		}
 
-		if(method_exists($controller,$methodName))
-			return call_user_func(array($controller,$methodName));
-
-		else
-			die('The action "'.$action[1].'" not found in the 
-				controller "'.get_class($controller).'".');
-
+		$r=array(
+			$controller,$methodName,
+			'controller'=>$controller,'method'=>$methodName
+		);
+		return $r;
 	}
 
-	
 	/**
 	 * clear malicious chars in the name of a view
 	 * allowed= a-z, 0-9, slash(/), dot(.), underscore(_), dash(-)
@@ -258,6 +249,36 @@ abstract class apage{
 			'',
 			$name
 		);
+	}
+
+	
+	/**
+	 * detects ajax request and invokes the corresponded action(method)
+	 * */
+	final public function invokeAjaxAction($action=null){
+		
+		// the parameter _ajax indicates that there is an request and
+		// contains the action which should be executed.
+		if($action==null && isset($this->r['_ajax']))
+			$action=$this->r['_ajax'];
+		
+		if($action==null)
+			return false;
+		
+		// a controller(class) name isn't required but if there is, 
+		// the controller and the action are separated by a slash.
+		// exp: nameOfController/nameOfAction
+		$action=$this->extractControllerAndMethod($action);
+		$controller=$action['controller'];
+		$methodName=$action['method'];
+		
+		if(method_exists($controller,$methodName))
+			return call_user_func(array($controller,$methodName));
+
+		else
+			die('The action "'.$action[1].'" not found in the 
+				controller "'.get_class($controller).'".');
+
 	}
 
 	/**
@@ -283,15 +304,26 @@ abstract class apage{
 		 * */
 		$h='';
 		foreach($vs as $v){
+
+			
+			/**
+			 * başka bir controller sınıfı üzerinden view çağırımı yapmak
+			 * için controller, view adından hemen önce gelir ve araya
+			 * \ işareti ayraç olarak konur.
+			 * */
+			$action=$this->extractControllerAndMethod($v);
+			$controller=$action['controller'];
+
 			// exp: element+SignupForm>elementSignupForm,
 			// exp: view+Chart>viewChart
-			$methodName='view'.$v;
-			
+			// exp: controllerA>viewChart = controllerA\chart
+			$methodName='view'.$action['method'];
+
 			// exp: element+sPath>elementsPath, view+sPath>viewsPath
 			$pathName=$vClass.'sPath';
 			
-			if(method_exists($this,$methodName)){
-				$h.= call_user_func( array($this,$methodName) );
+			if(method_exists($controller,$methodName)){
+				$h.= call_user_func( array($controller,$methodName) );
 			}
 			elseif( ($c=$this->loadViewFile(
 					$this->$pathName.self::stripView($v).'.php',
@@ -319,18 +351,23 @@ abstract class apage{
 	 * @return string görüntünün(genellikle html) çıktısı
 	 * */
 	public function loadView($view,$params=null,$callMethod=true){
-		
+
 		$viewName=explode('.',$view,2);
-		$methodName='view'.$viewName[0];
-		if($callMethod && method_exists($this,$methodName))
-			return $this->$methodName($params);
+		$action=$this->extractControllerAndMethod($viewName[0]);
+
+		$controller=$action['controller'];
+		$methodName='view'.$action['method'];
+
+		if($callMethod && method_exists($controller,$methodName))
+			return $controller->$methodName($params);
 		else
 			return $this->loadViewFile(
 				$this->viewsPath.self::stripView($view),
 				$params
 			);
 	}
-	
+
+
 	/**
 	 * görüntülerin bir alt sınıfı olan, belirtilen elementi yükler.
 	 * loadViewFile() metodunun kısa yolu.

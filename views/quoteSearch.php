@@ -6,6 +6,18 @@
 <h1>Alıntı Arama Formu</h1>
 
 <form class="quoteForm" action="?" method="post">
+
+<div class="field">
+	<label>Kelime Paketi</label>
+	<select name="package">
+		<option value="-"></option>
+		<?php
+		foreach($o->packages as $i)
+			echo '<option value="'.$i->id.'">'.$i->name.'</option>';
+		?>
+	</select>
+</div>
+
 <div class="field">
 	<label>İngilizce Alanında</label>
 	<input type="text" name="keywordEng" 
@@ -21,12 +33,12 @@
 <label>
 	<input type="checkbox" name="showEng" value="1"
 		<?php echo ($o->showEng?'checked="checked"':'');?> />
-	İngilizcesini Göster
+	İngilizcesi
 </label>
 <label>
 	<input type="checkbox" name="showTr" value="1"
 		<?php echo ($o->showTr?'checked="checked"':'');?> />
-	Türkçesini Göster
+	Türkçesi
 </label>
 </form>
 
