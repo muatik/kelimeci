@@ -7,6 +7,7 @@ RewriteRule ^status /main.php?_controller=status?&%{QUERY_STRING}
 RewriteRule ^search main.php?_controller=search?&%{QUERY_STRING}
 RewriteRule ^dashboard /main.php?_controller=dashboard?&%{QUERY_STRING}
 RewriteRule ^quoteSearch /main.php?_controller=quoteSearch?&%{QUERY_STRING}
+RewriteRule ^flashCards /main.php?_controller=flashCards?&%{QUERY_STRING}
 RewriteRule ^$ /main.php?_controller=index?&%{QUERY_STRING}
 
 

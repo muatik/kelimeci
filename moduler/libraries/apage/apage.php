@@ -264,7 +264,7 @@ abstract class apage{
 		
 		if($action==null)
 			return false;
-		
+
 		// a controller(class) name isn't required but if there is, 
 		// the controller and the action are separated by a slash.
 		// exp: nameOfController/nameOfAction
@@ -276,7 +276,7 @@ abstract class apage{
 			return call_user_func(array($controller,$methodName));
 
 		else
-			die('The action "'.$action[1].'" not found in the 
+			die('The action "'.$methodName.'" not found in the 
 				controller "'.get_class($controller).'".');
 
 	}

@@ -364,7 +364,7 @@ class dictionary
 
 		$set2=self::getWordItemsByTable(
 			$wordId,'meanings',
-			' and page<>\'google\''
+			' and page<>\'google\' order by page desc'
 		);
 
 		return array_merge($set1,$set2);
