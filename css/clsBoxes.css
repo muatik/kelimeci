@@ -18,3 +18,10 @@
 .clsBoxes .active.aj{background:#17A4ED;}
 .clsBoxes .active.av{background:#D72A02;}
 .clsBoxes .active.pp{background:#CE2CB5;}
+
+.clsBoxes .active .clsBoxes .verb{background:#D72A02;}
+.clsBoxes .active.verb{background:#D72A02;}
+.clsBoxes .active.noun{background:#2A8805;}
+.clsBoxes .active.adjective{background:#17A4ED;}
+.clsBoxes .active.adverb{background:#D72A02;}
+.clsBoxes .active.preposition{background:#CE2CB5;}

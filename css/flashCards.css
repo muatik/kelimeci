@@ -1,0 +1,50 @@
+#flashCards{
+    margin:25px auto 10px;
+    width:630px;
+}
+
+.sceneForm{
+	margin-bottom:20px;
+}
+.sceneForm .speedSlider{
+	display:inline-block;
+	width:100px;
+}
+.sceneForm span.speed{
+	margin-left:6px;
+	min-width:36px;
+	display:inline-block;
+}
+
+.scene{
+	margin-top:10px;
+}
+.scene .word{
+    text-align:center;
+    margin:5px 0 15px 0;
+    font:44px georgia,verdana;
+    color:#222;
+}
+
+.scene .meaning{
+	margin:5px 0;
+}
+.scene .meaning .text{
+	font:16px verdana,helvetica;
+}
+
+.scene .quotes{
+	margin:19px 0 0 16px;
+    list-style-type:disc;
+    font:18px georgia, verdana;
+    color:222;
+}
+.scene .quotes li{
+    margin:10px 0;
+}
+
+
+.sceneForm label{
+	font-size:1.2em;
+	margin-right:20px;
+}

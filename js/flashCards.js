@@ -15,7 +15,7 @@ function flashCards(words){
 	/**
 	 * specifies time interval to next word
 	 * */
-	this.interval=2400;
+	this.interval=8000;
 	
 	/**
 	 * holds the resource of setInterval() function
@@ -49,6 +49,18 @@ flscp.init=function(){
 	
 
 	this.play();
+
+	// the form elements are being binding below
+	$('.sceneForm .speedSlider').slider({
+		range: "min",
+		value: 8,
+		min: 1,
+		max: 20,
+		slide: function( event, ui ) {
+			$('.sceneForm span.speed').html(ui.value+'sn');
+		}
+	});
+
 }
 
 
@@ -63,6 +75,7 @@ flscp.play=function(){
 		function(){
 			t.goNext();
 		},this.interval);
+
 
 	this.status='playing';
 }
@@ -147,12 +160,26 @@ flscp.show=function(word){
 	
 	var h='';
 
+	var clsAbbr='';
 
-	for(var i in ms2)
+	for(var i in ms2){
+		
+		switch(ms2[i].clsName){
+			case 'noun': clsAbbr='i'; break;
+			case 'verb': clsAbbr='f'; break;
+			case 'adjective': clsAbbr='s'; break;
+			case 'adverb': clsAbbr='z'; break;
+			case 'preposition': clsAbbr='e'; break;
+			default: clsAbbr='-';
+		}
+
 		h+='<div class="meaning">\
-			<span class="cls'+ms2[i].clsId+'">'+ms2[i].clsName+'</span>\
-			<span>'+ms2[i].meaning+'</span>\
+			<span class="clsBoxes"> \
+				<abbr class="'+ms2[i].clsName+' active" title="">'+clsAbbr+'</abbr>\
+			</span> \
+			<span class="text">'+ms2[i].meaning+'</span>\
 		</div>';
+	}
 		
 	h+='<ul class="quotes">';
 	for(var q in word.detail.quotes)

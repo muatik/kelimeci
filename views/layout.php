@@ -55,7 +55,8 @@
 		echo $this->loadView('userTopMenu.php',$o2);
 	?>
 	<form id="wordSearch" method="get" action="search">
-		<input type="text" name="word" id="word" placeholder="kelime ara" />
+		<input type="text" name="word" id="word" placeholder="kelime ara" 
+			accesskey="w" />
 		<img src="images/search.png" class="searchBtn" alt="" />
 	</form>
 	<a href="#" id="feedbackImg">Görüş bildir</a>

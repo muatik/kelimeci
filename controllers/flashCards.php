@@ -40,10 +40,28 @@ class flashCardsController extends ipage {
 					$rw->meanings[]=$m;
 				}
 		
-		$rw->quotes=array_slice($w->quotes,0,4);
+		$rw->quotes=array_slice($w->quotes,0,15);
+		shuffle($rw->quotes);
+		$rw->quotes=array_slice($rw->quotes,0,1);
+
+		foreach($rw->meanings as $k=>$i)
+			$rw->meanings[$k]->cls->name=$this->getConventionalClassNames($i->cls->name);
 
 		return json_encode($rw);
 
+	}
+
+	public function getConventionalClassNames($name){
+		$noun=array('noun','noun plural','abbreviation','plural','tıp','askeri',
+			'ticaret','bilgisayar','ad','hukuk','pronoun','gıda','inşaat');
+		
+		if(in_array($name, $noun)!==false)
+			return 'noun';
+
+		if(mb_strpos($name,'verb')!==false)
+			return 'verb';
+
+		return $name;
 	}
 }
 ?>
